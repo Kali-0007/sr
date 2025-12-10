@@ -58,7 +58,32 @@
   .hero-content h1:hover { text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff; }
   .hero-content p { font-size:1.2rem; color:#fff; margin-bottom:30px; transition: text-shadow 0.3s ease; }
   .hero-content p:hover { text-shadow:0 0 20px rgba(255,255,255,0.8); }
-  .hero-content .btn:hover { transform: scale(1.05); box-shadow:0 0 40px #00d4ff; }
+
+  /* Get Started Button - Premium */
+  .hero-content .btn {
+    display:inline-block;
+    padding:15px 45px;
+    border-radius:50px;
+    font-weight:700;
+    color:#fff;
+    text-decoration:none;
+
+    /* Gradient background */
+    background: linear-gradient(135deg, #00d4ff, #0066ff);
+
+    /* Glassy look */
+    backdrop-filter: blur(8px);
+    box-shadow: 0 5px 25px rgba(0,212,255,0.5);
+
+    /* Smooth transition */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  }
+
+  .hero-content .btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 50px rgba(0,212,255,0.9), 0 0 80px rgba(0,212,255,0.6);
+    background: linear-gradient(135deg, #00f0ff, #0099ff);
+  }
 
   /* Services Section */
   .services-section { padding:100px 50px 80px 50px; text-align:center; }
