@@ -1,142 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Income Tax & GST Services</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हमारी कंपनी | Home</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { line-height: 1.6; color: #333; }
+        header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; max-width: 1200px; margin: 0 auto; }
+        .logo { font-size: 1.8rem; font-weight: 700; color: #2c3e50; }
+        .logo span { color: #3498db; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #3498db; }
+        .auth-buttons { display: flex; gap: 1rem; }
+        .btn { padding: 0.6rem 1.2rem; border-radius: 5px; text-decoration: none; font-weight: 500; transition: all 0.3s; }
+        .btn-login { color: #3498db; border: 2px solid #3498db; }
+        .btn-login:hover { background: #3498db; color: white; }
+        .btn-signup { background: #3498db; color: white; border: 2px solid #3498db; }
+        .btn-signup:hover { background: #2980b9; border-color: #2980b9; }
+        main { margin-top: 80px; }
+        section { padding: 80px 5%; max-width: 1200px; margin: 0 auto; }
+        #home { text-align: center; padding-top: 120px; padding-bottom: 100px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        #home h1 { font-size: 3.5rem; margin-bottom: 1rem; color: #2c3e50; }
+        #home p { font-size: 1.2rem; color: #555; max-width: 700px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: #2c3e50; }
+        #about { background: #fff; }
+        #about p { font-size: 1.1rem; max-width: 800px; margin: 0 auto; text-align: center; line-height: 1.8; }
+        #services { background: #f8f9fa; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .service-card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); text-align: center; transition: transform 0.3s; }
+        .service-card:hover { transform: translateY(-10px); }
+        .service-card i { font-size: 3rem; color: #3498db; margin-bottom: 1rem; }
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #2c3e50; }
+        #contact { background: #2c3e50; color: white; }
+        .contact-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; text-align: center; }
+        .contact-item i { font-size: 2.5rem; color: #3498db; margin-bottom: 1rem; }
+        footer { background: #1a252f; color: #bbb; text-align: center; padding: 2rem 0; font-size: 0.9rem; }
+        @media (max-width: 768px) { 
+            .nav-links { display: none; } 
+            #home h1 { font-size: 2.5rem; } 
+            nav { flex-direction: column; gap: 1rem; } 
+        }
+    </style>
 </head>
-
 <body>
+    <header>
+        <nav>
+            <div class="logo">आपका<span>Brand</span></div>
+            <div class="nav-links">
+                <a href="#home">होम</a>
+                <a href="#about">हमारे बारे में</a>
+                <a href="#services">सेवाएँ</a>
+                <a href="#contact">संपर्क करें</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-login">लॉगिन</a>
+                <a href="#" class="btn btn-signup">साइन अप</a>
+            </div>
+        </nav>
+    </header>
 
-<header>
-  <nav class="navbar">
-    <div class="logo">
-      <!-- Placeholder logo (replace later) -->
-      <span class="logo-text">TAX | PRO</span>
-    </div>
+    <main>
+        <section id="home">
+            <h1>आपका ब्रांड में आपका स्वागत है</h1>
+            <p>हम उच्च गुणवत्ता वाली सेवाएँ प्रदान करते हैं जो आपके व्यवसाय को नई ऊँचाइयों तक ले जाती हैं।</p>
+        </section>
 
-    <ul class="nav-links" id="navMenu">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+        <section id="about">
+            <h2 class="section-title">हमारे बारे में</h2>
+            <p>हम एक अग्रणी कंपनी हैं जो पिछले 10 वर्षों से अपने ग्राहकों को बेहतरीन सेवाएँ प्रदान कर रही है। हमारी टीम में अनुभवी पेशेवर हैं जो नवीनतम तकनीकों का उपयोग करके आपके व्यवसाय को बढ़ाने में मदद करते हैं। हमारा लक्ष्य ग्राहक संतुष्टि और दीर्घकालिक संबंध बनाना है।</p>
+        </section>
 
-    <div class="theme-toggle" id="themeToggle">
-      <i class="fa-solid fa-moon"></i>
-    </div>
+        <section id="services">
+            <h2 class="section-title">हमारी सेवाएँ</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>वेब डेवलपमेंट</h3>
+                    <p>आधुनिक और रिस्पॉन्सिव वेबसाइट्स जो आपके व्यवसाय के लिए।</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>मोबाइल ऐप</h3>
+                    <p>Android और iOS दोनों के लिए कस्टम मोबाइल एप्लिकेशन।</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-search-dollar"></i>
+                    <h3>डिजिटल मार्केटिंग</h3>
+                    <p>SEO, सोशल मीडिया और गूगल ऐड्स के माध्यम से आपके ब्रांड को बढ़ाएँ।</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>ग्राफिक डिज़ाइन</h3>
+                    <p>लोगो, ब्रोशर, बैनर और सोशल मीडिया डिज़ाइन।</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>बिजनेस कंसल्टिंग</h3>
+                    <p>आपके व्यवसाय को बढ़ाने के लिए रणनीतिक सलाह।</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 सपोर्ट</h3>
+                    <p>हमेशा उपलब्ध तकनीकी और ग्राहक सहायता।</p>
+                </div>
+            </div>
+        </section>
 
-    <div class="hamburger" id="hamburger">
-      <i class="fa-solid fa-bars"></i>
-    </div>
-  </nav>
-</header>
+        <section id="contact">
+            <h2 class="section-title">संपर्क करें</h2>
+            <div class="contact-content">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <h3>फोन</h3>
+                    <p>+91 98765 43210</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <h3>ईमेल</h3>
+                    <p>info@aapkabrand.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>पता</h3>
+                    <p>123, मुख्य मार्ग, नई दिल्ली, भारत</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-
-<!-- HERO SECTION -->
-<section id="hero" class="hero">
-  <div class="hero-content">
-    <h1>Expert Income Tax & GST Solutions</h1>
-    <p>Accurate filings, seamless compliance, and trusted advisory for individuals and businesses.</p>
-    <a href="#contact" class="cta-btn">Get Consultation</a>
-  </div>
-
-  <div class="hero-graphics">
-    <div class="graphic-card card1"></div>
-    <div class="graphic-card card2"></div>
-    <div class="graphic-card card3"></div>
-  </div>
-</section>
-
-
-<!-- SERVICES -->
-<section id="services" class="services">
-  <h2>Our Professional Services</h2>
-
-  <div class="service-container">
-
-    <div class="service-box">
-      <i class="fa-solid fa-file-invoice-dollar"></i>
-      <h3>Income Tax Filing</h3>
-      <p>Fast, error-free ITR filing with maximum eligible deductions.</p>
-    </div>
-
-    <div class="service-box">
-      <i class="fa-solid fa-receipt"></i>
-      <h3>GST Registration</h3>
-      <p>Simple and quick GST registration with full documentation support.</p>
-    </div>
-
-    <div class="service-box">
-      <i class="fa-solid fa-chart-pie"></i>
-      <h3>GST Return Filing</h3>
-      <p>Monthly & quarterly GST return filing with compliance monitoring.</p>
-    </div>
-
-    <div class="service-box">
-      <i class="fa-solid fa-scale-balanced"></i>
-      <h3>Tax Consultancy</h3>
-      <p>Professional advisory for tax planning, savings, and legal compliance.</p>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ABOUT -->
-<section id="about" class="about">
-  <h2>Why Choose Us</h2>
-
-  <div class="about-content">
-    <p>We offer reliable, transparent, and efficient tax & GST services backed by years of experience. Our priority is ensuring compliance and maximizing benefits for individuals, startups, and established businesses.</p>
-  </div>
-</section>
-
-
-<!-- CONTACT -->
-<section id="contact" class="contact">
-  <h2>Contact Us</h2>
-
-  <div class="contact-box">
-    <p><i class="fa-solid fa-phone"></i> +91 9876543210</p>
-    <p><i class="fa-solid fa-envelope"></i> support@taxproservices.com</p>
-    <div class="social-icons">
-      <a href="#"><i class="fa-brands fa-facebook"></i></a>
-      <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-      <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-    </div>
-  </div>
-</section>
-
-
-<!-- FOOTER -->
-<footer class="footer">
-  <p>© 2025 TaxPro Services. All Rights Reserved.</p>
-</footer>
-
-
-<script>
-  // Mobile Navigation Toggle
-  const hamburger = document.getElementById("hamburger");
-  const navMenu = document.getElementById("navMenu");
-
-  hamburger.addEventListener("click", () => {
-    navMenu.classList.toggle("open");
-  });
-
-  // Light/Dark Mode Toggle
-  const themeToggle = document.getElementById("themeToggle");
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-  });
-</script>
-
+    <footer>
+        <p>&copy; 2025 आपका Brand. सभी अधिकार सुरक्षित।</p>
+    </footer>
 </body>
 </html>
