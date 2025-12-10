@@ -1,0 +1,234 @@
+/* Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    background: #f4f6f9;
+    color: #333;
+}
+
+/* HEADER */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #ffffffee;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+    z-index: 1000;
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: auto;
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Big Logo */
+.big-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    letter-spacing: 1px;
+}
+
+/* Nav Links */
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #3498db;
+}
+
+/* Auth Buttons */
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-login {
+    color: #3498db;
+    border: 2px solid #3498db;
+}
+
+.btn-login:hover {
+    background: #3498db;
+    color: white;
+}
+
+.btn-signup {
+    background: #3498db;
+    color: white;
+}
+
+.btn-signup:hover {
+    background: #2980b9;
+}
+
+/* Hamburger */
+.hamburger {
+    display: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+/* HERO */
+.hero {
+    margin-top: 110px;
+    padding: 150px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #eef2f3, #c3cfe2);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.hero-sub {
+    font-size: 1.2rem;
+}
+
+/* Sections */
+section {
+    padding: 80px 5%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.6rem;
+    margin-bottom: 2.5rem;
+    color: #2c3e50;
+}
+
+.section-text {
+    text-align: center;
+    font-size: 1.1rem;
+    max-width: 850px;
+    margin: auto;
+}
+
+/* Services */
+.services-bg {
+    background: #f8f9fa;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.service-card i {
+    font-size: 3rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+/* Contact Section */
+.contact-bg {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+}
+
+.contact-info {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.social-icons {
+    margin-top: 20px;
+}
+
+.social-icons a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.5rem;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    color: #3498db;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    background: #1a252f;
+    color: #bbb;
+    padding: 1.5rem;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 80px;
+        right: 0;
+        background: #ffffff;
+        width: 220px;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+        color: #333;
+    }
+
+    .hero-title {
+        font-size: 2.4rem;
+    }
+}
