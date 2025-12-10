@@ -1,54 +1,56 @@
-/* Premium Glassmorphism Design */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --accent: #f59e0b;
-    --glass: rgba(255, 255, 255, 0.15);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    --text: #333;
+    --primary: #00d4ff;        /* Neon Cyan */
+    --primary-dark: #00a8cc;
+    --accent: #7b2fff;         /* Neon Purple */
+    --glow: #00ffff;
+    --glass: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(0, 212, 255, 0.3);
+    --text: #e0f7ff;
+    --bg-gradient: linear-gradient(135deg, #0f0c2e 0%, #1a1a3d 50%, #0d0d2b 100%);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bg-gradient);
     color: var(--text);
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* Navbar Glass Effect */
+/* Navbar Neon Glass */
 .navbar {
-    background: var(--glass) !important;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(10, 10, 30, 0.4) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--glass-border);
-    transition: all 0.4s ease;
+    transition: all 0.5s ease;
 }
 
 .navbar.scrolled {
-    background: rgba(79, 70, 229, 0.95) !important;
-    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 30, 0.85) !important;
+    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
 }
 
 .nav-link {
     color: white !important;
     font-weight: 500;
     position: relative;
-    transition: 0.3s;
 }
 
-.nav-link:hover {
-    color: var(--accent) !important;
-    transform: translateY(-2px);
+.nav-link:hover, .nav-link.active {
+    color: var(--primary) !important;
+    text-shadow: 0 0 15px var(--glow);
 }
 
 /* Hero */
 .hero {
     height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1600&q=80') center/cover no-repeat;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), 
+                url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600') center/cover no-repeat;
     display: flex;
     align-items: center;
     position: relative;
@@ -56,66 +58,96 @@ body {
 
 .hero h1 {
     color: white;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    text-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+    font-weight: 800;
 }
 
+.hero .lead {
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+}
+
+/* Neon Buttons */
 .btn-primary {
-    background: var(--accent);
+    background: linear-gradient(45deg, var(--primary), var(--accent));
     border: none;
     border-radius: 50px;
+    padding: 14px 40px;
     font-weight: 600;
+    color: white;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
     transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary:hover {
-    background: #f59e0b;
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 0 50px rgba(123, 47, 255, 0.7);
 }
 
-/* Glass Cards */
+/* Glass Cards with Neon Border */
 .glass-card {
     background: var(--glass);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    transition: all 0.4s ease;
+    border: 1.5px solid var(--glass-border);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(0, 212, 255, 0.1);
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+    transition: 0.7s;
+}
+
+.glass-card:hover::before {
+    left: 100%;
 }
 
 .glass-card:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    transform: translateY(-20px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
 }
 
 .icon-box {
     width: 90px;
     height: 90px;
-    background: rgba(255,255,255,0.2);
+    background: rgba(0, 212, 255, 0.15);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-    color: var(--accent);
+    margin: 0 auto 25px;
+    color: var(--primary);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
 }
 
-/* Section Spacing */
-.py-6 { padding: 100px 0; }
-@media (max-width: 768px) { .py-6 { padding: 60px 0; }}
-
-/* Form Inputs */
+/* Form Neon Style */
 .form-control {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid var(--glass-border);
     color: white;
     border-radius: 15px;
-    padding: 12px 20px;
+    padding: 14px 20px;
 }
 
-.form-control::placeholder { color: rgba(255,255,255,0.7); }
-.form-control:focus { background: rgba(255,255,255,0.2); box-shadow: none; border-color: var(--accent); }
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+}
 
-/* Smooth Scroll */
+.py-6 { padding: 120px 0; }
+@media (max-width: 768px) { .py-6 { padding: 80px 0; }}
+
 html { scroll-behavior: smooth; }
