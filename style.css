@@ -20,7 +20,7 @@ a {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 20px;
 }
 
 /* ---------- Glassy Card / Panel ---------- */
@@ -30,6 +30,7 @@ a {
   backdrop-filter: blur(15px);
   box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   padding: 30px;
+  margin: 20px 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -95,7 +96,7 @@ nav a:hover {
   margin: 80px auto;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"], textarea {
   width: 100%;
   padding: 12px 15px;
   margin-bottom: 20px;
@@ -106,7 +107,7 @@ input[type="text"], input[type="email"], input[type="password"] {
   backdrop-filter: blur(10px);
 }
 
-input::placeholder {
+input::placeholder, textarea::placeholder {
   color: #ccc;
 }
 
@@ -115,17 +116,17 @@ form .btn {
   text-align: center;
 }
 
-/* ---------- Cards / Dashboard ---------- */
-.dashboard-cards {
+/* ---------- Cards / Sections ---------- */
+.section-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #00d4ff;
+}
+
+.cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
   gap: 25px;
-  margin-top: 40px;
-}
-
-.card h3 {
-  color: #00d4ff;
-  margin-bottom: 15px;
 }
 
 /* ---------- Footer ---------- */
