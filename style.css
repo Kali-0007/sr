@@ -5,37 +5,45 @@
     --primary-dark: #00a8cc;
     --accent: #7b2fff;         /* Neon Purple */
     --glow: #00ffff;
-    --glass: rgba(255, 255, 255, 0.12);
-    --glass-border: rgba(0, 212, 255, 0.4);
+    --glass: rgba(255, 255, 255, 0.1);  /* Increased transparency for gloss */
+    --glass-border: rgba(0, 212, 255, 0.5);  /* Stronger neon border */
     --text-primary: #e0f7ff;
     --text-secondary: #b3e5fc;
     --bg-gradient: linear-gradient(135deg, #0f0c2e 0%, #1a1a3d 50%, #0d0d2b 100%);
-    --hero-overlay: rgba(0, 0, 0, 0.6);
+    --hero-overlay: rgba(0, 0, 0, 0.7);  /* Darker overlay for contrast */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: var(--bg-gradient) !important; /* Force dark gradient, no white */
+    background: var(--bg-gradient) !important;
+    background-attachment: fixed !important;  /* Parallax-like gloss */
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
     line-height: 1.6;
 }
 
-/* Navbar Neon Glass */
+/* Override Bootstrap defaults to prevent white backgrounds */
+.container, .row, .col, section {
+    background: transparent !important;
+    color: inherit !important;
+}
+
+/* Navbar Enhanced Glassy */
 .navbar {
-    background: rgba(15, 12, 46, 0.8) !important;
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--glass-border);
+    background: rgba(15, 12, 46, 0.6) !important;  /* Semi-transparent dark */
+    backdrop-filter: blur(25px) !important;  /* Stronger blur for gloss */
+    -webkit-backdrop-filter: blur(25px) !important;
+    border-bottom: 1px solid var(--glass-border) !important;
     transition: all 0.5s ease;
     padding: 1rem 0;
 }
 
 .navbar.scrolled {
-    background: rgba(15, 12, 46, 0.95) !important;
-    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.2);
+    background: rgba(15, 12, 46, 0.9) !important;
+    box-shadow: 0 4px 25px rgba(0, 212, 255, 0.3) !important;  /* Neon glow */
 }
 
 .navbar-brand, .nav-link {
@@ -46,15 +54,15 @@ body {
 
 .nav-link:hover, .nav-link.active {
     color: var(--primary) !important;
-    text-shadow: 0 0 10px var(--glow);
+    text-shadow: 0 0 15px var(--glow) !important;  /* Glowing text */
 }
 
-/* Hero */
+/* Hero with Glossy Overlay */
 .hero {
     height: 100vh;
     background: linear-gradient(var(--hero-overlay), var(--hero-overlay)), 
                 url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&q=80') center/cover no-repeat !important;
-    background-color: #0f0c2e !important; /* Dark fallback */
+    background-color: #0f0c2e !important;  /* Dark fallback */
     display: flex;
     align-items: center;
     position: relative;
@@ -67,126 +75,147 @@ body {
     width: 100%;
     height: 100%;
     background: var(--hero-overlay);
+    backdrop-filter: blur(5px);  /* Subtle hero gloss */
 }
 
 .hero h1 {
-    color: white;
-    text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+    color: white !important;
+    text-shadow: 0 0 25px rgba(0, 212, 255, 1) !important;  /* Intense neon shadow */
     font-weight: 800;
     margin-bottom: 1.5rem;
 }
 
 .hero .lead {
-    color: var(--text-secondary);
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+    color: var(--text-secondary) !important;
+    text-shadow: 0 0 15px rgba(0, 212, 255, 0.6) !important;
     font-size: 1.25rem;
 }
 
-/* Neon Buttons */
+/* Neon Buttons with Glow */
 .btn-primary {
-    background: linear-gradient(45deg, var(--primary), var(--accent));
-    border: none;
-    border-radius: 50px;
-    padding: 14px 40px;
-    font-weight: 600;
-    color: white;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3), 0 0 20px rgba(123, 47, 255, 0.2);
-    transition: all 0.4s ease;
+    background: linear-gradient(45deg, var(--primary), var(--accent)) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 14px 40px !important;
+    font-weight: 600 !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4), 0 0 25px rgba(123, 47, 255, 0.3) !important;  /* Enhanced glow */
+    transition: all 0.4s ease !important;
     position: relative;
     overflow: hidden;
-    text-decoration: none;
-    display: inline-block;
+    text-decoration: none !important;
+    display: inline-block !important;
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5), 0 0 30px rgba(123, 47, 255, 0.4);
-    color: white;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6), 0 0 40px rgba(123, 47, 255, 0.5) !important;  /* Stronger hover gloss */
+    color: white !important;
 }
 
-/* Glass Cards with Enhanced Neon — No Basic Look */
+/* Glass Cards — Full Glossy with No White */
 .glass-card {
     background: var(--glass) !important;
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.2) !important;
-    transition: all 0.5s ease;
-    position: relative;
-    overflow: hidden;
-    color: var(--text-primary);
-    /* Ensure no white background */
-    background-color: transparent !important;
+    backdrop-filter: blur(25px) !important;  /* Core glossy blur */
+    -webkit-backdrop-filter: blur(25px) !important;
+    border-radius: 20px !important;
+    border: 2px solid var(--glass-border) !important;  /* Thicker neon border */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 212, 255, 0.3) !important;  /* Deep shadow + neon */
+    transition: all 0.5s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+    color: var(--text-primary) !important;
+    background-color: transparent !important;  /* Ensure no white */
 }
 
 .glass-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--primary);
-    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4), 0 0 30px rgba(123, 47, 255, 0.3) !important;
+    transform: translateY(-15px) scale(1.02) !important;  /* Lift + subtle scale for depth */
+    border-color: var(--primary) !important;
+    box-shadow: 0 20px 50px rgba(0, 212, 255, 0.5), 0 0 40px rgba(123, 47, 255, 0.4) !important;  /* Intense glossy hover */
 }
 
 .glass-card h4 {
-    color: white;
-    font-weight: 600;
-    margin-bottom: 1rem;
+    color: white !important;
+    font-weight: 600 !important;
+    margin-bottom: 1rem !important;
 }
 
 .icon-box {
-    width: 80px;
-    height: 80px;
-    background: rgba(0, 212, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    color: var(--primary);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-    transition: all 0.3s;
+    width: 80px !important;
+    height: 80px !important;
+    background: rgba(0, 212, 255, 0.25) !important;  /* Glossy icon bg */
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 1.5rem !important;
+    color: var(--primary) !important;
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.6) !important;  /* Glowing icon */
+    transition: all 0.3s !important;
 }
 
 .glass-card:hover .icon-box {
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
-    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 1) !important;  /* Explosive glow on hover */
+    transform: scale(1.15) !important;
 }
 
-/* Sections */
-.py-6 { padding: 100px 0; }
-.bg-secondary { background: rgba(26, 26, 61, 0.8) !important; } /* Dark, no white */
-.bg-dark { background: #0d0d2b !important; }
+/* Sections — Dark & Glossy */
+.py-6 { padding: 100px 0 !important; }
+.bg-secondary { 
+    background: rgba(26, 26, 61, 0.7) !important;  /* Glossy dark section */
+    backdrop-filter: blur(10px) !important;
+}
+.bg-dark { 
+    background: #0d0d2b !important; 
+    position: relative;
+}
+.bg-dark::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 212, 255, 0.05);  /* Subtle glossy veil */
+    pointer-events: none;
+}
 
 .text-primary { color: var(--primary) !important; }
 
-/* Form Styles */
+/* Form — Glossy Inputs */
 .form-control {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid var(--glass-border);
-    color: var(--text-primary);
-    border-radius: 15px;
-    padding: 14px 20px;
-    transition: all 0.3s;
+    background: rgba(255, 255, 255, 0.08) !important;  /* Semi-transparent for gloss */
+    border: 1.5px solid var(--glass-border) !important;
+    color: var(--text-primary) !important;
+    border-radius: 15px !important;
+    padding: 14px 20px !important;
+    transition: all 0.3s !important;
+    backdrop-filter: blur(10px) !important;
 }
 
-.form-control::placeholder { color: var(--text-secondary); }
+.form-control::placeholder { color: var(--text-secondary) !important; }
 .form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-    background: rgba(255, 255, 255, 0.15) !important;
-    color: var(--text-primary);
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4) !important;  /* Focus glow */
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: var(--text-primary) !important;
 }
 
 @media (max-width: 768px) {
-    .py-6 { padding: 60px 0; }
-    .hero h1 { font-size: 2.5rem; }
-    .display-5 { font-size: 2rem; }
+    .py-6 { padding: 60px 0 !important; }
+    .hero h1 { font-size: 2.5rem !important; }
+    .display-5 { font-size: 2rem !important; }
 }
 
 /* Smooth Scroll */
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth !important; }
 
-/* Fallback for older browsers — Ensure dark theme */
-@supports not (backdrop-filter: blur(20px)) {
-    body { background: #0f0c2e !important; }
-    .glass-card, .navbar { background: rgba(15, 12, 46, 0.9) !important; }
-    .hero { background-color: #0f0c2e !important; }
+/* Universal Fallback — Force Dark Gloss Everywhere */
+@supports not (backdrop-filter: blur(25px)) {
+    body { background: #0f0c2e !important; color: #e0f7ff !important; }
+    .glass-card, .navbar, .hero, .bg-secondary { 
+        background: rgba(15, 12, 46, 0.95) !important; 
+        border: 1px solid #00d4ff !important; 
+    }
+    .container, .row, .col, section { background: transparent !important; }
 }
