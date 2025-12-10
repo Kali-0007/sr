@@ -6,6 +6,102 @@
   <title>Home - TaxGSTPro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ---------- Hero Section ---------- */
+    .hero-container {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top:0; left:0; width:100%; height:100%;
+      background: url('https://images.unsplash.com/photo-1581090700221-1fa207ccf2ee?auto=format&fit=crop&w=1950&q=80') no-repeat center/cover;
+      filter: brightness(0.5);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 60px;
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 10px 40px rgba(0,212,255,0.4);
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      color: #00d4ff;
+      text-shadow: 0 0 20px rgba(0,212,255,0.7);
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 30px;
+    }
+
+    /* ---------- Services Cards ---------- */
+    .services-section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .services-section h2 {
+      font-size: 2.5rem;
+      color: #00d4ff;
+      margin-bottom: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+      gap: 25px;
+    }
+
+    .cards .card {
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+    }
+
+    .cards .card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 50px rgba(0,212,255,0.6);
+    }
+
+    .cards .card img {
+      width: 60px;
+      margin-bottom: 15px;
+    }
+
+    .cards .card h3 {
+      color: #00d4ff;
+      margin-bottom: 15px;
+    }
+
+    .cards .card p {
+      color: #fff;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media(max-width:768px){
+      .hero-content h1 { font-size: 2rem; }
+      .hero-content p { font-size: 1rem; }
+    }
+  </style>
 </head>
 <body>
 
@@ -21,26 +117,34 @@
   </nav>
 </header>
 
-<section class="container">
-  <div class="glass hero" style="text-align:center; padding:60px;">
+<!-- Hero Section -->
+<section class="hero-container">
+  <div class="hero-bg"></div>
+  <div class="glass hero-content">
     <h1>Professional Income Tax & GST Services</h1>
-    <p>We provide expert services for Income Tax filing, GST registration, compliance, and consultation for individuals and businesses.</p>
+    <p>Accurate, timely, and reliable services for individuals and businesses across India.</p>
     <a href="signup.html" class="btn">Get Started</a>
   </div>
+</section>
 
-  <h2 class="section-title">Our Key Services</h2>
+<!-- Services Section -->
+<section class="services-section container">
+  <h2>Our Key Services</h2>
   <div class="cards">
-    <div class="glass card">
+    <div class="card">
+      <img src="https://img.icons8.com/ios-filled/50/00d4ff/tax.png" alt="Income Tax">
       <h3>Income Tax Filing</h3>
-      <p>Accurate and timely filing of individual and business income tax returns.</p>
+      <p>Fast and accurate ITR filing for individuals and businesses.</p>
     </div>
-    <div class="glass card">
+    <div class="card">
+      <img src="https://img.icons8.com/ios-filled/50/00d4ff/gst.png" alt="GST">
       <h3>GST Registration</h3>
-      <p>Seamless GST registration and compliance for your business.</p>
+      <p>Seamless GST registration process for startups and existing businesses.</p>
     </div>
-    <div class="glass card">
-      <h3>Consultation</h3>
-      <p>Professional advice on tax planning, GST, and financial compliance.</p>
+    <div class="card">
+      <img src="https://img.icons8.com/ios-filled/50/00d4ff/consultation.png" alt="Consultation">
+      <h3>Tax Consultation</h3>
+      <p>Professional advice for tax planning, savings, and compliance.</p>
     </div>
   </div>
 </section>
