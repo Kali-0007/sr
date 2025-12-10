@@ -1,95 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Brand | Income Tax & GST Services</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Income Tax & GST Services</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <header class="header">
-        <nav class="navbar">
-            <div class="logo">Your<span>Brand</span></div>
+<header>
+  <nav class="navbar">
+    <div class="logo">
+      <!-- Placeholder logo (replace later) -->
+      <span class="logo-text">TAX | PRO</span>
+    </div>
 
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact</a>
-            </div>
+    <ul class="nav-links" id="navMenu">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
 
-            <div class="auth-buttons">
-                <a href="login.html" class="btn btn-login">Login</a>
-                <a href="signup.html" class="btn btn-signup">Sign Up</a>
-            </div>
-        </nav>
-    </header>
+    <div class="theme-toggle" id="themeToggle">
+      <i class="fa-solid fa-moon"></i>
+    </div>
 
-    <main>
+    <div class="hamburger" id="hamburger">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </nav>
+</header>
 
-        <section id="home" class="hero">
-            <h1>Premium Income Tax & GST Services</h1>
-            <p>Trusted financial, taxation and compliance solutions for businesses and individuals.</p>
-            <a href="#services" class="cta-btn">Explore Services</a>
-        </section>
 
-        <section id="about" class="section">
-            <h2 class="section-title">About Us</h2>
-            <p class="section-text">
-                We are a professional taxation & financial consulting firm with over 10 years of experience in Income Tax,
-                GST filings, business registrations, audits and compliance services. Our expertise ensures accuracy,
-                transparency and complete trust.
-            </p>
-        </section>
+<!-- HERO SECTION -->
+<section id="hero" class="hero">
+  <div class="hero-content">
+    <h1>Expert Income Tax & GST Solutions</h1>
+    <p>Accurate filings, seamless compliance, and trusted advisory for individuals and businesses.</p>
+    <a href="#contact" class="cta-btn">Get Consultation</a>
+  </div>
 
-        <section id="services" class="section services-section">
-            <h2 class="section-title">Our Services</h2>
+  <div class="hero-graphics">
+    <div class="graphic-card card1"></div>
+    <div class="graphic-card card2"></div>
+    <div class="graphic-card card3"></div>
+  </div>
+</section>
 
-            <div class="services-grid">
 
-                <div class="service-card glass-card">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    <h3>Income Tax Filing</h3>
-                    <p>Personal and Business ITR Filing with 100% accuracy.</p>
-                </div>
+<!-- SERVICES -->
+<section id="services" class="services">
+  <h2>Our Professional Services</h2>
 
-                <div class="service-card glass-card">
-                    <i class="fas fa-receipt"></i>
-                    <h3>GST Registration & Return</h3>
-                    <p>Monthly GST Return Filing, New Registration & Compliance.</p>
-                </div>
+  <div class="service-container">
 
-                <div class="service-card glass-card">
-                    <i class="fas fa-building"></i>
-                    <h3>Business Registration</h3>
-                    <p>GST, MSME, Startup Registration & Documentation.</p>
-                </div>
+    <div class="service-box">
+      <i class="fa-solid fa-file-invoice-dollar"></i>
+      <h3>Income Tax Filing</h3>
+      <p>Fast, error-free ITR filing with maximum eligible deductions.</p>
+    </div>
 
-                <div class="service-card glass-card">
-                    <i class="fas fa-user-tie"></i>
-                    <h3>Financial Consultancy</h3>
-                    <p>Tax planning, audits, assessments and advisory.</p>
-                </div>
+    <div class="service-box">
+      <i class="fa-solid fa-receipt"></i>
+      <h3>GST Registration</h3>
+      <p>Simple and quick GST registration with full documentation support.</p>
+    </div>
 
-            </div>
-        </section>
+    <div class="service-box">
+      <i class="fa-solid fa-chart-pie"></i>
+      <h3>GST Return Filing</h3>
+      <p>Monthly & quarterly GST return filing with compliance monitoring.</p>
+    </div>
 
-        <section id="contact" class="contact-section">
-            <h2 class="section-title gold">Contact Us</h2>
-            <p class="contact-details">
-                Phone: +91 98765 43210 <br>
-                Email: info@yourbrand.com
-            </p>
-        </section>
+    <div class="service-box">
+      <i class="fa-solid fa-scale-balanced"></i>
+      <h3>Tax Consultancy</h3>
+      <p>Professional advisory for tax planning, savings, and legal compliance.</p>
+    </div>
 
-    </main>
+  </div>
+</section>
 
-    <footer class="footer">
-        <p>© 2025 Your Brand. All rights reserved.</p>
-    </footer>
+
+<!-- ABOUT -->
+<section id="about" class="about">
+  <h2>Why Choose Us</h2>
+
+  <div class="about-content">
+    <p>We offer reliable, transparent, and efficient tax & GST services backed by years of experience. Our priority is ensuring compliance and maximizing benefits for individuals, startups, and established businesses.</p>
+  </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+
+  <div class="contact-box">
+    <p><i class="fa-solid fa-phone"></i> +91 9876543210</p>
+    <p><i class="fa-solid fa-envelope"></i> support@taxproservices.com</p>
+    <div class="social-icons">
+      <a href="#"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© 2025 TaxPro Services. All Rights Reserved.</p>
+</footer>
+
+
+<script>
+  // Mobile Navigation Toggle
+  const hamburger = document.getElementById("hamburger");
+  const navMenu = document.getElementById("navMenu");
+
+  hamburger.addEventListener("click", () => {
+    navMenu.classList.toggle("open");
+  });
+
+  // Light/Dark Mode Toggle
+  const themeToggle = document.getElementById("themeToggle");
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+  });
+</script>
 
 </body>
 </html>
