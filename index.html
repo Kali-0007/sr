@@ -27,46 +27,19 @@
   /* Hero Section */
   .hero-container {
     position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
-    overflow:hidden; padding-top:70px;
+    padding-top:70px;
   }
 
-  /* Floating Neon Particles */
-  .particle {
-    position:absolute; width:6px; height:6px; border-radius:50%;
-    background: rgba(0,212,255,0.6);
-    animation: floatParticle linear infinite;
-  }
-  @keyframes floatParticle {
-    0% { transform: translateY(0) translateX(0); opacity:0; }
-    50% { opacity:1; }
-    100% { transform: translateY(-100vh) translateX(50px); opacity:0; }
-  }
-
-  /* Floating Background Icons */
-  .hero-bg {
-    position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;
-  }
-  .hero-bg img {
-    position:absolute; width:120px; opacity:0.35; animation: float 12s ease-in-out infinite;
-  }
-  .hero-bg img:nth-child(1){ top:10%; left:15%; animation-delay:0s; }
-  .hero-bg img:nth-child(2){ top:25%; left:70%; animation-delay:3s; }
-  .hero-bg img:nth-child(3){ top:60%; left:40%; animation-delay:6s; }
-  @keyframes float {
-    0%{ transform: translateY(0);}
-    50%{ transform: translateY(-30px);}
-    100%{ transform: translateY(0);}
-  }
-
-  /* Hero Content - Fixed, Hover Glow */
+  /* Hero Content - Stable with Hover Glow */
   .hero-content {
     position: relative; z-index:2; padding:60px; border-radius:25px;
     backdrop-filter: blur(25px); background: rgba(255,255,255,0.05);
     box-shadow:0 10px 50px rgba(0,212,255,0.4); max-width:850px;
-    transition: box-shadow 0.3s ease;
-    transform: none; /* No floating */
+    transition: box-shadow 0.3s ease, text-shadow 0.3s ease;
   }
-  .hero-content:hover { box-shadow: 0 0 50px rgba(0,212,255,0.8); }
+  .hero-content:hover {
+    box-shadow: 0 0 50px rgba(0,212,255,0.8);
+  }
   .hero-content h1 {
     font-size:3rem; color:#00d4ff; text-shadow:0 0 20px rgba(0,212,255,0.7); margin-bottom:20px;
     transition: text-shadow 0.3s ease;
@@ -114,16 +87,6 @@
 
 <!-- Hero Section -->
 <section class="hero-container">
-  <div class="hero-bg">
-    <img src="https://img.icons8.com/ios-filled/100/00d4ff/tax.png" alt="Tax Icon">
-    <img src="https://img.icons8.com/ios-filled/100/00d4ff/calculator.png" alt="Calculator Icon">
-    <img src="https://img.icons8.com/ios-filled/100/00d4ff/money.png" alt="Money Icon">
-  </div>
-
-  <!-- Floating Particles -->
-  <div id="particles"></div>
-
-  <!-- Fixed Hero Content -->
   <div class="hero-content">
     <h1>Professional Income Tax & GST Services</h1>
     <p>Accurate, timely, and reliable financial services for individuals & businesses across India.</p>
@@ -156,20 +119,6 @@
 <footer>
   &copy; 2025 TaxGSTPro. All rights reserved. | <a href="#" style="color:#00d4ff;">Privacy Policy</a>
 </footer>
-
-<script>
-  // Generate floating particles dynamically
-  const particleContainer = document.getElementById('particles');
-  for(let i=0;i<50;i++){
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random()*100 + 'vw';
-    particle.style.top = Math.random()*100 + 'vh';
-    particle.style.width = particle.style.height = (Math.random()*5 + 3) + 'px';
-    particle.style.animationDuration = (Math.random()*8 + 5) + 's';
-    particleContainer.appendChild(particle);
-  }
-</script>
 
 </body>
 </html>
