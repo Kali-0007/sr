@@ -17,7 +17,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: var(--bg-gradient);
+    background: var(--bg-gradient) !important; /* Force dark gradient, no white */
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
@@ -53,8 +53,8 @@ body {
 .hero {
     height: 100vh;
     background: linear-gradient(var(--hero-overlay), var(--hero-overlay)), 
-                url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&q=80') center/cover no-repeat;
-    background-color: #0f0c2e; /* Fallback for image load failure */
+                url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&q=80') center/cover no-repeat !important;
+    background-color: #0f0c2e !important; /* Dark fallback */
     display: flex;
     align-items: center;
     position: relative;
@@ -104,23 +104,25 @@ body {
     color: white;
 }
 
-/* Glass Cards with Enhanced Neon */
+/* Glass Cards with Enhanced Neon — No Basic Look */
 .glass-card {
-    background: var(--glass);
+    background: var(--glass) !important;
     backdrop-filter: blur(20px);
     border-radius: 20px;
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.2) !important;
     transition: all 0.5s ease;
     position: relative;
     overflow: hidden;
     color: var(--text-primary);
+    /* Ensure no white background */
+    background-color: transparent !important;
 }
 
 .glass-card:hover {
     transform: translateY(-10px);
     border-color: var(--primary);
-    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4), 0 0 30px rgba(123, 47, 255, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4), 0 0 30px rgba(123, 47, 255, 0.3) !important;
 }
 
 .glass-card h4 {
@@ -150,14 +152,14 @@ body {
 
 /* Sections */
 .py-6 { padding: 100px 0; }
-.bg-secondary { background: rgba(26, 26, 61, 0.8); }
-.bg-dark { background: #0d0d2b; }
+.bg-secondary { background: rgba(26, 26, 61, 0.8) !important; } /* Dark, no white */
+.bg-dark { background: #0d0d2b !important; }
 
 .text-primary { color: var(--primary) !important; }
 
 /* Form Styles */
 .form-control {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1) !important;
     border: 1px solid var(--glass-border);
     color: var(--text-primary);
     border-radius: 15px;
@@ -169,7 +171,7 @@ body {
 .form-control:focus {
     border-color: var(--primary);
     box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.15) !important;
     color: var(--text-primary);
 }
 
@@ -182,7 +184,9 @@ body {
 /* Smooth Scroll */
 html { scroll-behavior: smooth; }
 
-/* Fallback for older browsers */
+/* Fallback for older browsers — Ensure dark theme */
 @supports not (backdrop-filter: blur(20px)) {
-    .glass-card, .navbar { background: rgba(15, 12, 46, 0.9); }
+    body { background: #0f0c2e !important; }
+    .glass-card, .navbar { background: rgba(15, 12, 46, 0.9) !important; }
+    .hero { background-color: #0f0c2e !important; }
 }
