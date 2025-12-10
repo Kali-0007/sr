@@ -1,105 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - TaxGSTPro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin:0;
-      font-family:'Inter',sans-serif;
-      background: linear-gradient(135deg,#0d0d0d,#1a1a1a);
-      color:#fff;
-      overflow-x:hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - TaxGSTPro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background: linear-gradient(135deg,#0d0d0d,#1a1a1a);
+    color:#fff;
+    overflow-x:hidden;
+  }
 
-    header {
-      display:flex; justify-content:space-between; align-items:center;
-      padding:20px 50px;
-      position: fixed; width:100%;
-      background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index:10;
-    }
-    header .logo { font-size:1.8rem; font-weight:700; color:#00d4ff; }
-    header nav a { margin-left:25px; color:#fff; text-decoration:none; font-weight:500; transition:0.3s; }
-    header nav a:hover{ color:#00d4ff; }
+  header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 50px;
+    position: fixed; width:100%;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index:10;
+  }
+  header .logo { font-size:1.8rem; font-weight:700; color:#00d4ff; }
+  header nav a { margin-left:25px; color:#fff; text-decoration:none; font-weight:500; transition:0.3s; }
+  header nav a:hover{ color:#00d4ff; }
 
-    /* Hero Section */
-    .hero-container {
-      position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
-      overflow:hidden; padding-top:70px;
-    }
+  /* Hero Section */
+  .hero-container {
+    position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center;
+    overflow:hidden; padding-top:70px;
+  }
 
-    /* Floating Neon Particles */
-    .particle {
-      position:absolute; width:6px; height:6px; border-radius:50%;
-      background: rgba(0,212,255,0.6);
-      animation: floatParticle linear infinite;
-    }
-    @keyframes floatParticle {
-      0% { transform: translateY(0) translateX(0); opacity:0; }
-      50% { opacity:1; }
-      100% { transform: translateY(-100vh) translateX(50px); opacity:0; }
-    }
+  /* Floating Neon Particles */
+  .particle {
+    position:absolute; width:6px; height:6px; border-radius:50%;
+    background: rgba(0,212,255,0.6);
+    animation: floatParticle linear infinite;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0); opacity:0; }
+    50% { opacity:1; }
+    100% { transform: translateY(-100vh) translateX(50px); opacity:0; }
+  }
 
-    /* Floating Background Icons */
-    .hero-bg {
-      position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;
-    }
-    .hero-bg img {
-      position:absolute; width:120px; opacity:0.35; animation: float 12s ease-in-out infinite;
-    }
-    .hero-bg img:nth-child(1){ top:10%; left:15%; animation-delay:0s; }
-    .hero-bg img:nth-child(2){ top:25%; left:70%; animation-delay:3s; }
-    .hero-bg img:nth-child(3){ top:60%; left:40%; animation-delay:6s; }
-    @keyframes float {
-      0%{ transform: translateY(0);}
-      50%{ transform: translateY(-30px);}
-      100%{ transform: translateY(0);}
-    }
+  /* Floating Background Icons */
+  .hero-bg {
+    position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;
+  }
+  .hero-bg img {
+    position:absolute; width:120px; opacity:0.35; animation: float 12s ease-in-out infinite;
+  }
+  .hero-bg img:nth-child(1){ top:10%; left:15%; animation-delay:0s; }
+  .hero-bg img:nth-child(2){ top:25%; left:70%; animation-delay:3s; }
+  .hero-bg img:nth-child(3){ top:60%; left:40%; animation-delay:6s; }
+  @keyframes float {
+    0%{ transform: translateY(0);}
+    50%{ transform: translateY(-30px);}
+    100%{ transform: translateY(0);}
+  }
 
-    /* Hero Content - fixed, hover-glow */
-    .hero-content {
-      position: relative; z-index:2; padding:60px; border-radius:25px;
-      backdrop-filter: blur(25px); background: rgba(255,255,255,0.05);
-      box-shadow:0 10px 50px rgba(0,212,255,0.4); max-width:850px;
-      transition: 0.3s ease;
-    }
-    .hero-content:hover { box-shadow:0 0 50px rgba(0,212,255,0.8); }
-    .hero-content h1 {
-      font-size:3rem; color:#00d4ff; text-shadow:0 0 20px rgba(0,212,255,0.7); margin-bottom:20px;
-      transition: 0.3s ease;
-    }
-    .hero-content h1:hover { text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff; }
-    .hero-content p { font-size:1.2rem; color:#fff; margin-bottom:30px; transition:0.3s ease; }
-    .hero-content p:hover { text-shadow:0 0 20px rgba(255,255,255,0.8); }
-    .hero-content .btn {
-      display:inline-block; padding:15px 40px; border-radius:50px; background:#00d4ff; color:#000; font-weight:700;
-      text-decoration:none; box-shadow:0 0 20px #00d4ff; transition:0.3s;
-    }
-    .hero-content .btn:hover { transform:scale(1.05); box-shadow:0 0 40px #00d4ff; }
+  /* Hero Content - Fixed, Hover Glow */
+  .hero-content {
+    position: relative; z-index:2; padding:60px; border-radius:25px;
+    backdrop-filter: blur(25px); background: rgba(255,255,255,0.05);
+    box-shadow:0 10px 50px rgba(0,212,255,0.4); max-width:850px;
+    transition: box-shadow 0.3s ease;
+    transform: none; /* No floating */
+  }
+  .hero-content:hover { box-shadow: 0 0 50px rgba(0,212,255,0.8); }
+  .hero-content h1 {
+    font-size:3rem; color:#00d4ff; text-shadow:0 0 20px rgba(0,212,255,0.7); margin-bottom:20px;
+    transition: text-shadow 0.3s ease;
+  }
+  .hero-content h1:hover { text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff; }
+  .hero-content p { font-size:1.2rem; color:#fff; margin-bottom:30px; transition: text-shadow 0.3s ease; }
+  .hero-content p:hover { text-shadow:0 0 20px rgba(255,255,255,0.8); }
+  .hero-content .btn:hover { transform: scale(1.05); box-shadow:0 0 40px #00d4ff; }
 
-    /* Services Section */
-    .services-section { padding:100px 50px 80px 50px; text-align:center; }
-    .services-section h2 { font-size:2.8rem; color:#00d4ff; margin-bottom:50px; }
-    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; }
-    .cards .card {
-      padding:40px 25px; border-radius:25px; backdrop-filter: blur(20px); background: rgba(255,255,255,0.05);
-      box-shadow:0 10px 40px rgba(0,212,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align:center;
-    }
-    .cards .card:hover { transform: translateY(-15px) scale(1.05); box-shadow:0 20px 60px rgba(0,212,255,0.6); }
-    .cards .card img { width:70px; margin-bottom:20px; }
-    .cards .card h3 { color:#00d4ff; margin-bottom:15px; }
-    .cards .card p { color:#fff; }
+  /* Services Section */
+  .services-section { padding:100px 50px 80px 50px; text-align:center; }
+  .services-section h2 { font-size:2.8rem; color:#00d4ff; margin-bottom:50px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; }
+  .cards .card {
+    padding:40px 25px; border-radius:25px; backdrop-filter: blur(20px); background: rgba(255,255,255,0.05);
+    box-shadow:0 10px 40px rgba(0,212,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align:center;
+  }
+  .cards .card:hover { transform: translateY(-15px) scale(1.05); box-shadow:0 20px 60px rgba(0,212,255,0.6); }
+  .cards .card img { width:70px; margin-bottom:20px; }
+  .cards .card h3 { color:#00d4ff; margin-bottom:15px; }
+  .cards .card p { color:#fff; }
 
-    footer { text-align:center; padding:25px; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); color:#fff; }
+  footer { text-align:center; padding:25px; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); color:#fff; }
 
-    @media(max-width:768px){
-      .hero-content h1 { font-size:2rem; }
-      .hero-content p { font-size:1rem; }
-      .services-section h2 { font-size:2rem; margin-bottom:30px; }
-    }
-  </style>
+  @media(max-width:768px){
+    .hero-content h1 { font-size:2rem; }
+    .hero-content p { font-size:1rem; }
+    .services-section h2 { font-size:2rem; margin-bottom:30px; }
+  }
+</style>
 </head>
 <body>
 
@@ -126,7 +123,8 @@
   <!-- Floating Particles -->
   <div id="particles"></div>
 
-  <div class="glass hero-content">
+  <!-- Fixed Hero Content -->
+  <div class="hero-content">
     <h1>Professional Income Tax & GST Services</h1>
     <p>Accurate, timely, and reliable financial services for individuals & businesses across India.</p>
     <a href="signup.html" class="btn">Get Started</a>
