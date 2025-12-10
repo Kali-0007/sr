@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हमारी कंपनी | Home</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+        body { line-height:1.6; color:#333; }
+        header { background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.1); position:fixed; width:100%; top:0; z-index:1000; }
+        nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 5%; max-width:1200px; margin:0 auto; }
+        .logo { font-size:1.8rem; font-weight:700; color:#2c3e50; }
+        .logo span { color:#3498db; }
+        .nav-links { display:flex; gap:2rem; }
+        .nav-links a { text-decoration:none; color:#333; font-weight:500; }
+        .nav-links a:hover { color:#3498db; }
+        .auth-buttons { display:flex; gap:1rem; }
+        .btn { padding:0.6rem 1.2rem; border-radius:5px; text-decoration:none; font-weight:500; }
+        .btn-login { color:#3498db; border:2px solid #3498db; }
+        .btn-login:hover { background:#3498db; color:white; }
+        .btn-signup { background:#3498db; color:white; }
+        .btn-signup:hover { background:#2980b9; }
+        main { margin-top:80px; }
+        section { padding:80px 5%; max-width:1200px; margin:0 auto; }
+        #home { text-align:center; padding:140px 20px 100px; background:linear-gradient(135deg,#f5f7fa,#c3cfe2); }
+        #home h1 { font-size:3.5rem; color:#2c3e50; margin-bottom:1rem; }
+        .section-title { text-align:center; font-size:2.5rem; margin-bottom:3rem; color:#2c3e50; }
+        #about p { text-align:center; max-width:800px; margin:0 auto; font-size:1.1rem; }
+        #services { background:#f8f9fa; }
+        .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; }
+        .service-card { background:white; padding:2rem; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.08); text-align:center; }
+        .service-card i { font-size:3rem; color:#3498db; margin-bottom:1rem; }
+        #contact { background:#2c3e50; color:white; text-align:center; }
+        footer { background:#1a252f; color:#bbb; text-align:center; padding:2rem; }
+        @media(max-width:768px){ .nav-links{display:none;} #home h1{font-size:2.5rem;} }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">आपका<span>Brand</span></div>
+            <div class="nav-links">
+                <a href="#home">होम</a>
+                <a href="#about">हमारे बारे में</a>
+                <a href="#services">सेवाएँ</a>
+                <a href="#contact">संपर्क करें</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.php" class="btn btn-login">लॉगिन</a>
+                <a href="signup.php" class="btn btn-signup">साइन अप</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h1>आपका ब्रांड में आपका स्वागत है</h1>
+            <p>हम उच्च गुणवत्ता वाली सेवाएँ प्रदान करते हैं जो आपके व्यवसाय को नई ऊँचाइयों तक ले जाती हैं।</p>
+        </section>
+
+        <section id="about">
+            <h2 class="section-title">हमारे बारे में</h2>
+            <p>हम एक अग्रणी कंपनी हैं जो पिछले 10 वर्षों से अपने ग्राहकों को बेहतरीन सेवाएँ प्रदान कर रही है। हमारी टीम में अनुभवी पेशेवर हैं जो नवीनतम तकनीकों का उपयोग करके आपके व्यवसाय को बढ़ाने में मदद करते हैं।</p>
+        </section>
+
+        <section id="services">
+            <h2 class="section-title">हमारी सेवाएँ</h2>
+            <div class="services-grid">
+                <div class="service-card"><i class="fas fa-laptop-code"></i><h3>वेब डेवलपमेंट</h3><p>आधुनिक रिस्पॉन्सिव वेबसाइट्स</p></div>
+                <div class="service-card"><i class="fas fa-mobile-alt"></i><h3>मोबाइल ऐप</h3><p>Android और iOS ऐप्स</p></div>
+                <div class="service-card"><i class="fas fa-search-dollar"></i><h3>डिजिटल मार्केटिंग</h3><p>SEO और सोशल मीडिया</p></div>
+                <div class="service-card"><i class="fas fa-paint-brush"></i><h3>ग्राफिक डिज़ाइन</h3><p>लोगो और ब्रांडिंग</p></div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">संपर्क करें</h2>
+            <p>फोन: +91 98765 43210<br>ईमेल: info@yourbrand.com</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 आपका Brand. सभी अधिकार सुरक्षित</p>
+    </footer>
+</body>
+</html>
