@@ -1,4 +1,4 @@
-// Navbar scroll effect
+// Navbar scroll effect with gloss enhancement
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 100) {
@@ -19,7 +19,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     }
 });
 
-// Smooth reveal animation for cards
+// Enhanced smooth reveal for glossy cards
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -29,15 +29,15 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.style.transform = 'translateY(0) scale(1)';
         }
     });
 }, observerOptions);
 
 document.querySelectorAll('.glass-card').forEach(card => {
     card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    card.style.transform = 'translateY(30px) scale(0.95)';
+    card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
     observer.observe(card);
 });
 
