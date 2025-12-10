@@ -1,20 +1,33 @@
-// Mobile Navigation Toggle
-const hamburger = document.getElementById("hamburger");
-const navMenu = document.getElementById("navMenu");
-
-hamburger.addEventListener("click", () => {
-  navMenu.classList.toggle("open");
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
 });
 
-// Light/Dark Mode Toggle
-const themeToggle = document.getElementById("themeToggle");
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
+// Form submission
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('धन्यवाद! आपका मैसेज मिल गया। हम जल्द ही संपर्क करेंगे।');
+    this.reset();
 });
 
-// Service Accordion
-document.querySelectorAll(".more-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    btn.nextElementSibling.classList.toggle("active");
-  });
+// Smooth reveal on scroll (optional enhancement)
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.glass-card').forEach(card => {
+    card.style.opacity = 0;
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'all 0.8s ease';
+    observer.observe(card);
 });
