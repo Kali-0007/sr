@@ -7,145 +7,96 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ---------- Global ---------- */
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
-      color: #fff;
+      background: linear-gradient(135deg,#0d0d0d,#1a1a1a);
+      color:#fff;
+      overflow-x: hidden;
     }
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 50px;
-      position: fixed;
-      width: 100%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      z-index: 10;
+      display:flex; justify-content: space-between; align-items:center;
+      padding:20px 50px;
+      position: fixed; width: 100%;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index: 10;
     }
     header .logo { font-size: 1.8rem; font-weight: 700; color: #00d4ff; }
-    header nav a {
-      margin-left: 25px;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    header nav a:hover { color: #00d4ff; }
+    header nav a { margin-left:25px; color:#fff; text-decoration:none; font-weight:500; transition:0.3s; }
+    header nav a:hover{ color:#00d4ff; }
 
     /* ---------- Hero Section ---------- */
     .hero-container {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
+      position: relative; min-height: 100vh; display: flex; align-items:center; justify-content:center; text-align:center;
+      overflow:hidden; padding-top:70px;
     }
+
+    /* Floating Neon Particles */
+    .particle {
+      position:absolute;
+      width:6px; height:6px; border-radius:50%;
+      background: rgba(0,212,255,0.6);
+      animation: floatParticle linear infinite;
+    }
+    @keyframes floatParticle {
+      0% { transform: translateY(0) translateX(0); opacity:0; }
+      50% { opacity:1; }
+      100% { transform: translateY(-100vh) translateX(50px); opacity:0; }
+    }
+
     .hero-bg {
-      position: absolute;
-      top:0; left:0; width:100%; height:100%;
-      z-index:1;
+      position: absolute; top:0; left:0; width:100%; height:100%; z-index:1;
     }
+
+    /* Floating Modern Icons */
     .hero-bg img {
-      position: absolute;
-      width: 120px;
-      opacity: 0.35;
-      animation: float 12s ease-in-out infinite;
+      position:absolute; width:120px; opacity:0.35; animation: float 12s ease-in-out infinite;
     }
     .hero-bg img:nth-child(1){ top:10%; left:15%; animation-delay:0s; }
     .hero-bg img:nth-child(2){ top:25%; left:70%; animation-delay:3s; }
     .hero-bg img:nth-child(3){ top:60%; left:40%; animation-delay:6s; }
     @keyframes float {
-      0% { transform: translateY(0);}
-      50% { transform: translateY(-30px);}
-      100% { transform: translateY(0);}
+      0%{ transform: translateY(0);}
+      50%{ transform: translateY(-30px);}
+      100%{ transform: translateY(0);}
     }
+
+    /* Glass Hero Content */
     .hero-content {
-      position: relative;
-      z-index:2;
-      padding: 60px;
-      border-radius: 20px;
-      backdrop-filter: blur(25px);
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 10px 50px rgba(0,212,255,0.4);
-      max-width: 800px;
+      position: relative; z-index:2; padding:60px; border-radius:25px;
+      backdrop-filter: blur(25px); background: rgba(255,255,255,0.05);
+      box-shadow:0 10px 50px rgba(0,212,255,0.4); max-width:850px;
     }
     .hero-content h1 {
-      font-size: 3rem;
-      color: #00d4ff;
-      text-shadow: 0 0 20px rgba(0,212,255,0.7);
-      margin-bottom: 20px;
+      font-size:3rem; color:#00d4ff; text-shadow:0 0 20px rgba(0,212,255,0.7); margin-bottom:20px;
     }
-    .hero-content p {
-      font-size: 1.2rem;
-      color: #fff;
-      margin-bottom: 30px;
-    }
+    .hero-content p { font-size:1.2rem; color:#fff; margin-bottom:30px; }
     .hero-content .btn {
-      display: inline-block;
-      padding: 15px 40px;
-      border-radius: 50px;
-      background: #00d4ff;
-      color: #000;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 0 20px #00d4ff;
-      transition: 0.3s;
+      display:inline-block; padding:15px 40px; border-radius:50px; background:#00d4ff; color:#000; font-weight:700;
+      text-decoration:none; box-shadow:0 0 20px #00d4ff; transition:0.3s;
     }
-    .hero-content .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 40px #00d4ff;
-    }
+    .hero-content .btn:hover { transform:scale(1.05); box-shadow:0 0 40px #00d4ff; }
+
+    /* ---------- Animated SVG Charts ---------- */
+    .svg-charts { margin-top:40px; display:flex; justify-content:center; gap:40px; flex-wrap:wrap; }
+    .chart { width:120px; height:120px; }
+    circle { fill:none; stroke:#00d4ff; stroke-width:8; stroke-linecap:round; stroke-dasharray:314; stroke-dashoffset:314; animation: draw 2s forwards; }
+    @keyframes draw { to{ stroke-dashoffset:94; } } /* Example 70% filled */
 
     /* ---------- Services Section ---------- */
-    .services-section {
-      padding: 100px 50px 80px 50px;
-      text-align: center;
-    }
-    .services-section h2 {
-      font-size: 2.8rem;
-      color: #00d4ff;
-      margin-bottom: 50px;
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-      gap: 30px;
-    }
+    .services-section { padding:100px 50px 80px 50px; text-align:center; }
+    .services-section h2 { font-size:2.8rem; color:#00d4ff; margin-bottom:50px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; }
     .cards .card {
-      padding: 40px 25px;
-      border-radius: 25px;
-      backdrop-filter: blur(20px);
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 10px 40px rgba(0,212,255,0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-align: center;
+      padding:40px 25px; border-radius:25px; backdrop-filter: blur(20px); background: rgba(255,255,255,0.05);
+      box-shadow:0 10px 40px rgba(0,212,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align:center;
     }
-    .cards .card:hover {
-      transform: translateY(-15px) scale(1.05);
-      box-shadow: 0 20px 60px rgba(0,212,255,0.6);
-    }
-    .cards .card img {
-      width: 70px;
-      margin-bottom: 20px;
-    }
-    .cards .card h3 { color: #00d4ff; margin-bottom: 15px; }
-    .cards .card p { color: #fff; }
+    .cards .card:hover { transform: translateY(-15px) scale(1.05); box-shadow:0 20px 60px rgba(0,212,255,0.6); }
+    .cards .card img { width:70px; margin-bottom:20px; }
+    .cards .card h3 { color:#00d4ff; margin-bottom:15px; }
+    .cards .card p { color:#fff; }
 
-    /* ---------- Footer ---------- */
-    footer {
-      text-align: center;
-      padding: 25px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      color: #fff;
-    }
+    footer { text-align:center; padding:25px; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); color:#fff; }
 
-    /* ---------- Responsive ---------- */
     @media(max-width:768px){
       .hero-content h1 { font-size:2rem; }
       .hero-content p { font-size:1rem; }
@@ -174,10 +125,28 @@
     <img src="https://img.icons8.com/ios-filled/100/00d4ff/calculator.png" alt="Calculator Icon">
     <img src="https://img.icons8.com/ios-filled/100/00d4ff/money.png" alt="Money Icon">
   </div>
+
+  <!-- Floating Particles -->
+  <div id="particles"></div>
+
   <div class="glass hero-content">
     <h1>Professional Income Tax & GST Services</h1>
     <p>Accurate, timely, and reliable financial services for individuals & businesses across India.</p>
     <a href="signup.html" class="btn">Get Started</a>
+
+    <!-- SVG Charts -->
+    <div class="svg-charts">
+      <svg class="chart" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg class="chart" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+      <svg class="chart" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+    </div>
+
   </div>
 </section>
 
@@ -207,6 +176,19 @@
   &copy; 2025 TaxGSTPro. All rights reserved. | <a href="#" style="color:#00d4ff;">Privacy Policy</a>
 </footer>
 
-<script src="script.js"></script>
+<script>
+  // Generate floating particles dynamically
+  const particleContainer = document.getElementById('particles');
+  for(let i=0;i<50;i++){
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random()*100 + 'vw';
+    particle.style.top = Math.random()*100 + 'vh';
+    particle.style.width = particle.style.height = (Math.random()*5 + 3) + 'px';
+    particle.style.animationDuration = (Math.random()*8 + 5) + 's';
+    particleContainer.appendChild(particle);
+  }
+</script>
+
 </body>
 </html>
