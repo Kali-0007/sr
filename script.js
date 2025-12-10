@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("Premium glossy website loaded");
+  console.log("Premium GST & Income Tax website loaded");
 
-  // Example: login/signup button alert
+  // Button click alert (placeholder for real functionality)
   const buttons = document.querySelectorAll('.btn');
   buttons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      alert("This would link to actual login/signup functionality.");
+      alert("This is a placeholder for the actual functionality.");
     });
   });
 });
