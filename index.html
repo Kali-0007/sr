@@ -7,99 +7,149 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
+    /* ---------- Global ---------- */
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+      color: #fff;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      position: fixed;
+      width: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    header .logo { font-size: 1.8rem; font-weight: 700; color: #00d4ff; }
+    header nav a {
+      margin-left: 25px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    header nav a:hover { color: #00d4ff; }
+
     /* ---------- Hero Section ---------- */
     .hero-container {
       position: relative;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       overflow: hidden;
     }
-
     .hero-bg {
       position: absolute;
       top:0; left:0; width:100%; height:100%;
-      background: url('https://images.unsplash.com/photo-1581090700221-1fa207ccf2ee?auto=format&fit=crop&w=1950&q=80') no-repeat center/cover;
-      filter: brightness(0.5);
-      z-index: 1;
+      z-index:1;
     }
-
+    .hero-bg img {
+      position: absolute;
+      width: 120px;
+      opacity: 0.35;
+      animation: float 12s ease-in-out infinite;
+    }
+    .hero-bg img:nth-child(1){ top:10%; left:15%; animation-delay:0s; }
+    .hero-bg img:nth-child(2){ top:25%; left:70%; animation-delay:3s; }
+    .hero-bg img:nth-child(3){ top:60%; left:40%; animation-delay:6s; }
+    @keyframes float {
+      0% { transform: translateY(0);}
+      50% { transform: translateY(-30px);}
+      100% { transform: translateY(0);}
+    }
     .hero-content {
       position: relative;
-      z-index: 2;
+      z-index:2;
       padding: 60px;
       border-radius: 20px;
-      backdrop-filter: blur(20px);
-      background: rgba(255,255,255,0.1);
-      box-shadow: 0 10px 40px rgba(0,212,255,0.4);
+      backdrop-filter: blur(25px);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 10px 50px rgba(0,212,255,0.4);
+      max-width: 800px;
     }
-
     .hero-content h1 {
       font-size: 3rem;
       color: #00d4ff;
       text-shadow: 0 0 20px rgba(0,212,255,0.7);
       margin-bottom: 20px;
     }
-
     .hero-content p {
       font-size: 1.2rem;
       color: #fff;
       margin-bottom: 30px;
     }
+    .hero-content .btn {
+      display: inline-block;
+      padding: 15px 40px;
+      border-radius: 50px;
+      background: #00d4ff;
+      color: #000;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 0 20px #00d4ff;
+      transition: 0.3s;
+    }
+    .hero-content .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px #00d4ff;
+    }
 
-    /* ---------- Services Cards ---------- */
+    /* ---------- Services Section ---------- */
     .services-section {
-      padding: 60px 20px;
+      padding: 100px 50px 80px 50px;
       text-align: center;
     }
-
     .services-section h2 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       color: #00d4ff;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
-
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 30px;
     }
-
     .cards .card {
-      padding: 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(15px);
-      background: rgba(255,255,255,0.1);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      padding: 40px 25px;
+      border-radius: 25px;
+      backdrop-filter: blur(20px);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 10px 40px rgba(0,212,255,0.3);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       text-align: center;
     }
-
     .cards .card:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 15px 50px rgba(0,212,255,0.6);
+      transform: translateY(-15px) scale(1.05);
+      box-shadow: 0 20px 60px rgba(0,212,255,0.6);
     }
-
     .cards .card img {
-      width: 60px;
-      margin-bottom: 15px;
+      width: 70px;
+      margin-bottom: 20px;
     }
+    .cards .card h3 { color: #00d4ff; margin-bottom: 15px; }
+    .cards .card p { color: #fff; }
 
-    .cards .card h3 {
-      color: #00d4ff;
-      margin-bottom: 15px;
-    }
-
-    .cards .card p {
+    /* ---------- Footer ---------- */
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
       color: #fff;
     }
 
     /* ---------- Responsive ---------- */
     @media(max-width:768px){
-      .hero-content h1 { font-size: 2rem; }
-      .hero-content p { font-size: 1rem; }
+      .hero-content h1 { font-size:2rem; }
+      .hero-content p { font-size:1rem; }
+      .services-section h2 { font-size:2rem; margin-bottom:30px; }
     }
   </style>
 </head>
@@ -119,10 +169,14 @@
 
 <!-- Hero Section -->
 <section class="hero-container">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <img src="https://img.icons8.com/ios-filled/100/00d4ff/tax.png" alt="Tax Icon">
+    <img src="https://img.icons8.com/ios-filled/100/00d4ff/calculator.png" alt="Calculator Icon">
+    <img src="https://img.icons8.com/ios-filled/100/00d4ff/money.png" alt="Money Icon">
+  </div>
   <div class="glass hero-content">
     <h1>Professional Income Tax & GST Services</h1>
-    <p>Accurate, timely, and reliable services for individuals and businesses across India.</p>
+    <p>Accurate, timely, and reliable financial services for individuals & businesses across India.</p>
     <a href="signup.html" class="btn">Get Started</a>
   </div>
 </section>
@@ -132,17 +186,17 @@
   <h2>Our Key Services</h2>
   <div class="cards">
     <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/00d4ff/tax.png" alt="Income Tax">
+      <img src="https://img.icons8.com/ios-filled/80/00d4ff/tax.png" alt="Income Tax">
       <h3>Income Tax Filing</h3>
       <p>Fast and accurate ITR filing for individuals and businesses.</p>
     </div>
     <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/00d4ff/gst.png" alt="GST">
+      <img src="https://img.icons8.com/ios-filled/80/00d4ff/gst.png" alt="GST">
       <h3>GST Registration</h3>
       <p>Seamless GST registration process for startups and existing businesses.</p>
     </div>
     <div class="card">
-      <img src="https://img.icons8.com/ios-filled/50/00d4ff/consultation.png" alt="Consultation">
+      <img src="https://img.icons8.com/ios-filled/80/00d4ff/consultation.png" alt="Consultation">
       <h3>Tax Consultation</h3>
       <p>Professional advice for tax planning, savings, and compliance.</p>
     </div>
@@ -150,7 +204,7 @@
 </section>
 
 <footer>
-  &copy; 2025 TaxGSTPro. All rights reserved. | <a href="#">Privacy Policy</a>
+  &copy; 2025 TaxGSTPro. All rights reserved. | <a href="#" style="color:#00d4ff;">Privacy Policy</a>
 </footer>
 
 <script src="script.js"></script>
