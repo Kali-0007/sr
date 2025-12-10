@@ -49,17 +49,17 @@
     transition: box-shadow 0.3s ease, text-shadow 0.3s ease;
   }
   .hero-content:hover {
-    box-shadow: 0 0 50px rgba(0,212,255,0.8);
+    box-shadow: 0 0 40px rgba(0,212,255,0.6);
   }
   .hero-content h1 {
-    font-size:3rem; color:#00d4ff; text-shadow:0 0 20px rgba(0,212,255,0.7); margin-bottom:20px;
+    font-size:3rem; color:#00d4ff; text-shadow:0 0 15px rgba(0,212,255,0.5); margin-bottom:20px;
     transition: text-shadow 0.3s ease;
   }
-  .hero-content h1:hover { text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff; }
+  .hero-content h1:hover { text-shadow: 0 0 25px #00d4ff, 0 0 50px #00d4ff; }
   .hero-content p { font-size:1.2rem; color:#fff; margin-bottom:30px; transition: text-shadow 0.3s ease; }
-  .hero-content p:hover { text-shadow:0 0 20px rgba(255,255,255,0.8); }
+  .hero-content p:hover { text-shadow:0 0 15px rgba(255,255,255,0.6); }
 
-  /* Get Started Button - Premium */
+  /* Get Started Button - Subtle Premium */
   .hero-content .btn {
     display:inline-block;
     padding:15px 45px;
@@ -68,21 +68,16 @@
     color:#fff;
     text-decoration:none;
 
-    /* Gradient background */
-    background: linear-gradient(135deg, #00d4ff, #0066ff);
-
-    /* Glassy look */
-    backdrop-filter: blur(8px);
-    box-shadow: 0 5px 25px rgba(0,212,255,0.5);
-
-    /* Smooth transition */
+    background: linear-gradient(135deg, #00d4ff, #0077ff);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 15px rgba(0,212,255,0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   }
 
   .hero-content .btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 50px rgba(0,212,255,0.9), 0 0 80px rgba(0,212,255,0.6);
-    background: linear-gradient(135deg, #00f0ff, #0099ff);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0,212,255,0.6);
+    background: linear-gradient(135deg, #00d4ff, #0055cc);
   }
 
   /* Services Section */
