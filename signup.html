@@ -4,40 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Signup - TaxGSTPro</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"> <!-- common website CSS -->
-<style>
-  body { font-family: 'Inter', sans-serif; background: #0d0d0d; color: #fff; margin:0; padding:0; }
-  header, footer { background:#111; padding:20px; display:flex; justify-content:space-between; align-items:center; }
-  header nav a, footer a { color:#fff; margin:0 10px; text-decoration:none; }
-  .signup-section { padding:60px 20px; max-width:1000px; margin:0 auto; }
-  .signup-form .row { display:flex; gap:20px; flex-wrap:wrap; }
-  .signup-form .col { flex:1; min-width:300px; display:flex; flex-direction:column; gap:10px; }
-  input, select { padding:10px; border:none; border-radius:5px; }
-  .btn-primary { padding:12px 20px; background:#0af; color:#fff; border:none; cursor:pointer; border-radius:5px; margin-top:10px; }
-  .success-popup { background:#0a0; color:#fff; padding:15px; margin-top:15px; border-radius:5px; text-align:center; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- Header -->
+<!-- HEADER: Same as Home Page -->
 <header>
   <div class="logo">TaxGSTPro</div>
   <nav>
     <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
+    <a href="about.html">About Us</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact Us</a>
     <a href="login.html">Login</a>
+    <a href="signup.html">Signup</a>
   </nav>
 </header>
 
-<!-- Signup Section -->
-<section class="signup-section">
-  <h2>Signup</h2>
-
-  <form id="signupForm" class="signup-form">
-    <div class="row">
-      <div class="col">
+<!-- SIGNUP FORM SECTION -->
+<section class="page-section signup-section">
+  <h2 class="page-title">Create Your Account</h2>
+  
+  <div class="signup-container">
+    <!-- Form -->
+    <form id="signupForm">
+      <div class="form-left">
         <label>First Name</label>
         <input type="text" id="firstName" required>
 
@@ -46,23 +38,24 @@
 
         <label>Gender</label>
         <select id="gender" required>
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
         </select>
+
+        <label>Country</label>
+        <input type="text" id="country" value="India" readonly>
 
         <label>Address Line 1</label>
         <input type="text" id="address1" required>
 
         <label>Address Line 2</label>
         <input type="text" id="address2">
-      </div>
 
-      <div class="col">
-        <label>State/UT</label>
+        <label>State / UT</label>
         <select id="state" required>
-          <option value="">Select State/UT</option>
+          <option value="">Select State / UT</option>
           <option value="Andhra Pradesh">Andhra Pradesh</option>
           <option value="Arunachal Pradesh">Arunachal Pradesh</option>
           <option value="Assam">Assam</option>
@@ -91,10 +84,9 @@
           <option value="Uttar Pradesh">Uttar Pradesh</option>
           <option value="Uttarakhand">Uttarakhand</option>
           <option value="West Bengal">West Bengal</option>
-          <!-- UTs -->
-          <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+          <option value="Andaman and Nicobar">Andaman and Nicobar</option>
           <option value="Chandigarh">Chandigarh</option>
-          <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+          <option value="Dadra and Nagar Haveli and Daman & Diu">Dadra and Nagar Haveli and Daman & Diu</option>
           <option value="Delhi">Delhi</option>
           <option value="Jammu and Kashmir">Jammu and Kashmir</option>
           <option value="Ladakh">Ladakh</option>
@@ -105,53 +97,50 @@
         <label>City</label>
         <input type="text" id="city" required>
 
-        <label>Pin Code</label>
+        <label>PIN Code</label>
         <input type="text" id="pincode" required>
 
         <label>Mobile Number</label>
         <input type="text" id="mobile" required>
 
-        <label>Email</label>
+        <label>Email ID</label>
         <input type="email" id="email" required>
 
+        <!-- Captcha placeholder -->
         <label>Captcha</label>
-        <input type="text" id="captcha" required>
+        <input type="text" id="captcha" placeholder="Enter Captcha" required>
       </div>
+
+      <div class="form-right">
+        <button type="submit" class="neon-btn">Send OTP</button>
+
+        <!-- OTP verification & new credentials -->
+        <div id="otp-section" style="display:none;">
+          <label>Enter OTP</label>
+          <input type="text" id="otpInput" required>
+          <button type="button" id="verifyOtpBtn">Verify OTP</button>
+
+          <div id="new-credentials" style="display:none;">
+            <label>New Username</label>
+            <input type="text" id="newUsername" required>
+            <label>New Password</label>
+            <input type="password" id="newPassword" required>
+            <button type="button" id="createAccountBtn">Create Account</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Success Popup -->
+    <div id="successBox" style="display:none;">
+      Account created successfully! Login to continue.
     </div>
-
-    <button type="submit" class="btn-primary">Send OTP</button>
-  </form>
-
-  <!-- OTP Form -->
-  <form id="otpForm" style="display:none; margin-top:20px;">
-    <label>Enter OTP sent to Email/Mobile</label>
-    <input type="text" id="otpInput" required>
-    <button type="submit" class="btn-primary">Verify OTP</button>
-  </form>
-
-  <!-- New Username & Password -->
-  <form id="newUserForm" style="display:none; margin-top:20px;">
-    <label>New Username</label>
-    <input type="text" id="username" required>
-    <label>New Password</label>
-    <input type="password" id="password" required>
-    <button type="submit" class="btn-primary">Create Account</button>
-  </form>
-
-  <!-- Success Popup -->
-  <div id="successBox" class="success-popup" style="display:none;">
-    Signup Successful! You can now login.
   </div>
 </section>
 
-<!-- Footer -->
+<!-- FOOTER -->
 <footer>
-  <p>&copy; 2025 TaxGSTPro. All Rights Reserved.</p>
-  <div class="social-icons">
-    <a href="#"><img src="icons/facebook.svg" alt="Facebook"></a>
-    <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
-    <a href="#"><img src="icons/instagram.svg" alt="Instagram"></a>
-  </div>
+  © 2025 TaxGSTPro. All rights reserved.
 </footer>
 
 <script src="signup.js"></script>
