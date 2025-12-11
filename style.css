@@ -1,21 +1,20 @@
 /* ================================================
    TaxGSTPro – Clean Professional Dark Theme (2025)
-   Glassmorphism रखा है, बस नेन-ग्लो हटाया है
+   Enhanced Glassmorphism Design with Subtle Elegance
 ================================================ */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
-  background: #0a0e17;
+  background: linear-gradient(135deg, #0a0e17 0%, #1a2332 100%);
   color: #e2e8f0;
   line-height: 1.7;
-  min-height: 150vh;
-  padding-top: 100px; /* fixed header के नीचे कंटेंट */
+  min-height: 100vh;
+  padding-top: 100px; /* Offset for fixed header */
 }
 
 /* ==================== HEADER ==================== */
@@ -24,26 +23,27 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 30px 5%;
+  padding: 1.5rem 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(10, 14, 23, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  background: rgba(10, 14, 23, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
   z-index: 1000;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   font-size: 2rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #ec4899 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.025em;
 }
 
 nav a {
@@ -52,14 +52,30 @@ nav a {
   text-decoration: none;
   font-weight: 500;
   font-size: 1.05rem;
-  transition: color 0.3s;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  transition: width 0.3s ease;
 }
 
 nav a:hover {
   color: #93c5fd;
 }
 
-/* ==================== CONTAINER ==================== */
+nav a:hover::after {
+  width: 100%;
+}
+
+/* ==================== MAIN CONTAINER ==================== */
 .page-section {
   max-width: 1300px;
   margin: 0 auto;
@@ -68,75 +84,99 @@ nav a:hover {
 
 /* ==================== PAGE TITLE ==================== */
 .page-title {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 700;
   text-align: center;
-  background: linear-gradient(135deg, #93c5fd, #c4b5fd);
+  background: linear-gradient(135deg, #93c5fd 0%, #c4b5fd 50%, #ec4899 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
+  letter-spacing: -0.02em;
 }
 
 /* ==================== SERVICE CARDS ==================== */
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
 }
 
 .card {
-  background: rgba(30, 41, 59, 0.45);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
-  padding: 2.5rem 2rem;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
   text-align: center;
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  transition: all 0.4s ease;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(147, 197, 253, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.card:hover::before {
+  left: 100%;
 }
 
 .card:hover {
-  transform: translateY(-12px);
-  background: rgba(30, 41, 59, 0.65);
-  border-color: rgba(147, 197, 253, 0.4);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-16px) scale(1.02);
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(147, 197, 253, 0.3);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(147, 197, 253, 0.1);
 }
 
 .card h3 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   margin: 1.5rem 0 1rem;
-  color: #93c5fd;
+  background: linear-gradient(135deg, #93c5fd, #c4b5fd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-weight: 600;
 }
 
 .card p {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: #94a3b8;
+  line-height: 1.8;
 }
 
 /* ==================== CONTACT FORM ==================== */
 .contact-form {
-  max-width: 700px;
-  margin: 3rem auto;
-  padding: 3.5rem;
-  background: rgba(30, 41, 59, 0.45);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  border: 1px solid rgba(148, 163, 184, 0.15);
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 4rem;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  padding: 1rem 1.2rem;
-  margin-bottom: 1.3rem;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 16px;
   color: #e2e8f0;
   font-size: 1rem;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contact-form input:focus,
@@ -144,42 +184,126 @@ nav a:hover {
   outline: none;
   border-color: #93c5fd;
   background: rgba(15, 23, 42, 0.9);
-  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.2);
+  box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #64748b;
 }
 
 .neon-btn {
   display: inline-block;
-  padding: 14px 40px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  padding: 1rem 3rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
   color: white;
   border: none;
   border-radius: 50px;
   font-weight: 600;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .neon-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+}
+
+.neon-btn:hover::before {
+  left: 100%;
+}
+
+.neon-btn:active {
+  transform: translateY(-2px);
 }
 
 /* ==================== FOOTER ==================== */
 footer {
   text-align: center;
-  padding: 2.5rem;
-  background: rgba(10, 14, 23, 0.8);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  padding: 3rem 5%;
+  background: rgba(10, 14, 23, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
   color: #64748b;
   font-size: 0.95rem;
-  margin-top: 5rem;
+  margin-top: 6rem;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive छोटा tweak */
+/* ==================== RESPONSIVE DESIGN ==================== */
 @media (max-width: 768px) {
-  header { padding: 20px 5%; }
-  .logo { font-size: 1.7rem; }
-  nav a { margin-left: 1rem; font-size: 0.95rem; }
-  .page-title { font-size: 2.4rem; }
+  header {
+    padding: 1rem 5%;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .logo {
+    font-size: 1.75rem;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    margin: 0 1rem;
+    font-size: 0.95rem;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .card {
+    padding: 2.5rem 2rem;
+  }
+
+  .contact-form {
+    padding: 3rem 2rem;
+    margin: 3rem 1rem;
+  }
+
+  footer {
+    padding: 2rem 5%;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  nav a {
+    margin: 0 0.5rem;
+    font-size: 0.9rem;
+  }
 }
