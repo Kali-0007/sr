@@ -1,81 +1,60 @@
 // signup.js
 
-document.addEventListener("DOMContentLoaded", () => {
+let generatedOtp = "";
 
-  const signupForm = document.getElementById("signupForm");
-  const otpSection = document.getElementById("otpSection");
-  const usernameSection = document.getElementById("usernameSection");
-  const sendOtpBtn = document.getElementById("sendOtpBtn");
-  const verifyOtpBtn = document.getElementById("verifyOtpBtn");
-  const otpInput = document.getElementById("otpInput");
-  const generatedOtpBox = document.getElementById("generatedOtp"); // optional: to show OTP in console
-  let generatedOtp = "";
-
-  // Function to generate OTP
-  function generateOtp() {
-    return Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit OTP
-  }
-
-  // Send OTP button click
-  sendOtpBtn.addEventListener("click", (e) => {
+document.getElementById("signupForm").addEventListener("submit", function(e){
     e.preventDefault();
 
-    // Validate email or mobile number filled
-    const email = document.getElementById("email").value.trim();
-    const mobile = document.getElementById("mobile").value.trim();
-    if (!email && !mobile) {
-      alert("Please enter Email or Mobile number for OTP verification");
-      return;
+    // Basic validation before OTP send
+    const email = document.getElementById("email").value;
+    const mobile = document.getElementById("mobile").value;
+
+    if(!email || !mobile){
+        alert("Email and Mobile required");
+        return;
     }
 
-    generatedOtp = generateOtp();
-    console.log("Generated OTP (for testing):", generatedOtp); // replace this with email/SMS sending in real project
-    alert("OTP sent successfully! Check console (or your email/SMS in real app).");
+    // Generate 6-digit OTP
+    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Show OTP input section
-    otpSection.style.display = "block";
-  });
+    // Call backend to send OTP to email & mobile
+    // Example placeholders:
+    // sendOtpToEmail(email, generatedOtp);
+    // sendOtpToMobile(mobile, generatedOtp);
 
-  // Verify OTP button click
-  verifyOtpBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+    alert("OTP sent to your email and mobile (placeholder)");
 
-    const enteredOtp = otpInput.value.trim();
-    if (enteredOtp === generatedOtp) {
-      alert("OTP Verified Successfully!");
-      otpSection.style.display = "none";
-      usernameSection.style.display = "block"; // show username/password creation
+    // Show OTP section
+    document.getElementById("otp-section").style.display = "block";
+});
+
+// Verify OTP
+document.getElementById("verifyOtpBtn").addEventListener("click", function(){
+    const enteredOtp = document.getElementById("otpInput").value;
+    if(enteredOtp === generatedOtp){
+        alert("OTP verified successfully!");
+        document.getElementById("new-credentials").style.display = "block";
     } else {
-      alert("Incorrect OTP. Please try again.");
+        alert("Incorrect OTP, try again.");
     }
-  });
+});
 
-  // Final signup submit
-  signupForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+// Create account
+document.getElementById("createAccountBtn").addEventListener("click", function(){
+    const username = document.getElementById("newUsername").value;
+    const password = document.getElementById("newPassword").value;
 
-    // Collect all values
-    const data = {
-      firstName: document.getElementById("firstName").value.trim(),
-      surname: document.getElementById("surname").value.trim(),
-      gender: document.getElementById("gender").value,
-      address1: document.getElementById("address1").value.trim(),
-      address2: document.getElementById("address2").value.trim(),
-      state: document.getElementById("state").value,
-      city: document.getElementById("city").value.trim(),
-      pin: document.getElementById("pin").value.trim(),
-      mobile: document.getElementById("mobile").value.trim(),
-      email: document.getElementById("email").value.trim(),
-      username: document.getElementById("username").value.trim(),
-      password: document.getElementById("password").value.trim()
-    };
+    if(!username || !password){
+        alert("Enter username and password");
+        return;
+    }
 
-    console.log("Signup Data:", data);
-    alert("Signup Successful! You can now login with your username and password.");
+    // Call backend to save new user credentials
+    // Example placeholder: createAccountBackend(username, password);
 
-    signupForm.reset();
-    otpSection.style.display = "none";
-    usernameSection.style.display = "none";
-  });
-
+    document.getElementById("successBox").style.display = "block";
+    setTimeout(() => {
+        document.getElementById("successBox").style.display = "none";
+        window.location.href = "login.html"; // redirect to login page
+    }, 4000);
 });
