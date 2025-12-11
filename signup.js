@@ -32,7 +32,8 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
         return; 
     }
 
-    generatedOtp = generateOtp();
+    generatedOtp = generateOtp().toString(); // number → string
+
 
     const url = 'https://script.google.com/macros/s/AKfycbxysC-WbC_HsMz0IiMXALYddXjisth1PLWGVt-UhKSmJXsX5UzlEcCt43FLDyJLIrzY/exec';
     const params = {
