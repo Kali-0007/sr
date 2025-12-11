@@ -34,7 +34,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
 
     generatedOtp = generateOtp();
 
-    const url = 'https://script.google.com/macros/s/AKfycbyqGYwq7qxwdaT0XhVg72swDHa6S2ogCFd3gDRcgd0liGg3TNmakFdbDRWjoDOq0JoU/exec';
+    const url = 'https://script.google.com/macros/s/AKfycbxysC-WbC_HsMz0IiMXALYddXjisth1PLWGVt-UhKSmJXsX5UzlEcCt43FLDyJLIrzY/exec';
     const params = {
         method: 'POST',
         body: JSON.stringify({ email: email, otp: generatedOtp }),
