@@ -20,7 +20,7 @@ body {
 ---------------------------------------------------------*/
 header {
   position: fixed;
-  top: 20;
+  top: 0;
   width: 100%;
   padding: 50px 50px;
   display: flex;
@@ -58,7 +58,7 @@ nav a:hover {
    PAGE CONTAINER (Universal)
 ---------------------------------------------------------*/
 .page-section {
-  padding: 120px 80px 70px;
+  padding: 140px 80px 70px;
   width: 100%;
   max-width: 1250px;
   margin: auto;
