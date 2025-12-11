@@ -190,8 +190,8 @@ nav a:hover {
    ABOUT PAGE — Info Blocks
 ---------------------------------------------------------*/
 .info-block {
-  padding: 35px;
-  margin-bottom: 35px;
+  padding: 60px;
+  margin-bottom: 60px;
 
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.05);
