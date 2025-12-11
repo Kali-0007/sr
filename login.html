@@ -21,14 +21,19 @@
   </nav>
 </header>
 
-<section class="container">
+<section class="container" style="margin-top:100px;">
   <h1 class="section-title">Login</h1>
-  <div class="form-container glass">
-    <form>
+
+  <div class="form-container glass" style="max-width:450px; margin:auto;">
+    <form id="loginForm">
       <input type="email" placeholder="Email" required>
       <input type="password" placeholder="Password" required>
       <button type="submit" class="btn">Login</button>
-      <p style="margin-top:15px;">Don't have an account? <a href="signup.html" style="color:#00d4ff;">Signup here</a></p>
+
+      <p style="margin-top:18px; font-size:15px; text-align:center;">
+        Don’t have an account?
+        <a href="signup.html" style="color:#00d4ff; font-weight:600;">Signup here</a>
+      </p>
     </form>
   </div>
 </section>
@@ -37,6 +42,6 @@
   &copy; 2025 TaxGSTPro. All rights reserved.
 </footer>
 
-<script src="script.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
