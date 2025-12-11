@@ -14,8 +14,8 @@ body {
   overflow-x: hidden;
   line-height: 1.6;
 
-  min-height: 2000vh; /* page ko lamba karne ke liye */
-  padding-top: 80px; /* fixed header ke neeche content cut na ho */
+  min-height: 150vh; /* page ko lamba karne ke liye */
+  padding-top: 100px; /* fixed header ke neeche content cut na ho */
 }
 
 
@@ -25,7 +25,7 @@ body {
 header {
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 80%;
   padding: 50px 50px;
   display: flex;
   justify-content: space-between;
