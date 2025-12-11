@@ -1,60 +1,53 @@
-// signup.js
+const sendOtpBtn = document.getElementById("sendOtpBtn");
+const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+const signupBtn = document.getElementById("signupBtn");
+const otpRow = document.getElementById("otpRow");
+const usernameRow = document.getElementById("usernameRow");
+const signupBtnRow = document.getElementById("signupBtnRow");
+const successBox = document.getElementById("successBox");
 
 let generatedOtp = "";
 
-document.getElementById("signupForm").addEventListener("submit", function(e){
-    e.preventDefault();
+// Function to send OTP via your Google Apps Script
+sendOtpBtn.addEventListener("click", function () {
+  const email = document.getElementById("email").value;
+  if (!email) { alert("Please enter email"); return; }
 
-    // Basic validation before OTP send
-    const email = document.getElementById("email").value;
-    const mobile = document.getElementById("mobile").value;
+  generatedOtp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
 
-    if(!email || !mobile){
-        alert("Email and Mobile required");
-        return;
-    }
-
-    // Generate 6-digit OTP
-    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Call backend to send OTP to email & mobile
-    // Example placeholders:
-    // sendOtpToEmail(email, generatedOtp);
-    // sendOtpToMobile(mobile, generatedOtp);
-
-    alert("OTP sent to your email and mobile (placeholder)");
-
-    // Show OTP section
-    document.getElementById("otp-section").style.display = "block";
+  fetch(`https://script.google.com/macros/s/AKfycbyqGYwq7qxwdaT0XhVg72swDHa6S2ogCFd3gDRcgd0liGg3TNmakFdbDRWjoDOq0JoU/exec?email=${email}&otp=${generatedOtp}`)
+  .then(response => response.text())
+  .then(data => {
+    alert("OTP sent to your email!");
+    otpRow.style.display = "flex";
+  })
+  .catch(err => alert("Error sending OTP"));
 });
 
 // Verify OTP
-document.getElementById("verifyOtpBtn").addEventListener("click", function(){
-    const enteredOtp = document.getElementById("otpInput").value;
-    if(enteredOtp === generatedOtp){
-        alert("OTP verified successfully!");
-        document.getElementById("new-credentials").style.display = "block";
-    } else {
-        alert("Incorrect OTP, try again.");
-    }
+verifyOtpBtn.addEventListener("click", function () {
+  const enteredOtp = document.getElementById("otp").value;
+  if (enteredOtp === generatedOtp) {
+    alert("OTP verified successfully!");
+    usernameRow.style.display = "flex";
+    signupBtnRow.style.display = "flex";
+    otpRow.style.display = "none";
+  } else {
+    alert("Incorrect OTP. Try again.");
+  }
 });
 
-// Create account
-document.getElementById("createAccountBtn").addEventListener("click", function(){
-    const username = document.getElementById("newUsername").value;
-    const password = document.getElementById("newPassword").value;
+// Final signup
+signupBtn.addEventListener("click", function () {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  if (!username || !password) { alert("Fill username & password"); return; }
 
-    if(!username || !password){
-        alert("Enter username and password");
-        return;
-    }
+  successBox.style.display = "block";
+  successBox.innerText = "Signup successful! You can now login.";
+  usernameRow.style.display = "none";
+  signupBtnRow.style.display = "none";
 
-    // Call backend to save new user credentials
-    // Example placeholder: createAccountBackend(username, password);
-
-    document.getElementById("successBox").style.display = "block";
-    setTimeout(() => {
-        document.getElementById("successBox").style.display = "none";
-        window.location.href = "login.html"; // redirect to login page
-    }, 4000);
+  // Optional: Save data to backend or localStorage
+  // localStorage.setItem(username, JSON.stringify({password: password}));
 });
