@@ -28,12 +28,24 @@
 
   <!-- ================== QUERY FORM (CSS: .contact-form) ================== -->
   <div class="contact-form">
-      <form>
-          <input type="text" placeholder="Your Name" required>
-          <input type="email" placeholder="Your Email" required>
-          <textarea rows="6" placeholder="Your Message" required></textarea>
-          <button type="submit" class="neon-btn">Send Message</button>
-      </form>
+      <form action="https://formsubmit.co/sr.ravindra@zohomail.in" method="POST">
+
+    <!-- Disable captcha -->
+    <input type="hidden" name="_captcha" value="false">
+
+    <!-- Redirect to thank-you page OR contact page again -->
+    <input type="hidden" name="_next" value="https://kali-0007.github.io/sr/contact.html">
+
+    <!-- Email formatting -->
+    <input type="hidden" name="_template" value="table">
+
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+
+    <button type="submit" class="neon-btn">Send Message</button>
+</form>
+
   </div>
 
   <!-- ================== CONTACT INFO CARDS (CSS: .cards, .card) ================== -->
