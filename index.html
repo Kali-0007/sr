@@ -1,91 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home - TaxGSTPro</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css"> </head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="TaxGSTPro — Professional Income Tax & GST services for individuals and businesses across India." />
+  <title>TaxGSTPro — Home</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Favicons (optional) -->
+  <meta name="theme-color" content="#002b3a" />
+</head>
 <body>
-<header>
-  <div class="logo">TaxGSTPro</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="services.html">Services</a>
-    <a href="contact.html">Contact Us</a>
-    <a href="login.html">Login</a>
-    <a href="signup.html">Signup</a>
-  </nav>
-</header>
+  <!-- Header / Navbar -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="#home" class="logo">TaxGSTPro</a>
+      </div>
 
-<section class="hero-container">
-  <div class="hero-content">
-    <h1>Professional Income Tax & GST Services</h1>
-    <p>Accurate, timely, and reliable financial services for individuals & businesses across India.</p>
-    <a href="signup.html" class="btn">Get Started</a>
-  </div>
-</section>
+      <button class="hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="hamburger-box"><span class="hamburger-inner"></span></span>
+      </button>
 
-<section class="services-section container">
-  <h2>Our Key Services</h2>
-  <div class="cards">
-    
-        <div class="card">
-      <div class="card-header">
-        <img src="https://img.icons8.com/ios-filled/80/00d4ff/tax.png" alt="Income Tax">
-        <h3>Income Tax Filing</h3>
-        <p class="short-desc">Fast and accurate ITR filing for individuals and businesses.</p>
-      </div>
-      <div class="card-details">
-        <h4>क्या शामिल है:</h4>
-        <ul>
-          <li>व्यक्तिगत ITR (I, II, III, IV)</li>
-          <li>व्यावसायिक ITR (Proprietorship, Partnership, Company)</li>
-          <li>TDS/TCS Reconciliation और Refund दावा।</li>
-        </ul>
-      </div>
-    </div>
+      <nav class="main-nav" id="mainNav">
+        <ul>
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+          <li><a href="#login" class="nav-cta btn" id="loginBtn">Login</a></li>
+          <li><a href="#signup" class="nav-cta btn primary" id="signupBtn">Signup</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-        <div class="card">
-      <div class="card-header">
-        <img src="https://img.icons8.com/ios-filled/80/00d4ff/gst.png" alt="GST">
-        <h3>GST Registration & Returns</h3>
-        <p class="short-desc">Seamless GST registration और समय पर रिटर्न फाइलिंग।</p>
-      </div>
-      <div class="card-details">
-        <h4>मुख्य सेवाएं:</h4>
-        <ul>
-          <li>नया GSTIN Registration</li>
-          <li>मासिक/त्रैमासिक GSTR-1, GSTR-3B फाइलिंग</li>
-          <li>Annual Return (GSTR-9/9C)</li>
-        </ul>
-      </div>
-    </div>
+  <!-- Hero -->
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-inner glass">
+        <div class="hero-content">
+          <h1>Professional Income Tax & GST Services</h1>
+          <p>Accurate, timely, and reliable financial services for individuals & businesses across India.</p>
+          <div class="hero-actions">
+            <a href="#signup" class="btn primary" id="getStarted">Get Started</a>
+            <a href="#services" class="btn ghost">Our Services</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div class="card">
-      <div class="card-header">
-        <img src="https://img.icons8.com/ios-filled/80/00d4ff/consultation.png" alt="Consultation">
-        <h3>Tax & Legal Consultation</h3>
-        <p class="short-desc">Professional सलाह टैक्स प्लानिंग, बचत और अनुपालन के लिए।</p>
-      </div>
-      <div class="card-details">
-        <h4>हम कैसे मदद करते हैं:</h4>
-        <ul>
-          <li>आयकर नोटिस का जवाब</li>
-          <li>पूंजी लाभ (Capital Gain) पर मार्गदर्शन</li>
-          <li>टैक्स ऑडिट और कानूनी प्रतिनिधित्व</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- Services -->
+    <section id="services" class="section container">
+      <h2 class="section-title">Our Key Services</h2>
+      <div class="cards">
+        <article class="card glass">
+          <div class="card-icon" aria-hidden="true">
+            <!-- simple inline SVG icon -->
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3h18v4H3zM3 11h18v2H3zM3 17h18v4H3z" fill="#00d4ff"/></svg>
+          </div>
+          <h3>Income Tax Filing</h3>
+          <p>Fast and accurate ITR filing for individuals and businesses.</p>
+        </article>
 
-<footer>
-  &copy; 2025 TaxGSTPro. All rights reserved. | <a href="#" style="color:#00d4ff;">Privacy Policy</a>
-</footer>
+        <article class="card glass">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" fill="#00d4ff"/></svg>
+          </div>
+          <h3>GST Registration</h3>
+          <p>Seamless GST registration process for startups and existing businesses.</p>
+        </article>
 
-<script src="script.js"></script>
+        <article class="card glass">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M12 2l7 7-7 7-7-7z" fill="#00d4ff"/></svg>
+          </div>
+          <h3>Tax Consultation</h3>
+          <p>Professional advice for tax planning, savings, and compliance.</p>
+        </article>
+      </div>
+    </section>
 
+    <!-- About (brief) -->
+    <section id="about" class="section alt container">
+      <div class="grid-2">
+        <div>
+          <h2 class="section-title">Why TaxGSTPro?</h2>
+          <p>We combine experienced tax professionals with straightforward pricing and digital-first workflows — so you get compliant, optimised tax outcomes without friction.</p>
+          <ul class="features">
+            <li>Timely filing & reminders</li>
+            <li>Secure document handling</li>
+            <li>Transparent pricing</li>
+          </ul>
+        </div>
+        <div>
+          <div class="glass about-card">
+            <h4>Trusted by small businesses & freelancers</h4>
+            <p>We help owners save time and reduce tax risk through proven processes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section container">
+      <h2 class="section-title">Contact Us</h2>
+      <div class="grid-2">
+        <form id="contactForm" class="form glass" novalidate>
+          <label>
+            <span>Full name</span>
+            <input type="text" name="name" id="name" placeholder="Your full name" required>
+          </label>
+
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" id="email" placeholder="your@email.com" required>
+          </label>
+
+          <label>
+            <span>Message</span>
+            <textarea name="message" id="message" rows="5" placeholder="How can we help?" required></textarea>
+          </label>
+
+          <button class="btn primary" type="submit">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+          <div class="glass info-card">
+            <h4>Reach us</h4>
+            <p>Email: <a href="mailto:info@taxgstpro.example">info@taxgstpro.example</a></p>
+            <p>Phone: +91 90000 00000</p>
+            <p>Address: Mumbai, India</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-col">
+        <strong>TaxGSTPro</strong>
+        <p>Accurate, timely, and reliable tax & GST services.</p>
+      </div>
+      <div class="footer-col">
+        <strong>Quick Links</strong>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <strong>Legal</strong>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">© <span id="year"></span> TaxGSTPro. All rights reserved.</div>
+  </footer>
+
+  <!-- Toast notifications (non-blocking) -->
+  <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
