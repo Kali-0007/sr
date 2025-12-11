@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Signup - TaxGSTPro</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
 </head>
 
 <body>
 
-<!-- HEADER: Same as Home Page -->
+<!-- HEADER -->
 <header>
   <div class="logo">TaxGSTPro</div>
   <nav>
@@ -22,119 +23,152 @@
   </nav>
 </header>
 
-<!-- SIGNUP FORM SECTION -->
-<section class="page-section signup-section">
+<!-- SIGNUP FORM -->
+<section class="page-section">
   <h2 class="page-title">Create Your Account</h2>
-  
   <div class="signup-container">
-    <!-- Form -->
     <form id="signupForm">
-      <div class="form-left">
-        <label>First Name</label>
-        <input type="text" id="firstName" required>
-
-        <label>Surname</label>
-        <input type="text" id="surname" required>
-
-        <label>Gender</label>
-        <select id="gender" required>
-          <option value="">Select</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-
-        <label>Country</label>
-        <input type="text" id="country" value="India" readonly>
-
-        <label>Address Line 1</label>
-        <input type="text" id="address1" required>
-
-        <label>Address Line 2</label>
-        <input type="text" id="address2">
-
-        <label>State / UT</label>
-        <select id="state" required>
-          <option value="">Select State / UT</option>
-          <option value="Andhra Pradesh">Andhra Pradesh</option>
-          <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-          <option value="Assam">Assam</option>
-          <option value="Bihar">Bihar</option>
-          <option value="Chhattisgarh">Chhattisgarh</option>
-          <option value="Goa">Goa</option>
-          <option value="Gujarat">Gujarat</option>
-          <option value="Haryana">Haryana</option>
-          <option value="Himachal Pradesh">Himachal Pradesh</option>
-          <option value="Jharkhand">Jharkhand</option>
-          <option value="Karnataka">Karnataka</option>
-          <option value="Kerala">Kerala</option>
-          <option value="Madhya Pradesh">Madhya Pradesh</option>
-          <option value="Maharashtra">Maharashtra</option>
-          <option value="Manipur">Manipur</option>
-          <option value="Meghalaya">Meghalaya</option>
-          <option value="Mizoram">Mizoram</option>
-          <option value="Nagaland">Nagaland</option>
-          <option value="Odisha">Odisha</option>
-          <option value="Punjab">Punjab</option>
-          <option value="Rajasthan">Rajasthan</option>
-          <option value="Sikkim">Sikkim</option>
-          <option value="Tamil Nadu">Tamil Nadu</option>
-          <option value="Telangana">Telangana</option>
-          <option value="Tripura">Tripura</option>
-          <option value="Uttar Pradesh">Uttar Pradesh</option>
-          <option value="Uttarakhand">Uttarakhand</option>
-          <option value="West Bengal">West Bengal</option>
-          <option value="Andaman and Nicobar">Andaman and Nicobar</option>
-          <option value="Chandigarh">Chandigarh</option>
-          <option value="Dadra and Nagar Haveli and Daman & Diu">Dadra and Nagar Haveli and Daman & Diu</option>
-          <option value="Delhi">Delhi</option>
-          <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-          <option value="Ladakh">Ladakh</option>
-          <option value="Lakshadweep">Lakshadweep</option>
-          <option value="Puducherry">Puducherry</option>
-        </select>
-
-        <label>City</label>
-        <input type="text" id="city" required>
-
-        <label>PIN Code</label>
-        <input type="text" id="pincode" required>
-
-        <label>Mobile Number</label>
-        <input type="text" id="mobile" required>
-
-        <label>Email ID</label>
-        <input type="email" id="email" required>
-
-        <!-- Captcha placeholder -->
-        <label>Captcha</label>
-        <input type="text" id="captcha" placeholder="Enter Captcha" required>
-      </div>
-
-      <div class="form-right">
-        <button type="submit" class="neon-btn">Send OTP</button>
-
-        <!-- OTP verification & new credentials -->
-        <div id="otp-section" style="display:none;">
-          <label>Enter OTP</label>
-          <input type="text" id="otpInput" required>
-          <button type="button" id="verifyOtpBtn">Verify OTP</button>
-
-          <div id="new-credentials" style="display:none;">
-            <label>New Username</label>
-            <input type="text" id="newUsername" required>
-            <label>New Password</label>
-            <input type="password" id="newPassword" required>
-            <button type="button" id="createAccountBtn">Create Account</button>
-          </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" required>
+        </div>
+        <div class="form-group">
+          <label for="surname">Surname</label>
+          <input type="text" id="surname" required>
         </div>
       </div>
-    </form>
 
-    <!-- Success Popup -->
-    <div id="successBox" style="display:none;">
-      Account created successfully! Login to continue.
-    </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Gender</label>
+          <select id="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <input type="text" id="country" value="India" readonly>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="address1">Address Line 1</label>
+          <input type="text" id="address1" required>
+        </div>
+        <div class="form-group">
+          <label for="address2">Address Line 2</label>
+          <input type="text" id="address2">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="state">State / UT</label>
+          <select id="state" required>
+            <option value="">Select State/UT</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Dadra and Nagar Haveli and Daman & Diu">Dadra and Nagar Haveli and Daman & Diu</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Ladakh">Ladakh</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Puducherry">Puducherry</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pin">Pin Code</label>
+          <input type="text" id="pin" required>
+        </div>
+        <div class="form-group">
+          <label for="mobile">Mobile Number</label>
+          <input type="tel" id="mobile" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email ID</label>
+          <input type="email" id="email" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <button type="button" id="sendOtpBtn">Send OTP</button>
+        </div>
+      </div>
+
+      <div class="form-row" id="otpRow" style="display:none;">
+        <div class="form-group">
+          <label for="otp">Enter OTP</label>
+          <input type="text" id="otp" required>
+        </div>
+        <div class="form-group">
+          <button type="button" id="verifyOtpBtn">Verify OTP</button>
+        </div>
+      </div>
+
+      <div class="form-row" id="usernameRow" style="display:none;">
+        <div class="form-group">
+          <label for="username">New Username</label>
+          <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">New Password</label>
+          <input type="password" id="password" required>
+        </div>
+      </div>
+
+      <div class="form-row" id="signupBtnRow" style="display:none;">
+        <div class="form-group">
+          <button type="button" id="signupBtn">Signup</button>
+        </div>
+      </div>
+
+      <div id="successBox" style="display:none; margin-top:10px; color:green;"></div>
+
+    </form>
   </div>
 </section>
 
