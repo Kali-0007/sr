@@ -1,4 +1,4 @@
-/* ---------- Base Styles ---------- */
+/* style 1.txt - Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +8,10 @@
 body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
+  /* Using the new gradient background from style 1.txt */
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #f0f0f0;
+  overflow-x: hidden; /* From home 1.txt */
 }
 
 a {
@@ -23,7 +25,7 @@ a {
   padding: 20px;
 }
 
-/* ---------- Glassy Card / Panel ---------- */
+/* style 1.txt - Glassy Card / Panel */
 .glass {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
@@ -39,7 +41,7 @@ a {
   box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
 }
 
-/* ---------- Buttons ---------- */
+/* style 1.txt - Buttons */
 .btn {
   background: linear-gradient(135deg, #00d4ff, #0066ff);
   color: #fff;
@@ -57,8 +59,9 @@ a {
   box-shadow: 0 10px 30px rgba(0,212,255,0.6);
 }
 
-/* ---------- Header ---------- */
+/* Header (Combined from both sources) */
 header {
+  /* Using style 1.txt's header styles for a cleaner sticky header */
   background: rgba(20, 20, 40, 0.85);
   backdrop-filter: blur(10px);
   padding: 20px 40px;
@@ -83,6 +86,7 @@ nav a {
   padding: 6px 12px;
   border-radius: 6px;
   transition: 0.3s;
+  color: #fff; /* Ensure link color is visible */
 }
 
 nav a:hover {
@@ -90,52 +94,123 @@ nav a:hover {
   color: #00d4ff;
 }
 
-/* ---------- Forms ---------- */
-.form-container {
-  max-width: 400px;
-  margin: 80px auto;
+/* Hero Section Styles */
+.hero-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 100px; /* Space for fixed header */
+}
+.hero-content {
+    max-width: 850px;
+}
+.hero-content h1 {
+    font-size: 3rem; 
+    color: #00d4ff; 
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px rgba(0,212,255,0.5);
+}
+.hero-content p { 
+    font-size: 1.2rem; 
+    color: #fff; 
+    margin-bottom: 30px; 
 }
 
-input[type="text"], input[type="email"], input[type="password"], textarea {
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  backdrop-filter: blur(10px);
+/* Services Section (Customized for Expandable Cards) */
+.services-section { 
+    padding: 80px 50px; 
+    text-align: center; 
 }
-
-input::placeholder, textarea::placeholder {
-  color: #ccc;
-}
-
-form .btn {
-  width: 100%;
-  text-align: center;
-}
-
-/* ---------- Cards / Sections ---------- */
 .section-title {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #00d4ff;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #00d4ff;
+    font-size: 2.5rem;
 }
-
 .cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+    gap: 30px;
 }
 
-/* ---------- Footer ---------- */
+.cards .card {
+    /* Base styles for card, using .glass overrides padding and margin from .glass */
+    padding: 30px; 
+    cursor: pointer;
+    overflow: hidden;
+    margin: 0; /* Remove margin from .glass */
+    text-align: center;
+    transition: all 0.4s ease-in-out;
+}
+
+.cards .card:hover {
+    transform: translateY(-8px); /* Slightly less dramatic lift than default glass:hover */
+}
+
+.cards .card-header img { 
+    width: 70px; 
+    margin-bottom: 15px; 
+}
+.cards .card-header h3 { 
+    color: #00d4ff; 
+    margin-bottom: 0px; 
+}
+.cards .card .short-desc { 
+    color: #ccc; 
+    margin-top: 10px; 
+    font-size: 0.95em;
+}
+.card-details h4 {
+    color: #00d4ff;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+/* Expandable Card CSS */
+.cards .card-details {
+    max-height: 0; /* Initially hidden */
+    overflow: hidden;
+    padding: 0 10px;
+    opacity: 0;
+    transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out;
+    text-align: left; 
+    border-top: 1px solid rgba(0, 212, 255, 0.15);
+    margin-top: 15px;
+    padding-top: 0; 
+}
+
+/* When card is active (clicked) */
+.cards .card.active {
+    box-shadow:0 20px 60px rgba(0,212,255,0.6);
+    background: rgba(255, 255, 255, 0.15); /* Slightly brighter when active */
+}
+.cards .card.active .card-details {
+    max-height: 350px; /* Sufficient height for expanded content */
+    opacity: 1;
+    padding-top: 15px; 
+}
+.cards .card-details ul {
+    margin: 0;
+    padding-left: 20px;
+    list-style-type: '→ '; /* Custom bullet point */
+}
+.cards .card-details li {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+
+/* Footer (Combined from both sources) */
 footer {
   background: rgba(20, 20, 40, 0.85);
   text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+  padding: 25px; 
+  margin-top: 0;
   color: #888;
+  backdrop-filter: blur(10px); /* Added blur for consistency */
 }
 
 footer a {
@@ -146,13 +221,19 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* ---------- Responsive ---------- */
+/* Responsive (Combined from both sources) */
 @media(max-width:768px){
   header {
     flex-direction: column;
     text-align: center;
+    padding: 20px 20px;
   }
   nav a {
     margin: 10px 15px;
+    font-size: 0.9em;
   }
+  .hero-content h1 { font-size: 2rem; }
+  .hero-content p { font-size: 1rem; }
+  .services-section { padding: 40px 20px; }
+  .section-title { font-size: 2rem; margin-bottom: 30px; }
 }
