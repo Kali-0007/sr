@@ -1,6 +1,8 @@
-/* ------------------------------------------------------
-   GLOBAL BASE THEME — DARK + NEON BLUE + GLASS
----------------------------------------------------------*/
+/* ================================================
+   TaxGSTPro – Clean Professional Dark Theme (2025)
+   Glassmorphism रखा है, बस नेन-ग्लो हटाया है
+================================================ */
+
 * {
   margin: 0;
   padding: 0;
@@ -9,286 +11,175 @@
 }
 
 body {
-  background: #0d0d0d;
-  color: #ffffff;
-  overflow-x: hidden;
-  line-height: 1.6;
-
-  min-height: 150vh; /* page ko lamba karne ke liye */
-  padding-top: 100px; /* fixed header ke neeche content cut na ho */
+  background: #0a0e17;
+  color: #e2e8f0;
+  line-height: 1.7;
+  min-height: 150vh;
+  padding-top: 100px; /* fixed header के नीचे कंटेंट */
 }
 
-
-/* ------------------------------------------------------
-   HEADER (Same for all pages)
----------------------------------------------------------*/
+/* ==================== HEADER ==================== */
 header {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
-  padding: 50px 50px;
+  padding: 30px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(0, 212, 255, 0.18);
-
+  background: rgba(10, 14, 23, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
   z-index: 1000;
+  transition: all 0.3s;
 }
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #00d4ff;
-  text-shadow: 0 0 12px #00d4ff;
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
 }
 
 nav a {
-  margin-left: 28px;
-  color: white;
+  margin-left: 2.5rem;
+  color: #cbd5e1;
   text-decoration: none;
   font-weight: 500;
-  transition: 0.2s;
+  font-size: 1.05rem;
+  transition: color 0.3s;
 }
 
 nav a:hover {
-  color: #00d4ff;
-  text-shadow: 0 0 10px #00d4ff;
+  color: #93c5fd;
 }
 
-/* ------------------------------------------------------
-   PAGE CONTAINER (Universal)
----------------------------------------------------------*/
+/* ==================== CONTAINER ==================== */
 .page-section {
-  padding: 140px 80px 70px;
-  width: 100%;
-  max-width: 1250px;
-  margin: auto;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 140px 5% 80px;
 }
 
-/* Page Titles */
+/* ==================== PAGE TITLE ==================== */
 .page-title {
-  font-size: 2.8rem;
-  font-weight: 700;
-  color: #00d4ff;
-  text-align: center;
-  margin-bottom: 20px;
-  text-shadow: 0 0 20px #00d4ff;
-}
-
-/* ------------------------------------------------------
-   HERO SECTION (Home Only)
----------------------------------------------------------*/
-.hero-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 90px;
-  background: linear-gradient(180deg, #0d0d0d 0%, #0a0a0a 100%);
-}
-
-.hero-box {
-  padding: 60px;
-  max-width: 850px;
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(25px);
-
-  box-shadow:
-    0 0 45px rgba(0, 212, 255, 0.45),
-    0 0 80px rgba(0, 212, 255, 0.25);
-
-  text-align: center;
-  transition: 0.3s ease;
-}
-
-.hero-box:hover {
-  box-shadow:
-    0 0 60px rgba(0, 212, 255, 0.7),
-    0 0 120px rgba(0, 212, 255, 0.35);
-}
-
-.hero-box h1 {
   font-size: 3rem;
-  color: #00d4ff;
-  text-shadow: 0 0 25px #00d4ff, 0 0 50px #00d4ff;
-  margin-bottom: 12px;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(135deg, #93c5fd, #c4b5fd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 3rem;
 }
 
-.hero-box p {
-  font-size: 1.2rem;
-  color: #e8e8e8;
-  margin-bottom: 35px;
-}
-
-/* ------------------------------------------------------
-   BUTTONS — GLOBAL NEON BUTTON
----------------------------------------------------------*/
-.neon-btn {
-  display: inline-block;
-  padding: 15px 45px;
-  border-radius: 50px;
-
-  color: white;
-  font-weight: 600;
-  font-size: 1.1rem;
-  text-decoration: none;
-
-  background: linear-gradient(135deg, #00d4ff, #0066ff);
-  box-shadow:
-    0 0 20px #00d4ff,
-    0 0 40px rgba(0, 212, 255, 0.55);
-
-  transition: 0.3s ease;
-}
-
-.neon-btn:hover {
-  transform: scale(1.08);
-  box-shadow:
-    0 0 35px #00d4ff,
-    0 0 70px rgba(0, 212, 255, 0.85);
-}
-
-/* ------------------------------------------------------
-   SERVICE CARDS — Home & Services Page
----------------------------------------------------------*/
+/* ==================== SERVICE CARDS ==================== */
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 35px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
 .card {
-  padding: 80px 80px;
-  border-radius: 25px;
-
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(30, 41, 59, 0.45);
   backdrop-filter: blur(20px);
-
-  box-shadow: 0 0 35px rgba(0, 212, 255, 0.35);
-  transition: 0.3s ease;
-
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
   text-align: center;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  transition: all 0.4s ease;
 }
 
 .card:hover {
   transform: translateY(-12px);
-  box-shadow: 0 0 55px rgba(0, 212, 255, 0.7);
-}
-
-.card img {
-  width: 75px;
-  margin-bottom: 20px;
+  background: rgba(30, 41, 59, 0.65);
+  border-color: rgba(147, 197, 253, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .card h3 {
-  color: #00d4ff;
-  font-size: 1.4rem;
-  margin-bottom: 15px;
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem;
+  color: #93c5fd;
+  font-weight: 600;
 }
 
-/* ------------------------------------------------------
-   ABOUT PAGE — Info Blocks
----------------------------------------------------------*/
-.info-block {
-  padding: 80px;
-  margin-bottom: 80px;
-
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(18px);
-
-  box-shadow: 0 0 25px rgba(0, 212, 255, 0.25);
-  transition: 0.3s;
+.card p {
+  font-size: 1rem;
+  color: #94a3b8;
 }
 
-.info-block:hover {
-  box-shadow: 0 0 50px rgba(0, 212, 255, 0.45);
-}
-
-/* ------------------------------------------------------
-   CONTACT PAGE — Form
----------------------------------------------------------*/
+/* ==================== CONTACT FORM ==================== */
 .contact-form {
-  max-width: 650px;
-  margin: auto;
-  padding: 80px;
-
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 22px;
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 3.5rem;
+  background: rgba(30, 41, 59, 0.45);
   backdrop-filter: blur(20px);
-
-  box-shadow: 0 0 40px rgba(0, 212, 255, 0.35);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  padding: 15px;
-
-  border: none;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.3rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 12px;
-
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-
-  box-shadow: inset 0 0 12px rgba(0, 212, 255, 0.35);
+  color: #e2e8f0;
+  font-size: 1rem;
+  transition: all 0.3s;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  outline: 2px solid #00d4ff;
+  outline: none;
+  border-color: #93c5fd;
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.2);
 }
 
-/* ------------------------------------------------------
-   LOGIN / SIGNUP
----------------------------------------------------------*/
-.auth-box {
-  max-width: 450px;
-  margin: auto;
-  padding: 45px;
-  border-radius: 22px;
-
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(22px);
-
-  box-shadow: 0 0 45px rgba(0, 212, 255, 0.35);
-  text-align: center;
-}
-
-.auth-box input {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 20px;
-
-  border: none;
-  border-radius: 12px;
-
-  background: rgba(255, 255, 255, 0.1);
+.neon-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
   color: white;
-
-  box-shadow: inset 0 0 12px rgba(0, 212, 255, 0.35);
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.auth-box input:focus {
-  outline: 2px solid #00d4ff;
+.neon-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
 }
 
-/* ------------------------------------------------------
-   FOOTER
----------------------------------------------------------*/
+/* ==================== FOOTER ==================== */
 footer {
   text-align: center;
-  padding: 25px;
-  margin-top: 70px;
-
-  background: rgba(0, 0, 0, 0.5);
+  padding: 2.5rem;
+  background: rgba(10, 14, 23, 0.8);
   backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-top: 5rem;
+}
 
-  border-top: 1px solid rgba(0, 212, 255, 0.2);
-  color: #cccccc;
+/* Responsive छोटा tweak */
+@media (max-width: 768px) {
+  header { padding: 20px 5%; }
+  .logo { font-size: 1.7rem; }
+  nav a { margin-left: 1rem; font-size: 0.95rem; }
+  .page-title { font-size: 2.4rem; }
 }
