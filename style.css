@@ -424,4 +424,14 @@ footer {
   .page-title {
     font-size: 2rem;
   }
+.success-box {
+    background: #0f5132;
+    color: #d1e7dd;
+    padding: 15px 20px;
+    border-left: 5px solid #198754;
+    border-radius: 6px;
+    margin-top: 20px;
+    font-size: 16px;
+    display: none;
+}
 }
