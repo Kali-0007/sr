@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
@@ -21,35 +22,42 @@
   </nav>
 </header>
 
-<section class="container">
-  <h1 class="section-title">Contact Us</h1>
-  <div class="form-container glass">
-    <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit" class="btn">Send Message</button>
-    </form>
+<section class="page-section">
+
+  <h1 class="page-title">Contact Us</h1>
+
+  <!-- ================== QUERY FORM (CSS: .contact-form) ================== -->
+  <div class="contact-form">
+      <form>
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email" required>
+          <textarea rows="6" placeholder="Your Message" required></textarea>
+          <button type="submit" class="neon-btn">Send Message</button>
+      </form>
   </div>
 
+  <!-- ================== CONTACT INFO CARDS (CSS: .cards, .card) ================== -->
   <div class="cards">
-    <div class="glass card">
-      <h3>Email</h3>
-      <p>support@taxgstpro.com</p>
-    </div>
-    <div class="glass card">
-      <h3>Phone</h3>
-      <p>+91 9876543210</p>
-    </div>
-    <div class="glass card">
-      <h3>Address</h3>
-      <p>123 GST Street, Financial City, India</p>
-    </div>
+      <div class="card">
+          <h3>Email</h3>
+          <p>support@taxgstpro.com</p>
+      </div>
+
+      <div class="card">
+          <h3>Phone</h3>
+          <p>+91 9876543210</p>
+      </div>
+
+      <div class="card">
+          <h3>Address</h3>
+          <p>123 GST Street, Financial City, India</p>
+      </div>
   </div>
+
 </section>
 
 <footer>
-  &copy; 2025 TaxGSTPro. All rights reserved. | <a href="#">Privacy Policy</a>
+  © 2025 TaxGSTPro. All rights reserved. | <a href="#">Privacy Policy</a>
 </footer>
 
 <script src="script.js"></script>
