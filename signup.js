@@ -1,53 +1,94 @@
-const sendOtpBtn = document.getElementById("sendOtpBtn");
-const verifyOtpBtn = document.getElementById("verifyOtpBtn");
-const signupBtn = document.getElementById("signupBtn");
-const otpRow = document.getElementById("otpRow");
-const usernameRow = document.getElementById("usernameRow");
-const signupBtnRow = document.getElementById("signupBtnRow");
-const successBox = document.getElementById("successBox");
+// Signup JS - Separate from contact.js
 
-let generatedOtp = "";
+// OTP generation & email via Google Apps Script
+const otpLength = 6;
+let generatedOtp = null;
 
-// Function to send OTP via your Google Apps Script
-sendOtpBtn.addEventListener("click", function () {
-  const email = document.getElementById("email").value;
-  if (!email) { alert("Please enter email"); return; }
+function generateOtp() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
 
-  generatedOtp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
-
-  fetch(`https://script.google.com/macros/s/AKfycbyqGYwq7qxwdaT0XhVg72swDHa6S2ogCFd3gDRcgd0liGg3TNmakFdbDRWjoDOq0JoU/exec?email=${email}&otp=${generatedOtp}`)
-  .then(response => response.text())
-  .then(data => {
-    alert("OTP sent to your email!");
-    otpRow.style.display = "flex";
-  })
-  .catch(err => alert("Error sending OTP"));
-});
-
-// Verify OTP
-verifyOtpBtn.addEventListener("click", function () {
-  const enteredOtp = document.getElementById("otp").value;
-  if (enteredOtp === generatedOtp) {
-    alert("OTP verified successfully!");
-    usernameRow.style.display = "flex";
-    signupBtnRow.style.display = "flex";
-    otpRow.style.display = "none";
-  } else {
-    alert("Incorrect OTP. Try again.");
+// Captcha generation
+function generateCaptcha() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let captcha = '';
+  for (let i = 0; i < 6; i++) {
+    captcha += chars.charAt(Math.floor(Math.random() * chars.length));
   }
+  return captcha;
+}
+
+// Display captcha
+document.getElementById('captchaText').innerText = generateCaptcha();
+
+// Send OTP button click
+document.getElementById('sendOtpBtn').addEventListener('click', function() {
+  const email = document.getElementById('email').value;
+  if (!email) { alert("Enter email first"); return; }
+
+  generatedOtp = generateOtp();
+
+  // Google Apps Script URL
+  const url = 'https://script.google.com/macros/s/AKfycbyqGYwq7qxwdaT0XhVg72swDHa6S2ogCFd3gDRcgd0liGg3TNmakFdbDRWjoDOq0JoU/exec';
+  const params = {
+    method: 'POST',
+    body: JSON.stringify({ email: email, otp: generatedOtp }),
+    headers: { 'Content-Type': 'application/json' }
+  };
+
+  fetch(url, params)
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert("OTP sent to your email.");
+      } else {
+        alert("Error sending OTP. Try again.");
+      }
+    })
+    .catch(err => console.error(err));
 });
 
-// Final signup
-signupBtn.addEventListener("click", function () {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-  if (!username || !password) { alert("Fill username & password"); return; }
+// Form submit
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-  successBox.style.display = "block";
-  successBox.innerText = "Signup successful! You can now login.";
-  usernameRow.style.display = "none";
-  signupBtnRow.style.display = "none";
+  // Validate OTP
+  const enteredOtp = document.getElementById('otp').value;
+  if (parseInt(enteredOtp) !== generatedOtp) {
+    alert("Incorrect OTP");
+    return;
+  }
 
-  // Optional: Save data to backend or localStorage
-  // localStorage.setItem(username, JSON.stringify({password: password}));
+  // Validate Captcha
+  const enteredCaptcha = document.getElementById('captcha').value;
+  if (enteredCaptcha !== document.getElementById('captchaText').innerText) {
+    alert("Captcha incorrect");
+    return;
+  }
+
+  // Save user data (for demo, storing in localStorage)
+  const userData = {
+    firstName: document.getElementById('firstName').value,
+    surname: document.getElementById('surname').value,
+    gender: document.getElementById('gender').value,
+    country: document.getElementById('country').value,
+    state: document.getElementById('state').value,
+    city: document.getElementById('city').value,
+    pincode: document.getElementById('pincode').value,
+    mobile: document.getElementById('mobile').value,
+    email: document.getElementById('email').value,
+    username: document.getElementById('username').value,
+    password: document.getElementById('password').value
+  };
+  localStorage.setItem('user_' + userData.username, JSON.stringify(userData));
+
+  // Show success popup
+  const box = document.getElementById('successBox');
+  box.style.display = 'block';
+  setTimeout(() => { box.style.display = 'none'; }, 5000);
+
+  // Reset form
+  document.getElementById('signupForm').reset();
+  document.getElementById('captchaText').innerText = generateCaptcha();
+  generatedOtp = null;
 });
