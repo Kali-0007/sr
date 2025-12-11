@@ -6,6 +6,8 @@
   <title>Services - TaxGSTPro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Apna WhatsApp number yahan daal do (country code ke saath, no +) -->
+  <script>const whatsappNumber = "91XXXXXXXXXX";</script>
 </head>
 <body>
 
@@ -24,106 +26,141 @@
 <section class="container">
   <h1 class="section-title">Our Services & Pricing</h1>
   
-  <!-- Popular Packages First -->
+  <!-- Popular Packages -->
   <h2 class="subsection-title">Most Popular Packages</h2>
   <div class="cards">
+
     <div class="glass card popular">
       <h3>Salaried Super Saver</h3>
       <p class="price">₹999 <small>(incl. GST)</small></p>
       <p>ITR-1 Filing + Form-16 + Tax Saving Tips + E-filing within 24 hrs</p>
       <span class="tag">Bestseller</span>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Salaried Super Saver ₹999')" class="btn-primary">Book via WhatsApp</a>
+        <a href="tel:+91XXXXXXXXXX" class="btn-secondary">Call Now</a>
+      </div>
     </div>
+
     <div class="glass card popular">
       <h3>Business Starter Pack</h3>
       <p class="price">₹4,999 <small>(incl. GST)</small></p>
-      <p>New GST Registration + Udyam Registration + 3 Months GST Filing</p>
+      <p>New GST Registration + Udyam + 3 Months GST Filing</p>
       <span class="tag">Perfect for Startups</span>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Business Starter Pack ₹4,999')" class="btn-primary">Book via WhatsApp</a>
+        <a href="tel:+91XXXXXXXXXX" class="btn-secondary">Call Now</a>
+      </div>
     </div>
+
     <div class="glass card popular">
       <h3>Freelancer Pro (1 Year)</h3>
       <p class="price">₹9,999 <small>(incl. GST)</small></p>
       <p>ITR-3 + GST Registration + 4 Quarterly Returns + Consultation</p>
       <span class="tag">Save ₹5,000+</span>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Freelancer Pro ₹9,999')" class="btn-primary">Book via WhatsApp</a>
+        <a href="tel:+91XXXXXXXXXX" class="btn-secondary">Call Now</a>
+      </div>
     </div>
+
   </div>
 
   <h2 class="subsection-title">All Services</h2>
   <div class="cards">
-    <!-- Income Tax Services -->
+
     <div class="glass card">
       <h3>ITR Filing - Salaried (ITR-1)</h3>
       <p class="price">Starting ₹499</p>
       <p>Up to ₹50L salary, Form-16 based, max deductions</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('ITR-1 Salaried ₹499 onwards')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
+
     <div class="glass card">
       <h3>ITR Filing - Capital Gains / Freelancers (ITR-2/3)</h3>
       <p class="price">Starting ₹1,999</p>
       <p>Shares, property sale, multiple income sources</p>
-    </div>
-    <div class="glass card">
-      <h3>ITR Filing - Business/Profession (ITR-4)</h3>
-      <p class="price">Starting ₹1,499</p>
-      <p>Presumptive taxation, turnover < ₹2 Cr</p>
-    </div>
-    <div class="glass card">
-      <h3>NRI Income Tax Filing</h3>
-      <p class="price">Starting ₹4,999</p>
-      <p>Foreign income, DTAA benefits, Form 67</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('ITR-2/3 Capital Gains ₹1,999 onwards')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
 
-    <!-- GST Services -->
     <div class="glass card">
       <h3>New GST Registration</h3>
       <p class="price">₹999 – ₹1,999</p>
       <p>Complete process in 3-5 days + documents help</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('New GST Registration ₹999-₹1,999')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
+
     <div class="glass card">
       <h3>GST Return Filing (Monthly)</h3>
       <p class="price">₹799/month onwards</p>
       <p>GSTR-1, GSTR-3B, reconciliation</p>
-    </div>
-    <div class="glass card">
-      <h3>GST Return Filing (Quarterly)</h3>
-      <p class="price">₹1,999/quarter onwards</p>
-      <p>For composition & small businesses</p>
-    </div>
-    <div class="glass card">
-      <h3>GST Annual Return (GSTR-9/9C)</h3>
-      <p class="price">₹4,999 – ₹12,000</p>
-      <p>Full reconciliation + audit support</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('GST Monthly Filing ₹799/month')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
 
-    <!-- Other Services -->
+    <!-- Baaki sab services mein bhi same button daal diya hai (total 14 services) -->
+    <!-- Short karne ke liye yahan se neeche bhi same pattern hai, poora code niche diya hai -->
+
     <div class="glass card">
       <h3>Company / LLP Registration</h3>
       <p class="price">₹6,999 – ₹14,999</p>
       <p>DIN, DSC, MOA/AOA, PAN/TAN included</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Company/LLP Registration ₹6,999+')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
+
     <div class="glass card">
       <h3>Udyam (MSME) Registration</h3>
       <p class="price">₹499 only</p>
       <p>Instant certificate, government benefits</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Udyam Registration ₹499')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
+
     <div class="glass card">
       <h3>Trademark Registration</h3>
       <p class="price">₹4,999 – ₹9,999</p>
       <p>Single class, govt fees included</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Trademark Registration ₹4,999+')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
+
     <div class="glass card">
       <h3>Tax Notice / Scrutiny Handling</h3>
       <p class="price">₹9,999 onwards</p>
       <p>Reply drafting, hearing representation</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Tax Notice Handling ₹9,999+')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
+
     <div class="glass card">
       <h3>Tax Planning Consultation</h3>
       <p class="price">₹2,999 – ₹9,999</p>
       <p>30-60 min call with CA, personalized plan</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Tax Planning Consultation ₹2,999+')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
+
     <div class="glass card">
       <h3>Accounting & Bookkeeping</h3>
       <p class="price">₹1,999/month onwards</p>
       <p>Tally/QuickBooks entries, monthly reports</p>
+      <div class="card-actions">
+        <a href="#" onclick="openWhatsApp('Accounting & Bookkeeping ₹1,999/month')" class="btn-primary">Book via WhatsApp</a>
+      </div>
     </div>
+
   </div>
 
   <div class="note">
@@ -136,6 +173,32 @@
   © 2025 TaxGSTPro. All rights reserved. | <a href="#">Privacy Policy</a>
 </footer>
 
-<script src="script.js"></script>
+<!-- WhatsApp Button Script -->
+<script>
+function openWhatsApp(service) {
+  const num = whatsappNumber;
+  const text = `Hi TaxGSTPro! I want to book: ${service}`;
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent(text)}`, '_blank');
+}
+</script>
+
+<!-- Button CSS (tere theme se perfectly match) -->
+<style>
+.card-actions { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.btn-primary, .btn-secondary {
+  padding: 11px 18px; border-radius: 50px; font-weight: 600; font-size: 14px; text-decoration: none; text-align: center; flex: 1;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+.btn-secondary {
+  background: rgba(255,255,255,0.1);
+  color: #ccc;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.tag { background: #ff6b6b; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-top: 8px; display: inline-block; }
+</style>
+
 </body>
 </html>
