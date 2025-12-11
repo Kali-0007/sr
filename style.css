@@ -80,6 +80,7 @@ nav a:hover::after {
   max-width: 1300px;
   margin: 0 auto;
   padding: 140px 5% 80px;
+  text-align: center; /* Ensures hero content centering */
 }
 
 /* ==================== PAGE TITLE ==================== */
@@ -91,8 +92,17 @@ nav a:hover::after {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 4rem;
+  margin-bottom: 1.5rem; /* Adjusted for better spacing with subtitle */
   letter-spacing: -0.02em;
+}
+
+/* ==================== SUBTITLE ==================== */
+.subtitle {
+  font-size: 1.25rem;
+  color: #94a3b8;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
 }
 
 /* ==================== SERVICE CARDS ==================== */
@@ -100,6 +110,7 @@ nav a:hover::after {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2.5rem;
+  text-align: left; /* Reset alignment for cards */
 }
 
 .card {
@@ -206,6 +217,7 @@ nav a:hover::after {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  margin: 0 auto; /* Centers the button */
 }
 
 .neon-btn::before {
@@ -271,7 +283,12 @@ footer {
 
   .page-title {
     font-size: 2.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
   }
 
   .cards {
@@ -305,5 +322,9 @@ footer {
   nav a {
     margin: 0 0.5rem;
     font-size: 0.9rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
   }
 }
