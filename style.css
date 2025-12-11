@@ -4,19 +4,16 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #f0f0f0;
 }
-
 a {
   text-decoration: none;
   color: inherit;
 }
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -33,7 +30,6 @@ a {
   margin: 20px 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .glass:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
@@ -51,7 +47,6 @@ a {
   transition: all 0.3s ease;
   box-shadow: 0 5px 20px rgba(0,212,255,0.4);
 }
-
 .btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(0,212,255,0.6);
@@ -69,14 +64,12 @@ header {
   top: 0;
   z-index: 100;
 }
-
 header .logo {
   font-size: 1.8rem;
   font-weight: 700;
   color: #00d4ff;
   text-shadow: 0 2px 5px rgba(0,212,255,0.6);
 }
-
 nav a {
   margin-left: 25px;
   font-weight: 600;
@@ -84,7 +77,6 @@ nav a {
   border-radius: 6px;
   transition: 0.3s;
 }
-
 nav a:hover {
   background: rgba(0,212,255,0.2);
   color: #00d4ff;
@@ -95,7 +87,6 @@ nav a:hover {
   max-width: 400px;
   margin: 80px auto;
 }
-
 input[type="text"], input[type="email"], input[type="password"], textarea {
   width: 100%;
   padding: 12px 15px;
@@ -106,11 +97,9 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
   color: #fff;
   backdrop-filter: blur(10px);
 }
-
 input::placeholder, textarea::placeholder {
   color: #ccc;
 }
-
 form .btn {
   width: 100%;
   text-align: center;
@@ -119,40 +108,137 @@ form .btn {
 /* ---------- Cards / Sections ---------- */
 .section-title {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   color: #00d4ff;
+  font-size: 2.5rem;
 }
 
-.cards {
+/* ---------- Accordion / Expandable Services Cards ---------- */
+.accordion-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.accordion-item {
+  overflow: hidden;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.25);
+  transition: all 0.4s ease;
+}
+.accordion-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0.4);
+}
+.accordion-toggle {
+  display: none;
+}
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 35px 30px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s;
+}
+.accordion-header:hover {
+  background: rgba(0, 212, 255, 0.2);
+}
+.accordion-header img {
+  width: 70px;
+  margin-right: 20px;
+  filter: drop-shadow(0 0 10px rgba(0,212,255,0.5));
+}
+.accordion-header h3 {
+  color: #00d4ff;
+  margin: 0;
+  font-size: 1.4rem;
+  flex-grow: 1;
+  text-align: left;
+}
+.arrow {
+  font-size: 1.8rem;
+  color: #00d4ff;
+  transition: transform 0.4s ease;
+}
+.accordion-toggle:checked + .accordion-header .arrow {
+  transform: rotate(180deg);
+}
+.accordion-content {
+  max-height: 0;
+  padding: 0 30px;
+  overflow: hidden;
+  transition: max-height 0.6s ease, padding 0.6s ease;
+  background: rgba(0, 0, 0, 0.3);
+}
+.accordion-toggle:checked ~ .accordion-content {
+  max-height: 900px;
+  padding: 35px 30px;
+}
+.accordion-content p {
+  margin-bottom: 20px;
+}
+.accordion-content ul {
+  text-align: left;
+  padding-left: 25px;
+  margin: 20px 0;
+}
+.accordion-content ul li {
+  margin: 12px 0;
+  color: #e0e0e0;
+}
+.btn-small {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #00d4ff, #0066ff);
+  border-radius: 50px;
+  color: #fff;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.btn-small:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,212,255,0.6);
 }
 
 /* ---------- Footer ---------- */
 footer {
   background: rgba(20, 20, 40, 0.85);
   text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+  padding: 25px;
+  margin-top: 60px;
   color: #888;
 }
-
 footer a {
   color: #00d4ff;
 }
-
 footer a:hover {
   text-decoration: underline;
 }
 
 /* ---------- Responsive ---------- */
-@media(max-width:768px){
+@media (max-width: 768px) {
   header {
     flex-direction: column;
-    text-align: center;
+    padding: 15px 20px;
+  ;
   }
   nav a {
-    margin: 10px 15px;
+    margin: 8px 12px;
+    font-size: 0.95rem;
+  }
+  .section-title {
+    font-size: 2rem;
+  }
+  .accordion-header {
+    padding: 25px 20px;
+  }
+  .accordion-header img {
+    width: 60px;
   }
 }
