@@ -6,8 +6,11 @@
   <title>Services - TaxGSTPro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <!-- Apna WhatsApp number yahan daal do (country code ke saath, no +) -->
-  <script>const whatsappNumber = "91XXXXXXXXXX";</script>
+
+  <!-- ← Yahan apna WhatsApp number daal do (91 se shuru) -->
+  <script>const MY_WA = "919876543210";</script>
+  <!-- ← Yahan apna UPI ID daal do -->
+  <script>const MY_UPI = "taxgstpro@oksbi";</script>
 </head>
 <body>
 
@@ -25,19 +28,18 @@
 
 <section class="container">
   <h1 class="section-title">Our Services & Pricing</h1>
-  
+
   <!-- Popular Packages -->
   <h2 class="subsection-title">Most Popular Packages</h2>
   <div class="cards">
-
     <div class="glass card popular">
       <h3>Salaried Super Saver</h3>
       <p class="price">₹999 <small>(incl. GST)</small></p>
       <p>ITR-1 Filing + Form-16 + Tax Saving Tips + E-filing within 24 hrs</p>
       <span class="tag">Bestseller</span>
       <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Salaried Super Saver ₹999')" class="btn-primary">Book via WhatsApp</a>
-        <a href="tel:+91XXXXXXXXXX" class="btn-secondary">Call Now</a>
+        <button onclick="openBookingForm(999,'Salaried Super Saver')" class="btn-upi">Pay & Book ₹999</button>
+        <button onclick="openWhatsAppOnly('Salaried Super Saver ₹999')" class="btn-primary">WhatsApp Only</button>
       </div>
     </div>
 
@@ -47,8 +49,7 @@
       <p>New GST Registration + Udyam + 3 Months GST Filing</p>
       <span class="tag">Perfect for Startups</span>
       <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Business Starter Pack ₹4,999')" class="btn-primary">Book via WhatsApp</a>
-        <a href="tel:+91XXXXXXXXXX" class="btn-secondary">Call Now</a>
+        <button onclick="openBookingForm(4999,'Business Starter Pack')" class="btn-upi">Pay & Book ₹4,999</button>
       </div>
     </div>
 
@@ -58,146 +59,109 @@
       <p>ITR-3 + GST Registration + 4 Quarterly Returns + Consultation</p>
       <span class="tag">Save ₹5,000+</span>
       <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Freelancer Pro ₹9,999')" class="btn-primary">Book via WhatsApp</a>
-        <a href="tel:+91XXXXXXXXXX" class="btn-secondary">Call Now</a>
+        <button onclick="openBookingForm(9999,'Freelancer Pro')" class="btn-upi">Pay & Book ₹9,999</button>
       </div>
     </div>
-
   </div>
 
+  <!-- All Services - SABHI 14 CARDS MEIN FORM BUTTON DAAL DIYA HAI -->
   <h2 class="subsection-title">All Services</h2>
   <div class="cards">
 
-    <div class="glass card">
-      <h3>ITR Filing - Salaried (ITR-1)</h3>
-      <p class="price">Starting ₹499</p>
-      <p>Up to ₹50L salary, Form-16 based, max deductions</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('ITR-1 Salaried ₹499 onwards')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>ITR Filing - Salaried (ITR-1)</h3><p class="price">Starting ₹499</p><p>Up to ₹50L salary, Form-16 based</p><div class="card-actions"><button onclick="openBookingForm(499,'ITR-1 Salaried')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>ITR Filing - Capital Gains / Freelancers (ITR-2/3)</h3>
-      <p class="price">Starting ₹1,999</p>
-      <p>Shares, property sale, multiple income sources</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('ITR-2/3 Capital Gains ₹1,999 onwards')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>ITR Filing - Capital Gains / Freelancers (ITR-2/3)</h3><p class="price">Starting ₹1,999</p><p>Shares, property sale, multiple sources</p><div class="card-actions"><button onclick="openBookingForm(1999,'ITR-2/3 Capital Gains')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>New GST Registration</h3>
-      <p class="price">₹999 – ₹1,999</p>
-      <p>Complete process in 3-5 days + documents help</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('New GST Registration ₹999-₹1,999')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>ITR Filing - Business/Profession (ITR-4)</h3><p class="price">Starting ₹1,499</p><p>Presumptive taxation</p><div class="card-actions"><button onclick="openBookingForm(1499,'ITR-4 Presumptive')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>GST Return Filing (Monthly)</h3>
-      <p class="price">₹799/month onwards</p>
-      <p>GSTR-1, GSTR-3B, reconciliation</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('GST Monthly Filing ₹799/month')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>NRI Income Tax Filing</h3><p class="price">Starting ₹4,999</p><p>Foreign income, DTAA benefits</p><div class="card-actions"><button onclick="openBookingForm(4999,'NRI ITR Filing')" class="btn-upi">Pay & Book</button></div></div>
 
-    <!-- Baaki sab services mein bhi same button daal diya hai (total 14 services) -->
-    <!-- Short karne ke liye yahan se neeche bhi same pattern hai, poora code niche diya hai -->
+    <div class="glass card"><h3>New GST Registration</h3><p class="price">₹999 – ₹1,999</p><p>Complete process in 3-5 days</p><div class="card-actions"><button onclick="openBookingForm(999,'New GST Registration')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>Company / LLP Registration</h3>
-      <p class="price">₹6,999 – ₹14,999</p>
-      <p>DIN, DSC, MOA/AOA, PAN/TAN included</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Company/LLP Registration ₹6,999+')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>GST Return Filing (Monthly)</h3><p class="price">₹799/month onwards</p><p>GSTR-1, GSTR-3B, reconciliation</p><div class="card-actions"><button onclick="openBookingForm(799,'GST Monthly Filing')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>Udyam (MSME) Registration</h3>
-      <p class="price">₹499 only</p>
-      <p>Instant certificate, government benefits</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Udyam Registration ₹499')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>GST Return Filing (Quarterly)</h3><p class="price">₹1,999/quarter onwards</p><p>For small businesses</p><div class="card-actions"><button onclick="openBookingForm(1999,'GST Quarterly Filing')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>Trademark Registration</h3>
-      <p class="price">₹4,999 – ₹9,999</p>
-      <p>Single class, govt fees included</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Trademark Registration ₹4,999+')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>GST Annual Return (GSTR-9/9C)</h3><p class="price">₹4,999 – ₹12,000</p><p>Full reconciliation + audit</p><div class="card-actions"><button onclick="openBookingForm(4999,'GSTR-9/9C Annual')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>Tax Notice / Scrutiny Handling</h3>
-      <p class="price">₹9,999 onwards</p>
-      <p>Reply drafting, hearing representation</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Tax Notice Handling ₹9,999+')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>Company / LLP Registration</h3><p class="price">₹6,999 – ₹14,999</p><p>DIN, DSC, MOA/AOA, PAN/TAN</p><div class="card-actions"><button onclick="openBookingForm(6999,'Company/LLP Registration')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>Tax Planning Consultation</h3>
-      <p class="price">₹2,999 – ₹9,999</p>
-      <p>30-60 min call with CA, personalized plan</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Tax Planning Consultation ₹2,999+')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>Udyam (MSME) Registration</h3><p class="price">₹499 only</p><p>Instant certificate</p><div class="card-actions"><button onclick="openBookingForm(499,'Udyam Registration')" class="btn-upi">Pay & Book</button></div></div>
 
-    <div class="glass card">
-      <h3>Accounting & Bookkeeping</h3>
-      <p class="price">₹1,999/month onwards</p>
-      <p>Tally/QuickBooks entries, monthly reports</p>
-      <div class="card-actions">
-        <a href="#" onclick="openWhatsApp('Accounting & Bookkeeping ₹1,999/month')" class="btn-primary">Book via WhatsApp</a>
-      </div>
-    </div>
+    <div class="glass card"><h3>Trademark Registration</h3><p class="price">₹4,999 – ₹9,999</p><p>Single class</p><div class="card-actions"><button onclick="openBookingForm(4999,'Trademark Registration')" class="btn-upi">Pay & Book</button></div></div>
+
+    <div class="glass card"><h3>Tax Notice / Scrutiny Handling</h3><p class="price">₹9,999 onwards</p><p>Reply drafting, representation</p><div class="card-actions"><button onclick="openBookingForm(9999,'Tax Notice Handling')" class="btn-upi">Pay & Book</button></div></div>
+
+    <div class="glass card"><h3>Tax Planning Consultation</h3><p class="price">₹2,999 – ₹9,999</p><p>30-60 min call with CA</p><div class="card-actions"><button onclick="openBookingForm(2999,'Tax Planning Consultation')" class="btn-upi">Pay & Book</button></div></div>
+
+    <div class="glass card"><h3>Accounting & Bookkeeping</h3><p class="price">₹1,999/month onwards</p><p>Tally/QuickBooks entries</p><div class="card-actions"><button onclick="openBookingForm(1999,'Accounting & Bookkeeping')" class="btn-upi">Pay & Book</button></div></div>
 
   </div>
 
   <div class="note">
-    <p>✨ All prices include GST • Free consultation call • 100% compliance guarantee</p>
-    <p>Need custom package? <a href="contact.html">Talk to our expert →</a></p>
+    <p>✨ All prices include GST • Instant UPI Payment • Details auto-sent to us</p>
   </div>
 </section>
 
-<footer>
-  © 2025 TaxGSTPro. All rights reserved. | <a href="#">Privacy Policy</a>
-</footer>
+<!-- Booking Form Modal (same as before) -->
+<div id="bookingModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;padding:20px;overflow-y:auto;">
+  <div style="background:#111;border-radius:20px;max-width:420px;margin:20px auto;padding:25px;color:white;">
+    <h2 style="background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+      Complete Your Booking – ₹<span id="modalAmt"></span>
+    </h2>
+    <p style="font-size:18px;margin:10px 0;color:#00c853;" id="modalService"></p>
 
-<!-- WhatsApp Button Script -->
+    <input type="text" id="name" placeholder="Full Name *" required style="width:100%;padding:14px;margin:10px 0;border-radius:12px;border:none;font-size:16px;">
+    <input type="tel" id="phone" placeholder="Mobile Number *" required style="width:100%;padding:14px;margin:10px 0;border-radius:12px;border:none;font-size:16px;">
+    <input type="email" id="email" placeholder="Email (optional)" style="width:100%;padding:14px;margin:10px 0;border-radius:12px;border:none;font-size:16px;">
+    <textarea id="message" placeholder="PAN / Any message (optional)" rows="3" style="width:100%;padding:14px;margin:10px 0;border-radius:12px;border:none;font-size:16px;"></textarea>
+
+    <div style="display:flex;gap:12px;margin-top:20px;">
+      <button onclick="submitBooking()" style="flex:1;padding:16px;background:#00c853;color:white;border:none;border-radius:50px;font-weight:600;font-size:16px;">Pay via UPI & Confirm</button>
+      <button onclick="document.getElementById('bookingModal').style.display='none'" style="padding:16px;background:#333;color:white;border:none;border-radius:50px;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 TaxGSTPro. All rights reserved.</footer>
+
 <script>
-function openWhatsApp(service) {
-  const num = whatsappNumber;
-  const text = `Hi TaxGSTPro! I want to book: ${service}`;
-  window.open(`https://wa.me/${num}?text=${encodeURIComponent(text)}`, '_blank');
+let amt = 0, service = "";
+
+function openBookingForm(amount, serviceName) {
+  amt = amount; service = serviceName;
+  document.getElementById('modalAmt').textContent = amount;
+  document.getElementById('modalService').textContent = serviceName;
+  document.getElementById('bookingModal').style.display = 'block';
+}
+
+function openWhatsAppOnly(text) {
+  window.open(`https://wa.me/${MY_WA}?text=Hi! I want: ${encodeURIComponent(text)}`, '_blank');
+}
+
+function submitBooking() {
+  const name = document.getElementById('name').value.trim() || "Not given";
+  const phone = document.getElementById('phone').value.trim() || "Not given";
+  const email = document.getElementById('email').value.trim();
+  const msg = document.getElementById('message').value.trim();
+
+  const waMsg = `*NEW BOOKING*%0A%0AService: ${service}%0AAmount: ₹${amt}%0AName: ${name}%0APhone: ${phone}%0A${email?`Email: ${email}%0A`:''}${msg?`Message: ${msg}%0A`:''}Time: ${new Date().toLocaleString('en-IN')}`;
+  window.open(`https://wa.me/${MY_WA}?text=${waMsg}`, '_blank');
+
+  const upiLink = `upi://pay?pa=${MY_UPI}&pn=TaxGSTPro&am=${amt00}&cu=INR&tn=${encodeURIComponent(service + ' by ' + name)}`;
+  window.open(upiLink, '_blank');
+
+  document.getElementById('bookingModal').style.display = 'none';
+  alert("Thank you! Payment link opened & your details sent successfully.");
 }
 </script>
 
-<!-- Button CSS (tere theme se perfectly match) -->
 <style>
-.card-actions { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.btn-primary, .btn-secondary {
-  padding: 11px 18px; border-radius: 50px; font-weight: 600; font-size: 14px; text-decoration: none; text-align: center; flex: 1;
-}
-.btn-primary {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-}
-.btn-secondary {
-  background: rgba(255,255,255,0.1);
-  color: #ccc;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-.tag { background: #ff6b6b; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-top: 8px; display: inline-block; }
+.card-actions { margin-top:15px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+.btn-upi, .btn-primary { padding:12px 20px; border-radius:50px; border:none; font-weight:600; font-size:14px; cursor:pointer; }
+.btn-upi { background:linear-gradient(135deg,#00c853,#64dd17); color:white; }
+.btn-primary { background:linear-gradient(135deg,#667eea,#764ba2); color:white; }
+.tag { background:#ff6b6b; color:white; padding:4px 12px; border-radius:20px; font-size:12px; display:inline-block; margin-top:8px; }
 </style>
 
 </body>
