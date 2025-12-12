@@ -177,3 +177,5 @@ footer {
   color: #64748b;
   margin-top: 6rem;
 }
+.contact-form input, .contact-form textarea { width: 100% !important; display: block; margin-bottom: 1.5rem; }
+.contact-form button { width: 100% !important; margin-top: 1rem; }
