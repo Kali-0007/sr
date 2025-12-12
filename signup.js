@@ -25,7 +25,7 @@ function generateOtp() {
 }
 
 // ================================================
-// CORRECTED OTP SENDING BLOCK (CORS SAFE)
+// OTP SENDING BLOCK (Google Apps Script URL updated)
 // ================================================
 document.getElementById('sendOtpBtn').addEventListener('click', () => {
     const email = document.getElementById('email').value.trim();
@@ -46,17 +46,11 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
         method: "POST",
         body: formData
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === "success") {
-            alert(`OTP sent to ${email}`);
-        } else {
-            alert("Error sending OTP");
-            console.error(data);
-        }
+    .then(() => {
+        alert(`OTP sent to ${email}`);
     })
     .catch(err => {
-        alert("Failed to send OTP");
+        alert("Failed to send OTP. Check console.");
         console.error(err);
     });
 });
