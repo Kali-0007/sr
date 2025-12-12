@@ -14,7 +14,7 @@ body {
   color: #e2e8f0;
   line-height: 1.7;
   min-height: 80vh;
-  padding-top: 80px; /* Desktop ke liye */
+  padding-top: 50px; /* Desktop ke liye */
 }
 
 /* ==================== HEADER ==================== */
