@@ -264,3 +264,18 @@ nav a[href="signup.html"] {
     padding-top: 50px !important;
   }
 }
+/* ==================== CENTER HEADINGS (Services Page) ==================== */
+.section-title,
+.subsection-title {
+    display: block !important;
+    width: 100% !important;
+    margin: 40px auto 20px auto !important;
+    text-align: center !important;
+}
+
+/* Agar parent container flex ho to override */
+.container > .section-title,
+.container > .subsection-title {
+    justify-self: center; /* grid ke liye */
+    align-self: center;   /* flex ke liye */
+}
