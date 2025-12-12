@@ -95,41 +95,93 @@ nav a[href="signup.html"] {
   padding-top: 50px;
 }
 
-/* ==================== CONTACT FORM ==================== */
+/* ===========================
+   CONTACT FORM – PREMIUM UI
+=========================== */
+
+.contact-form {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 35px;
+  background: rgba(30, 41, 59, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 22px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 22px;
+  border-radius: 16px;
+  border: 1px solid rgba(148,163,184,0.35);
+  background: rgba(15, 23, 42, 0.9);
   color: #e2e8f0;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  transition: 0.25s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.5);
+  outline: none;
 }
 
 .contact-form textarea {
-  height: 130px;
-  resize: vertical;
+  height: 150px;
+  resize: none;
 }
 
-.contact-form button {
+.contact-form button.neon-btn {
   width: 100%;
-  padding: 1rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  border: none;
-  border-radius: 50px;
+  padding: 16px;
+  font-size: 1.2rem;
   font-weight: 600;
-  font-size: 1.1rem;
+  border-radius: 50px;
+  border: none;
   cursor: pointer;
-  transition: 0.3s;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+  color: white;
+  transition: 0.3s ease;
 }
 
-.contact-form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+.contact-form button.neon-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.4);
 }
+
+.success-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: #16a34a;
+  color: white;
+  border-radius: 12px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .contact-form {
+    padding: 25px 18px;
+    border-radius: 18px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 1rem;
+    padding: 14px 16px;
+  }
+
+  .contact-form button.neon-btn {
+    font-size: 1.05rem;
+    padding: 14px;
+    border-radius: 45px;
+  }
+}
+
 
 /* ==================== CARDS & BUTTONS ==================== */
 .cards {
