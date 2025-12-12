@@ -452,4 +452,34 @@ footer {
     opacity: 0.90;
     transform: translateY(-2px);
 }
+/* Hero text cut fix */
+.hero {
+  padding-top: 140px;
+}
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 120px;
+  }
+  .hero h1 {
+    font-size: 36px;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Testimonial hover */
+.testimonial:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+}
+
+/* Button spacing in cards */
+.card-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 }
