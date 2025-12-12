@@ -1,4 +1,4 @@
-// signup.js - Full working version
+// signup.js - Fully updated and CORS-safe version
 
 const otpLength = 6;
 let generatedOtp = null;
@@ -21,12 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Generate OTP
 function generateOtp() {
-    return Math.floor(100000 + Math.random() * 900000);
+    return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-// ================================================
-// OTP SENDING BLOCK (Google Apps Script URL updated)
-// ================================================
+// Send OTP via Apps Script
 document.getElementById('sendOtpBtn').addEventListener('click', () => {
     const email = document.getElementById('email').value.trim();
     if (!email) { 
@@ -34,7 +32,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
         return; 
     }
 
-    generatedOtp = generateOtp().toString();
+    generatedOtp = generateOtp();
 
     const url = "https://script.google.com/macros/s/AKfycbx3q9qZyIQ4OgGyZ8sqTz8wnIV0eMYqi3lki3TXQ5BEbMF6MCqQzJv_5tioKdC31RxB/exec";
 
@@ -47,14 +45,13 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
         body: formData
     })
     .then(() => {
-        alert(`OTP sent to ${email}`);
+        alert(`OTP request sent. Please check your email.`);
     })
     .catch(err => {
         alert("Failed to send OTP. Check console.");
         console.error(err);
     });
 });
-// ================================================
 
 // Form submit
 document.getElementById('signupForm').addEventListener('submit', (e) => {
@@ -66,7 +63,7 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
         alert("Please generate OTP first.");
         return;
     }
-    if (parseInt(enteredOtp) !== parseInt(generatedOtp)) {
+    if (enteredOtp !== generatedOtp) {
         alert("Incorrect OTP.");
         return;
     }
