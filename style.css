@@ -264,10 +264,11 @@ nav a[href="signup.html"] {
     padding-top: 0px !important;
   }
 }
-/* ==================== CENTER HEADINGS (Services Page) ==================== */
+/* ==================== CENTER HEADINGS (Services/Contact Page) ==================== */
 .section-title,
-.subsection-title {
-    display: block !important;
+.subsection-title,
+.page-title { /* <-- CONTACT US HEADING FIX: Ab page-title bhi center hoga */
+   display: block !important;
     width: 100% !important;
     margin: 40px auto 20px auto !important;
     text-align: center !important;
