@@ -168,4 +168,7 @@ nav a[href="signup.html"] {
     justify-content: center;
   }
   .hero-container { padding-top: 120px !important; }
+@media (max-width: 768px) {
+  body { padding-top: 160px !important; }
+}
 }
