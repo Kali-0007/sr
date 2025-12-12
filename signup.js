@@ -37,7 +37,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
     // ===========================================
     // FIXED CORS-SAFE GOOGLE SCRIPT REQUEST
     // ===========================================
-    const url = 'https://script.google.com/macros/s/AKfycbxysC-WbC_HsMz0IiMXALYddXjisth1PLWGVt-UhKSmJXsX5UzlEcCt43FLDyJLIrzY/exec';
+    const url = 'https://script.google.com/macros/s/AKfycbwcYk0VIxcaDChrJNu_ESalClZ8f4UPXxc8M4cgGyWioGN-gBbeNyctp7rRmD3Q85Bs/exec';
 
     const params = {
         method: 'POST',
