@@ -24,7 +24,9 @@ function generateOtp() {
     return Math.floor(100000 + Math.random() * 900000);
 }
 
-// Send OTP via Apps Script
+// ================================================
+// CORRECTED OTP SENDING BLOCK (CORS SAFE)
+// ================================================
 document.getElementById('sendOtpBtn').addEventListener('click', () => {
     const email = document.getElementById('email').value.trim();
     if (!email) { 
@@ -34,28 +36,31 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
 
     generatedOtp = generateOtp().toString();
 
-    // ===========================================
-    // FIXED CORS-SAFE GOOGLE SCRIPT REQUEST
-    // ===========================================
-    const url = 'https://script.google.com/macros/s/AKfycbwcYk0VIxcaDChrJNu_ESalClZ8f4UPXxc8M4cgGyWioGN-gBbeNyctp7rRmD3Q85Bs/exec';
+    const url = "https://script.google.com/macros/s/AKfycbwcYk0VIxcaDChrJNu_ESalClZ8f4UPXxc8M4cgGyWioGN-gBbeNyctp7rRmD3Q85Bs/exec";
 
-    const params = {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `email=${encodeURIComponent(email)}&otp=${encodeURIComponent(generatedOtp)}`
-    };
+    const formData = new URLSearchParams();
+    formData.append("email", email);
+    formData.append("otp", generatedOtp);
 
-    fetch(url, params)
-        .then(() => {
+    fetch(url, {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
             alert(`OTP sent to ${email}`);
-        })
-        .catch(err => {
-            alert("Failed to send OTP. Check console.");
-            console.error(err);
-        });
-    // ===========================================
+        } else {
+            alert("Error sending OTP");
+            console.error(data);
+        }
+    })
+    .catch(err => {
+        alert("Failed to send OTP");
+        console.error(err);
+    });
 });
+// ================================================
 
 // Form submit
 document.getElementById('signupForm').addEventListener('submit', (e) => {
