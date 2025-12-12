@@ -261,7 +261,7 @@ nav a[href="signup.html"] {
 
   
   .hero-container, .hero-box, .container {
-    padding-top: 50px !important;
+    padding-top: 0px !important;
   }
 }
 /* ==================== CENTER HEADINGS (Services Page) ==================== */
