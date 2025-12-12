@@ -291,7 +291,8 @@ tabs.forEach(tab => {
 
 // Load Profile
 async function loadProfile() {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('authToken')?.trim();
+
   const formData = new URLSearchParams({ action: "get-profile", token: token });
 
   try {
