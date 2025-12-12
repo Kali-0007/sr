@@ -1,99 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - TaxGSTPro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .dashboard-container {
-      max-width: 600px;
-      margin: 100px auto 50px;
-      padding: 40px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    }
-    .welcome-text {
-      font-size: 32px;
-      font-weight: 700;
-      text-align: center;
-      background: linear-gradient(90deg, #00d4ff, #00ff9d);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 30px;
-    }
-    .info-grid {
-      display: grid;
-      grid-template-columns: 150px 1fr;
-      gap: 16px 20px;
-      margin: 25px 0;
-      font-size: 17px;
-    }
-    .info-label {
-      color: #a0f7ff;
-      font-weight: 600;
-    }
-    .info-value {
-      color: white;
-      word-break: break-all;
-    }
-    .logout-btn {
-      display: block;
-      width: 220px;
-      margin: 40px auto 0;
-      padding: 16px;
-      background: linear-gradient(45deg, #ff4757, #ff6b7a);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
-      transition: all 0.3s;
-    }
-    .logout-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(255, 71, 87, 0.6);
-    }
-    .loading {
-      text-align: center;
-      color: #00ff9d;
-      font-size: 20px;
-      margin: 40px 0;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - TaxGSTPro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0d0d0d;
+    color: #fff;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #111;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+  }
+  header .logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #00ff9d;
+  }
+  header nav a {
+    margin-left: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+  header nav a:hover {
+    color: #00ff9d;
+  }
+  .container {
+    display: flex;
+    margin-top: 70px;
+  }
+  .sidebar {
+    width: 220px;
+    background: #111;
+    min-height: 100vh;
+    padding-top: 20px;
+    position: fixed;
+  }
+  .sidebar a {
+    display: block;
+    padding: 15px 25px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+  .sidebar a:hover, .sidebar a.active {
+    background: #00ff9d20;
+    color: #00ff9d;
+  }
+  .main-content {
+    margin-left: 240px;
+    padding: 30px;
+    flex: 1;
+  }
+  .welcome-text {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #00d4ff, #00ff9d);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .card {
+    padding: 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  }
+  .card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #a0f7ff;
+    margin-bottom: 10px;
+  }
+  .card p {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .quick-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .quick-actions button {
+    flex: 1;
+    min-width: 150px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #00d4ff, #00ff9d);
+    color: #000;
+    transition: 0.3s;
+  }
+  .quick-actions button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,255,157,0.4);
+  }
+  .profile-section {
+    display: none;
+    max-width: 700px;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 16px 20px;
+    margin-bottom: 30px;
+  }
+  .info-label {
+    color: #a0f7ff;
+    font-weight: 600;
+  }
+  .info-value {
+    color: white;
+  }
+  .edit-btn, .logout-btn {
+    padding: 12px 20px;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .edit-btn { background: #00d4ff; color: #000; }
+  .edit-btn:hover { box-shadow: 0 6px 20px #00ff9d50; transform: translateY(-3px); }
+  .logout-btn { background: #ff4757; color: #fff; }
+  .logout-btn:hover { box-shadow: 0 6px 20px #ff6b7a50; transform: translateY(-3px); }
+  footer { text-align: center; padding: 15px; background: #111; margin-top: 40px; color: #777; }
+  /* Modal */
+  .modal {
+    display: none; 
+    position: fixed;
+    z-index: 200;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    background-color: #1a1a1a;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    color: #fff;
+  }
+  .modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #0d0d0d;
+    color: #fff;
+  }
+  .modal-content button { margin-top: 10px; }
+</style>
 </head>
 <body>
 
 <header>
-  <div class="logo>TaxGSTPro</div>
+  <div class="logo">TaxGSTPro</div>
   <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="services.html">Services</a>
-    <a href="contact.html">Contact Us</a>
-    <a href="dashboard.html">Dashboard</a>
     <a href="#" id="logoutLink" style="color:#ff6b6b;">Logout</a>
   </nav>
 </header>
 
-<div class="dashboard-container">
-  <h2 class="welcome-text">Welcome back, <span id="usernameDisplay">User</span>!</h2>
-  
-  <div class="loading" id="loading">Loading your profile...</div>
-  
-  <div id="profileSection" style="display:none;">
-    <div class="info-grid" id="profileGrid"></div>
-    
-    <button class="logout-btn" id="logoutBtn">
-      Logout
-    </button>
+<div class="container">
+  <div class="sidebar">
+    <a href="#" class="active" data-tab="home">Dashboard</a>
+    <a href="#" data-tab="profile">My Profile</a>
+    <a href="#" data-tab="returns">My Returns</a>
+    <a href="#" data-tab="upload">Upload Documents</a>
+    <a href="#" data-tab="payments">Payment Status</a>
+    <a href="#" data-tab="calculator">Tax Calculators</a>
+    <a href="#" data-tab="reports">Reports</a>
+    <a href="#" data-tab="support">Support</a>
+  </div>
+
+  <div class="main-content">
+    <!-- Dashboard Home -->
+    <div id="home" class="tab-content">
+      <h2 class="welcome-text">Welcome, <span id="usernameDisplay">User</span>!</h2>
+      
+      <div class="cards">
+        <div class="card"><h3>Pending IT Filings</h3><p id="pendingIT">0</p></div>
+        <div class="card"><h3>Pending GST Filings</h3><p id="pendingGST">0</p></div>
+        <div class="card"><h3>Total Tax Paid</h3><p id="totalTax">₹0</p></div>
+        <div class="card"><h3>Upcoming Due Dates</h3><p id="dueDates">—</p></div>
+      </div>
+
+      <div class="quick-actions">
+        <button id="uploadDocBtn">Upload Document</button>
+        <button id="fileReturnBtn">File Return</button>
+        <button id="payTaxBtn">Pay Tax</button>
+      </div>
+    </div>
+
+    <!-- My Profile -->
+    <div id="profile" class="tab-content" style="display:none;">
+      <h2>My Profile</h2>
+      <div class="profile-section" id="profileSection">
+        <div class="info-grid" id="profileGrid"></div>
+        <button class="edit-btn" id="editProfileBtn">Edit Profile</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+      <div class="loading" id="profileLoading">Loading your profile...</div>
+    </div>
+
+    <!-- Other tabs placeholders -->
+    <div id="returns" class="tab-content" style="display:none;"><h2>My Returns</h2><p>Coming Soon</p></div>
+    <div id="upload" class="tab-content" style="display:none;"><h2>Upload Documents</h2><p>Coming Soon</p></div>
+    <div id="payments" class="tab-content" style="display:none;"><h2>Payment Status</h2><p>Coming Soon</p></div>
+    <div id="calculator" class="tab-content" style="display:none;"><h2>Tax Calculators</h2><p>Coming Soon</p></div>
+    <div id="reports" class="tab-content" style="display:none;"><h2>Reports</h2><p>Coming Soon</p></div>
+    <div id="support" class="tab-content" style="display:none;"><h2>Support</h2><p>Coming Soon</p></div>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <h3>Edit Profile</h3>
+    <input type="text" id="editUsername" placeholder="Username">
+    <input type="text" id="editFirstName" placeholder="First Name">
+    <input type="text" id="editSurname" placeholder="Surname">
+    <input type="email" id="editEmail" placeholder="Email">
+    <input type="text" id="editMobile" placeholder="Mobile">
+    <input type="text" id="editCity" placeholder="City">
+    <input type="text" id="editState" placeholder="State">
+    <input type="text" id="editCountry" placeholder="Country">
+    <input type="text" id="editPincode" placeholder="Pincode">
+    <button id="saveProfileBtn">Save Changes</button>
+    <button id="closeModalBtn">Cancel</button>
   </div>
 </div>
 
@@ -109,6 +276,20 @@ if (!localStorage.getItem('authToken')) {
   window.location.href = "login.html";
 }
 
+// Tab navigation
+const tabs = document.querySelectorAll('.sidebar a');
+const tabContents = document.querySelectorAll('.tab-content');
+tabs.forEach(tab => {
+  tab.addEventListener('click', (e)=>{
+    e.preventDefault();
+    tabs.forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    tabContents.forEach(tc=>tc.style.display='none');
+    document.getElementById(tab.dataset.tab).style.display='block';
+  });
+});
+
+// Load Profile
 async function loadProfile() {
   const token = localStorage.getItem('authToken');
   const formData = new URLSearchParams({ action: "get-profile", token: token });
@@ -117,13 +298,14 @@ async function loadProfile() {
     const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
     const data = await res.json();
 
-    if (data.status === "success") {
+    if(data.status === "success"){
       const p = data.profile;
       document.getElementById('usernameDisplay').textContent = p.username;
-      document.getElementById('loading').style.display = "none";
-      document.getElementById('profileSection').style.display = "block";
+      document.getElementById('profileLoading').style.display = 'none';
+      document.getElementById('profileSection').style.display = 'block';
 
       const grid = document.getElementById('profileGrid');
+      grid.innerHTML = '';
       const fields = [
         ["Username", p.username],
         ["Full Name", p.firstName + " " + p.surname],
@@ -133,32 +315,75 @@ async function loadProfile() {
         ["Address", `${p.city}, ${p.state}, ${p.country} - ${p.pincode}`],
         ["Member Since", new Date(p.createdAt).toLocaleDateString('en-IN')]
       ];
-
-      fields.forEach(([label, value]) => {
-        const l = document.createElement('div'); l.className = "info-label"; l.textContent = label + ":";
-        const v = document.createElement('div'); v.className = "info-value"; v.textContent = value;
-        grid.appendChild(l);
-        grid.appendChild(v);
+      fields.forEach(([label, value])=>{
+        const l = document.createElement('div'); l.className="info-label"; l.textContent=label+":";
+        const v = document.createElement('div'); v.className="info-value"; v.textContent=value;
+        grid.appendChild(l); grid.appendChild(v);
       });
+
+      // Pre-fill modal inputs
+      document.getElementById('editUsername').value = p.username;
+      document.getElementById('editFirstName').value = p.firstName;
+      document.getElementById('editSurname').value = p.surname;
+      document.getElementById('editEmail').value = p.email;
+      document.getElementById('editMobile').value = p.mobile;
+      document.getElementById('editCity').value = p.city;
+      document.getElementById('editState').value = p.state;
+      document.getElementById('editCountry').value = p.country;
+      document.getElementById('editPincode').value = p.pincode;
 
     } else {
       alert("Session expired! Login again.");
       localStorage.clear();
       window.location.href = "login.html";
     }
-  } catch (err) {
+  } catch(err){
     alert("Failed to load profile");
   }
 }
-
 loadProfile();
 
-document.getElementById('logoutBtn').onclick = () => {
-  if (confirm("Logout?")) {
-  localStorage.clear();
-  window.location.href = "index.html";
-};
-document.getElementById('logoutLink').onclick = e => { e.preventDefault(); document.getElementById('logoutBtn').click(); };
+// Logout
+document.getElementById('logoutBtn').onclick = () => { localStorage.clear(); window.location.href="index.html"; }
+document.getElementById('logoutLink').onclick = e=>{ e.preventDefault(); document.getElementById('logoutBtn').click(); }
+
+// Edit Profile Modal
+const modal = document.getElementById('editModal');
+document.getElementById('editProfileBtn').onclick = ()=>{ modal.style.display='block'; }
+document.getElementById('closeModalBtn').onclick = ()=>{ modal.style.display='none'; }
+window.onclick = function(event){ if(event.target == modal){ modal.style.display='none'; } }
+
+// Save Profile Changes
+document.getElementById('saveProfileBtn').onclick = async ()=>{
+  const token = localStorage.getItem('authToken');
+  const formData = new URLSearchParams({
+    action: "update-profile",
+    token: token,
+    username: document.getElementById('editUsername').value,
+    firstName: document.getElementById('editFirstName').value,
+    surname: document.getElementById('editSurname').value,
+    email: document.getElementById('editEmail').value,
+    mobile: document.getElementById('editMobile').value,
+    city: document.getElementById('editCity').value,
+    state: document.getElementById('editState').value,
+    country: document.getElementById('editCountry').value,
+    pincode: document.getElementById('editPincode').value
+  });
+
+  try{
+    const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
+    const data = await res.json();
+    if(data.status==="success"){
+      alert("Profile updated successfully!");
+      modal.style.display='none';
+      loadProfile();
+    } else {
+      alert("Failed to update profile");
+    }
+  } catch(err){
+    alert("Error updating profile");
+  }
+}
 </script>
 
 </body>
