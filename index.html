@@ -7,10 +7,7 @@
   <meta name="description" content="Fastest ITR Filing, GST Registration, Company Registration in India. Starting ₹499 only. 5000+ happy clients.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-
-  <!-- ← APNA WHATSAPP NUMBER YAHAN DAAL DO (91 se shuru) -->
   <script>const MY_WA = "919876543210";</script>
-  <!-- ← APNA UPI ID YAHAN DAAL DO -->
   <script>const MY_UPI = "taxgstpro@oksbi";</script>
 </head>
 <body>
@@ -22,13 +19,15 @@
     <a href="about.html">About Us</a>
     <a href="services.html">Services</a>
     <a href="contact.html">Contact Us</a>
-    <a href="login.html">Login</a>
-    <a href="signup.html">Signup</a>
+    <span class="auth-links">
+      <a href="login.html" class="btn-highlight">Login</a>
+      <a href="signup.html" class="btn-highlight signup">Signup</a>
+    </span>
   </nav>
 </header>
 
-<!-- HERO SECTION -->
-<section class="hero" style="padding-top: 120px ! important;">
+<!-- HERO SECTION (FIXED TEXT CUT) -->
+<section class="hero" style="padding-top: 140px;">
   <div class="container" style="text-align:center;">
     <h1 style="font-size:48px;margin-bottom:20px;">
       Simplify Your Taxes & GST<br>
@@ -132,7 +131,7 @@
   © 2025 TaxGSTPro. All rights reserved. | <a href="#" style="color:#667eea;">Privacy Policy</a>
 </footer>
 
-<!-- Booking Modal + Script (same as services page) -->
+<!-- Booking Modal -->
 <div id="bookingModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;padding:20px;overflow-y:auto;">
   <div style="background:#111;border-radius:20px;max-width:420px;margin:40px auto;padding:30px;color:white;">
     <h2 style="background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
@@ -176,6 +175,7 @@ function submitBooking() {
 </script>
 
 <style>
+/* Existing styles + New additions */
 .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px; }
 .glass { background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border-radius:20px; padding:25px; border:1px solid rgba(255,255,255,0.1); }
 .btn-big { padding:18px 40px; border-radius:50px; font-weight:600; font-size:18px; text-decoration:none; }
@@ -186,7 +186,10 @@ function submitBooking() {
 .testimonial:hover { transform:translateY(-10px); }
 .review-text { font-style:italic; color:#ddd; line-height:1.7; }
 .client-info { color:#667eea; font-weight:600; margin-top:15px; }
+/* Auth highlight */
+.auth-links { display:flex; gap:10px; }
+.btn-highlight { background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:8px 16px; border-radius:20px; font-size:14px; text-decoration:none; }
 </style>
 
 </body>
-      </html>
+</html>
