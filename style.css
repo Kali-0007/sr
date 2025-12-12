@@ -226,7 +226,7 @@ nav a[href="signup.html"] {
 /* ==================== MOBILE FIX (No Cut) ==================== */
 @media (max-width: 768px) {
   body {
-    padding-top: 180。这样px !important;   /* ← Sabse important line */
+    padding-top: 180px 这样px !important;   /* ← Sabse important line */
   }
   
   header {
