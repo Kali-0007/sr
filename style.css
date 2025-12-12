@@ -13,7 +13,7 @@ body {
   background: linear-gradient(135deg, #0a0e17 0%, #1a2332 100%);
   color: #e2e8f0;
   line-height: 1.7;
-  min-height: 100vh;
+  min-height: 80vh;
   padding-top: 80px; /* Desktop ke liye */
 }
 
