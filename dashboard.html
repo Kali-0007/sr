@@ -6,40 +6,160 @@
   <title>Dashboard - TaxGSTPro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .dashboard-container {
+      max-width: 600px;
+      margin: 100px auto 50px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    .welcome-text {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(90deg, #00d4ff, #00ff9d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 30px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 16px 20px;
+      margin: 25px 0;
+      font-size: 17px;
+    }
+    .info-label {
+      color: #a0f7ff;
+      font-weight: 600;
+    }
+    .info-value {
+      color: white;
+      word-break: break-all;
+    }
+    .logout-btn {
+      display: block;
+      width: 220px;
+      margin: 40px auto 0;
+      padding: 16px;
+      background: linear-gradient(45deg, #ff4757, #ff6b7a);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+      transition: all 0.3s;
+    }
+    .logout-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(255, 71, 87, 0.6);
+    }
+    .loading {
+      text-align: center;
+      color: #00ff9d;
+      font-size: 20px;
+      margin: 40px 0;
+    }
+  </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">TaxGSTPro</div>
+  <div class="logo>TaxGSTPro</div>
   <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact Us</a>
     <a href="dashboard.html">Dashboard</a>
-    <a href="profile.html">Profile</a>
-    <a href="index.html">Logout</a>
+    <a href="#" id="logoutLink" style="color:#ff6b6b;">Logout</a>
   </nav>
 </header>
 
-<section class="container">
-  <h1 class="section-title">Dashboard</h1>
-  <div class="cards">
-    <div class="glass card">
-      <h3>Pending Tasks</h3>
-      <p>Check your pending tax filings and GST submissions.</p>
-    </div>
-    <div class="glass card">
-      <h3>Recent Transactions</h3>
-      <p>View your recent payments, returns, and consultations.</p>
-    </div>
-    <div class="glass card">
-      <h3>Profile Overview</h3>
-      <p>Quick access to your personal and business details.</p>
-    </div>
+<div class="dashboard-container">
+  <h2 class="welcome-text">Welcome back, <span id="usernameDisplay">User</span>!</h2>
+  
+  <div class="loading" id="loading">Loading your profile...</div>
+  
+  <div id="profileSection" style="display:none;">
+    <div class="info-grid" id="profileGrid"></div>
+    
+    <button class="logout-btn" id="logoutBtn">
+      Logout
+    </button>
   </div>
-</section>
+</div>
 
 <footer>
-  &copy; 2025 TaxGSTPro. All rights reserved.
+  © 2025 TaxGSTPro. All rights reserved.
 </footer>
 
-<script src="script.js"></script>
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxeOR3P-nnI1xLd4_0jdNQyRmf3ykkCRLHBNGzCHpExRkz_lNEpeYFjcQYPL5QzCQDn/exec";
+
+if (!localStorage.getItem('authToken')) {
+  alert("Login first!");
+  window.location.href = "login.html";
+}
+
+async function loadProfile() {
+  const token = localStorage.getItem('authToken');
+  const formData = new URLSearchParams({ action: "get-profile", token: token });
+
+  try {
+    const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
+    const data = await res.json();
+
+    if (data.status === "success") {
+      const p = data.profile;
+      document.getElementById('usernameDisplay').textContent = p.username;
+      document.getElementById('loading').style.display = "none";
+      document.getElementById('profileSection').style.display = "block";
+
+      const grid = document.getElementById('profileGrid');
+      const fields = [
+        ["Username", p.username],
+        ["Full Name", p.firstName + " " + p.surname],
+        ["Email", p.email],
+        ["Mobile", p.mobile],
+        ["Gender", p.gender || "—"],
+        ["Address", `${p.city}, ${p.state}, ${p.country} - ${p.pincode}`],
+        ["Member Since", new Date(p.createdAt).toLocaleDateString('en-IN')]
+      ];
+
+      fields.forEach(([label, value]) => {
+        const l = document.createElement('div'); l.className = "info-label"; l.textContent = label + ":";
+        const v = document.createElement('div'); v.className = "info-value"; v.textContent = value;
+        grid.appendChild(l);
+        grid.appendChild(v);
+      });
+
+    } else {
+      alert("Session expired! Login again.");
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+  } catch (err) {
+    alert("Failed to load profile");
+  }
+}
+
+loadProfile();
+
+document.getElementById('logoutBtn').onclick = () => {
+  if (confirm("Logout?")) {
+  localStorage.clear();
+  window.location.href = "index.html";
+};
+document.getElementById('logoutLink').onclick = e => { e.preventDefault(); document.getElementById('logoutBtn').click(); };
+</script>
+
 </body>
 </html>
