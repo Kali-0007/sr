@@ -36,7 +36,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
 
     generatedOtp = generateOtp().toString();
 
-    const url = "https://script.google.com/macros/s/AKfycbwcYk0VIxcaDChrJNu_ESalClZ8f4UPXxc8M4cgGyWioGN-gBbeNyctp7rRmD3Q85Bs/exec";
+    const url = "https://script.google.com/macros/s/AKfycbxHBv1V4NoCdxHCIIrBlH6VMs8JcxRgiaH4F3_qrEiy-tQqYsdTFD2O2k_MpAZ55YUd/exec";
 
     const formData = new URLSearchParams();
     formData.append("email", email);
