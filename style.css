@@ -223,45 +223,33 @@ nav a[href="signup.html"] {
   box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
 }
 
-/* ==================== MOBILE FIX (No Cut & Compact Header) ==================== */
+/* ==================== MOBILE FIX (No Cut) ==================== */
 @media (max-width: 768px) {
   body {
-    /* FIX 1: Header ki nayi, kam height ke hisaab se padding kam ki gayi */
-    padding-top: 140px !important;   
+    padding-top: 180px !important;   /* ← Sabse important line */
   }
   
   header {
     flex-direction: column;
-    /* FIX 2: Header ka gap kam kiya gaya */
-    gap: 0.75rem; 
-    /* FIX 3: Header ki vertical padding kam ki gayi */
-    padding: 0.75rem 5%;
+    gap: 1rem;
+    padding: 1rem 5%;
   }
   
   nav {
-    /* FIX 4: Nav links ke beech ka gap kam kiya gaya */
-    gap: 0.75rem;
+    gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
   }
   
   nav a {
-    font-size: 0.95rem; /* Ise wahi rehne de sakte hain ya 0.9rem kar sakte hain */
+    font-size: 0.95rem;
   }
   
   nav a[href="login.html"],
   nav a[href="signup.html"] {
-    /* FIX 5: Buttons ki padding kam ki gayi */
-    padding: 6px 14px; 
-    font-size: 0.85rem; /* Font size halka sa kam kiya gaya */
+    padding: 8px 16px;
+    font-size: 0.9rem;
   }
-  
-  /* Pura content dikhane ke liye yeh line zaruri hai: */
-  .hero-container, .hero-box, .container {
-    padding-top: 0px !important;
-  }
-}
-
    /* ==================== CENTER HEADINGS (Services Page) ==================== */
 .section-title,
 .subsection-title {
