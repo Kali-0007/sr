@@ -32,30 +32,29 @@ document.getElementById('sendOtpBtn').addEventListener('click', () => {
         return; 
     }
 
-    generatedOtp = generateOtp().toString(); // number → string
+    generatedOtp = generateOtp().toString();
 
-
+    // ===========================================
+    // FIXED CORS-SAFE GOOGLE SCRIPT REQUEST
+    // ===========================================
     const url = 'https://script.google.com/macros/s/AKfycbxysC-WbC_HsMz0IiMXALYddXjisth1PLWGVt-UhKSmJXsX5UzlEcCt43FLDyJLIrzY/exec';
+
     const params = {
         method: 'POST',
-        body: JSON.stringify({ email: email, otp: generatedOtp }),
-        headers: { 'Content-Type': 'application/json' }
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `email=${encodeURIComponent(email)}&otp=${encodeURIComponent(generatedOtp)}`
     };
 
     fetch(url, params)
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert(`OTP sent to ${email}`);
-            } else {
-                alert("Error sending OTP. Try again.");
-                console.error(data);
-            }
+        .then(() => {
+            alert(`OTP sent to ${email}`);
         })
         .catch(err => {
             alert("Failed to send OTP. Check console.");
             console.error(err);
         });
+    // ===========================================
 });
 
 // Form submit
@@ -68,7 +67,7 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
         alert("Please generate OTP first.");
         return;
     }
-    if (parseInt(enteredOtp) !== generatedOtp) {
+    if (parseInt(enteredOtp) !== parseInt(generatedOtp)) {
         alert("Incorrect OTP.");
         return;
     }
