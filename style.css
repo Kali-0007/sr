@@ -452,4 +452,86 @@ footer {
     opacity: 0.90;
     transform: translateY(-2px);
 }
-   }
+ /* Minimal Nav Fix – Buttons Right Align, No Breaking */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #0a0a0a; /* Tera original dark bg */
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  flex: 0 0 auto;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  justify-content: flex-end; /* Buttons right pe push */
+}
+
+nav a {
+  color: #ccc;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+/* Login/Signup special – gradient but small */
+nav a[href="login.html"], nav a[href="signup.html"] {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 25px;
+  margin-left: 10px; /* Right spacing */
+}
+
+/* Mobile – Vertical but clean stack */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  nav {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  nav a {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+  nav a[href="login.html"], nav a[href="signup.html"] {
+    margin-left: 0;
+    order: -1; /* Buttons upar aa jaye mobile pe */
+  }
+}
+
+/* Hero text cut fix (sirf ye add kar) */
+.hero {
+  padding-top: 120px; /* Header height ke barabar */
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 100px;
+  }
+  .hero h1 {
+    font-size: 32px; /* Text wrap avoid */
+  }
+}  
+}
