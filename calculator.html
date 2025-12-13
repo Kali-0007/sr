@@ -492,7 +492,7 @@
             logo.src = 'logo1.png';
             let logoLoaded = false;
             logo.onload = function () {
-                doc.addImage(logo, 'PNG', 15, 10, 30, 30); // Larger logo
+                doc.addImage(logo, 'PNG', 15, 5, 40, 40); // Bigger logo: 40x40
                 logoLoaded = true;
                 renderPDF(logoLoaded);
             };
@@ -508,7 +508,7 @@
             }, 2000);
 
             function renderPDF(hasLogo) {
-                const xOffset = hasLogo ? 50 : 15;
+                const xOffset = hasLogo ? 65 : 15; // Adjusted for bigger logo
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(24); // Larger title
                 doc.text('Tax Computation Tool', xOffset, 22);
@@ -523,7 +523,7 @@
                 doc.setFontSize(12);
                 doc.text(`Generated On: ${g.timestamp}`, 15, y); y += 15;
                
-                // Table for Computation
+                // Table for Computation - Adjusted widths to fit A4 (total ~170mm with 15mm margins)
                 const recommended = g.oldTax > g.newTax ? 'New Regime' : 'Traditional Regime';
                 const advantage = Math.abs(g.oldTax - g.newTax);
                 const tableData = [
@@ -545,7 +545,7 @@
                     body: tableData.slice(1),
                     theme: 'grid',
                     styles: {
-                        fontSize: 9,
+                        fontSize: 8, // Slightly smaller font to fit better
                         cellPadding: 3,
                         overflow: 'linebreak',
                         halign: 'left',
@@ -560,9 +560,9 @@
                         fontStyle: 'bold'
                     },
                     columnStyles: {
-                        0: { cellWidth: 50 },
-                        1: { cellWidth: 80 },
-                        2: { cellWidth: 80 }
+                        0: { cellWidth: 40 }, // Reduced
+                        1: { cellWidth: 65 }, // Reduced
+                        2: { cellWidth: 65 }  // Reduced (total 170 < 180)
                     },
                     margin: { left: 15, right: 15 }
                 });
