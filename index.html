@@ -435,4 +435,101 @@ function calculateNewRegimeTax(taxableIncome) {
     if (taxableIncome > 300000) { tax += Math.min(taxableIncome - 300000, 300000) * 0.05; }
     if (taxableIncome > 600000) { tax += Math.min(taxableIncome - 600000, 300000) * 0.10; }
     if (taxableIncome > 900000) { tax += Math.min(taxableIncome - 900000, 300000) * 0.15; }
-    if (taxableIncome > 1200000) { tax += Math.min(taxableIncome - 12
+    if (taxableIncome > 1200000) { tax += Math.min(taxableIncome - 1200000, 300000) * 0.20; }
+    if (taxableIncome > 1500000) { tax += (taxableIncome - 1500000) * 0.30; }
+    return tax; // <--- यह फ़ंक्शन यहां बंद हो रहा है
+}
+
+
+document.getElementById('taxForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // 1. Inputs
+    const taxpayerType = document.getElementById('taxpayerType').value;
+    const residentialStatus = document.getElementById('residentialStatus').value;
+    const grossSalary = parseFloat(document.getElementById('grossSalary').value) || 0;
+    const section24 = parseFloat(document.getElementById('section24').value) || 0;
+    const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+    const section80C = parseFloat(document.getElementById('section80C').value) || 0;
+    const section80D = parseFloat(document.getElementById('section80D').value) || 0;
+
+    const isResident = residentialStatus === 'resident';
+    const standardDeduction = 50000;
+    const grossTotalIncome = grossSalary + otherIncome;
+
+
+    // 2. OLD REGIME CALCULATION
+    const old80CDeduction = Math.min(section80C, 150000);
+    const oldSec24Deduction = Math.min(section24, 200000); 
+    const totalOldDeductions = standardDeduction + old80CDeduction + section80D + oldSec24Deduction;
+    const oldTaxableIncome = Math.max(0, grossTotalIncome - totalOldDeductions);
+    let oldTaxBeforeRebate = calculateOldRegimeTax(oldTaxableIncome, taxpayerType);
+
+    let oldRebate = 0;
+    if (isResident && oldTaxableIncome <= 500000) {
+        oldRebate = Math.min(oldTaxBeforeRebate, 12500);
+    }
+    let oldTaxAfterRebate = oldTaxBeforeRebate - oldRebate;
+    const oldCess = oldTaxAfterRebate * 0.04;
+    const oldFinalTax = Math.round(oldTaxAfterRebate + oldCess);
+
+
+    // 3. NEW REGIME CALCULATION
+    const totalNewDeductions = standardDeduction; 
+    const newTaxableIncome = Math.max(0, grossTotalIncome - totalNewDeductions);
+    let newTaxBeforeRebate = calculateNewRegimeTax(newTaxableIncome);
+
+    let newRebate = 0;
+    if (isResident && newTaxableIncome <= 700000) {
+        newRebate = Math.min(newTaxBeforeRebate, 25000);
+    }
+    let newTaxAfterRebate = newTaxBeforeRebate - newRebate;
+    const newCess = newTaxAfterRebate * 0.04;
+    const newFinalTax = Math.round(newTaxAfterRebate + newCess);
+
+
+    // 4. Display Results
+    const tableBody = document.getElementById('resultsTable');
+    tableBody.innerHTML = `
+        <tr>
+            <td><strong>Gross Total Income</strong></td>
+            <td>${formatINR(grossTotalIncome)}</td>
+            <td>${formatINR(grossTotalIncome)}</td>
+        </tr>
+        <tr>
+            <td><strong>Total Deductions Claimed<br><small>(Std, 80C, 80D, Sec 24)</small></strong></td>
+            <td>${formatINR(totalOldDeductions)}</td>
+            <td>${formatINR(standardDeduction)}</td>
+        </tr>
+        <tr>
+            <td><strong>Net Taxable Income</strong></td>
+            <td>${formatINR(oldTaxableIncome)}</td>
+            <td>${formatINR(newTaxableIncome)}</td>
+        </tr>
+        <tr>
+            <td><strong>Tax before Cess & Rebate</strong></td>
+            <td>${formatINR(oldTaxBeforeRebate)}</td>
+            <td>${formatINR(newTaxBeforeRebate)}</td>
+        </tr>
+        <tr>
+            <td><strong>Section 87A Rebate</strong></td>
+            <td>${isResident ? formatINR(oldRebate) : 'Not Applicable (NRI)'}</td>
+            <td>${isResident ? formatINR(newRebate) : 'Not Applicable (NRI)'}</td>
+        </tr>
+        <tr>
+            <td><strong>Health & Education Cess (4%)</strong></td>
+            <td>${formatINR(Math.round(oldCess))}</td>
+            <td>${formatINR(Math.round(newCess))}</td>
+        </tr>
+        <tr>
+            <td><strong>Final Tax Payable</strong></td>
+            <td class="highlight-tax">${formatINR(oldFinalTax)}</td>
+            <td class="highlight-tax">${formatINR(newFinalTax)}</td>
+        </tr>
+    `;
+
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
