@@ -484,10 +484,10 @@
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            /* Header - Light Orange Background */
-            doc.setFillColor(255, 218, 185); // Light orange color
+            /* Header - Darker Orange Background */
+            doc.setFillColor(255, 140, 0); // Darker orange color
             doc.rect(0, 0, 210, 50, 'F');
-            /* Logo (larger) */
+            /* Logo (larger) - Back in place */
             const logo = new Image();
             logo.src = 'logo1.png';
             let logoLoaded = false;
@@ -509,11 +509,14 @@
 
             function renderPDF(hasLogo) {
                 const xOffset = hasLogo ? 65 : 15; // Adjusted for bigger logo
-                doc.setTextColor(255, 255, 255);
+                doc.setTextColor(0, 0, 0); // Black text for visibility
+                doc.setFont('helvetica', 'bold'); // Bold font
                 doc.setFontSize(24); // Larger title
                 doc.text('Tax Computation Tool', xOffset, 22);
+                doc.setFont('helvetica', 'bold'); // Keep bold
                 doc.setFontSize(12); // Subtitle
                 doc.text('– TaxGSTPro (FY 2025-26)', xOffset, 32);
+                doc.setFont('helvetica', 'bold'); // Keep bold
                 doc.setFontSize(10);
                 doc.text('Comprehensive Analysis for AY 2026-27', xOffset, 40);
                
@@ -555,8 +558,8 @@
                         lineWidth: 0.1
                     },
                     headStyles: {
-                        fillColor: [255, 218, 185], // Header table row also light orange to match
-                        textColor: [0, 0, 0], // Black text for better contrast on light orange
+                        fillColor: [255, 140, 0], // Header table row darker orange to match
+                        textColor: [0, 0, 0], // Black text for better contrast
                         fontStyle: 'bold'
                     },
                     columnStyles: {
