@@ -27,71 +27,108 @@
     .auth-links { display:flex; gap:10px; }
     .btn-highlight { background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:8px 16px; border-radius:20px; font-size:14px; text-decoration:none; }
 
-    /* --- NEW CALCULATOR MODAL STYLES (CLEANED) --- */
-    .modal {
-        display: none; 
-        position: fixed;
-        z-index: 10000; 
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow-y: auto;
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-    .calculator-container {
-        max-width: 900px;
-        margin: 50px auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-        overflow: hidden;
-        position: relative;
-    }
-    .close-button {
-        position: absolute;
-        top: 15px;
-        right: 25px;
-        color: white;
-        font-size: 35px;
-        font-weight: bold;
-        cursor: pointer;
-        z-index: 10001;
-    }
-    .close-button:hover {
-        color: #f1f1f1;
-    }
-    .calculator-header { 
-        background: linear-gradient(135deg, #667eea, #764ba2); 
-        color: white; 
-        padding: 30px; 
-        text-align: center; 
-    }
-    .calculator-form { padding: 30px; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-    .form-grid label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
-    .calculator-form input, .calculator-form select { 
-        width: 100%; 
-        padding: 12px; 
-        border: 1px solid #ddd; 
-        border-radius: 8px; 
-        font-size: 16px; 
-        box-sizing: border-box; 
-        /* Mobile fixes for dark theme compatibility */
-        background-color: #f9f9f9; 
-    }
-    .calculator-form button[type="submit"] { 
-        background: #667eea; 
-        color: white; 
-        border: none; 
-        padding: 14px 30px; 
-        font-size: 18px; 
-        border-radius: 8px; 
-        cursor: pointer; 
-        margin-top: 80px; 
-        width: 100%; 
-        font-weight: 600; 
-    }
+    /* === CALCULATOR MODAL – FINAL FIXED VERSION (READY TO PASTE) === */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    /* Proper modal positioning */
+    display: flex;
+    align-items: flex-start;          /* prevents top cut */
+    justify-content: center;
+
+    padding: 40px 16px;               /* safe space from top */
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.calculator-container {
+    max-width: 900px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Close button stays visible & readable */
+.close-button {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    line-height: 1;
+}
+
+.close-button:hover {
+    opacity: 0.85;
+}
+
+/* Header */
+.calculator-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #ffffff;
+    padding: 28px 30px;
+    text-align: center;
+}
+
+/* Form */
+.calculator-form {
+    padding: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.form-grid label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444444;
+}
+
+/* Inputs */
+.calculator-form input,
+.calculator-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+/* Submit Button */
+.calculator-form button[type="submit"] {
+    background: #667eea;
+    color: #ffffff;
+    border: none;
+    padding: 14px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 32px;                 /* fixed spacing */
+    width: 100%;
+    font-weight: 600;
+}
+
+.calculator-form button[type="submit"]:hover {
+    opacity: 0.95;
+}
+
     .calculator-results { padding: 30px; background: #f9fbff; display: none; }
     .calculator-results table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 17px; }
     .calculator-results th, .calculator-results td { padding: 14px; text-align: left; border-bottom: 1px solid #eee; }
