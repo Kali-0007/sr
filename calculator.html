@@ -484,77 +484,89 @@
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            /* Header */
+            /* Header - Larger Size */
             doc.setFillColor(74, 144, 226);
             doc.rect(0, 0, 210, 50, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(20);
-            doc.text('Tax Computation Tool', 15, 22);
-            doc.setFontSize(12);
-            doc.text('– TaxGSTPro (FY 2025-26)', 15, 32);
-            doc.setFontSize(10);
-            doc.text('Comprehensive Analysis for AY 2026-27', 15, 42);
-           
-            doc.setTextColor(0);
-            let y = 60;
-            const g = window.taxData;
-            doc.setFontSize(12);
-            doc.text(`Generated On: ${g.timestamp}`, 15, y); y += 15;
-           
-            // Table for Computation
-            const recommended = g.oldTax > g.newTax ? 'New Regime' : 'Traditional Regime';
-            const advantage = Math.abs(g.oldTax - g.newTax);
-            const tableData = [
-                ['Component', 'Traditional Regime (₹)', 'New Regime (₹)'],
-                ['Total Earnings', formatINR(g.grossIncome), formatINR(g.grossIncome)],
-                ['Standard Relief', formatINR(g.oldStd), formatINR(g.newStd)],
-                ['Deductions Applied', formatINR(g.deductions), '₹0'],
-                ['Assessable Income', formatINR(g.oldTaxable), formatINR(g.newTaxable)],
-                ['Tax Before Rebate', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
-                ['87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
-                ['Final Liability (incl. Cess & Surcharge)', formatINR(g.oldTax), formatINR(g.newTax)],
-                ['Regime Advantage', `${formatINR(advantage)} (Opt for ${recommended})`, ' '],
-                ['Rate Structure', `Traditional: ${g.oldSlabs || 'Nil'}`, `New: ${g.newSlabs || 'Nil'}`]
-            ];
-           
-            doc.autoTable({
-                startY: y,
-                head: [tableData[0]],
-                body: tableData.slice(1),
-                theme: 'grid',
-                styles: {
-                    fontSize: 9,
-                    cellPadding: 3,
-                    overflow: 'linebreak',
-                    halign: 'left',
-                    fillColor: [37, 37, 37],
-                    textColor: [255, 255, 255],
-                    lineColor: [68, 68, 68],
-                    lineWidth: 0.1
-                },
-                headStyles: {
-                    fillColor: [74, 144, 226],
-                    textColor: [255, 255, 255],
-                    fontStyle: 'bold'
-                },
-                columnStyles: {
-                    0: { cellWidth: 50 },
-                    1: { cellWidth: 80 },
-                    2: { cellWidth: 80 }
-                },
-                margin: { left: 15, right: 15 }
-            });
-           
-            y = doc.lastAutoTable.finalY + 10;
-           
-            // Footer
-            y = 285;
-            doc.setFontSize(9);
-            doc.setTextColor(120);
-            doc.setFont('helvetica', 'normal');
-            doc.text('System generated report – For advisory use only', 105, y, { align: 'center' });
-           
-            doc.save('TaxGSTPro_Tax_Report_FY_2025_26.pdf');
+            /* Logo (larger) */
+            const logo = new Image();
+            logo.src = 'logo1.png';
+            logo.onload = function () {
+                doc.addImage(logo, 'PNG', 15, 10, 30, 30); // Larger logo
+                renderPDF();
+            };
+            logo.onerror = function () {
+                renderPDF(); // Proceed without logo
+            };
+            function renderPDF() {
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(24); // Larger title
+                doc.text('Tax Computation Tool', 50, 22);
+                doc.setFontSize(12); // Subtitle
+                doc.text('– TaxGSTPro (FY 2025-26)', 50, 32);
+                doc.setFontSize(10);
+                doc.text('Comprehensive Analysis for AY 2026-27', 50, 40);
+               
+                doc.setTextColor(0);
+                let y = 60;
+                const g = window.taxData;
+                doc.setFontSize(12);
+                doc.text(`Generated On: ${g.timestamp}`, 15, y); y += 15;
+               
+                // Table for Computation
+                const recommended = g.oldTax > g.newTax ? 'New Regime' : 'Traditional Regime';
+                const advantage = Math.abs(g.oldTax - g.newTax);
+                const tableData = [
+                    ['Component', 'Traditional Regime (₹)', 'New Regime (₹)'],
+                    ['Total Earnings', formatINR(g.grossIncome), formatINR(g.grossIncome)],
+                    ['Standard Relief', formatINR(g.oldStd), formatINR(g.newStd)],
+                    ['Deductions Applied', formatINR(g.deductions), '₹0'],
+                    ['Assessable Income', formatINR(g.oldTaxable), formatINR(g.newTaxable)],
+                    ['Tax Before Rebate', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
+                    ['87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
+                    ['Final Liability (incl. Cess & Surcharge)', formatINR(g.oldTax), formatINR(g.newTax)],
+                    ['Regime Advantage', `${formatINR(advantage)} (Opt for ${recommended})`, ' '],
+                    ['Rate Structure', `Traditional: ${g.oldSlabs || 'Nil'}`, `New: ${g.newSlabs || 'Nil'}`]
+                ];
+               
+                doc.autoTable({
+                    startY: y,
+                    head: [tableData[0]],
+                    body: tableData.slice(1),
+                    theme: 'grid',
+                    styles: {
+                        fontSize: 9,
+                        cellPadding: 3,
+                        overflow: 'linebreak',
+                        halign: 'left',
+                        fillColor: [37, 37, 37],
+                        textColor: [255, 255, 255],
+                        lineColor: [68, 68, 68],
+                        lineWidth: 0.1
+                    },
+                    headStyles: {
+                        fillColor: [74, 144, 226],
+                        textColor: [255, 255, 255],
+                        fontStyle: 'bold'
+                    },
+                    columnStyles: {
+                        0: { cellWidth: 50 },
+                        1: { cellWidth: 80 },
+                        2: { cellWidth: 80 }
+                    },
+                    margin: { left: 15, right: 15 }
+                });
+               
+                y = doc.lastAutoTable.finalY + 10;
+               
+                // Footer
+                y = 285;
+                doc.setFontSize(9);
+                doc.setTextColor(120);
+                doc.setFont('helvetica', 'normal');
+                doc.text('System generated report – For advisory use only', 105, y, { align: 'center' });
+               
+                doc.save('TaxGSTPro_Tax_Report_FY_2025_26.pdf');
+            }
         }
         // Excel Download
         function downloadExcel() {
