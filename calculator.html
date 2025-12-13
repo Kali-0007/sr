@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Computation Tool – TaxGSTPro (FY 2025-26)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+        .tool-container {
+            max-width: 950px;
+            margin: 40px auto;
+            background: #111;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        .tool-header {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            padding: 32px;
+            text-align: center;
+        }
+        .tool-header i { font-size: 48px; margin-bottom: 12px; display: block; }
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            background: #222;
+        }
+        .step {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 12px;
+            font-weight: 600;
+            color: #fff;
+            transition: background 0.3s;
+        }
+        .step.active { background: #4a90e2; }
+        .step.completed { background: #28a745; }
+        .tool-form {
+            padding: 30px;
+        }
+        .form-step {
+            display: none;
+        }
+        .form-step.active { display: block; }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        label { font-weight: 600; margin-bottom: 6px; display: block; color: #ccc; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #222;
+            color: #fff;
+            box-sizing: border-box;
+            transition: border 0.3s;
+        }
+        input:focus, select:focus { border-color: #4a90e2; outline: none; }
+        input::placeholder { color: #888; }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            justify-content: center;
+        }
+        button {
+            padding: 14px 24px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn-primary { background: #4a90e2; color: #fff; }
+        .btn-primary:hover { background: #357abd; }
+        .btn-secondary { background: #555; color: #fff; }
+        .btn-secondary:hover { background: #666; }
+        .reset-btn { background: #dc3545; color: #fff; width: auto; }
+        .download-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .download-btn { padding: 12px 20px; background: #28a745; color: #fff; }
+        .download-btn:hover { background: #218838; }
+        .computation-results {
+            padding: 30px;
+            display: none;
+            background: #111;
+            border-top: 1px solid #333;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #222;
+        }
+        .results-table th, .results-table td {
+            padding: 14px;
+            border-bottom: 1px solid #444;
+            text-align: left;
+        }
+        .results-table th { background: #4a90e2; color: #fff; }
+        .highlight-tax {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .slab-breakdown {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ccc;
+            background: #333;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        small { color: #888; font-size: 12px; }
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .btn-group, .download-btns { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <i class="fas fa-calculator"></i>
+            <h1>Tax Computation Tool</h1>
+            <div>Comprehensive Analysis for FY 2025-26 (AY 2026-27)</div>
+        </header>
+
+        <div class="step-indicator" id="stepIndicator">
+            <div class="step active" data-step="1">1</div>
+            <div class="step" data-step="2">2</div>
+            <div class="step" data-step="3">3</div>
+            <div class="step" data-step="4">4</div>
+        </div>
+
+        <form id="taxForm" class="tool-form">
+            <!-- Step 1: Tax Profile -->
+            <div class="form-step active" data-step="1">
+                <h3><i class="fas fa-user"></i> Step 1: Tax Profile</h3>
+                <div class="form-grid">
+                    <div>
+                        <label>Age Category</label>
+                        <select id="ageGroup">
+                            <option value="under60">Below 60 years</option>
+                            <option value="senior">60-79 years (Senior)</option>
+                            <option value="superSenior">80+ years (Super Senior)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Residency</label>
+                        <select id="residentialStatus">
+                            <option value="resident">Resident Indian</option>
+                            <option value="nri">Non-Resident Indian</option>
+                        </select>
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <label>Annual Salary (pre-exemptions, ₹)</label>
+                        <input type="number" id="totalSalary" value="0" min="0" placeholder="e.g., 1000000">
+                        <small>Basic pay + allowances</small>
+                    </div>
+                    <div>
+                        <label>HRA Relief (₹)</label>
+                        <input type="number" id="hraExemption" value="0" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Additional Exemptions (₹)</label>
+                        <input type="number" id="otherExemptions" value="0" min="0" placeholder="0">
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="nextStep(2)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Income Streams -->
+            <div class="form-step" data-step="2">
+                <h3><i class="fas fa-chart-line"></i> Step 2: Income Streams</h3>
+                <div class="form-grid">
+                    <div>
+                        <label>Other Earnings (₹)</label>
+                        <input type="number" id="otherIncome" value="0" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Rent Received (₹)</label>
+                        <input type="number" id="rentalIncome" value="0" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Capital Gains (₹)</label>
+                        <input type="number" id="capitalGains" value="0" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Business Earnings (₹)</label>
+                        <input type="number" id="businessIncome" value="0" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Property Loan Interest - Rented (₹)</label>
+                        <input type="number" id="homeLoanLetOut" value="0" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Property Loan Interest - Owned (max ₹2L, ₹)</label>
+                        <input type="number" id="homeLoanSelf" value="0" min="0" max="200000" placeholder="0">
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="prevStep(1)">Previous</button>
+                    <button type="button" class="btn-primary" onclick="nextStep(3)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Deductions -->
+            <div class="form-step" data-step="3">
+                <h3><i class="fas fa-shield-alt"></i> Step 3: Allowable Deductions (Traditional Regime)</h3>
+                <p style="color: #ccc;">Modern regime limits to standard deduction only.</p>
+                <div class="form-grid">
+                    <div>
+                        <label>80C Investments (max ₹1.5L, ₹)</label>
+                        <input type="number" id="section80C" value="0" min="0" max="150000" placeholder="0">
+                    </div>
+                    <div>
+                        <label>80D Insurance (max ₹50K, ₹)</label>
+                        <input type="number" id="section80D" value="0" min="0" max="50000" placeholder="0">
+                    </div>
+                    <div>
+                        <label>80G Contributions (₹)</label>
+                        <input type="number" id="section80G" value="0" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>80E Loan Interest (₹)</label>
+                        <input type="number" id="section80E" value="0" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>80TTA Savings (max ₹10K, ₹)</label>
+                        <input type="number" id="section80TTA" value="0" min="0" max="10000" placeholder="0">
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <label>Further Deductions (₹)</label>
+                        <input type="number" id="otherDeductions" value="0" min="0" placeholder="0">
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="prevStep(2)">Previous</button>
+                    <button type="button" id="generateBtn" class="btn-primary">Generate Report</button>
+                </div>
+            </div>
+        </form>
+
+        <div id="results" class="computation-results">
+            <h2><i class="fas fa-file-invoice"></i> Computation Summary</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Traditional Regime</th>
+                        <th>Modern Regime</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTable">
+                    <!-- Dynamically populated -->
+                </tbody>
+            </table>
+            <div class="download-btns">
+                <button class="download-btn" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download as PDF</button>
+                <button class="download-btn" onclick="downloadExcel()"><i class="fas fa-file-excel"></i> Download as Excel</button>
+            </div>
+            <button type="button" class="reset-btn" onclick="resetForm()" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;">New Computation</button>
+        </div>
+    </div>
+
+    <script>
+        // Utility Functions
+        function formatINR(n) {
+            return new Intl.NumberFormat('en-IN').format(Math.round(n));
+        }
+
+        // Step Navigation
+        function updateSteps(currentStep) {
+            document.querySelectorAll('.step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentStep - 1) step.classList.add('completed');
+                if (index === currentStep - 1) step.classList.add('active');
+            });
+            document.querySelectorAll('.form-step').forEach((s, i) => {
+                s.classList.toggle('active', i === currentStep - 1);
+            });
+        }
+        function nextStep(step) { updateSteps(step); }
+        function prevStep(step) { updateSteps(step); }
+        updateSteps(1);
+
+        // Reset Function
+        function resetForm() {
+            document.getElementById('taxForm').reset();
+            document.getElementById('results').style.display = 'none';
+            updateSteps(1);
+        }
+
+        // Tax Calculation Logic
+        function calculateTax(income, regime, ageGroup, isResident) {
+            let tax = 0;
+            let slabs = [];
+            let rebate = 0;
+            let stdDeduction = regime === 'old' ? 50000 : 75000;
+            let taxableIncome = Math.max(0, income - stdDeduction);
+
+            if (regime === 'new') {
+                if (taxableIncome <= 400000) tax = 0;
+                else if (taxableIncome <= 800000) { tax = (taxableIncome - 400000) * 0.05; slabs.push('5% on ₹4L-₹8L'); }
+                else if (taxableIncome <= 1200000) { tax = 20000 + (taxableIncome - 800000) * 0.10; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L'); }
+                else if (taxableIncome <= 1600000) { tax = 60000 + (taxableIncome - 1200000) * 0.15; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L'); }
+                else if (taxableIncome <= 2000000) { tax = 120000 + (taxableIncome - 1600000) * 0.20; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L'); }
+                else if (taxableIncome <= 2400000) { tax = 200000 + (taxableIncome - 2000000) * 0.25; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L'); }
+                else { tax = 320000 + (taxableIncome - 2400000) * 0.30; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L', '30% above ₹24L'); }
+                if (taxableIncome <= 1200000) rebate = tax;
+            } else {
+                let basicSlab = ageGroup === 'under60' ? 250000 : ageGroup === 'senior' ? 300000 : 500000;
+                taxableIncome = Math.max(0, taxableIncome - basicSlab);
+
+                if (ageGroup === 'superSenior') {
+                    if (taxableIncome <= 500000) tax = 0;
+                    else if (taxableIncome <= 1000000) { tax = (taxableIncome - 500000) * 0.20; slabs.push('20% on ₹5L-₹10L'); }
+                    else { tax = 100000 + (taxableIncome - 1000000) * 0.30; slabs.push('20% on ₹5L-₹10L', '30% above ₹10L'); }
+                } else {
+                    if (taxableIncome <= 250000) tax = 0;
+                    else if (taxableIncome <= 500000) { tax = (taxableIncome - 250000) * 0.05; slabs.push('5% on ₹2.5L-₹5L'); }
+                    else if (taxableIncome <= 1000000) { tax = 12500 + (taxableIncome - 500000) * 0.20; slabs.push('5% on ₹2.5L-₹5L', '20% on ₹5L-₹10L'); }
+                    else { tax = 112500 + (taxableIncome - 1000000) * 0.30; slabs.push('5% on ₹2.5L-₹5L', '20% on ₹5L-₹10L', '30% above ₹10L'); }
+                }
+                if (isResident && income <= 500000) rebate = Math.min(tax, 12500);
+            }
+
+            tax = Math.max(0, tax - rebate);
+
+            let surchargeRate = 0;
+            if (income > 5000000) {
+                if (income <= 10000000) surchargeRate = 0.10;
+                else if (income <= 20000000) surchargeRate = 0.15;
+                else if (income <= 50000000) surchargeRate = 0.25;
+                else surchargeRate = regime === 'new' ? 0.25 : 0.37;
+                tax *= (1 + surchargeRate);
+            }
+
+            tax *= 1.04;
+
+            return { tax: Math.round(tax), slabs: slabs.join(', '), stdDeduction, taxableIncome: Math.round(taxableIncome) };
+        }
+
+        // Generate Report
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('generateBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const ageGroup = document.getElementById('ageGroup').value;
+                const isResident = document.getElementById('residentialStatus').value === 'resident';
+                const netSalary = parseFloat(document.getElementById('totalSalary').value || 0) - parseFloat(document.getElementById('hraExemption').value || 0) - parseFloat(document.getElementById('otherExemptions').value || 0);
+                const otherIncome = parseFloat(document.getElementById('otherIncome').value || 0);
+                const rentalIncome = parseFloat(document.getElementById('rentalIncome').value || 0) - parseFloat(document.getElementById('homeLoanLetOut').value || 0);
+                const homeLoanSelf = parseFloat(document.getElementById('homeLoanSelf').value || 0);
+                const capitalGains = parseFloat(document.getElementById('capitalGains').value || 0);
+                const businessIncome = parseFloat(document.getElementById('businessIncome').value || 0);
+
+                let grossIncome = netSalary + otherIncome + rentalIncome + capitalGains + businessIncome;
+
+                const deductions = parseFloat(document.getElementById('section80C').value || 0) +
+                                  parseFloat(document.getElementById('section80D').value || 0) +
+                                  parseFloat(document.getElementById('section80G').value || 0) +
+                                  parseFloat(document.getElementById('section80E').value || 0) +
+                                  parseFloat(document.getElementById('section80TTA').value || 0) +
+                                  parseFloat(document.getElementById('otherDeductions').value || 0) +
+                                  homeLoanSelf;
+
+                let oldIncome = Math.max(0, grossIncome - deductions);
+                let { tax: oldTax, slabs: oldSlabs, stdDeduction: oldStd, taxableIncome: oldTaxable } = calculateTax(oldIncome, 'old', ageGroup, isResident);
+
+                let newIncome = grossIncome;
+                let { tax: newTax, slabs: newSlabs, stdDeduction: newStd, taxableIncome: newTaxable } = calculateTax(newIncome, 'new', ageGroup, isResident);
+
+                const tableBody = document.getElementById('resultsTable');
+                tableBody.innerHTML = `
+                    <tr><td>Total Earnings</td><td>${formatINR(grossIncome)}</td><td>${formatINR(grossIncome)}</td></tr>
+                    <tr><td>Standard Relief</td><td>${formatINR(oldStd)}</td><td>${formatINR(newStd)}</td></tr>
+                    <tr><td>Deductions Applied (Traditional)</td><td>${formatINR(deductions)}</td><td>₹0</td></tr>
+                    <tr><td>Assessable Income</td><td>${formatINR(oldTaxable)}</td><td>${formatINR(newTaxable)}</td></tr>
+                    <tr><td>Tax Prior to Relief</td><td class="highlight-tax">${formatINR(oldTax * 1.04 / 1.04)}</td><td class="highlight-tax">${formatINR(newTax * 1.04 / 1.04)}</td></tr>
+                    <tr><td>87A Relief</td><td>${formatINR(oldTax * 1.04 / 1.04 - oldTax)}</td><td>${formatINR(newTax * 1.04 / 1.04 - newTax)}</td></tr>
+                    <tr><td>Final Liability (incl. Cess)</td><td class="highlight-tax">${formatINR(oldTax)}</td><td class="highlight-tax">${formatINR(newTax)}</td></tr>
+                    <tr><td>Regime Advantage</td><td colspan="2" style="text-align:center; color:#28a745; font-weight:600;">${formatINR(oldTax - newTax)} (Opt for ${oldTax > newTax ? 'Modern' : 'Traditional'})</td></tr>
+                    <tr><td>Rate Structure (Traditional)</td><td colspan="2"><div class="slab-breakdown">${oldSlabs || 'Not Applicable'}</div></td></tr>
+                    <tr><td>Rate Structure (Modern)</td><td colspan="2"><div class="slab-breakdown">${newSlabs || 'Not Applicable'}</div></td></tr>
+                `;
+
+                document.getElementById('results').style.display = 'block';
+                window.scrollTo(0, document.getElementById('results').offsetTop);
+                updateSteps(4);
+
+                // Store for downloads
+                window.taxData = {
+                    grossIncome, deductions, oldTax, newTax, oldSlabs, newSlabs, oldStd, newStd, oldTaxable, newTaxable,
+                    timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+                };
+            });
+        });
+
+        // PDF Download
+        function downloadPDF() {
+            if (!window.taxData) return alert('Please generate a report first.');
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(16);
+            doc.text('Tax Computation Report - TaxGSTPro', 20, 20);
+            doc.setFontSize(10);
+            doc.text(`Generated: ${window.taxData.timestamp}`, 20, 30);
+            doc.text('Traditional Regime:', 20, 50);
+            doc.text(`Total Earnings: ₹${formatINR(window.taxData.grossIncome)}`, 20, 60);
+            doc.text(`Deductions: ₹${formatINR(window.taxData.deductions)}`, 20, 70);
+            doc.text(`Standard Relief: ₹${formatINR(window.taxData.oldStd)}`, 20, 80);
+            doc.text(`Assessable Income: ₹${formatINR(window.taxData.oldTaxable)}`, 20, 90);
+            doc.text(`Liability: ₹${formatINR(window.taxData.oldTax)}`, 20, 100);
+            doc.text(`Rates: ${window.taxData.oldSlabs}`, 20, 110);
+            doc.text('Modern Regime:', 20, 130);
+            doc.text(`Total Earnings: ₹${formatINR(window.taxData.grossIncome)}`, 20, 140);
+            doc.text(`Standard Relief: ₹${formatINR(window.taxData.newStd)}`, 20, 150);
+            doc.text(`Assessable Income: ₹${formatINR(window.taxData.newTaxable)}`, 20, 160);
+            doc.text(`Liability: ₹${formatINR(window.taxData.newTax)}`, 20, 170);
+            doc.text(`Rates: ${window.taxData.newSlabs}`, 20, 180);
+            doc.text(`Advantage: ₹${formatINR(window.taxData.oldTax - window.taxData.newTax)}`, 20, 190);
+            doc.save('Tax_Computation.pdf');
+        }
+
+        // Excel Download
+        function downloadExcel() {
+            if (!window.taxData) return alert('Please generate a report first.');
+            const wb = XLSX.utils.book_new();
+            const wsData = [
+                ['Component', 'Traditional Regime', 'Modern Regime'],
+                ['Total Earnings', `₹${formatINR(window.taxData.grossIncome)}`, `₹${formatINR(window.taxData.grossIncome)}`],
+                ['Deductions', `₹${formatINR(window.taxData.deductions)}`, '₹0'],
+                ['Standard Relief', `₹${formatINR(window.taxData.oldStd)}`, `₹${formatINR(window.taxData.newStd)}`],
+                ['Assessable Income', `₹${formatINR(window.taxData.oldTaxable)}`, `₹${formatINR(window.taxData.newTaxable)}`],
+                ['Final Liability', `₹${formatINR(window.taxData.oldTax)}`, `₹${formatINR(window.taxData.newTax)}`],
+                ['Rate Structure', window.taxData.oldSlabs, window.taxData.newSlabs],
+                ['Regime Advantage', `₹${formatINR(window.taxData.oldTax - window.taxData.newTax)}`, '']
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            XLSX.utils.book_append_sheet(wb, ws, 'Computation');
+            XLSX.writeFile(wb, 'Tax_Computation.xlsx');
+        }
+    </script>
+</body>
+</html>
