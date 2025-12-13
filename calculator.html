@@ -484,8 +484,8 @@
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            /* Header - Larger Size */
-            doc.setFillColor(74, 144, 226);
+            /* Header - Light Orange Background */
+            doc.setFillColor(255, 218, 185); // Light orange color
             doc.rect(0, 0, 210, 50, 'F');
             /* Logo (larger) */
             const logo = new Image();
@@ -555,8 +555,8 @@
                         lineWidth: 0.1
                     },
                     headStyles: {
-                        fillColor: [74, 144, 226],
-                        textColor: [255, 255, 255],
+                        fillColor: [255, 218, 185], // Header table row also light orange to match
+                        textColor: [0, 0, 0], // Black text for better contrast on light orange
                         fontStyle: 'bold'
                     },
                     columnStyles: {
