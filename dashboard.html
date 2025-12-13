@@ -301,7 +301,7 @@ async function loadProfile() {
 
     if(data.status === "success"){
       const p = data.profile;
-      document.getElementById('usernameDisplay').textContent = p.username;
+      document.getElementById('firstNameDisplay').textContent = p.firstName;
       document.getElementById('profileLoading').style.display = 'none';
       document.getElementById('profileSection').style.display = 'block';
 
