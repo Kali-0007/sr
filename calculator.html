@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.32/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         body {
@@ -252,7 +253,7 @@
             <!-- Step 3: Deductions -->
             <div class="form-step" data-step="3">
                 <h3><i class="fas fa-shield-alt"></i> Step 3: Allowable Deductions (Traditional Regime)</h3>
-                <p style="color: #ccc;">Modern regime limits to standard deduction only.</p>
+                <p style="color: #ccc;">New regime limits to standard deduction only.</p>
                 <div class="form-grid">
                     <div>
                         <label>80C Investments (max ₹1.5L, ₹)</label>
@@ -292,7 +293,7 @@
                     <tr>
                         <th>Component</th>
                         <th>Traditional Regime</th>
-                        <th>Modern Regime</th>
+                        <th>New Regime</th>
                     </tr>
                 </thead>
                 <tbody id="resultsTable">
@@ -340,47 +341,89 @@
         }
 
         // Tax Calculation Logic
-        function calculateTax(income, regime, ageGroup, isResident, grossIncomeForSurcharge) {
+        function calculateTax(income, regime, ageGroup, isResident) {
             let tax = 0;
             let slabs = [];
             let rebate = 0;
+            let preRebateTax = 0;
             let stdDeduction = regime === 'old' ? 50000 : 75000;
-            let taxableIncome = Math.max(0, income - stdDeduction);
+            let totalTaxable = Math.max(0, income - stdDeduction);
             if (regime === 'new') {
-                if (taxableIncome <= 400000) tax = 0;
-                else if (taxableIncome <= 800000) { tax = (taxableIncome - 400000) * 0.05; slabs.push('5% on ₹4L-₹8L'); }
-                else if (taxableIncome <= 1200000) { tax = 20000 + (taxableIncome - 800000) * 0.10; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L'); }
-                else if (taxableIncome <= 1600000) { tax = 60000 + (taxableIncome - 1200000) * 0.15; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L'); }
-                else if (taxableIncome <= 2000000) { tax = 120000 + (taxableIncome - 1600000) * 0.20; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L'); }
-                else if (taxableIncome <= 2400000) { tax = 200000 + (taxableIncome - 2000000) * 0.25; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L'); }
-                else { tax = 320000 + (taxableIncome - 2400000) * 0.30; slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L', '30% above ₹24L'); }
-                if (taxableIncome <= 1200000) rebate = tax;
-            } else {
-                let basicSlab = ageGroup === 'under60' ? 250000 : ageGroup === 'senior' ? 300000 : 500000;
-                taxableIncome = Math.max(0, taxableIncome - basicSlab);
-                if (ageGroup === 'superSenior') {
-                    if (taxableIncome <= 500000) tax = 0;
-                    else if (taxableIncome <= 1000000) { tax = (taxableIncome - 500000) * 0.20; slabs.push('20% on ₹5L-₹10L'); }
-                    else { tax = 100000 + (taxableIncome - 1000000) * 0.30; slabs.push('20% on ₹5L-₹10L', '30% above ₹10L'); }
+                preRebateTax = 0;
+                if (totalTaxable <= 400000) {
+                    preRebateTax = 0;
+                } else if (totalTaxable <= 800000) {
+                    preRebateTax = (totalTaxable - 400000) * 0.05;
+                    slabs.push('5% on ₹4L-₹8L');
+                } else if (totalTaxable <= 1200000) {
+                    preRebateTax = 20000 + (totalTaxable - 800000) * 0.10;
+                    slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L');
+                } else if (totalTaxable <= 1600000) {
+                    preRebateTax = 60000 + (totalTaxable - 1200000) * 0.15;
+                    slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L');
+                } else if (totalTaxable <= 2000000) {
+                    preRebateTax = 120000 + (totalTaxable - 1600000) * 0.20;
+                    slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L');
+                } else if (totalTaxable <= 2400000) {
+                    preRebateTax = 200000 + (totalTaxable - 2000000) * 0.25;
+                    slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L');
                 } else {
-                    if (taxableIncome <= 250000) tax = 0;
-                    else if (taxableIncome <= 500000) { tax = (taxableIncome - 250000) * 0.05; slabs.push('5% on ₹2.5L-₹5L'); }
-                    else if (taxableIncome <= 1000000) { tax = 12500 + (taxableIncome - 500000) * 0.20; slabs.push('5% on ₹2.5L-₹5L', '20% on ₹5L-₹10L'); }
-                    else { tax = 112500 + (taxableIncome - 1000000) * 0.30; slabs.push('5% on ₹2.5L-₹5L', '20% on ₹5L-₹10L', '30% above ₹10L'); }
+                    preRebateTax = 320000 + (totalTaxable - 2400000) * 0.30;
+                    slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L', '30% above ₹24L');
                 }
-                if (isResident && income <= 500000) rebate = Math.min(tax, 12500);
+                rebate = totalTaxable <= 1200000 ? preRebateTax : 0;
+            } else {
+                // Old Regime
+                let exemptionLimit = ageGroup === 'under60' ? 250000 : ageGroup === 'senior' ? 300000 : 500000;
+                let fivePercentWidth = 500000 - exemptionLimit;
+                preRebateTax = 0;
+                if (ageGroup === 'superSenior') {
+                    if (totalTaxable > 500000 && totalTaxable <= 1000000) {
+                        preRebateTax = (totalTaxable - 500000) * 0.20;
+                        slabs.push('20% on ₹5L-₹10L');
+                    } else if (totalTaxable > 1000000) {
+                        preRebateTax = 100000 + (totalTaxable - 1000000) * 0.30;
+                        slabs.push('20% on ₹5L-₹10L', '30% above ₹10L');
+                    }
+                    // Nil up to 5L implicit
+                } else {
+                    if (totalTaxable > exemptionLimit && totalTaxable <= 500000) {
+                        preRebateTax = (totalTaxable - exemptionLimit) * 0.05;
+                        slabs.push(`5% above ₹${exemptionLimit / 1000}L up to ₹5L`);
+                    } else if (totalTaxable > 500000 && totalTaxable <= 1000000) {
+                        preRebateTax = fivePercentWidth * 0.05 + (totalTaxable - 500000) * 0.20;
+                        slabs.push(`5% above ₹${exemptionLimit / 1000}L up to ₹5L`, '20% on ₹5L-₹10L');
+                    } else if (totalTaxable > 1000000) {
+                        preRebateTax = fivePercentWidth * 0.05 + 500000 * 0.20 + (totalTaxable - 1000000) * 0.30;
+                        slabs.push(`5% above ₹${exemptionLimit / 1000}L up to ₹5L`, '20% on ₹5L-₹10L', '30% above ₹10L');
+                    }
+                    // Nil up to exemption implicit
+                }
+                rebate = isResident && totalTaxable <= 500000 ? Math.min(preRebateTax, 12500) : 0;
             }
-            tax = Math.max(0, tax - rebate);
+            tax = Math.max(0, preRebateTax - rebate);
+            // Surcharge
             let surchargeRate = 0;
-            if (grossIncomeForSurcharge > 5000000) {
-                if (grossIncomeForSurcharge <= 10000000) surchargeRate = 0.10;
-                else if (grossIncomeForSurcharge <= 20000000) surchargeRate = 0.15;
-                else if (grossIncomeForSurcharge <= 50000000) surchargeRate = 0.25;
+            if (totalTaxable > 5000000) {
+                if (totalTaxable <= 10000000) surchargeRate = 0.10;
+                else if (totalTaxable <= 20000000) surchargeRate = 0.15;
+                else if (totalTaxable <= 50000000) surchargeRate = 0.25;
                 else surchargeRate = regime === 'new' ? 0.25 : 0.37;
                 tax *= (1 + surchargeRate);
             }
-            tax *= 1.04; // Cess
-            return { tax: Math.round(tax), slabs: slabs.join(', '), stdDeduction, taxableIncome: Math.round(income - stdDeduction) };
+            // Cess
+            tax *= 1.04;
+            tax = Math.round(tax);
+            preRebateTax = Math.round(preRebateTax);
+            rebate = Math.round(rebate);
+            return {
+                tax,
+                preRebateTax,
+                rebateAmount: rebate,
+                slabs: slabs.join(', '),
+                stdDeduction,
+                taxableIncome: Math.round(totalTaxable)
+            };
         }
 
         // Generate Report
@@ -404,32 +447,36 @@
                                   parseFloat(document.getElementById('otherDeductions').value || 0) +
                                   homeLoanSelf;
                 let oldIncome = Math.max(0, grossIncome - deductions);
-                let { tax: oldTax, slabs: oldSlabs, stdDeduction: oldStd, taxableIncome: oldTaxable } = calculateTax(oldIncome, 'old', ageGroup, isResident, grossIncome);
+                let oldResult = calculateTax(oldIncome, 'old', ageGroup, isResident);
                 let newIncome = grossIncome;
-                let { tax: newTax, slabs: newSlabs, stdDeduction: newStd, taxableIncome: newTaxable } = calculateTax(newIncome, 'new', ageGroup, isResident, grossIncome);
+                let newResult = calculateTax(newIncome, 'new', ageGroup, isResident);
                 const tableBody = document.getElementById('resultsTable');
-                const preCessOldTax = Math.round(oldTax / 1.04);
-                const preCessNewTax = Math.round(newTax / 1.04);
-                const oldRebate = preCessOldTax - (oldTax / 1.04);
-                const newRebate = preCessNewTax - (newTax / 1.04);
+                const regimeAdvantage = oldResult.tax - newResult.tax;
+                const recommendedRegime = oldResult.tax > newResult.tax ? 'New' : 'Traditional';
                 tableBody.innerHTML = `
                     <tr><td>Total Earnings</td><td>${formatINR(grossIncome)}</td><td>${formatINR(grossIncome)}</td></tr>
-                    <tr><td>Standard Relief</td><td>${formatINR(oldStd)}</td><td>${formatINR(newStd)}</td></tr>
+                    <tr><td>Standard Relief</td><td>${formatINR(oldResult.stdDeduction)}</td><td>${formatINR(newResult.stdDeduction)}</td></tr>
                     <tr><td>Deductions Applied (Traditional)</td><td>${formatINR(deductions)}</td><td>₹0</td></tr>
-                    <tr><td>Assessable Income</td><td>${formatINR(oldTaxable)}</td><td>${formatINR(newTaxable)}</td></tr>
-                    <tr><td>Tax Prior to Relief</td><td class="highlight-tax">${formatINR(preCessOldTax)}</td><td class="highlight-tax">${formatINR(preCessNewTax)}</td></tr>
-                    <tr><td>87A Relief</td><td>${formatINR(oldRebate)}</td><td>${formatINR(newRebate)}</td></tr>
-                    <tr><td>Final Liability (incl. Cess)</td><td class="highlight-tax">${formatINR(oldTax)}</td><td class="highlight-tax">${formatINR(newTax)}</td></tr>
-                    <tr><td>Regime Advantage</td><td colspan="2" style="text-align:center; color:#28a745; font-weight:600;">${formatINR(Math.abs(oldTax - newTax))} (Opt for ${oldTax > newTax ? 'Modern' : 'Traditional'})</td></tr>
-                    <tr><td>Rate Structure (Traditional)</td><td colspan="2"><div class="slab-breakdown">${oldSlabs || 'Not Applicable'}</div></td></tr>
-                    <tr><td>Rate Structure (Modern)</td><td colspan="2"><div class="slab-breakdown">${newSlabs || 'Not Applicable'}</div></td></tr>
+                    <tr><td>Assessable Income</td><td>${formatINR(oldResult.taxableIncome)}</td><td>${formatINR(newResult.taxableIncome)}</td></tr>
+                    <tr><td>Tax Before Rebate</td><td class="highlight-tax">${formatINR(oldResult.preRebateTax)}</td><td class="highlight-tax">${formatINR(newResult.preRebateTax)}</td></tr>
+                    <tr><td>87A Rebate</td><td>${formatINR(oldResult.rebateAmount)}</td><td>${formatINR(newResult.rebateAmount)}</td></tr>
+                    <tr><td>Final Liability (incl. Cess & Surcharge)</td><td class="highlight-tax">${formatINR(oldResult.tax)}</td><td class="highlight-tax">${formatINR(newResult.tax)}</td></tr>
+                    <tr><td>Regime Advantage</td><td colspan="2" style="text-align:center; color:#28a745; font-weight:600;">${formatINR(Math.abs(regimeAdvantage))} (Opt for ${recommendedRegime} Regime)</td></tr>
+                    <tr><td>Rate Structure (Traditional)</td><td colspan="2"><div class="slab-breakdown">${oldResult.slabs || 'Nil'}</div></td></tr>
+                    <tr><td>Rate Structure (New)</td><td colspan="2"><div class="slab-breakdown">${newResult.slabs || 'Nil'}</div></td></tr>
                 `;
                 document.getElementById('results').style.display = 'block';
                 window.scrollTo(0, document.getElementById('results').offsetTop);
                 updateSteps(4);
                 // Store for downloads
                 window.taxData = {
-                    grossIncome, deductions, oldTax, newTax, oldSlabs, newSlabs, oldStd, newStd, oldTaxable, newTaxable,
+                    grossIncome, deductions, 
+                    oldTax: oldResult.tax, newTax: newResult.tax,
+                    oldTaxable: oldResult.taxableIncome, newTaxable: newResult.taxableIncome,
+                    oldPreRebate: oldResult.preRebateTax, newPreRebate: newResult.preRebateTax,
+                    oldRebate: oldResult.rebateAmount, newRebate: newResult.rebateAmount,
+                    oldSlabs: oldResult.slabs, newSlabs: newResult.slabs,
+                    oldStd: oldResult.stdDeduction, newStd: newResult.stdDeduction,
                     timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
                 };
             });
@@ -443,57 +490,93 @@
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            /* Header */
+            /* Header - Larger Size */
             doc.setFillColor(74, 144, 226);
-            doc.rect(0, 0, 210, 40, 'F');
-            /* Logo (safe load) */
+            doc.rect(0, 0, 210, 50, 'F');
+            /* Logo (larger) */
             const logo = new Image();
             logo.src = 'logo1.png';
             logo.onload = function () {
-                doc.addImage(logo, 'PNG', 15, 8, 22, 22);
+                doc.addImage(logo, 'PNG', 15, 10, 30, 30); // Larger logo
                 renderPDF();
             };
             logo.onerror = function () {
-                renderPDF(); // logo na mile to bhi PDF banega
+                renderPDF(); // Proceed without logo
             };
             function renderPDF() {
                 doc.setTextColor(255, 255, 255);
-                doc.setFontSize(20);
-                doc.text('TaxEasePro', 45, 20);
+                doc.setFontSize(24); // Larger title
+                doc.text('TaxEasePro', 50, 22);
+                doc.setFontSize(12); // Subtitle
+                doc.text('Income Tax Computation Report - FY 2025-26', 50, 32);
                 doc.setFontSize(10);
-                doc.text('Income Tax Computation Report', 45, 28);
+                doc.text('Comprehensive Analysis for AY 2026-27', 50, 40);
+                
                 doc.setTextColor(0);
-                doc.setFontSize(11);
-                let y = 55;
+                let y = 60;
                 const g = window.taxData;
-                doc.text(`Generated On: ${g.timestamp}`, 15, y); y += 12;
-                doc.setFontSize(13);
-                doc.text('Traditional Regime', 15, y); y += 8;
-                doc.setFontSize(11);
-                doc.text(`Total Income: ₹${formatINR(g.grossIncome)}`, 15, y); y += 8;
-                doc.text(`Deductions: ₹${formatINR(g.deductions)}`, 15, y); y += 8;
-                doc.text(`Taxable Income: ₹${formatINR(g.oldTaxable)}`, 15, y); y += 8;
-                doc.text(`Tax Payable: ₹${formatINR(g.oldTax)}`, 15, y); y += 12;
-                doc.setFontSize(13);
-                doc.text('Modern Regime', 15, y); y += 8;
-                doc.setFontSize(11);
-                doc.text(`Taxable Income: ₹${formatINR(g.newTaxable)}`, 15, y); y += 8;
-                doc.text(`Tax Payable: ₹${formatINR(g.newTax)}`, 15, y); y += 12;
-                doc.setTextColor(40, 167, 69);
                 doc.setFontSize(12);
-                doc.text(
-                    `Recommended: ${g.oldTax > g.newTax ? 'Modern Regime' : 'Traditional Regime'}`,
-                    15,
-                    y
-                );
+                doc.text(`Generated On: ${g.timestamp}`, 15, y); y += 15;
+                
+                // Table for Computation
+                const tableData = [
+                    ['Component', 'Traditional Regime (₹)', 'New Regime (₹)'],
+                    ['Total Earnings', formatINR(g.grossIncome), formatINR(g.grossIncome)],
+                    ['Standard Relief', formatINR(g.oldStd), formatINR(g.newStd)],
+                    ['Deductions Applied', formatINR(g.deductions), '₹0'],
+                    ['Assessable Income', formatINR(g.oldTaxable), formatINR(g.newTaxable)],
+                    ['Tax Before Rebate', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
+                    ['87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
+                    ['Final Liability (incl. Cess & Surcharge)', formatINR(g.oldTax), formatINR(g.newTax)],
+                    ['Rate Structure (Traditional)', g.oldSlabs || 'Nil', ''],
+                    ['Rate Structure (New)', '', g.newSlabs || 'Nil']
+                ];
+                
+                doc.autoTable({
+                    startY: y,
+                    head: [tableData[0]],
+                    body: tableData.slice(1),
+                    theme: 'grid',
+                    styles: {
+                        fontSize: 10,
+                        cellPadding: 3,
+                        overflow: 'linebreak',
+                        halign: 'left',
+                        fillColor: [37, 37, 37],
+                        textColor: [255, 255, 255],
+                        lineColor: [68, 68, 68],
+                        lineWidth: 0.1
+                    },
+                    headStyles: {
+                        fillColor: [74, 144, 226],
+                        textColor: [255, 255, 255],
+                        fontStyle: 'bold'
+                    },
+                    columnStyles: {
+                        0: { cellWidth: 70 },
+                        1: { cellWidth: 60 },
+                        2: { cellWidth: 60 }
+                    },
+                    margin: { left: 15, right: 15 }
+                });
+                
+                y = doc.lastAutoTable.finalY + 10;
+                
+                // Recommended Regime
+                const recommended = g.oldTax > g.newTax ? 'New Regime' : 'Traditional Regime';
+                const advantage = Math.abs(g.oldTax - g.newTax);
+                doc.setFontSize(12);
+                doc.setTextColor(40, 167, 69);
+                doc.setFont('helvetica', 'bold');
+                doc.text(`Recommended: ${recommended} | Advantage: ₹${formatINR(advantage)}`, 15, y);
+                
+                // Footer
+                y = 285;
                 doc.setFontSize(9);
                 doc.setTextColor(120);
-                doc.text(
-                    'System generated report – For advisory use only',
-                    105,
-                    285,
-                    { align: 'center' }
-                );
+                doc.setFont('helvetica', 'normal');
+                doc.text('System generated report – For advisory use only', 105, y, { align: 'center' });
+                
                 doc.save('TaxEasePro_Tax_Report.pdf');
             }
         }
@@ -507,7 +590,7 @@
             const wsData = [
                 ["INCOME TAX COMPUTATION – FY 2025-26 (AY 2026-27)"],
                 [],
-                ["Particulars", "Old Regime (₹)", "New Regime (₹)"],
+                ["Particulars", "Traditional Regime (₹)", "New Regime (₹)"],
                 ["Gross Total Income", window.taxData.grossIncome, window.taxData.grossIncome],
                 ["Less: Deductions", window.taxData.deductions, 0],
                 ["Taxable Income", window.taxData.oldTaxable, window.taxData.newTaxable],
@@ -517,7 +600,7 @@
                 [],
                 [
                     "Recommended Regime",
-                    window.taxData.oldTax > window.taxData.newTax ? "New Regime" : "Old Regime",
+                    window.taxData.oldTax > window.taxData.newTax ? "New Regime" : "Traditional Regime",
                     ""
                 ],
                 [],
