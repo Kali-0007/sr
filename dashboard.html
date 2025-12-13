@@ -8,65 +8,79 @@
 <link rel="stylesheet" href="style.css">
 <style>
   body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #0d0d0d;
-    color: #fff;
-  }
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: #111;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 100;
-  }
-  header .logo {
-    font-size: 24px;
-    font-weight: 700;
-    color: #00ff9d;
-  }
-  header nav a {
-    margin-left: 20px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-  }
-  header nav a:hover {
-    color: #00ff9d;
-  }
-  .container {
-    display: flex;
-    margin-top: 0px;
-  }
-  .sidebar {
-    width: 220px;
-    background: #111;
-    min-height: 100vh;
-    padding-top: 0px;
-    position: fixed;
-  }
-  .sidebar a {
-    display: block;
-    padding: 15px 25px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-  }
-  .sidebar a:hover, .sidebar a.active {
-    background: #00ff9d20;
-    color: #00ff9d;
-  }
-  .main-content {
-    margin-left: 240px;
-    padding: 30px;
-    flex: 1;
-  }
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #0d0d0d;
+  color: #fff;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #111;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  height: 60px; /* fixed header height */
+}
+
+header .logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #00ff9d;
+}
+
+header nav a {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+header nav a:hover {
+  color: #00ff9d;
+}
+
+.container {
+  display: flex;
+  margin-top: 0; /* remove extra gap */
+}
+
+.sidebar {
+  width: 220px;
+  background: #111;
+  min-height: 100vh;
+  padding-top: 0;
+  position: fixed;
+  top: 60px; /* header height */
+}
+
+.sidebar a {
+  display: block;
+  padding: 15px 25px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: #00ff9d20;
+  color: #00ff9d;
+}
+
+.main-content {
+  margin-left: 240px;
+  padding: 30px;
+  margin-top: 60px; /* header height */
+  flex: 1;
+}
+
   .welcome-text {
     font-size: 32px;
     font-weight: 700;
