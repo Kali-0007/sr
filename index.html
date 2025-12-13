@@ -6,9 +6,79 @@
   <title>TaxGSTPro – ITR Filing, GST Registration & Returns Starting ₹499</title>
   <meta name="description" content="Fastest ITR Filing, GST Registration, Company Registration in India. Starting ₹499 only. 5000+ happy clients.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
   <script>const MY_WA = "919876543210";</script>
   <script>const MY_UPI = "taxgstpro@oksbi";</script>
+
+  <style>
+    /* Existing styles + New additions from your code */
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px; }
+    .glass { background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border-radius:20px; padding:25px; border:1px solid rgba(255,255,255,0.1); }
+    .btn-big { padding:18px 40px; border-radius:50px; font-weight:600; font-size:18px; text-decoration:none; }
+    .btn-upi { background:linear-gradient(135deg,#00c853,#64dd17); color:white; }
+    .btn-primary { background:linear-gradient(135deg,#667eea,#764ba2); color:white; }
+    .tag { background:#ff6b6b; color:white; padding:5px 15px; border-radius:20px; font-size:13px; }
+    .testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:28px; }
+    .testimonial:hover { transform:translateY(-10px); }
+    .review-text { font-style:italic; color:#ddd; line-height:1.7; }
+    .client-info { color:#667eea; font-weight:600; margin-top:15px; }
+    .auth-links { display:flex; gap:10px; }
+    .btn-highlight { background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:8px 16px; border-radius:20px; font-size:14px; text-decoration:none; }
+
+    /* --- NEW CALCULATOR MODAL STYLES --- */
+    .modal {
+        display: none; /* डिफ़ॉल्ट रूप से छुपा हुआ */
+        position: fixed;
+        z-index: 10000; /* Booking Modal (z-index: 9999) से ऊपर */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    .calculator-container {
+        max-width: 900px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        overflow: hidden;
+        position: relative;
+    }
+    .close-button {
+        position: absolute;
+        top: 15px;
+        right: 25px;
+        color: white;
+        font-size: 35px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10001;
+    }
+    .close-button:hover {
+        color: #f1f1f1;
+    }
+    .calculator-header { 
+        background: linear-gradient(135deg, #667eea, #764ba2); 
+        color: white; 
+        padding: 30px; 
+        text-align: center; 
+    }
+    .calculator-form { padding: 30px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .form-grid label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
+    .calculator-form input, .calculator-form select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+    .calculator-form button[type="submit"] { background: #667eea; color: white; border: none; padding: 14px 30px; font-size: 18px; border-radius: 8px; cursor: pointer; margin-top: 20px; width: 100%; font-weight: 600; }
+    .calculator-results { padding: 30px; background: #f9fbff; display: none; }
+    .calculator-results table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 17px; }
+    .calculator-results th, .calculator-results td { padding: 14px; text-align: left; border-bottom: 1px solid #eee; }
+    .calculator-results th { background: #eef1f5; font-weight: 600; }
+    .highlight-tax { font-size: 22px; font-weight: bold; color: #d4380d; }
+    .old-regime { background: #fff7e6; }
+    .new-regime { background: #e6f7ff; }
+    .calculator-footer { text-align: center; padding: 20px; color: #888; font-size: 14px; }
+    .btn-secondary { background:#fff; color:#667eea; border:2px solid #667eea; font-weight:700; }
+  </style>
 </head>
 <body>
 
@@ -22,10 +92,8 @@
   <a href="login.html" class="btn-highlight">Login</a>
   <a href="signup.html" class="btn-highlight">Signup</a>
 </nav>
-
 </header>
 
-<!-- HERO SECTION (FIXED TEXT CUT) -->
 <section class="hero" style="padding-top: 140px;">
   <div class="container" style="text-align:center;">
     <h1 style="font-size:48px;margin-bottom:20px;">
@@ -39,19 +107,22 @@
     </p>
     <div style="margin:40px 0;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
       <a href="services.html" class="btn-big btn-primary">View All Services</a>
+      
+      <button id="openModalBtnHero" class="btn-big btn-secondary">
+        Income Tax Calculator
+      </button>
+      
       <a href="https://wa.me/919876543210" target="_blank" class="btn-big btn-upi">Chat on WhatsApp</a>
     </div>
   </div>
 </section>
 
-<!-- Trust Badges -->
 <div style="background:#111;padding:20px;text-align:center;">
   <p style="color:#888;font-size:16px;">
     PAN India Service • 24×7 WhatsApp Support • Secure & Confidential • Money-Back Guarantee
   </p>
 </div>
 
-<!-- Popular Packages -->
 <section class="container" style="padding:70px 20px;">
   <h2 class="section-title" style="text-align:center;margin-bottom:50px;">Most Popular Services</h2>
   <div class="cards">
@@ -86,7 +157,6 @@
   </p>
 </section>
 
-<!-- Why Choose Us -->
 <section style="background:#0d0d1f;padding:80px 20px;">
   <div class="container">
     <h2 class="section-title" style="text-align:center;color:white;margin-bottom:50px;">Why Choose TaxGSTPro?</h2>
@@ -99,7 +169,6 @@
   </div>
 </section>
 
-<!-- Testimonials -->
 <section style="padding:80px 20px;background:#0d0d1f;">
   <div class="container">
     <h2 class="section-title" style="text-align:center;color:white;margin-bottom:60px;">What Our Clients Say</h2>
@@ -117,7 +186,6 @@
   </div>
 </section>
 
-<!-- Final CTA -->
 <section style="background:linear-gradient(135deg,#667eea,#764ba2);padding:90px 20px;text-align:center;color:white;">
   <h2 style="font-size:42px;">Ready to File Tax or Register GST?</h2>
   <p style="font-size:22px;margin:25px 0;">100% online • Takes only 2 minutes</p>
@@ -130,7 +198,82 @@
   © 2025 TaxGSTPro. All rights reserved. | <a href="#" style="color:#667eea;">Privacy Policy</a>
 </footer>
 
-<!-- Booking Modal -->
+<div id="calculatorModal" class="modal">
+    <div class="calculator-container">
+        <span class="close-button" id="closeModalBtn">&times;</span>
+        <header class="calculator-header">
+            <h1>Income Tax Calculator</h1>
+            <div class="subtitle">Financial Year 2024-25 (Assessment Year 2025-26)</div>
+        </header>
+
+        <form id="taxForm" class="calculator-form">
+            <div class="form-grid">
+                <div>
+                    <label>Taxpayer Type</label>
+                    <select id="taxpayerType" required>
+                        <option value="individual">Individual (Below 60 years)</option>
+                        <option value="senior">Senior Citizen (60 to 79 years)</option>
+                        <option value="superSenior">Super Senior Citizen (80 years and above)</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Residential Status</label>
+                    <select id="residentialStatus" required>
+                        <option value="resident">Resident</option>
+                        <option value="nri">Non-Resident (NRI)</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Gross Salary (₹)</label>
+                    <input type="number" id="grossSalary" min="0" value="0" required>
+                </div>
+                <div>
+                    <label>HRA Received (₹)</label>
+                    <input type="number" id="hraReceived" min="0" value="0">
+                </div>
+                <div>
+                    <label>Interest on Housing Loan (Section 24) (₹)<br><small>Self-occupied property, max ₹2,00,000</small></label>
+                    <input type="number" id="section24" min="0" max="200000" value="0">
+                </div>
+                <div>
+                    <label>Income from Other Sources (₹)<br><small>Interest, Dividends, etc.</small></label>
+                    <input type="number" id="otherIncome" min="0" value="0">
+                </div>
+                <div>
+                    <label>Section 80C Deductions (₹)<br><small>Max ₹1,50,000 (Old Regime only)</small></label>
+                    <input type="number" id="section80C" min="0" max="150000" value="0">
+                </div>
+                <div>
+                    <label>Section 80D Deductions (Medical Premium) (₹)</label>
+                    <input type="number" id="section80D" min="0" value="0">
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <button type="submit">Calculate Tax</button>
+            </div>
+        </form>
+
+        <div class="calculator-results" id="results">
+            <h2 style="text-align:center; margin-bottom:20px;">Tax Liability Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th class="old-regime">Old Tax Regime (₹)</th>
+                        <th class="new-regime">New Tax Regime (₹)</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTable">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="calculator-footer">
+            This calculator is for estimation purposes only. Please consult a tax professional for accurate advice.
+        </div>
+    </div>
+</div>
+
 <div id="bookingModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;padding:20px;overflow-y:auto;">
   <div style="background:#111;border-radius:20px;max-width:420px;margin:40px auto;padding:30px;color:white;">
     <h2 style="background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
@@ -171,24 +314,106 @@ function submitBooking() {
   document.getElementById('bookingModal').style.display = 'none';
   alert("Thank you! Payment link opened & details sent to us.");
 }
-</script>
 
-<style>
-/* Existing styles + New additions */
-.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px; }
-.glass { background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border-radius:20px; padding:25px; border:1px solid rgba(255,255,255,0.1); }
-.btn-big { padding:18px 40px; border-radius:50px; font-weight:600; font-size:18px; text-decoration:none; }
-.btn-upi { background:linear-gradient(135deg,#00c853,#64dd17); color:white; }
-.btn-primary { background:linear-gradient(135deg,#667eea,#764ba2); color:white; }
-.tag { background:#ff6b6b; color:white; padding:5px 15px; border-radius:20px; font-size:13px; }
-.testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:28px; }
-.testimonial:hover { transform:translateY(-10px); }
-.review-text { font-style:italic; color:#ddd; line-height:1.7; }
-.client-info { color:#667eea; font-weight:600; margin-top:15px; }
-/* Auth highlight */
-.auth-links { display:flex; gap:10px; }
-.btn-highlight { background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:8px 16px; border-radius:20px; font-size:14px; text-decoration:none; }
-</style>
+// --------------------- 2. CALCULATOR JAVASCRIPT LOGIC ---------------------
 
-</body>
-</html>
+// Utility: Format number with Indian commas
+function formatINR(num) {
+    if (num === 0) return '0';
+    return new Intl.NumberFormat('en-IN').format(Math.round(num));
+}
+
+// ---------- POPUP HANDLING LOGIC ----------
+const modal = document.getElementById('calculatorModal');
+const openBtn = document.getElementById('openModalBtnHero'); // Corrected ID
+const closeBtn = document.getElementById('closeModalBtn');
+
+openBtn.onclick = function() {
+    modal.style.display = "block";
+    document.body.style.overflow = 'hidden'; 
+}
+
+closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.body.style.overflow = 'auto'; 
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = 'auto';
+    }
+}
+// ---------- END POPUP HANDLING LOGIC ----------
+
+
+// ---------- CORRECTED OLD REGIME SLAB LOGIC (FY 2024-25) ----------
+function calculateOldRegimeTax(taxableIncome, ageCategory) {
+    let tax = 0;
+
+    if (ageCategory === 'individual') {
+        if (taxableIncome <= 250000) return 0;
+        if (taxableIncome > 250000) {
+            const slab5 = Math.min(taxableIncome - 250000, 250000); 
+            tax += slab5 * 0.05;
+        }
+        if (taxableIncome > 500000) {
+            const slab20 = Math.min(taxableIncome - 500000, 500000); 
+            tax += slab20 * 0.20;
+        }
+        if (taxableIncome > 1000000) {
+            tax += (taxableIncome - 1000000) * 0.30; 
+        }
+    }
+    else if (ageCategory === 'senior') {
+        if (taxableIncome <= 300000) return 0;
+        if (taxableIncome > 300000) {
+            const slab5 = Math.min(taxableIncome - 300000, 200000); 
+            tax += slab5 * 0.05;
+        }
+        if (taxableIncome > 500000) {
+            const slab20 = Math.min(taxableIncome - 500000, 500000); 
+            tax += slab20 * 0.20;
+        }
+        if (taxableIncome > 1000000) {
+            tax += (taxableIncome - 1000000) * 0.30; 
+        }
+    }
+    else if (ageCategory === 'superSenior') {
+        if (taxableIncome <= 500000) return 0;
+        if (taxableIncome > 500000) {
+            const slab20 = Math.min(taxableIncome - 500000, 500000); 
+            tax += slab20 * 0.20;
+        }
+        if (taxableIncome > 1000000) {
+            tax += (taxableIncome - 1000000) * 0.30; 
+        }
+    }
+    return tax;
+}
+// ---------- END CORRECTED OLD REGIME SLAB LOGIC ----------
+
+
+// New Regime Tax Slabs (FY 2024-25) - same for all ages
+function calculateNewRegimeTax(taxableIncome) {
+    let tax = 0;
+    
+    if (taxableIncome <= 300000) return 0; 
+    if (taxableIncome > 300000) { tax += Math.min(taxableIncome - 300000, 300000) * 0.05; }
+    if (taxableIncome > 600000) { tax += Math.min(taxableIncome - 600000, 300000) * 0.10; }
+    if (taxableIncome > 900000) { tax += Math.min(taxableIncome - 900000, 300000) * 0.15; }
+    if (taxableIncome > 1200000) { tax += Math.min(taxableIncome - 1200000, 300000) * 0.20; }
+    if (taxableIncome > 1500000) { tax += (taxableIncome - 1500000) * 0.30; }
+    return tax;
+}
+// ---------- END NEW REGIME SLAB LOGIC ----------
+
+
+document.getElementById('taxForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // 1. Inputs
+    const taxpayerType = document.getElementById('taxpayerType').value;
+    const residentialStatus = document.getElementById('residentialStatus').value;
+    const grossSalary = parseFloat(document.getElementById('grossSalary').value) || 0;
+    const s
