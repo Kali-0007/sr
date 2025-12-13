@@ -119,11 +119,46 @@
     font-weight: 600;
 }
 
-    .calculator-results { padding: 30px; background: #f9fbff; display: none; }
-    .calculator-results table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 17px; }
-    .calculator-results th, .calculator-results td { padding: 14px; text-align: left; border-bottom: 1px solid #eee; }
-    .calculator-results th { background: #eef1f5; font-weight: 600; }
-    .highlight-tax { font-size: 22px; font-weight: bold; color: #d4380d; }
+    .calculator-results {
+    padding: 30px;
+    background: #000000;   /* Dark/Black background */
+    color: #ffffff;         /* White text for readability */
+    display: none;
+}
+
+.calculator-results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 17px;
+    color: #ffffff; /* Ensure table text is white */
+}
+
+.calculator-results th {
+    background: #111111; /* Darker header */
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.calculator-results td {
+    border-bottom: 1px solid #333333; /* Dark border */
+    color: #ffffff;
+}
+
+.old-regime {
+    background: #1a1a1a; /* Slightly lighter black for distinction */
+}
+
+.new-regime {
+    background: #1a1a1a; /* Same as above */
+}
+
+.highlight-tax {
+    color: #00ffae; /* Highlighted tax in greenish color for visibility */
+    font-weight: bold;
+    font-size: 22px;
+}
+
     .old-regime { background: #fff7e6; }
     .new-regime { background: #e6f7ff; }
     .calculator-footer { text-align: center; padding: 20px; color: #888; font-size: 14px; }
