@@ -258,7 +258,51 @@ header nav a:hover {
     <div id="payments" class="tab-content" style="display:none;"><h2>Payment Status</h2><p>Coming Soon</p></div>
     <div id="calculator" class="tab-content" style="display:none;"><h2>Tax Calculators</h2><p>Coming Soon</p></div>
     <div id="reports" class="tab-content" style="display:none;"><h2>Reports</h2><p>Coming Soon</p></div>
-    <div id="support" class="tab-content" style="display:none;"><h2>Support</h2><p>Coming Soon</p></div>
+    <div id="support" class="tab-content" style="display:none;">
+  <h2>Support</h2>
+  <p>Contact our support team:</p>
+  
+  <form id="supportForm" style="max-width:500px; margin-top:20px;">
+    <input type="text" id="supportName" placeholder="Your Name" required style="width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #444; background:#0d0d0d; color:#fff;">
+    <input type="text" id="supportUsername" placeholder="Username" required style="width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #444; background:#0d0d0d; color:#fff;">
+    <input type="email" id="supportEmail" placeholder="Email" required style="width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #444; background:#0d0d0d; color:#fff;">
+    <textarea id="supportQuery" placeholder="Your Query" rows="5" required style="width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #444; background:#0d0d0d; color:#fff;"></textarea>
+    <button type="submit" style="padding:12px 20px; border:none; border-radius:10px; background:#00ff9d; color:#000; font-weight:600; cursor:pointer; margin-top:10px;">Submit</button>
+  </form>
+
+  <div style="margin-top:20px;">
+    <button id="whatsappSupport" style="padding:12px 20px; border:none; border-radius:10px; background:#25D366; color:#fff; font-weight:600; cursor:pointer; margin-right:10px;">WhatsApp Support</button>
+    <button id="emailSupport" style="padding:12px 20px; border:none; border-radius:10px; background:#0072C6; color:#fff; font-weight:600; cursor:pointer;">Send Email</button>
+  </div>
+</div>
+
+<script>
+// WhatsApp Support
+document.getElementById('whatsappSupport').onclick = () => {
+  const phone = "91XXXXXXXXXX"; // replace with your WhatsApp number
+  window.open(`https://wa.me/${phone}`, "_blank");
+}
+
+// Email Support
+document.getElementById('emailSupport').onclick = () => {
+  const email = "support@example.com"; // replace with your support email
+  const subject = encodeURIComponent("Support Query");
+  const body = encodeURIComponent(
+    `Name: ${document.getElementById('supportName').value}\n` +
+    `Username: ${document.getElementById('supportUsername').value}\n` +
+    `Email: ${document.getElementById('supportEmail').value}\n` +
+    `Query: ${document.getElementById('supportQuery').value}`
+  );
+  window.open(`mailto:${email}?subject=${subject}&body=${body}`);
+}
+
+// Optional: prevent form default submit
+document.getElementById('supportForm').onsubmit = (e) => {
+  e.preventDefault();
+  alert("Thank you! You can now use WhatsApp or Email buttons to contact support.");
+}
+</script>
+
   </div>
 </div>
 
