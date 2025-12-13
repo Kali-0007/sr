@@ -256,140 +256,204 @@ header nav a:hover {
     <div id="returns" class="tab-content" style="display:none;"><h2>My Returns</h2><p>Coming Soon</p></div>
     <div id="upload" class="tab-content" style="display:none;"><h2>Upload Documents</h2><p>Coming Soon</p></div>
     <div id="payments" class="tab-content" style="display:none;"><h2>Payment Status</h2><p>Coming Soon</p></div>
-    <div id="calculator" class="tab-content" style="display:none;">
-  <h2 class="tab-heading">Tax Calculators</h2>
+    <!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaxGSTPro Calculator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+  body { background: #0a0a0a; color: #e0e0e0; font-family: 'Inter', sans-serif; }
+  input, select { background: #1a1a1a; color: #fff; border-radius: 0.75rem; padding: 0.75rem; width: 100%; }
+  .tab-button.active { background: #06b6d4; color: #000; }
+</style>
+</head>
+<body class="p-6">
 
-  <div class="calculator-cards">
-    <!-- Income Tax Calculator -->
-    <div class="calculator-card" id="incomeTaxCard">
-      <h3>Income Tax Calculator</h3>
-      <input type="number" id="incomeAmount" placeholder="Enter Annual Income (₹)">
-      <button onclick="calculateIncomeTax()">Calculate Income Tax</button>
-      <p class="calc-result" id="incomeTaxResult"></p>
+<div class="max-w-6xl mx-auto">
+
+  <!-- Calculator Tabs -->
+  <div class="flex justify-center gap-4 mb-8 flex-wrap">
+    <button onclick="showCalc('tax')" id="taxTab" class="tab-button px-6 py-3 rounded-2xl bg-gray-700 font-bold">Income Tax</button>
+    <button onclick="showCalc('gst')" id="gstTab" class="tab-button px-6 py-3 rounded-2xl bg-gray-700 font-bold">GST Calculator</button>
+  </div>
+
+  <!-- Income Tax Calculator -->
+  <div id="incomeTaxCalc" class="space-y-8">
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <label>कुल वार्षिक सैलरी</label>
+        <input type="number" id="grossSalary" value="1500000" oninput="calculateTax()">
+      </div>
+      <div>
+        <label>HRA प्राप्त</label>
+        <input type="number" id="hraReceived" value="0" oninput="calculateTax()">
+      </div>
+      <div>
+        <label>किराया चुकाया</label>
+        <input type="number" id="rentPaid" value="0" oninput="calculateTax()">
+      </div>
+      <div>
+        <label>हाउस प्रॉपर्टी आय</label>
+        <input type="number" id="houseProperty" value="0" oninput="calculateTax()">
+      </div>
     </div>
 
-    <!-- GST Calculator -->
-    <div class="calculator-card" id="gstCard">
-      <h3>GST Calculator</h3>
-      <input type="number" id="gstAmount" placeholder="Enter Amount (₹)">
-      <input type="number" id="gstRate" placeholder="GST Rate (%)" value="18">
-      <button onclick="calculateGST()">Calculate GST</button>
-      <p class="calc-result" id="gstResult"></p>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <label>80C डिडक्शन</label>
+        <input type="number" id="sec80c" value="150000" max="150000" oninput="calculateTax()">
+      </div>
+      <div>
+        <label>80D डिडक्शन</label>
+        <input type="number" id="sec80d" value="25000" oninput="calculateTax()">
+      </div>
     </div>
 
-    <!-- TDS Calculator -->
-    <div class="calculator-card" id="tdsCard">
-      <h3>TDS Calculator</h3>
-      <input type="number" id="tdsAmount" placeholder="Enter Amount (₹)">
-      <input type="number" id="tdsRate" placeholder="TDS Rate (%)" value="10">
-      <button onclick="calculateTDS()">Calculate TDS</button>
-      <p class="calc-result" id="tdsResult"></p>
+    <div class="flex gap-6 flex-wrap">
+      <div class="flex-1 bg-gray-800 p-6 rounded-3xl text-center">
+        <h3 class="text-xl font-bold text-cyan-300">पुरानी रिजीम टैक्स</h3>
+        <p class="text-3xl font-extrabold mt-4" id="oldTax">₹0</p>
+      </div>
+      <div class="flex-1 bg-gray-800 p-6 rounded-3xl text-center">
+        <h3 class="text-xl font-bold text-cyan-300">नई रिजीम टैक्स</h3>
+        <p class="text-3xl font-extrabold mt-4" id="newTax">₹0</p>
+      </div>
     </div>
   </div>
+
+  <!-- GST Calculator -->
+  <div id="gstCalc" class="hidden space-y-8">
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div>
+        <label>Bill Type</label>
+        <select id="gstTaxType" onchange="calcGST()">
+          <option value="exclusive">Exclusive of GST</option>
+          <option value="inclusive">Inclusive of GST</option>
+        </select>
+      </div>
+      <div>
+        <label>Supply Type</label>
+        <select id="supplyType" onchange="calcGST()">
+          <option value="intra">इंट्रा-स्टेट (CGST+SGST)</option>
+          <option value="inter">इंटर-स्टेट (IGST)</option>
+        </select>
+      </div>
+      <div>
+        <label>Round Off</label>
+        <select id="gstRoundOff" onchange="calcGST()">
+          <option value="0">None</option>
+          <option value="1">1₹</option>
+        </select>
+      </div>
+    </div>
+
+    <table class="w-full text-left border-collapse border border-gray-600">
+      <thead>
+        <tr class="bg-gray-700">
+          <th class="p-2">Item / HSN</th>
+          <th class="p-2">Qty</th>
+          <th class="p-2">Rate ₹</th>
+          <th class="p-2">Discount %</th>
+          <th class="p-2">GST %</th>
+          <th class="p-2">Amount</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="gstItemsBody"></tbody>
+    </table>
+
+    <button onclick="addGSTItem()" class="bg-green-600 px-6 py-3 rounded-2xl font-bold text-black">+ Add Item</button>
+
+    <div class="grid md:grid-cols-3 gap-6 text-center">
+      <div class="bg-gray-800 p-6 rounded-2xl">
+        <p>Taxable Amount</p>
+        <p id="gstTaxable" class="text-2xl font-bold">₹0.00</p>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-2xl">
+        <p>Total GST</p>
+        <p id="gstTotal" class="text-2xl font-bold">₹0.00</p>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-2xl">
+        <p>Grand Total</p>
+        <p id="gstGrandTotal" class="text-2xl font-bold">₹0.00</p>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<style>
-.tab-heading {
-  text-align: center;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  background: linear-gradient(90deg, #00d4ff, #00ff9d);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.calculator-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.calculator-card {
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 20px;
-  width: 300px;
-  text-align: center;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-}
-
-.calculator-card h3 {
-  font-size: 20px;
-  margin-bottom: 15px;
-  color: #a0f7ff;
-}
-
-.calculator-card input {
-  width: 90%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background: #0d0d0d;
-  color: #fff;
-  font-size: 14px;
-}
-
-.calculator-card button {
-  margin-top: 10px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  background: linear-gradient(45deg, #00d4ff, #00ff9d);
-  color: #000;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.calculator-card button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 212, 255, 0.4);
-}
-
-.calc-result {
-  margin-top: 12px;
-  font-weight: 700;
-  font-size: 16px;
-  color: #00ff9d;
-}
-</style>
-
 <script>
-function calculateIncomeTax() {
-  const income = parseFloat(document.getElementById('incomeAmount').value) || 0;
-  let tax = 0;
-
-  if (income <= 250000) tax = 0;
-  else if (income <= 500000) tax = (income - 250000) * 0.05;
-  else if (income <= 1000000) tax = (250000 * 0.05) + (income - 500000) * 0.2;
-  else tax = (250000 * 0.05) + (500000 * 0.2) + (income - 1000000) * 0.3;
-
-  document.getElementById('incomeTaxResult').textContent = `Income Tax: ₹${tax.toFixed(2)}`;
+// Tab Navigation
+function showCalc(type){
+  document.getElementById('incomeTaxCalc').classList.toggle('hidden', type!=='tax');
+  document.getElementById('gstCalc').classList.toggle('hidden', type!=='gst');
+  document.getElementById('taxTab').classList.toggle('active', type==='tax');
+  document.getElementById('gstTab').classList.toggle('active', type==='gst');
 }
 
-function calculateGST() {
-  const amount = parseFloat(document.getElementById('gstAmount').value) || 0;
-  const rate = parseFloat(document.getElementById('gstRate').value) || 0;
-  const gst = (amount * rate) / 100;
-  const total = amount + gst;
-
-  document.getElementById('gstResult').textContent = `GST: ₹${gst.toFixed(2)} | Total: ₹${total.toFixed(2)}`;
+// Dummy Tax Calculation (copy your previous logic here)
+function calculateTax() {
+  const gross = +document.getElementById('grossSalary').value || 0;
+  const hra = +document.getElementById('hraReceived').value || 0;
+  const ded80c = +document.getElementById('sec80c').value || 0;
+  const ded80d = +document.getElementById('sec80d').value || 0;
+  const oldTaxAmt = gross*0.1 - ded80c*0.1; // simplified
+  const newTaxAmt = gross*0.08 - ded80c*0.08; // simplified
+  document.getElementById('oldTax').textContent = '₹'+Math.max(oldTaxAmt,0).toFixed(0);
+  document.getElementById('newTax').textContent = '₹'+Math.max(newTaxAmt,0).toFixed(0);
 }
 
-function calculateTDS() {
-  const amount = parseFloat(document.getElementById('tdsAmount').value) || 0;
-  const rate = parseFloat(document.getElementById('tdsRate').value) || 0;
-  const tds = (amount * rate) / 100;
-  const afterTDS = amount - tds;
-
-  document.getElementById('tdsResult').textContent = `TDS: ₹${tds.toFixed(2)} | After TDS: ₹${afterTDS.toFixed(2)}`;
+// GST Calculator
+function addGSTItem() {
+  const tbody = document.getElementById('gstItemsBody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" placeholder="Item or HSN" class="w-full" oninput="calcGST()"></td>
+    <td><input type="number" value="1" class="w-20 text-center" onchange="calcGST()"></td>
+    <td><input type="number" value="1000" class="w-24 text-center" onchange="calcGST()"></td>
+    <td><input type="number" value="0" class="w-16 text-center" onchange="calcGST()"></td>
+    <td><select onchange="calcGST()"><option>0%</option><option>5%</option><option>12%</option><option selected>18%</option><option>28%</option></select></td>
+    <td class="text-right font-bold" id="itemAmt">₹0</td>
+    <td><button onclick="this.closest('tr').remove();calcGST()" class="text-red-400">×</button></td>
+  `;
+  tbody.appendChild(tr);
+  calcGST();
 }
+
+function calcGST() {
+  let taxable=0, gst=0;
+  document.querySelectorAll('#gstItemsBody tr').forEach(r=>{
+    const qty = +r.children[1].querySelector('input').value||0;
+    const rate = +r.children[2].querySelector('input').value||0;
+    const disc = +r.children[3].querySelector('input').value||0;
+    const gstRate = +r.children[4].querySelector('select').value.replace('%','')/100;
+    let amt = qty*rate*(1-disc/100);
+    const gstAmt = document.getElementById('gstTaxType').value==='exclusive'? amt*gstRate : amt*gstRate/(1+gstRate);
+    taxable+=amt;
+    gst+=gstAmt;
+    r.querySelector('#itemAmt').textContent='₹'+(amt+gstAmt).toFixed(2);
+  });
+  let total = taxable+gst;
+  const round = +document.getElementById('gstRoundOff').value;
+  if(round>0) total = Math.round(total/round)*round;
+  document.getElementById('gstTaxable').textContent='₹'+taxable.toFixed(2);
+  document.getElementById('gstTotal').textContent='₹'+gst.toFixed(2);
+  document.getElementById('gstGrandTotal').textContent='₹'+total.toFixed(2);
+}
+
+// Initialize
+addGSTItem();
+calculateTax();
+calcGST();
 </script>
+</body>
+</html>
+
 
     <div id="reports" class="tab-content" style="display:none;"><h2>Reports</h2><p>Coming Soon</p></div>
     <div id="support" class="tab-content" style="display:none;">
