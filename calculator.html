@@ -6,8 +6,8 @@
     <title>Tax Computation Tool – TaxGSTPro (FY 2025-26)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.32/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/5.0.2/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         body {
@@ -490,21 +490,32 @@
             /* Logo (larger) */
             const logo = new Image();
             logo.src = 'logo1.png';
+            let logoLoaded = false;
             logo.onload = function () {
                 doc.addImage(logo, 'PNG', 15, 10, 30, 30); // Larger logo
-                renderPDF();
+                logoLoaded = true;
+                renderPDF(logoLoaded);
             };
             logo.onerror = function () {
-                renderPDF(); // Proceed without logo
+                logoLoaded = false;
+                renderPDF(logoLoaded);
             };
-            function renderPDF() {
+            // Timeout fallback if logo hangs
+            setTimeout(() => {
+                if (!logoLoaded) {
+                    renderPDF(false);
+                }
+            }, 2000);
+
+            function renderPDF(hasLogo) {
+                const xOffset = hasLogo ? 50 : 15;
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(24); // Larger title
-                doc.text('Tax Computation Tool', 50, 22);
+                doc.text('Tax Computation Tool', xOffset, 22);
                 doc.setFontSize(12); // Subtitle
-                doc.text('– TaxGSTPro (FY 2025-26)', 50, 32);
+                doc.text('– TaxGSTPro (FY 2025-26)', xOffset, 32);
                 doc.setFontSize(10);
-                doc.text('Comprehensive Analysis for AY 2026-27', 50, 40);
+                doc.text('Comprehensive Analysis for AY 2026-27', xOffset, 40);
                
                 doc.setTextColor(0);
                 let y = 60;
