@@ -259,26 +259,40 @@ header nav a:hover {
     <div id="calculator" class="tab-content" style="display:none;"><h2>Tax Calculators</h2><p>Coming Soon</p></div>
     <div id="reports" class="tab-content" style="display:none;"><h2>Reports</h2><p>Coming Soon</p></div>
     <div id="support" class="tab-content" style="display:none;">
-  <h2>Support</h2>
+  <h2 class="support-heading">Support</h2>
   
   <div class="support-container">
     <!-- WhatsApp Support -->
     <div class="whatsapp-support">
+      <h3>WhatsApp Support</h3>
       <button id="whatsappBtn">Chat via WhatsApp</button>
     </div>
 
     <!-- Email Support Form -->
-    <form id="supportForm" class="support-form">
-      <input type="text" placeholder="Name" name="name" required>
-      <input type="text" placeholder="Username" name="username" required>
-      <input type="email" placeholder="Email" name="email" required>
-      <textarea placeholder="Your Query" name="query" rows="4" required></textarea>
-      <button type="submit">Send Email</button>
-    </form>
+    <div class="email-support">
+      <h3>Email Support</h3>
+      <form id="supportForm" class="support-form">
+        <input type="text" placeholder="Name" name="name" required>
+        <input type="text" placeholder="Username" name="username" required>
+        <input type="email" placeholder="Email" name="email" required>
+        <textarea placeholder="Your Query" name="query" rows="5" required></textarea>
+        <button type="submit">Send Email</button>
+      </form>
+    </div>
   </div>
 </div>
 
 <style>
+/* Heading */
+.support-heading {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #00ff9d;
+  margin-bottom: 30px;
+}
+
+/* Container for WhatsApp and Form */
 .support-container {
   display: flex;
   gap: 40px;
@@ -286,6 +300,7 @@ header nav a:hover {
   margin-top: 20px;
 }
 
+/* WhatsApp support */
 .whatsapp-support {
   flex: 0 0 200px;
 }
@@ -308,8 +323,12 @@ header nav a:hover {
   box-shadow: 0 6px 15px rgba(37, 211, 102, 0.5);
 }
 
-.support-form {
+/* Email Support Form */
+.email-support {
   flex: 1;
+}
+
+.support-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -342,16 +361,32 @@ header nav a:hover {
 </style>
 
 <script>
+// WhatsApp button click
 document.getElementById('whatsappBtn').onclick = () => {
-  const whatsappNumber = "919876543210"; // replace with your number
+  const whatsappNumber = "919876543210"; // aapki number
   const message = encodeURIComponent("Hello, I need support.");
   window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
-}
+};
 
-// Support form submission
+// Email Support Form submission
 document.getElementById('supportForm').onsubmit = async (e) => {
   e.preventDefault();
-  alert("Email functionality will be implemented here.");
+  
+  const name = e.target.name.value;
+  const username = e.target.username.value;
+  const email = e.target.email.value;
+  const query = e.target.query.value;
+  
+  const supportEmail = "ravindrasri1745@gmail.com"; // yaha apni email daalein
+
+  // Construct mailto link
+  const subject = encodeURIComponent(`Support Request from ${username}`);
+  const body = encodeURIComponent(`Name: ${name}\nUsername: ${username}\nEmail: ${email}\nQuery:\n${query}`);
+  
+  // Open default mail client
+  window.location.href = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
+
+  alert("Your query is ready to be sent via your email client.");
 };
 </script>
 
