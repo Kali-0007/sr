@@ -312,12 +312,10 @@
         function formatINR(n) {
             return new Intl.NumberFormat('en-IN').format(Math.round(n || 0));
         }
-
         // Close Calculator Function
         function closeCalculator() {
             window.location.href = "index.html";
         }
-
         // Step Navigation
         function updateSteps(currentStep) {
             document.querySelectorAll('.step').forEach((step, index) => {
@@ -332,14 +330,12 @@
         function nextStep(step) { updateSteps(step); }
         function prevStep(step) { updateSteps(step); }
         updateSteps(1);
-
         // Reset Function
         function resetForm() {
             document.getElementById('taxForm').reset();
             document.getElementById('results').style.display = 'none';
             updateSteps(1);
         }
-
         // Tax Calculation Logic
         function calculateTax(income, regime, ageGroup, isResident) {
             let tax = 0;
@@ -368,7 +364,7 @@
                     preRebateTax = 200000 + (totalTaxable - 2000000) * 0.25;
                     slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L');
                 } else {
-                    preRebateTax = 320000 + (totalTaxable - 2400000) * 0.30;
+                    preRebateTax = 300000 + (totalTaxable - 2400000) * 0.30;
                     slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L', '30% above ₹24L');
                 }
                 rebate = totalTaxable <= 1200000 ? preRebateTax : 0;
@@ -425,7 +421,6 @@
                 taxableIncome: Math.round(totalTaxable)
             };
         }
-
         // Generate Report
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('generateBtn').addEventListener('click', function(e) {
@@ -470,7 +465,7 @@
                 updateSteps(4);
                 // Store for downloads
                 window.taxData = {
-                    grossIncome, deductions, 
+                    grossIncome, deductions,
                     oldTax: oldResult.tax, newTax: newResult.tax,
                     oldTaxable: oldResult.taxableIncome, newTaxable: newResult.taxableIncome,
                     oldPreRebate: oldResult.preRebateTax, newPreRebate: newResult.preRebateTax,
@@ -481,7 +476,6 @@
                 };
             });
         });
-
         // PDF Download
         function downloadPDF() {
             if (typeof window.taxData === 'undefined') {
@@ -490,97 +484,78 @@
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            /* Header - Larger Size */
+            /* Header */
             doc.setFillColor(74, 144, 226);
             doc.rect(0, 0, 210, 50, 'F');
-            /* Logo (larger) */
-            const logo = new Image();
-            logo.src = 'logo1.png';
-            logo.onload = function () {
-                doc.addImage(logo, 'PNG', 15, 10, 30, 30); // Larger logo
-                renderPDF();
-            };
-            logo.onerror = function () {
-                renderPDF(); // Proceed without logo
-            };
-            function renderPDF() {
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(24); // Larger title
-                doc.text('TaxEasePro', 50, 22);
-                doc.setFontSize(12); // Subtitle
-                doc.text('Income Tax Computation Report - FY 2025-26', 50, 32);
-                doc.setFontSize(10);
-                doc.text('Comprehensive Analysis for AY 2026-27', 50, 40);
-                
-                doc.setTextColor(0);
-                let y = 60;
-                const g = window.taxData;
-                doc.setFontSize(12);
-                doc.text(`Generated On: ${g.timestamp}`, 15, y); y += 15;
-                
-                // Table for Computation
-                const tableData = [
-                    ['Component', 'Traditional Regime (₹)', 'New Regime (₹)'],
-                    ['Total Earnings', formatINR(g.grossIncome), formatINR(g.grossIncome)],
-                    ['Standard Relief', formatINR(g.oldStd), formatINR(g.newStd)],
-                    ['Deductions Applied', formatINR(g.deductions), '₹0'],
-                    ['Assessable Income', formatINR(g.oldTaxable), formatINR(g.newTaxable)],
-                    ['Tax Before Rebate', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
-                    ['87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
-                    ['Final Liability (incl. Cess & Surcharge)', formatINR(g.oldTax), formatINR(g.newTax)],
-                    ['Rate Structure (Traditional)', g.oldSlabs || 'Nil', ''],
-                    ['Rate Structure (New)', '', g.newSlabs || 'Nil']
-                ];
-                
-                doc.autoTable({
-                    startY: y,
-                    head: [tableData[0]],
-                    body: tableData.slice(1),
-                    theme: 'grid',
-                    styles: {
-                        fontSize: 10,
-                        cellPadding: 3,
-                        overflow: 'linebreak',
-                        halign: 'left',
-                        fillColor: [37, 37, 37],
-                        textColor: [255, 255, 255],
-                        lineColor: [68, 68, 68],
-                        lineWidth: 0.1
-                    },
-                    headStyles: {
-                        fillColor: [74, 144, 226],
-                        textColor: [255, 255, 255],
-                        fontStyle: 'bold'
-                    },
-                    columnStyles: {
-                        0: { cellWidth: 70 },
-                        1: { cellWidth: 60 },
-                        2: { cellWidth: 60 }
-                    },
-                    margin: { left: 15, right: 15 }
-                });
-                
-                y = doc.lastAutoTable.finalY + 10;
-                
-                // Recommended Regime
-                const recommended = g.oldTax > g.newTax ? 'New Regime' : 'Traditional Regime';
-                const advantage = Math.abs(g.oldTax - g.newTax);
-                doc.setFontSize(12);
-                doc.setTextColor(40, 167, 69);
-                doc.setFont('helvetica', 'bold');
-                doc.text(`Recommended: ${recommended} | Advantage: ₹${formatINR(advantage)}`, 15, y);
-                
-                // Footer
-                y = 285;
-                doc.setFontSize(9);
-                doc.setTextColor(120);
-                doc.setFont('helvetica', 'normal');
-                doc.text('System generated report – For advisory use only', 105, y, { align: 'center' });
-                
-                doc.save('TaxEasePro_Tax_Report.pdf');
-            }
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(20);
+            doc.text('Tax Computation Tool', 15, 22);
+            doc.setFontSize(12);
+            doc.text('– TaxGSTPro (FY 2025-26)', 15, 32);
+            doc.setFontSize(10);
+            doc.text('Comprehensive Analysis for AY 2026-27', 15, 42);
+           
+            doc.setTextColor(0);
+            let y = 60;
+            const g = window.taxData;
+            doc.setFontSize(12);
+            doc.text(`Generated On: ${g.timestamp}`, 15, y); y += 15;
+           
+            // Table for Computation
+            const recommended = g.oldTax > g.newTax ? 'New Regime' : 'Traditional Regime';
+            const advantage = Math.abs(g.oldTax - g.newTax);
+            const tableData = [
+                ['Component', 'Traditional Regime (₹)', 'New Regime (₹)'],
+                ['Total Earnings', formatINR(g.grossIncome), formatINR(g.grossIncome)],
+                ['Standard Relief', formatINR(g.oldStd), formatINR(g.newStd)],
+                ['Deductions Applied', formatINR(g.deductions), '₹0'],
+                ['Assessable Income', formatINR(g.oldTaxable), formatINR(g.newTaxable)],
+                ['Tax Before Rebate', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
+                ['87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
+                ['Final Liability (incl. Cess & Surcharge)', formatINR(g.oldTax), formatINR(g.newTax)],
+                ['Regime Advantage', `${formatINR(advantage)} (Opt for ${recommended})`, ' '],
+                ['Rate Structure', `Traditional: ${g.oldSlabs || 'Nil'}`, `New: ${g.newSlabs || 'Nil'}`]
+            ];
+           
+            doc.autoTable({
+                startY: y,
+                head: [tableData[0]],
+                body: tableData.slice(1),
+                theme: 'grid',
+                styles: {
+                    fontSize: 9,
+                    cellPadding: 3,
+                    overflow: 'linebreak',
+                    halign: 'left',
+                    fillColor: [37, 37, 37],
+                    textColor: [255, 255, 255],
+                    lineColor: [68, 68, 68],
+                    lineWidth: 0.1
+                },
+                headStyles: {
+                    fillColor: [74, 144, 226],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold'
+                },
+                columnStyles: {
+                    0: { cellWidth: 50 },
+                    1: { cellWidth: 80 },
+                    2: { cellWidth: 80 }
+                },
+                margin: { left: 15, right: 15 }
+            });
+           
+            y = doc.lastAutoTable.finalY + 10;
+           
+            // Footer
+            y = 285;
+            doc.setFontSize(9);
+            doc.setTextColor(120);
+            doc.setFont('helvetica', 'normal');
+            doc.text('System generated report – For advisory use only', 105, y, { align: 'center' });
+           
+            doc.save('TaxGSTPro_Tax_Report_FY_2025_26.pdf');
         }
-
         // Excel Download
         function downloadExcel() {
             if (!window.taxData) {
