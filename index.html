@@ -6,11 +6,14 @@
   <title>TaxGSTPro – ITR Filing, GST Registration & Returns Starting ₹499</title>
   <meta name="description" content="Fastest ITR Filing, GST Registration, Company Registration in India. Starting ₹499 only. 5000+ happy clients.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
   <script>const MY_WA = "919876543210";</script>
   <script>const MY_UPI = "taxgstpro@oksbi";</script>
 
   <style>
     /* Existing styles + New additions from your code */
+    /* (All your existing .cards, .glass, .btn-big styles remain here) */
     .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px; }
     .glass { background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border-radius:20px; padding:25px; border:1px solid rgba(255,255,255,0.1); }
     .btn-big { padding:18px 40px; border-radius:50px; font-weight:600; font-size:18px; text-decoration:none; }
@@ -24,11 +27,11 @@
     .auth-links { display:flex; gap:10px; }
     .btn-highlight { background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:8px 16px; border-radius:20px; font-size:14px; text-decoration:none; }
 
-    /* --- NEW CALCULATOR MODAL STYLES --- */
+    /* --- NEW CALCULATOR MODAL STYLES (CLEANED) --- */
     .modal {
-        display: none; /* डिफ़ॉल्ट रूप से छुपा हुआ */
+        display: none; 
         position: fixed;
-        z-index: 10000; /* Booking Modal (z-index: 9999) से ऊपर */
+        z-index: 10000; 
         left: 0;
         top: 0;
         width: 100%;
@@ -67,8 +70,28 @@
     .calculator-form { padding: 30px; }
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
     .form-grid label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
-    .calculator-form input, .calculator-form select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
-    .calculator-form button[type="submit"] { background: #667eea; color: white; border: none; padding: 14px 30px; font-size: 18px; border-radius: 8px; cursor: pointer; margin-top: 20px; width: 100%; font-weight: 600; }
+    .calculator-form input, .calculator-form select { 
+        width: 100%; 
+        padding: 12px; 
+        border: 1px solid #ddd; 
+        border-radius: 8px; 
+        font-size: 16px; 
+        box-sizing: border-box; 
+        /* Mobile fixes for dark theme compatibility */
+        background-color: #f9f9f9; 
+    }
+    .calculator-form button[type="submit"] { 
+        background: #667eea; 
+        color: white; 
+        border: none; 
+        padding: 14px 30px; 
+        font-size: 18px; 
+        border-radius: 8px; 
+        cursor: pointer; 
+        margin-top: 20px; 
+        width: 100%; 
+        font-weight: 600; 
+    }
     .calculator-results { padding: 30px; background: #f9fbff; display: none; }
     .calculator-results table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 17px; }
     .calculator-results th, .calculator-results td { padding: 14px; text-align: left; border-bottom: 1px solid #eee; }
@@ -77,7 +100,14 @@
     .old-regime { background: #fff7e6; }
     .new-regime { background: #e6f7ff; }
     .calculator-footer { text-align: center; padding: 20px; color: #888; font-size: 14px; }
-    .btn-secondary { background:#fff; color:#667eea; border:2px solid #667eea; font-weight:700; }
+    
+    /* 🎨 Calculator Button Style (Matches your Hero CTA style) */
+    .btn-calculator { 
+        background: #fff; /* White background */
+        color: #667eea; /* Primary text color */
+        border: 2px solid #667eea; /* Border to make it pop */
+        font-weight: 700;
+    }
   </style>
 </head>
 <body>
@@ -108,7 +138,7 @@
     <div style="margin:40px 0;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
       <a href="services.html" class="btn-big btn-primary">View All Services</a>
       
-      <button id="openModalBtnHero" class="btn-big btn-secondary">
+      <button id="openModalBtnHero" class="btn-big btn-calculator">
         Income Tax Calculator
       </button>
       
@@ -323,14 +353,17 @@ function formatINR(num) {
     return new Intl.NumberFormat('en-IN').format(Math.round(num));
 }
 
-// ---------- POPUP HANDLING LOGIC ----------
+// ---------- POPUP HANDLING LOGIC (FIXED) ----------
 const modal = document.getElementById('calculatorModal');
-const openBtn = document.getElementById('openModalBtnHero'); // Corrected ID
+const openBtn = document.getElementById('openModalBtnHero'); 
 const closeBtn = document.getElementById('closeModalBtn');
 
-openBtn.onclick = function() {
-    modal.style.display = "block";
-    document.body.style.overflow = 'hidden'; 
+// Ensure button works
+if (openBtn) {
+    openBtn.onclick = function() {
+        modal.style.display = "block";
+        document.body.style.overflow = 'hidden'; 
+    }
 }
 
 closeBtn.onclick = function() {
@@ -402,18 +435,4 @@ function calculateNewRegimeTax(taxableIncome) {
     if (taxableIncome > 300000) { tax += Math.min(taxableIncome - 300000, 300000) * 0.05; }
     if (taxableIncome > 600000) { tax += Math.min(taxableIncome - 600000, 300000) * 0.10; }
     if (taxableIncome > 900000) { tax += Math.min(taxableIncome - 900000, 300000) * 0.15; }
-    if (taxableIncome > 1200000) { tax += Math.min(taxableIncome - 1200000, 300000) * 0.20; }
-    if (taxableIncome > 1500000) { tax += (taxableIncome - 1500000) * 0.30; }
-    return tax;
-}
-// ---------- END NEW REGIME SLAB LOGIC ----------
-
-
-document.getElementById('taxForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // 1. Inputs
-    const taxpayerType = document.getElementById('taxpayerType').value;
-    const residentialStatus = document.getElementById('residentialStatus').value;
-    const grossSalary = parseFloat(document.getElementById('grossSalary').value) || 0;
-    const s
+    if (taxableIncome > 1200000) { tax += Math.min(taxableIncome - 12
