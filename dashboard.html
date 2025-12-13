@@ -257,202 +257,132 @@ header nav a:hover {
     <div id="upload" class="tab-content" style="display:none;"><h2>Upload Documents</h2><p>Coming Soon</p></div>
     <div id="payments" class="tab-content" style="display:none;"><h2>Payment Status</h2><p>Coming Soon</p></div>
     <!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TaxGSTPro Calculator</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-<style>
-  body { background: #0a0a0a; color: #e0e0e0; font-family: 'Inter', sans-serif; }
-  input, select { background: #1a1a1a; color: #fff; border-radius: 0.75rem; padding: 0.75rem; width: 100%; }
-  .tab-button.active { background: #06b6d4; color: #000; }
-</style>
-</head>
-<body class="p-6">
-
-<div class="max-w-6xl mx-auto">
-
-  <!-- Calculator Tabs -->
-  <div class="flex justify-center gap-4 mb-8 flex-wrap">
-    <button onclick="showCalc('tax')" id="taxTab" class="tab-button px-6 py-3 rounded-2xl bg-gray-700 font-bold">Income Tax</button>
-    <button onclick="showCalc('gst')" id="gstTab" class="tab-button px-6 py-3 rounded-2xl bg-gray-700 font-bold">GST Calculator</button>
+<div id="calculator" class="tab-content">
+  <!-- Tabs -->
+  <div class="flex justify-center gap-8 mb-12">
+    <button onclick="showCalc('tax')" id="taxTab" class="px-10 py-4 text-xl font-bold rounded-xl bg-indigo-600 text-white shadow-lg active">Income Tax</button>
+    <button onclick="showCalc('gst')" id="gstTab" class="px-10 py-4 text-xl font-bold rounded-xl bg-gray-700 text-white">GST Calculator</button>
   </div>
 
   <!-- Income Tax Calculator -->
-  <div id="incomeTaxCalc" class="space-y-8">
-    <div class="grid md:grid-cols-2 gap-6">
-      <div>
-        <label>कुल वार्षिक सैलरी</label>
-        <input type="number" id="grossSalary" value="1500000" oninput="calculateTax()">
+  <div id="incomeTaxCalc" class="bg-white rounded-3xl shadow-2xl p-10">
+    <h2 class="text-4xl font-bold text-center mb-10 text-indigo-700">Income Tax Calculator (AY 2026-27)</h2>
+    <form oninput="calculateTax()">
+      <div class="grid lg:grid-cols-2 gap-8 mb-12">
+        <div><label class="block text-lg font-medium mb-2">Gross Salary (Basic + DA + Allowances)</label><input type="number" id="grossSalary" class="w-full px-6 py-4 border rounded-xl text-lg" value="1500000"></div>
+        <div><label class="block text-lg font-medium mb-2">HRA Received</label><input type="number" id="hraReceived" class="w-full px-6 py-4 border rounded-xl text-lg" value="0"></div>
+        <div><label class="block text-lg font-medium mb-2">Annual Rent Paid</label>
+          <select id="metroCity" class="w-full px-6 py-4 border rounded-xl text-lg mb-3">
+            <option value="50">Metro City (50% HRA exemption)</option>
+            <option value="40">Non-Metro (40% HRA exemption)</option>
+          </select>
+          <input type="number" id="rentPaid" class="w-full px-6 py-4 border rounded-xl text-lg" value="0">
+        </div>
+        <div><label class="block text-lg font-medium mb-2">Income from House Property</label><input type="number" id="houseProperty" class="w-full px-6 py-4 border rounded-xl text-lg" value="0"></div>
+        <div><label class="block text-lg font-medium mb-2">Interest Income (Savings + FD)</label><input type="number" id="interestIncome" class="w-full px-6 py-4 border rounded-xl text-lg" value="0"></div>
+        <div><label class="block text-lg font-medium mb-2">Other Income</label><input type="number" id="otherIncome" class="w-full px-6 py-4 border rounded-xl text-lg" value="0"></div>
+        <div><label class="block text-lg font-medium mb-2">STCG (15%)</label><input type="number" id="stcg" class="w-full px-6 py-4 border rounded-xl text-lg" value="0"></div>
+        <div><label class="block text-lg font-medium mb-2">LTCG (20%)</label><input type="number" id="ltcg" class="w-full px-6 py-4 border rounded-xl text-lg" value="0"></div>
       </div>
-      <div>
-        <label>HRA प्राप्त</label>
-        <input type="number" id="hraReceived" value="0" oninput="calculateTax()">
-      </div>
-      <div>
-        <label>किराया चुकाया</label>
-        <input type="number" id="rentPaid" value="0" oninput="calculateTax()">
-      </div>
-      <div>
-        <label>हाउस प्रॉपर्टी आय</label>
-        <input type="number" id="houseProperty" value="0" oninput="calculateTax()">
-      </div>
-    </div>
 
-    <div class="grid md:grid-cols-2 gap-6">
-      <div>
-        <label>80C डिडक्शन</label>
-        <input type="number" id="sec80c" value="150000" max="150000" oninput="calculateTax()">
+      <h3 class="text-3xl font-bold text-center mb-8 text-purple-700">Deductions (Old Regime Only)</h3>
+      <div class="grid lg:grid-cols-3 gap-8 mb-16">
+        <div><label class="block text-lg font-medium mb-2">80C (max ₹1.5L)</label><input type="number" id="sec80c" max="150000" class="w-full px-6 py-4 border rounded-xl text-lg" value="150000"></div>
+        <div><label class="block text-lg font-medium mb-2">80D (Medical)</label><input type="number" id="sec80d" class="w-full px-6 py-4 border rounded-xl text-lg" value="25000"></div>
+        <div><label class="block text-lg font-medium mb-2">80CCD(1B) NPS</label><input type="number" id="nps" max="50000" class="w-full px-6 py-4 border rounded-xl text-lg" value="50000"></div>
+        <div><label class="block text-lg font-medium mb-2">Home Loan Interest</label><input type="number" id="homeLoanInterest" class="w-full px-6 py-4 border rounded-xl text-lg" value="0"></div>
+        <div><label class="block text-lg font-medium mb-2">Other Deductions</label><input type="number" id="otherDed" class="w-full px-6 py-4 border rounded-xl text-lg" value="0"></div>
       </div>
-      <div>
-        <label>80D डिडक्शन</label>
-        <input type="number" id="sec80d" value="25000" oninput="calculateTax()">
-      </div>
-    </div>
 
-    <div class="flex gap-6 flex-wrap">
-      <div class="flex-1 bg-gray-800 p-6 rounded-3xl text-center">
-        <h3 class="text-xl font-bold text-cyan-300">पुरानी रिजीम टैक्स</h3>
-        <p class="text-3xl font-extrabold mt-4" id="oldTax">₹0</p>
+      <div class="grid lg:grid-cols-2 gap-12">
+        <div id="oldRegimeCard" class="regime-card bg-gradient-to-br from-orange-600 to-red-700 p-12 rounded-3xl text-center text-white shadow-2xl transition-all">
+          <h2 class="text-4xl font-bold mb-6">Old Tax Regime</h2>
+          <p class="text-6xl font-black" id="oldTax">₹0</p>
+          <p class="text-2xl mt-6 font-bold text-green-300" id="oldSavings"></p>
+        </div>
+        <div id="newRegimeCard" class="regime-card bg-gradient-to-br from-emerald-600 to-teal-700 p-12 rounded-3xl text-center text-white shadow-2xl transition-all">
+          <h2 class="text-4xl font-bold mb-6">New Tax Regime</h2>
+          <p class="text-6xl font-black" id="newTax">₹0</p>
+          <p class="text-2xl mt-6 font-bold text-green-300" id="newSavings"></p>
+        </div>
       </div>
-      <div class="flex-1 bg-gray-800 p-6 rounded-3xl text-center">
-        <h3 class="text-xl font-bold text-cyan-300">नई रिजीम टैक्स</h3>
-        <p class="text-3xl font-extrabold mt-4" id="newTax">₹0</p>
+
+      <div class="text-center mt-16">
+        <button type="button" onclick="generateTaxPDF()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold text-2xl py-6 px-20 rounded-2xl shadow-2xl">
+          Download PDF Report
+        </button>
       </div>
-    </div>
+    </form>
   </div>
 
   <!-- GST Calculator -->
-  <div id="gstCalc" class="hidden space-y-8">
+  <div id="gstCalc" class="bg-white rounded-3xl shadow-2xl p-10 hidden">
+    <h2 class="text-4xl font-bold text-center mb-10 text-indigo-700">GST Calculator 2025</h2>
 
-    <div class="grid md:grid-cols-3 gap-6">
-      <div>
-        <label>Bill Type</label>
-        <select id="gstTaxType" onchange="calcGST()">
-          <option value="exclusive">Exclusive of GST</option>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+      <div><label class="block text-lg font-medium mb-2">Bill Type</label>
+        <select id="gstTaxType" class="w-full px-6 py-4 border rounded-xl text-lg">
+          <option value="exclusive">Exclusive of GST (Most Common)</option>
           <option value="inclusive">Inclusive of GST</option>
         </select>
       </div>
-      <div>
-        <label>Supply Type</label>
-        <select id="supplyType" onchange="calcGST()">
-          <option value="intra">इंट्रा-स्टेट (CGST+SGST)</option>
-          <option value="inter">इंटर-स्टेट (IGST)</option>
+      <div><label class="block text-lg font-medium mb-2">Supply Type</label>
+        <select id="supplyType" class="w-full px-6 py-4 border rounded-xl text-lg">
+          <option value="intra">Intra-State (CGST + SGST)</option>
+          <option value="inter">Inter-State (IGST)</option>
         </select>
       </div>
-      <div>
-        <label>Round Off</label>
-        <select id="gstRoundOff" onchange="calcGST()">
+      <div><label class="block text-lg font-medium mb-2">Round Off</label>
+        <select id="gstRoundOff" class="w-full px-6 py-4 border rounded-xl text-lg">
           <option value="0">None</option>
-          <option value="1">1₹</option>
+          <option value="1">Nearest Rupee</option>
+          <option value="0.05">5 Paise</option>
         </select>
       </div>
     </div>
 
-    <table class="w-full text-left border-collapse border border-gray-600">
-      <thead>
-        <tr class="bg-gray-700">
-          <th class="p-2">Item / HSN</th>
-          <th class="p-2">Qty</th>
-          <th class="p-2">Rate ₹</th>
-          <th class="p-2">Discount %</th>
-          <th class="p-2">GST %</th>
-          <th class="p-2">Amount</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="gstItemsBody"></tbody>
-    </table>
+    <div class="overflow-x-auto mb-8">
+      <table class="w-full min-w-[900px]">
+        <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+          <tr>
+            <th class="p-6 text-left">Item / HSN/SAC</th>
+            <th class="p-6">Qty</th>
+            <th class="p-6">Rate (₹)</th>
+            <th class="p-6">Discount %</th>
+            <th class="p-6">GST %</th>
+            <th class="p-6">Total</th>
+            <th class="p-6"></th>
+          </tr>
+        </thead>
+        <tbody id="gstItemsBody" class="text-center bg-gray-50"></tbody>
+      </table>
+    </div>
 
-    <button onclick="addGSTItem()" class="bg-green-600 px-6 py-3 rounded-2xl font-bold text-black">+ Add Item</button>
+    <button onclick="addGSTItem()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl text-xl mb-10">
+      + Add New Item
+    </button>
 
-    <div class="grid md:grid-cols-3 gap-6 text-center">
-      <div class="bg-gray-800 p-6 rounded-2xl">
-        <p>Taxable Amount</p>
-        <p id="gstTaxable" class="text-2xl font-bold">₹0.00</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+      <div class="bg-gradient-to-br from-blue-600 to-indigo-700 p-10 rounded-3xl text-white">
+        <p class="text-2xl">Taxable Amount</p>
+        <p class="text-5xl font-black mt-4" id="gstTaxable">₹0.00</p>
       </div>
-      <div class="bg-gray-800 p-6 rounded-2xl">
-        <p>Total GST</p>
-        <p id="gstTotal" class="text-2xl font-bold">₹0.00</p>
+      <div class="bg-gradient-to-br from-orange-600 to-red-700 p-10 rounded-3xl text-white">
+        <p class="text-2xl">Total GST</p>
+        <p class="text-5xl font-black mt-4" id="gstTotal">₹0.00</p>
       </div>
-      <div class="bg-gray-800 p-6 rounded-2xl">
-        <p>Grand Total</p>
-        <p id="gstGrandTotal" class="text-2xl font-bold">₹0.00</p>
+      <div class="bg-gradient-to-br from-green-600 to-emerald-700 p-10 rounded-3xl text-white shadow-2xl">
+        <p class="text-2xl mb-4">Final Bill Amount</p>
+        <p class="text-6xl font-black" id="gstGrandTotal">₹0.00</p>
       </div>
+    </div>
+
+    <div class="text-center mt-12 space-x-8">
+      <button onclick="downloadGSTPDF()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-2xl py-5 px-16 rounded-2xl">Download PDF</button>
+      <button onclick="downloadGSTCSV()" class="bg-green-600 hover:bg-green-700 text-white font-bold text-2xl py-5 px-16 rounded-2xl">Download Excel</button>
     </div>
   </div>
-
 </div>
-
-<script>
-// Tab Navigation
-function showCalc(type){
-  document.getElementById('incomeTaxCalc').classList.toggle('hidden', type!=='tax');
-  document.getElementById('gstCalc').classList.toggle('hidden', type!=='gst');
-  document.getElementById('taxTab').classList.toggle('active', type==='tax');
-  document.getElementById('gstTab').classList.toggle('active', type==='gst');
-}
-
-// Dummy Tax Calculation (copy your previous logic here)
-function calculateTax() {
-  const gross = +document.getElementById('grossSalary').value || 0;
-  const hra = +document.getElementById('hraReceived').value || 0;
-  const ded80c = +document.getElementById('sec80c').value || 0;
-  const ded80d = +document.getElementById('sec80d').value || 0;
-  const oldTaxAmt = gross*0.1 - ded80c*0.1; // simplified
-  const newTaxAmt = gross*0.08 - ded80c*0.08; // simplified
-  document.getElementById('oldTax').textContent = '₹'+Math.max(oldTaxAmt,0).toFixed(0);
-  document.getElementById('newTax').textContent = '₹'+Math.max(newTaxAmt,0).toFixed(0);
-}
-
-// GST Calculator
-function addGSTItem() {
-  const tbody = document.getElementById('gstItemsBody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td><input type="text" placeholder="Item or HSN" class="w-full" oninput="calcGST()"></td>
-    <td><input type="number" value="1" class="w-20 text-center" onchange="calcGST()"></td>
-    <td><input type="number" value="1000" class="w-24 text-center" onchange="calcGST()"></td>
-    <td><input type="number" value="0" class="w-16 text-center" onchange="calcGST()"></td>
-    <td><select onchange="calcGST()"><option>0%</option><option>5%</option><option>12%</option><option selected>18%</option><option>28%</option></select></td>
-    <td class="text-right font-bold" id="itemAmt">₹0</td>
-    <td><button onclick="this.closest('tr').remove();calcGST()" class="text-red-400">×</button></td>
-  `;
-  tbody.appendChild(tr);
-  calcGST();
-}
-
-function calcGST() {
-  let taxable=0, gst=0;
-  document.querySelectorAll('#gstItemsBody tr').forEach(r=>{
-    const qty = +r.children[1].querySelector('input').value||0;
-    const rate = +r.children[2].querySelector('input').value||0;
-    const disc = +r.children[3].querySelector('input').value||0;
-    const gstRate = +r.children[4].querySelector('select').value.replace('%','')/100;
-    let amt = qty*rate*(1-disc/100);
-    const gstAmt = document.getElementById('gstTaxType').value==='exclusive'? amt*gstRate : amt*gstRate/(1+gstRate);
-    taxable+=amt;
-    gst+=gstAmt;
-    r.querySelector('#itemAmt').textContent='₹'+(amt+gstAmt).toFixed(2);
-  });
-  let total = taxable+gst;
-  const round = +document.getElementById('gstRoundOff').value;
-  if(round>0) total = Math.round(total/round)*round;
-  document.getElementById('gstTaxable').textContent='₹'+taxable.toFixed(2);
-  document.getElementById('gstTotal').textContent='₹'+gst.toFixed(2);
-  document.getElementById('gstGrandTotal').textContent='₹'+total.toFixed(2);
-}
-
-// Initialize
-addGSTItem();
-calculateTax();
-calcGST();
-</script>
-</body>
-</html>
 
 
     <div id="reports" class="tab-content" style="display:none;"><h2>Reports</h2><p>Coming Soon</p></div>
