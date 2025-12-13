@@ -82,13 +82,15 @@ header nav a:hover {
 }
 
   .welcome-text {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 30px;
-    background: linear-gradient(90deg, #00d4ff, #00ff9d);
-    -webkit-background-clip: text;
-    color: transparent;
-  }
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 auto 30px auto; /* top 0, bottom 30px, horizontally center */
+  display: block;
+  text-align: center;
+  background: linear-gradient(90deg, #00d4ff, #00ff9d);
+  -webkit-background-clip: text;
+  color: transparent;
+}
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
