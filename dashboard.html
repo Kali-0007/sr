@@ -256,7 +256,141 @@ header nav a:hover {
     <div id="returns" class="tab-content" style="display:none;"><h2>My Returns</h2><p>Coming Soon</p></div>
     <div id="upload" class="tab-content" style="display:none;"><h2>Upload Documents</h2><p>Coming Soon</p></div>
     <div id="payments" class="tab-content" style="display:none;"><h2>Payment Status</h2><p>Coming Soon</p></div>
-    <div id="calculator" class="tab-content" style="display:none;"><h2>Tax Calculators</h2><p>Coming Soon</p></div>
+    <div id="calculator" class="tab-content" style="display:none;">
+  <h2 class="tab-heading">Tax Calculators</h2>
+
+  <div class="calculator-cards">
+    <!-- Income Tax Calculator -->
+    <div class="calculator-card" id="incomeTaxCard">
+      <h3>Income Tax Calculator</h3>
+      <input type="number" id="incomeAmount" placeholder="Enter Annual Income (₹)">
+      <button onclick="calculateIncomeTax()">Calculate Income Tax</button>
+      <p class="calc-result" id="incomeTaxResult"></p>
+    </div>
+
+    <!-- GST Calculator -->
+    <div class="calculator-card" id="gstCard">
+      <h3>GST Calculator</h3>
+      <input type="number" id="gstAmount" placeholder="Enter Amount (₹)">
+      <input type="number" id="gstRate" placeholder="GST Rate (%)" value="18">
+      <button onclick="calculateGST()">Calculate GST</button>
+      <p class="calc-result" id="gstResult"></p>
+    </div>
+
+    <!-- TDS Calculator -->
+    <div class="calculator-card" id="tdsCard">
+      <h3>TDS Calculator</h3>
+      <input type="number" id="tdsAmount" placeholder="Enter Amount (₹)">
+      <input type="number" id="tdsRate" placeholder="TDS Rate (%)" value="10">
+      <button onclick="calculateTDS()">Calculate TDS</button>
+      <p class="calc-result" id="tdsResult"></p>
+    </div>
+  </div>
+</div>
+
+<style>
+.tab-heading {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #00d4ff, #00ff9d);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.calculator-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.calculator-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.calculator-card h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #a0f7ff;
+}
+
+.calculator-card input {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #0d0d0d;
+  color: #fff;
+  font-size: 14px;
+}
+
+.calculator-card button {
+  margin-top: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(45deg, #00d4ff, #00ff9d);
+  color: #000;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.calculator-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 212, 255, 0.4);
+}
+
+.calc-result {
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #00ff9d;
+}
+</style>
+
+<script>
+function calculateIncomeTax() {
+  const income = parseFloat(document.getElementById('incomeAmount').value) || 0;
+  let tax = 0;
+
+  if (income <= 250000) tax = 0;
+  else if (income <= 500000) tax = (income - 250000) * 0.05;
+  else if (income <= 1000000) tax = (250000 * 0.05) + (income - 500000) * 0.2;
+  else tax = (250000 * 0.05) + (500000 * 0.2) + (income - 1000000) * 0.3;
+
+  document.getElementById('incomeTaxResult').textContent = `Income Tax: ₹${tax.toFixed(2)}`;
+}
+
+function calculateGST() {
+  const amount = parseFloat(document.getElementById('gstAmount').value) || 0;
+  const rate = parseFloat(document.getElementById('gstRate').value) || 0;
+  const gst = (amount * rate) / 100;
+  const total = amount + gst;
+
+  document.getElementById('gstResult').textContent = `GST: ₹${gst.toFixed(2)} | Total: ₹${total.toFixed(2)}`;
+}
+
+function calculateTDS() {
+  const amount = parseFloat(document.getElementById('tdsAmount').value) || 0;
+  const rate = parseFloat(document.getElementById('tdsRate').value) || 0;
+  const tds = (amount * rate) / 100;
+  const afterTDS = amount - tds;
+
+  document.getElementById('tdsResult').textContent = `TDS: ₹${tds.toFixed(2)} | After TDS: ₹${afterTDS.toFixed(2)}`;
+}
+</script>
+
     <div id="reports" class="tab-content" style="display:none;"><h2>Reports</h2><p>Coming Soon</p></div>
     <div id="support" class="tab-content" style="display:none;">
   <h2 class="support-heading">Support</h2>
