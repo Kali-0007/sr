@@ -451,30 +451,43 @@
                 };
             });
         });
+<script>
+function formatINR(num) {
+    return Number(num || 0).toLocaleString('en-IN');
+}
+</script>
 
         // PDF Download
-        <script>
+       
+<script>
 function downloadPDF() {
-    if (!window.taxData) {
-        alert('Please generate computation first.');
+
+    if (typeof window.taxData === 'undefined') {
+        alert('Please calculate tax first.');
         return;
     }
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    /* ===== HEADER BACKGROUND ===== */
-    doc.setFillColor(74, 144, 226); // blue
+    /* Header */
+    doc.setFillColor(74, 144, 226);
     doc.rect(0, 0, 210, 40, 'F');
 
-    /* ===== LOGO ===== */
+    /* Logo (safe load) */
     const logo = new Image();
     logo.src = 'logo1.png';
 
     logo.onload = function () {
-        doc.addImage(logo, 'PNG', 15, 8, 24, 24);
+        doc.addImage(logo, 'PNG', 15, 8, 22, 22);
+        renderPDF();
+    };
 
-        /* ===== HEADER TEXT ===== */
+    logo.onerror = function () {
+        renderPDF(); // logo na mile to bhi PDF banega
+    };
+
+    function renderPDF() {
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(20);
         doc.text('TaxEasePro', 45, 20);
@@ -482,61 +495,52 @@ function downloadPDF() {
         doc.setFontSize(10);
         doc.text('Income Tax Computation Report', 45, 28);
 
-        /* ===== BODY ===== */
-        doc.setTextColor(0, 0, 0);
+        doc.setTextColor(0);
         doc.setFontSize(11);
 
         let y = 55;
-        const lineGap = 8;
+        const g = window.taxData;
 
-        doc.text(`Generated On: ${window.taxData.timestamp}`, 15, y);
-        y += lineGap * 2;
+        doc.text(`Generated On: ${g.timestamp}`, 15, y); y += 12;
 
         doc.setFontSize(13);
-        doc.text('Traditional Regime', 15, y);
-        y += lineGap;
+        doc.text('Traditional Regime', 15, y); y += 8;
 
         doc.setFontSize(11);
-        doc.text(`Total Income: ₹${formatINR(window.taxData.grossIncome)}`, 15, y); y += lineGap;
-        doc.text(`Deductions: ₹${formatINR(window.taxData.deductions)}`, 15, y); y += lineGap;
-        doc.text(`Taxable Income: ₹${formatINR(window.taxData.oldTaxable)}`, 15, y); y += lineGap;
-        doc.text(`Tax Payable: ₹${formatINR(window.taxData.oldTax)}`, 15, y);
+        doc.text(`Total Income: ₹${formatINR(g.grossIncome)}`, 15, y); y += 8;
+        doc.text(`Deductions: ₹${formatINR(g.deductions)}`, 15, y); y += 8;
+        doc.text(`Taxable Income: ₹${formatINR(g.oldTaxable)}`, 15, y); y += 8;
+        doc.text(`Tax Payable: ₹${formatINR(g.oldTax)}`, 15, y); y += 12;
 
-        y += lineGap * 2;
         doc.setFontSize(13);
-        doc.text('Modern Regime', 15, y);
-        y += lineGap;
+        doc.text('Modern Regime', 15, y); y += 8;
 
         doc.setFontSize(11);
-        doc.text(`Total Income: ₹${formatINR(window.taxData.grossIncome)}`, 15, y); y += lineGap;
-        doc.text(`Taxable Income: ₹${formatINR(window.taxData.newTaxable)}`, 15, y); y += lineGap;
-        doc.text(`Tax Payable: ₹${formatINR(window.taxData.newTax)}`, 15, y);
+        doc.text(`Taxable Income: ₹${formatINR(g.newTaxable)}`, 15, y); y += 8;
+        doc.text(`Tax Payable: ₹${formatINR(g.newTax)}`, 15, y); y += 12;
 
-        y += lineGap * 2;
-        doc.setFontSize(12);
         doc.setTextColor(40, 167, 69);
+        doc.setFontSize(12);
         doc.text(
-            `Recommended Regime: ${window.taxData.oldTax > window.taxData.newTax ? 'Modern Regime' : 'Traditional Regime'}`,
+            `Recommended: ${g.oldTax > g.newTax ? 'Modern Regime' : 'Traditional Regime'}`,
             15,
             y
         );
 
-        /* ===== FOOTER ===== */
         doc.setFontSize(9);
         doc.setTextColor(120);
         doc.text(
-            'This is a system generated computation. For advisory purposes only.',
+            'System generated report – For advisory use only',
             105,
             285,
             { align: 'center' }
         );
 
-        doc.save('TaxEasePro_Tax_Computation.pdf');
-    };
+        doc.save('TaxEasePro_Tax_Report.pdf');
+    }
 }
 </script>
-
-        <script>
+       <script>
 function downloadExcel() {
   function closeCalculator() {
     window.location.href = "index.html";
