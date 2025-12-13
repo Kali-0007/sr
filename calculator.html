@@ -425,49 +425,128 @@
         });
 
         // PDF Download
-        function downloadPDF() {
-            if (!window.taxData) return alert('Please generate a report first.');
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.setFontSize(16);
-            doc.text('Tax Computation Report - TaxGSTPro', 20, 20);
-            doc.setFontSize(10);
-            doc.text(`Generated: ${window.taxData.timestamp}`, 20, 30);
-            doc.text('Traditional Regime:', 20, 50);
-            doc.text(`Total Earnings: ₹${formatINR(window.taxData.grossIncome)}`, 20, 60);
-            doc.text(`Deductions: ₹${formatINR(window.taxData.deductions)}`, 20, 70);
-            doc.text(`Standard Relief: ₹${formatINR(window.taxData.oldStd)}`, 20, 80);
-            doc.text(`Assessable Income: ₹${formatINR(window.taxData.oldTaxable)}`, 20, 90);
-            doc.text(`Liability: ₹${formatINR(window.taxData.oldTax)}`, 20, 100);
-            doc.text(`Rates: ${window.taxData.oldSlabs}`, 20, 110);
-            doc.text('Modern Regime:', 20, 130);
-            doc.text(`Total Earnings: ₹${formatINR(window.taxData.grossIncome)}`, 20, 140);
-            doc.text(`Standard Relief: ₹${formatINR(window.taxData.newStd)}`, 20, 150);
-            doc.text(`Assessable Income: ₹${formatINR(window.taxData.newTaxable)}`, 20, 160);
-            doc.text(`Liability: ₹${formatINR(window.taxData.newTax)}`, 20, 170);
-            doc.text(`Rates: ${window.taxData.newSlabs}`, 20, 180);
-            doc.text(`Advantage: ₹${formatINR(window.taxData.oldTax - window.taxData.newTax)}`, 20, 190);
-            doc.save('Tax_Computation.pdf');
-        }
+        <script>
+function downloadPDF() {
+  if (!window.taxData) {
+    alert('Please generate computation first');
+    return;
+  }
 
-        // Excel Download
-        function downloadExcel() {
-            if (!window.taxData) return alert('Please generate a report first.');
-            const wb = XLSX.utils.book_new();
-            const wsData = [
-                ['Component', 'Traditional Regime', 'Modern Regime'],
-                ['Total Earnings', `₹${formatINR(window.taxData.grossIncome)}`, `₹${formatINR(window.taxData.grossIncome)}`],
-                ['Deductions', `₹${formatINR(window.taxData.deductions)}`, '₹0'],
-                ['Standard Relief', `₹${formatINR(window.taxData.oldStd)}`, `₹${formatINR(window.taxData.newStd)}`],
-                ['Assessable Income', `₹${formatINR(window.taxData.oldTaxable)}`, `₹${formatINR(window.taxData.newTaxable)}`],
-                ['Final Liability', `₹${formatINR(window.taxData.oldTax)}`, `₹${formatINR(window.taxData.newTax)}`],
-                ['Rate Structure', window.taxData.oldSlabs, window.taxData.newSlabs],
-                ['Regime Advantage', `₹${formatINR(window.taxData.oldTax - window.taxData.newTax)}`, '']
-            ];
-            const ws = XLSX.utils.aoa_to_sheet(wsData);
-            XLSX.utils.book_append_sheet(wb, ws, 'Computation');
-            XLSX.writeFile(wb, 'Tax_Computation.xlsx');
-        }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p", "mm", "a4");
+
+  let y = 20;
+  const lh = 7;
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("INCOME TAX COMPUTATION SHEET", 105, y, { align: "center" });
+
+  y += 8;
+  doc.setFontSize(11);
+  doc.text("Financial Year 2025-26 (Assessment Year 2026-27)", 105, y, { align: "center" });
+
+  y += 12;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.text(`Generated on: ${window.taxData.timestamp}`, 14, y);
+
+  y += 10;
+  doc.setFont("helvetica", "bold");
+  doc.text("A. Computation of Total Income", 14, y);
+
+  y += lh;
+  doc.setFont("helvetica", "normal");
+  doc.text(`Gross Total Income`, 14, y);
+  doc.text(`₹ ${formatINR(window.taxData.grossIncome)}`, 190, y, { align: "right" });
+
+  y += lh;
+  doc.text(`Less: Deductions under Chapter VI-A`, 14, y);
+  doc.text(`₹ ${formatINR(window.taxData.deductions)}`, 190, y, { align: "right" });
+
+  y += lh;
+  doc.setFont("helvetica", "bold");
+  doc.text(`Total Income (Old Regime)`, 14, y);
+  doc.text(`₹ ${formatINR(window.taxData.oldTaxable)}`, 190, y, { align: "right" });
+
+  y += 10;
+  doc.setFont("helvetica", "bold");
+  doc.text("B. Tax Liability Comparison", 14, y);
+
+  y += lh;
+  doc.setFont("helvetica", "normal");
+  doc.text("Old Tax Regime (including cess)", 14, y);
+  doc.text(`₹ ${formatINR(window.taxData.oldTax)}`, 190, y, { align: "right" });
+
+  y += lh;
+  doc.text("New Tax Regime (including cess)", 14, y);
+  doc.text(`₹ ${formatINR(window.taxData.newTax)}`, 190, y, { align: "right" });
+
+  y += 8;
+  doc.setFont("helvetica", "bold");
+  doc.text(
+    `Recommended Regime: ${
+      window.taxData.oldTax > window.taxData.newTax
+        ? "New Tax Regime"
+        : "Old Tax Regime"
+    }`,
+    14,
+    y
+  );
+
+  y += 10;
+  doc.setFont("helvetica", "normal");
+  doc.text("Note:", 14, y);
+  y += 6;
+  doc.text(
+    "This computation is indicative and based on details provided by the taxpayer.",
+    14,
+    y
+  );
+
+  y += 20;
+  doc.text("For TaxGSTPro", 14, y);
+  y += 6;
+  doc.text("Authorised Tax Consultant", 14, y);
+
+  doc.save("Income_Tax_Computation_FY_2025_26.pdf");
+}
+</script>
+
+        <script>
+function downloadExcel() {
+  if (!window.taxData) {
+    alert('Please generate computation first');
+    return;
+  }
+
+  const wsData = [
+    ["INCOME TAX COMPUTATION – FY 2025-26 (AY 2026-27)"],
+    [],
+    ["Particulars", "Old Regime (₹)", "New Regime (₹)"],
+    ["Gross Total Income", window.taxData.grossIncome, window.taxData.grossIncome],
+    ["Less: Deductions", window.taxData.deductions, 0],
+    ["Taxable Income", window.taxData.oldTaxable, window.taxData.newTaxable],
+    [],
+    ["Income Tax Payable"],
+    ["Final Tax Liability (incl. cess)", window.taxData.oldTax, window.taxData.newTax],
+    [],
+    [
+      "Recommended Regime",
+      window.taxData.oldTax > window.taxData.newTax ? "New Regime" : "Old Regime",
+      ""
+    ],
+    [],
+    ["Generated on", window.taxData.timestamp]
+  ];
+
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Tax Computation");
+
+  XLSX.writeFile(wb, "Income_Tax_Computation_FY_2025_26.xlsx");
+}
+</script>
     </script>
 </body>
 </html>
