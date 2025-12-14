@@ -34,12 +34,12 @@
       <a href="signup.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Signup</a>
     </nav>
     <!-- Mobile Menu Toggle -->
-    <button id="mobileToggle" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; flex-shrink: 0; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Toggle Menu"><i class="fas fa-bars"></i></button>
+    <button id="mobileToggle" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; flex-shrink: 0; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Toggle Menu"><i class="fas fa-bars"></i></button>
   </header>
   <!-- Main Layout with Sidebar -->
   <div class="main-layout" style="display: flex; min-height: calc(100vh - 60px); margin-top: 60px;">
     <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transform: translateX(0); transition: transform 0.3s; position: sticky; top: 60px; height: calc(100vh - 60px);">
+    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transition: transform 0.3s; position: sticky; top: 60px; height: calc(100vh - 60px);">
       <!-- Mobile Navigation Links -->
       <div id="mobileNav" style="display: none; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">
         <h3 style="color: #667eea; margin-bottom: 10px; font-size: 16px;">Menu</h3>
@@ -167,7 +167,6 @@
       <section class="container" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; margin-bottom: 20px;">
         <h2 class="section-title" style="text-align: center; margin-bottom: 30px; font-size: 32px; color: white;">Most Popular Services</h2>
         <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-          <!-- Service Cards (unchanged for brevity; include all 4 from previous version) -->
           <div class="glass card popular" style="position: relative; transition: transform 0.3s; cursor: pointer; padding: 20px;" onclick="openBookingForm(999,'Salaried Super Saver')">
             <i class="fas fa-file-invoice" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
             <h3 style="margin-bottom: 5px; font-size: 22px;">Salaried Super Saver</h3>
@@ -178,7 +177,6 @@
               <button class="btn-upi" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s; font-size: 14px;">Pay & Book ₹999</button>
             </div>
           </div>
-          <!-- Add the other three cards similarly from the previous code -->
           <div class="glass card popular" style="position: relative; transition: transform 0.3s; cursor: pointer; padding: 20px;" onclick="openBookingForm(4999,'Business Starter Pack')">
             <i class="fas fa-building" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
             <h3 style="margin-bottom: 5px; font-size: 22px;">Business Starter Pack</h3>
@@ -258,7 +256,7 @@
     </div>
     <p style="margin-top: 20px; border-top: 1px solid #333; padding-top: 10px;">© 2025 TaxEasePro. All rights reserved.</p>
   </footer>
-  <!-- Booking Modal (unchanged) -->
+  <!-- Booking Modal -->
   <div id="bookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px; overflow-y: auto;">
     <div style="background: #111; border-radius: 20px; max-width: 420px; margin: 40px auto; padding: 30px; color: white;">
       <h2 style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
@@ -309,7 +307,7 @@
         sidebar.style.transform = 'translateX(-100%)';
         body.style.overflow = 'auto';
         mobileNav.style.display = 'none';
-        if (window.innerWidth <= 768) desktopNav.style.display = 'none'; // Hide desktop nav on mobile
+        if (window.innerWidth <= 768) desktopNav.style.display = 'none';
       } else {
         body.classList.add('mobile-open');
         sidebar.classList.add('mobile-open');
@@ -353,37 +351,37 @@
     document.querySelector('.sidebar-section button').addEventListener('click', () => {
       alert('Subscribed! Check your email for updates.');
     });
-    // Blogs with Fallback
+    // Blogs with Fallback (No db reference, static load)
     async function loadLatestBlogs() {
       const ul = document.getElementById('latestBlogs');
       try {
-        // Firebase placeholder; replace if configured
-        ul.innerHTML = '<li><a href="blog.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>Latest Tax Tips</strong><small style="color: #aaa;">Dec 2025 | Tax</small><small>Explore new slabs...</small></a></li><li><a href="blog.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>GST Updates</strong><small style="color: #aaa;">Dec 2025 | GST</small><small>New thresholds explained...</small></a></li>';
+        // Static fallback - no db needed
+        ul.innerHTML = `
+          <li><a href="blog.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>Latest Tax Tips</strong><small style="color: #aaa;">Dec 2025 | Tax</small><br><small>Explore new slabs...</small></a></li>
+          <li><a href="blog.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>GST Updates</strong><small style="color: #aaa;">Dec 2025 | GST</small><br><small>New thresholds explained...</small></a></li>
+        `;
       } catch (error) {
-        console.warn('Blogs loading fallback activated.');
+        console.warn('Blogs loading fallback activated: ', error);
         ul.innerHTML = '<li><a href="blog.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">Check our blog for updates</a></li>';
       }
     }
     loadLatestBlogs();
-    // Mobile detection for initial nav hide
-    if (window.innerWidth <= 768) {
-      desktopNav.style.display = 'none';
+    // Mobile detection for initial setup
+    function initMobile() {
+      const isMobile = window.innerWidth <= 768;
+      desktopNav.style.display = isMobile ? 'none' : 'flex';
+      mobileToggle.style.display = isMobile ? 'block' : 'none';
+      sidebar.style.transform = isMobile ? 'translateX(-100%)' : 'translateX(0)';
+      body.classList.remove('mobile-open');
+      sidebar.classList.remove('mobile-open');
+      body.style.overflow = 'auto';
+      mobileNav.style.display = 'none';
     }
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) {
-        body.classList.remove('mobile-open');
-        sidebar.classList.remove('mobile-open');
-        sidebar.style.transform = 'translateX(0)';
-        body.style.overflow = 'auto';
-        desktopNav.style.display = 'flex';
-        mobileNav.style.display = 'none';
-      } else {
-        desktopNav.style.display = 'none';
-      }
-    });
+    initMobile();
+    window.addEventListener('resize', initMobile);
   </script>
   <style>
-    /* Global Styles (unchanged for brevity; include all from previous) */
+    /* Global Styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -408,21 +406,23 @@
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
       .main-layout { flex-direction: column; }
-      .sidebar { 
-        position: fixed; left: 0; top: 60px; width: 85%; min-width: 280px; height: calc(100vh - 60px); z-index: 1001; 
-        transform: translateX(-100%); border-right: none; border-top: none; 
+      .sidebar {
+        position: fixed; left: 0; top: 60px; width: 85%; min-width: 280px; height: calc(100vh - 60px); z-index: 1001;
+        transform: translateX(-100%) !important; /* Override with !important */
+        border-right: none; border-top: none;
       }
-      .sidebar.mobile-open { transform: translateX(0); }
+      .sidebar.mobile-open { transform: translateX(0) !important; }
       .content { order: 1; margin-left: 0; padding: 20px; }
-      #mobileToggle { display: block; }
-      #desktopNav { display: none; }
+      #mobileToggle { display: block !important; } /* Override */
+      #desktopNav { display: none !important; }
       header { flex-direction: row; justify-content: space-between; padding: 10px 15px; align-items: center; }
       h1 { font-size: 28px !important; line-height: 1.2; }
-      .hero { min-height: 35vh; }
+      .hero { min-height: 30vh; } /* Reduced for less blank space */
       .btn-big { padding: 12px 24px; font-size: 14px; flex: 1; min-width: 120px; }
       .stats-bar { flex-direction: column; gap: 10px; font-size: 14px; }
       .cards, .testimonials-grid { grid-template-columns: 1fr; gap: 15px; }
-      footer div { flex-direction: column; gap: 10px; text-align: center; }
+      footer { padding: 20px 10px !important; } /* Compact footer */
+      footer div { flex-direction: column; gap: 5px; text-align: center; }
       /* Backdrop for open sidebar */
       body.mobile-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
     }
