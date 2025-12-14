@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tax Computation Tool – TaxGSTPro (FY 2025-26)</title>
+    <title>Tax Computation Tool – TaxEasePro (FY 2025-26)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
@@ -168,7 +168,7 @@
         <header class="tool-header">
             <i class="fas fa-calculator"></i>
             <h1>Tax Computation Tool</h1>
-            <div>Comprehensive Analysis for FY 2025-26 (AY 2026-27)</div>
+            <div>Pro Tax, Zero Stress</div>
             <!-- Close Button -->
             <button class="close-calculator" onclick="closeCalculator()">✕</button>
         </header>
@@ -484,12 +484,12 @@
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            /* Header - Darker Orange Background */
-            doc.setFillColor(255, 140, 0); // Darker orange color
+            /* Header - Dark Blue Background */
+            doc.setFillColor(0, 51, 102); // Dark blue color
             doc.rect(0, 0, 210, 50, 'F');
-            /* Logo (larger) - Back in place */
+            /* Logo (larger) - Updated to logo.png */
             const logo = new Image();
-            logo.src = 'logo1.png';
+            logo.src = 'logo.png';
             let logoLoaded = false;
             logo.onload = function () {
                 doc.addImage(logo, 'PNG', 15, 5, 40, 40); // Bigger logo: 40x40
@@ -509,16 +509,16 @@
 
             function renderPDF(hasLogo) {
                 const xOffset = hasLogo ? 65 : 15; // Adjusted for bigger logo
-                doc.setTextColor(0, 0, 0); // Black text for visibility
+                doc.setTextColor(255, 255, 255); // White text for visibility
                 doc.setFont('helvetica', 'bold'); // Bold font
                 doc.setFontSize(24); // Larger title
                 doc.text('Tax Computation Tool', xOffset, 22);
                 doc.setFont('helvetica', 'bold'); // Keep bold
                 doc.setFontSize(12); // Subtitle
-                doc.text('– TaxGSTPro (FY 2025-26)', xOffset, 32);
+                doc.text('– TaxEasePro (FY 2025-26)', xOffset, 32);
                 doc.setFont('helvetica', 'bold'); // Keep bold
                 doc.setFontSize(10);
-                doc.text('Comprehensive Analysis for AY 2026-27', xOffset, 40);
+                doc.text('Pro Tax, Zero Stress', xOffset, 40);
                
                 doc.setTextColor(0);
                 let y = 60;
@@ -558,8 +558,8 @@
                         lineWidth: 0.1
                     },
                     headStyles: {
-                        fillColor: [255, 140, 0], // Header table row darker orange to match
-                        textColor: [0, 0, 0], // Black text for better contrast
+                        fillColor: [0, 51, 102], // Header table row dark blue to match
+                        textColor: [255, 255, 255], // White text for better contrast
                         fontStyle: 'bold'
                     },
                     columnStyles: {
@@ -579,7 +579,7 @@
                 doc.setFont('helvetica', 'normal');
                 doc.text('System generated report – For advisory use only', 105, y, { align: 'center' });
                
-                doc.save('TaxGSTPro_Tax_Report_FY_2025_26.pdf');
+                doc.save('TaxEasePro_Tax_Report_FY_2025_26.pdf');
             }
         }
         // Excel Download
@@ -610,7 +610,7 @@
             const ws = XLSX.utils.aoa_to_sheet(wsData);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Tax Computation");
-            XLSX.writeFile(wb, "Income_Tax_Computation_FY_2025_26.xlsx");
+            XLSX.writeFile(wb, "TaxEasePro_Income_Tax_Computation_FY_2025_26.xlsx");
         }
     </script>
 </body>
