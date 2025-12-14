@@ -1,38 +1,18 @@
-[
-  {
-    "id": 1,
-    "title": "New Tax Slabs for AY 2025-26: What Changed?",
-    "category": "Tax Slabs",
-    "date": "2025-12-01",
-    "excerpt": "Budget 2025 ने slabs को revise किया – अब Rs. 4L तक nil tax! Full details inside.",
-    "content": "<h2>Introduction</h2><p>AY 2025-26 के लिए new regime slabs...</p><p>Full content here. (Edit this in JSON for real posts)</p>",
-    "url": "blog-post-1.html"
-  },
-  {
-    "id": 2,
-    "title": "How to Claim HRA in Old Regime?",
-    "category": "ITR Tips",
-    "date": "2025-11-25",
-    "excerpt": "HRA exemption calculate करने का easy way – salaried employees के लिए must-read.",
-    "content": "<h2>Steps to Claim</h2><p>1. Rent agreement...</p>",
-    "url": "blog-post-2.html"
-  },
-  {
-    "id": 3,
-    "title": "GST Threshold Updates for Small Businesses",
-    "category": "GST Updates",
-    "date": "2025-11-20",
-    "excerpt": "Rs. 20L turnover से ऊपर GST mandatory? Latest changes जानो.",
-    "content": "<h2>Key Changes</h2><p>GST council ने...",
-    "url": "blog-post-3.html"
-  },
-  {
-    "id": 4,
-    "title": "Top 5 Deductions Under Section 80C",
-    "category": "Deductions",
-    "date": "2025-11-15",
-    "excerpt": "Rs. 1.5L save करने के best investments – PPF से ELSS तक।",
-    "content": "<h2>1. PPF</h2><p>Safe and tax-free...</p>",
-    "url": "blog-post-4.html"
+// Replace the fetch('blogs.json') with this
+async function loadLatestBlogs() {
+  try {
+    const q = query(collection(db, 'blogs'), orderBy('date', 'desc'), limit(4));
+    const snapshot = await getDocs(q);
+    const latest = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const ul = document.getElementById('latestBlogs');
+    ul.innerHTML = '';
+    latest.forEach(blog => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="blog.html#blog-${blog.id}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>${blog.title}</strong><br><small style="color: #aaa;">${blog.date} | ${blog.category}</small><br><small>${blog.excerpt}</small></a>`;
+      ul.appendChild(li);
+    });
+  } catch (error) {
+    console.error('Sidebar blogs error:', error);
   }
-]
+}
+loadLatestBlogs(); // Call on load
