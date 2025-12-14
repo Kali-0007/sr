@@ -18,12 +18,16 @@
 <body style="margin: 0; padding: 0; background: #000; overflow-x: hidden;">
   <!-- Slim Header -->
   <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000;">
-    <div class="logo" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
-      <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto; transition: transform 0.3s;" loading="lazy">
-      <div style="display: flex; flex-direction: column;">
-        <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
-        <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
+    <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+      <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+        <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto; transition: transform 0.3s;" loading="lazy">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
+          <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
+        </div>
       </div>
+      <!-- Sidebar Toggle (Left side, after logo) -->
+      <button id="sidebarToggle" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Sidebar"><i class="fas fa-list"></i></button>
     </div>
     <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; white-space: nowrap;">
       <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Home</a>
@@ -33,13 +37,8 @@
       <a href="login.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Login</a>
       <a href="signup.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Signup</a>
     </nav>
-    <!-- Mobile Controls -->
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <!-- Main Menu Toggle (Hamburger for Nav) -->
-      <button id="mobileMenuToggle" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Menu"><i class="fas fa-bars"></i></button>
-      <!-- Sidebar Toggle (Separate for Quick Nav) -->
-      <button id="sidebarToggle" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Sidebar"><i class="fas fa-list"></i></button>
-    </div>
+    <!-- Main Menu Toggle (Right side) -->
+    <button id="mobileMenuToggle" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Menu"><i class="fas fa-bars"></i></button>
   </header>
 
   <!-- Mobile Main Menu Dropdown -->
@@ -135,9 +134,9 @@
       </div>
     </aside>
     <!-- Main Content -->
-    <main class="content" style="flex: 1; padding: 10px 20px 20px; overflow-y: auto; position: relative; z-index: 1; margin-top: 0;">
-      <!-- Hero Section -->
-      <section class="hero" style="background: linear-gradient(135deg, #111 0%, #1a1a2e 100%); padding: 20px 0; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; margin-bottom: 20px; min-height: auto;">
+    <main class="content" style="flex: 1; padding: 0 20px 20px; overflow-y: auto; position: relative; z-index: 1; margin-top: 0;">
+      <!-- Hero Section (No top padding for zero gap) -->
+      <section class="hero" style="background: linear-gradient(135deg, #111 0%, #1a1a2e 100%); padding: 0 0 20px 0; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; margin-bottom: 20px; min-height: auto;">
         <div class="container" style="max-width: 1200px; padding: 0 20px;">
           <h1 style="font-size: 48px; margin-bottom: 20px; animation: fadeInUp 1s ease-out; white-space: normal; word-break: break-word;">
             Simplify Your Taxes & GST
@@ -262,7 +261,7 @@
     </div>
     <p style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; font-size: 12px;">© 2025 TaxEasePro. All rights reserved.</p>
   </footer>
-  <!-- Booking Modal (same as before) -->
+  <!-- Booking Modal -->
   <div id="bookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px; overflow-y: auto;">
     <div style="background: #111; border-radius: 20px; max-width: 420px; margin: 40px auto; padding: 30px; color: white;">
       <h2 style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
@@ -374,9 +373,9 @@
     function initMobile() {
       const isMobile = window.innerWidth <= 768;
       const desktopNav = document.getElementById('desktopNav');
-      const mobileControls = document.querySelector('div[style*="display: flex; align-items: center; gap: 10px;"]'); // Mobile toggles div
+      sidebarToggle.style.display = isMobile ? 'block' : 'none';
+      mobileMenuToggle.style.display = isMobile ? 'block' : 'none';
       desktopNav.style.display = isMobile ? 'none' : 'flex';
-      mobileControls.style.display = isMobile ? 'flex' : 'none';
       mobileMenu.style.display = 'none';
       sidebar.classList.remove('open');
       body.classList.remove('sidebar-open');
@@ -430,15 +429,16 @@
         overflow-y: auto !important; pointer-events: auto;
       }
       .sidebar.open { left: 0 !important; }
-      .content { order: 1; margin-left: 0; padding: 10px 20px 20px !important; margin-top: 0 !important; }
+      .content { order: 1; margin-left: 0; padding: 0 20px 20px !important; margin-top: 0 !important; }
       #desktopNav { display: none !important; }
-      header div[style*="display: flex; align-items: center; gap: 10px;"] { display: flex !important; }
+      #sidebarToggle { display: block !important; }
+      #mobileMenuToggle { display: block !important; }
       h1 { font-size: 28px !important; line-height: 1.2; }
-      .hero { padding: 10px 0 !important; min-height: auto !important; }
+      .hero { padding: 0 0 20px 0 !important; min-height: auto !important; }
       .btn-big { padding: 12px 24px; font-size: 14px; flex: 1; min-width: 120px; }
       .stats-bar { flex-direction: column; gap: 10px; font-size: 14px; }
       .cards, .testimonials-grid { grid-template-columns: 1fr; gap: 15px; }
-      /* Footer 3 Columns (tight but no stack) */
+      /* Footer 3 Columns */
       footer { padding: 15px 5px !important; }
       footer > div { grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; font-size: 11px; }
       footer ul { text-align: center !important; }
