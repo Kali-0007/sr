@@ -33,14 +33,32 @@
       <a href="login.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Login</a>
       <a href="signup.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Signup</a>
     </nav>
-    <!-- Mobile Menu Toggle -->
-    <button id="mobileToggle" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; flex-shrink: 0; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Toggle Sidebar"><i class="fas fa-bars"></i></button>
+    <!-- Mobile Controls -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <!-- Main Menu Toggle (Hamburger for Nav) -->
+      <button id="mobileMenuToggle" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Menu"><i class="fas fa-bars"></i></button>
+      <!-- Sidebar Toggle (Separate for Quick Nav) -->
+      <button id="sidebarToggle" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Sidebar"><i class="fas fa-list"></i></button>
+    </div>
   </header>
+
+  <!-- Mobile Main Menu Dropdown -->
+  <div id="mobileMenu" style="display: none; position: fixed; top: 60px; left: 0; width: 100%; background: #111; z-index: 1001; padding: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0;">
+      <li><a href="index.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Home</a></li>
+      <li><a href="about.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">About Us</a></li>
+      <li><a href="services.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Services</a></li>
+      <li><a href="contact.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Contact Us</a></li>
+      <li><a href="login.html" style="display: block; color: #667eea; text-decoration: none; padding: 15px 20px; background: rgba(102,126,234,0.1); transition: background 0.3s;">Login</a></li>
+      <li><a href="signup.html" style="display: block; color: #667eea; text-decoration: none; padding: 15px 20px; background: rgba(102,126,234,0.1); transition: background 0.3s;">Signup</a></li>
+    </ul>
+  </div>
+
   <!-- Main Layout with Sidebar -->
   <div class="main-layout" style="min-height: calc(100vh - 60px); margin-top: 60px; display: flex;">
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transition: transform 0.3s; position: sticky; top: 0; height: calc(100vh - 60px); max-height: 100vh;">
-      <!-- Quick Navigation (No main menu here) -->
+    <!-- Sidebar (Quick Nav only) -->
+    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; position: sticky; top: 0; height: calc(100vh - 60px); max-height: 100vh; pointer-events: auto;">
+      <!-- Quick Navigation -->
       <div class="sidebar-section" style="margin-bottom: 30px;">
         <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Quick Navigation</h3>
         <ul style="list-style: none; padding: 0;">
@@ -117,7 +135,7 @@
       </div>
     </aside>
     <!-- Main Content -->
-    <main class="content" style="flex: 1; padding: 10px 20px 20px; overflow-y: auto; position: relative; z-index: 1; margin-top: 0 !important;">
+    <main class="content" style="flex: 1; padding: 10px 20px 20px; overflow-y: auto; position: relative; z-index: 1; margin-top: 0;">
       <!-- Hero Section -->
       <section class="hero" style="background: linear-gradient(135deg, #111 0%, #1a1a2e 100%); padding: 20px 0; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; margin-bottom: 20px; min-height: auto;">
         <div class="container" style="max-width: 1200px; padding: 0 20px;">
@@ -142,7 +160,6 @@
           </div>
         </div>
       </section>
-      <!-- Rest of content same as before (Badges, Services, Testimonials) -->
       <!-- Badges Section -->
       <div style="background: #111; padding: 20px; text-align: center; overflow-x: auto; white-space: nowrap; margin-bottom: 20px;">
         <div style="display: inline-flex; gap: 20px; flex-wrap: nowrap;">
@@ -152,11 +169,10 @@
           <span style="background: rgba(255,255,255,0.05); border-radius: 20px; padding: 10px 20px; border: 1px solid rgba(255,255,255,0.1); color: #ddd; font-size: 14px; white-space: nowrap; min-width: fit-content;"><i class="fas fa-headset" style="color: #667eea; margin-right: 8px;"></i>24×7 Support – WhatsApp</span>
         </div>
       </div>
-      <!-- Popular Services (same as before) -->
+      <!-- Popular Services -->
       <section class="container" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; margin-bottom: 20px;">
         <h2 class="section-title" style="text-align: center; margin-bottom: 30px; font-size: 32px; color: white;">Most Popular Services</h2>
         <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-          <!-- Cards same as previous -->
           <div class="glass card popular" style="position: relative; transition: transform 0.3s; cursor: pointer; padding: 20px;" onclick="openBookingForm(999,'Salaried Super Saver')">
             <i class="fas fa-file-invoice" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
             <h3 style="margin-bottom: 5px; font-size: 22px;">Salaried Super Saver</h3>
@@ -167,7 +183,6 @@
               <button class="btn-upi" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s; font-size: 14px;">Pay & Book ₹999</button>
             </div>
           </div>
-          <!-- Other 3 cards same -->
           <div class="glass card popular" style="position: relative; transition: transform 0.3s; cursor: pointer; padding: 20px;" onclick="openBookingForm(4999,'Business Starter Pack')">
             <i class="fas fa-building" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
             <h3 style="margin-bottom: 5px; font-size: 22px;">Business Starter Pack</h3>
@@ -221,35 +236,34 @@
       </section>
     </main>
   </div>
-  <!-- Footer -->
-  <footer style="text-align: center; padding: 15px 10px; background: #000; color: #666; border-top: 1px solid #333; width: 100%; position: relative; z-index: 1;">
-    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; font-size: 14px; align-items: center; justify-items: center;">
+  <!-- Footer (3 Columns) -->
+  <footer style="text-align: center; padding: 20px 10px; background: #000; color: #666; border-top: 1px solid #333; width: 100%; position: relative; z-index: 1;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; font-size: 12px; align-items: start;">
       <div>
-        <h4 style="color: #fff; margin-bottom: 5px;">Contact Us</h4>
-        <p style="margin: 0;"><i class="fas fa-envelope"></i> info@taxeasepro.com</p>
-        <p style="margin: 0;"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea;">Chat Now</a></p>
+        <h4 style="color: #fff; margin-bottom: 10px;">Contact Us</h4>
+        <p style="margin: 5px 0;"><i class="fas fa-envelope"></i> <a href="mailto:info@taxeasepro.com" style="color: #ddd;">info@taxeasepro.com</a></p>
+        <p style="margin: 5px 0;"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea;">Chat Now</a></p>
       </div>
       <div>
-        <h4 style="color: #fff; margin-bottom: 5px;">Quick Links</h4>
-        <ul style="list-style: none; padding: 0; margin: 0; text-align: center;">
-          <li><a href="calculator.html" style="color: #667eea; display: block;">Income Tax Calculator</a></li>
-          <li><a href="#quickFAQs" style="color: #667eea; display: block;">FAQs</a></li>
-          <li><a href="services.html" style="color: #667eea; display: block;">All Services</a></li>
+        <h4 style="color: #fff; margin-bottom: 10px;">Quick Links</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+          <li style="margin: 5px 0;"><a href="calculator.html" style="color: #667eea;">Income Tax Calculator</a></li>
+          <li style="margin: 5px 0;"><a href="#quickFAQs" style="color: #667eea;">FAQs</a></li>
+          <li style="margin: 5px 0;"><a href="services.html" style="color: #667eea;">All Services</a></li>
         </ul>
       </div>
       <div>
-        <h4 style="color: #fff; margin-bottom: 5px;">Legal</h4>
-        <ul style="list-style: none; padding: 0; margin: 0; text-align: center;">
-          <li><a href="privacy.html" style="color: #667eea; display: block;">Privacy Policy</a></li>
-          <li><a href="terms.html" style="color: #667eea; display: block;">Terms</a></li>
+        <h4 style="color: #fff; margin-bottom: 10px;">Legal</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+          <li style="margin: 5px 0;"><a href="privacy.html" style="color: #667eea;">Privacy Policy</a></li>
+          <li style="margin: 5px 0;"><a href="terms.html" style="color: #667eea;">Terms</a></li>
         </ul>
       </div>
     </div>
-    <p style="margin: 5px 0 0 0; border-top: 1px solid #333; padding-top: 5px; font-size: 12px;">© 2025 TaxEasePro. All rights reserved.</p>
+    <p style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; font-size: 12px;">© 2025 TaxEasePro. All rights reserved.</p>
   </footer>
-  <!-- Booking Modal (same) -->
+  <!-- Booking Modal (same as before) -->
   <div id="bookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px; overflow-y: auto;">
-    <!-- Modal content same as before -->
     <div style="background: #111; border-radius: 20px; max-width: 420px; margin: 40px auto; padding: 30px; color: white;">
       <h2 style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         Complete Booking – ₹<span id="modalAmt"></span>
@@ -266,7 +280,7 @@
     </div>
   </div>
   <script>
-    // Booking functions same
+    // Booking functions (same)
     let amt = 0, service = "";
     function openBookingForm(amount, serviceName) {
       amt = amount; service = serviceName;
@@ -286,38 +300,46 @@
       document.getElementById('bookingModal').style.display = 'none';
       alert("Thank you! Payment link opened & details sent to us.");
     }
-    // Sidebar Toggle (no mobileNav, only sidebar content)
-    const mobileToggle = document.getElementById('mobileToggle');
+
+    // Mobile Main Menu Toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Sidebar Toggle
+    const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
-    const desktopNav = document.getElementById('desktopNav');
     const body = document.body;
     function toggleSidebar() {
-      const isOpen = body.classList.contains('mobile-open');
+      const isOpen = sidebar.classList.contains('open');
       if (isOpen) {
-        body.classList.remove('mobile-open');
-        sidebar.classList.remove('mobile-open');
-        sidebar.style.transform = 'translateX(-100%)';
-        body.style.overflow = 'auto';
+        sidebar.classList.remove('open');
+        body.classList.remove('sidebar-open');
       } else {
-        body.classList.add('mobile-open');
-        sidebar.classList.add('mobile-open');
-        sidebar.style.transform = 'translateX(0)';
-        body.style.overflow = 'hidden';
+        sidebar.classList.add('open');
+        body.classList.add('sidebar-open');
       }
     }
-    mobileToggle.addEventListener('click', toggleSidebar);
-    // Auto-close
+    sidebarToggle.addEventListener('click', toggleSidebar);
+
+    // Auto-close sidebar on outside click
     document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768 && body.classList.contains('mobile-open') && !sidebar.contains(e.target) && !mobileToggle.contains(e.target)) {
-        toggleSidebar();
+      if (body.classList.contains('sidebar-open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+        sidebar.classList.remove('open');
+        body.classList.remove('sidebar-open');
       }
     });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && body.classList.contains('mobile-open')) {
-        toggleSidebar();
-      }
+
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.style.display = 'none';
+      });
     });
-    // Animations same
+
+    // Animations (same)
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -332,11 +354,13 @@
       el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
       observer.observe(el);
     });
-    // Newsletter same
+
+    // Newsletter
     document.querySelector('.sidebar-section button').addEventListener('click', () => {
       alert('Subscribed! Check your email for updates.');
     });
-    // Blogs same
+
+    // Blogs
     async function loadLatestBlogs() {
       const ul = document.getElementById('latestBlogs');
       ul.innerHTML = `
@@ -345,25 +369,29 @@
       `;
     }
     loadLatestBlogs();
-    // Mobile init - hide sidebar, show toggle
+
+    // Mobile Init
     function initMobile() {
       const isMobile = window.innerWidth <= 768;
+      const desktopNav = document.getElementById('desktopNav');
+      const mobileControls = document.querySelector('div[style*="display: flex; align-items: center; gap: 10px;"]'); // Mobile toggles div
       desktopNav.style.display = isMobile ? 'none' : 'flex';
-      mobileToggle.style.display = isMobile ? 'block' : 'none';
+      mobileControls.style.display = isMobile ? 'flex' : 'none';
+      mobileMenu.style.display = 'none';
+      sidebar.classList.remove('open');
+      body.classList.remove('sidebar-open');
       sidebar.style.transform = isMobile ? 'translateX(-100%)' : 'translateX(0)';
       sidebar.style.position = isMobile ? 'fixed' : 'sticky';
       sidebar.style.top = isMobile ? '60px' : '0';
       sidebar.style.height = isMobile ? 'calc(100vh - 60px)' : 'calc(100vh - 60px)';
-      sidebar.style.maxHeight = isMobile ? '80vh' : '100vh';
+      sidebar.style.maxHeight = '100vh';
       sidebar.style.overflowY = 'auto';
-      body.classList.remove('mobile-open');
-      body.style.overflow = 'auto';
     }
     initMobile();
     window.addEventListener('resize', initMobile);
   </script>
   <style>
-    /* Global same */
+    /* Global Styles (same as before) */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -382,40 +410,49 @@
     nav a:hover { color: #667eea; }
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .sidebar a:hover { color: #667eea; }
+    .sidebar a:hover { color: #667eea; background: none; }
     .sidebar-section h3 { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
     details summary::-webkit-details-marker { display: none; }
-    /* Mobile */
+
+    /* Mobile Menu Styles */
+    #mobileMenu a:hover { background: rgba(102,126,234,0.1); }
+
+    /* Sidebar Styles */
+    .sidebar.open { transform: translateX(0) !important; }
+    body.sidebar-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; }
+
+    /* Mobile Responsiveness */
     @media (max-width: 768px) {
       .main-layout { flex-direction: column; }
       .sidebar {
-        position: fixed !important; left: 0; top: 60px; width: 85%; min-width: 280px; height: calc(100vh - 60px); z-index: 1001;
-        transform: translateX(-100%) !important;
-        border-right: none; border-top: 1px solid rgba(255,255,255,0.1);
-        max-height: 80vh; overflow-y: auto !important;
+        position: fixed !important; left: -100%; top: 60px; width: 80%; max-width: 300px; height: calc(100vh - 60px); z-index: 1002;
+        transform: translateX(0); border-right: none; border-top: 1px solid rgba(255,255,255,0.1);
+        overflow-y: auto !important; pointer-events: auto;
       }
-      .sidebar.mobile-open { transform: translateX(0) !important; }
+      .sidebar.open { left: 0 !important; }
       .content { order: 1; margin-left: 0; padding: 10px 20px 20px !important; margin-top: 0 !important; }
-      #mobileToggle { display: block !important; }
       #desktopNav { display: none !important; }
-      header { padding: 10px 15px; }
+      header div[style*="display: flex; align-items: center; gap: 10px;"] { display: flex !important; }
       h1 { font-size: 28px !important; line-height: 1.2; }
       .hero { padding: 10px 0 !important; min-height: auto !important; }
       .btn-big { padding: 12px 24px; font-size: 14px; flex: 1; min-width: 120px; }
       .stats-bar { flex-direction: column; gap: 10px; font-size: 14px; }
       .cards, .testimonials-grid { grid-template-columns: 1fr; gap: 15px; }
-      footer { padding: 15px 10px !important; }
-      footer div { grid-template-columns: 1fr !important; gap: 0 !important; }
-      footer ul li { margin: 2px 0; }
-      body.mobile-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
+      /* Footer 3 Columns (tight but no stack) */
+      footer { padding: 15px 5px !important; }
+      footer > div { grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; font-size: 11px; }
+      footer ul { text-align: center !important; }
+      footer ul li { margin: 2px 0 !important; }
+      #mobileMenu { top: 60px !important; }
     }
     @media (max-width: 480px) {
       header { padding: 8px 10px; }
       .logo span:first-child { font-size: 18px; }
       .cards { gap: 10px; }
-      .sidebar { width: 90%; min-width: 260px; }
+      .sidebar { width: 85% !important; }
       .btn-big { min-width: 100px; padding: 10px 20px; }
       h1 { font-size: 24px !important; }
+      footer > div { grid-template-columns: repeat(3, 1fr) !important; gap: 5px !important; font-size: 10px; }
     }
   </style>
 </body>
