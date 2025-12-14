@@ -37,7 +37,7 @@
   <!-- Main Layout with Sidebar -->
   <div class="main-layout" style="display: flex; min-height: calc(100vh - 70px);">
     <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; position: fixed; top: 70px; left: 0; height: calc(100vh - 70px); overflow-y: auto; z-index: 999; transform: translateX(0); transition: transform 0.3s;">
+    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: visible; z-index: 999; transform: translateX(0); transition: transform 0.3s;">
       <!-- Quick Navigation -->
       <div class="sidebar-section" style="margin-bottom: 30px;">
         <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Quick Navigation</h3>
@@ -114,7 +114,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="content" style="flex: 1; margin-left: 280px; padding: 20px;">
+    <main class="content" style="flex: 1; padding: 20px; overflow-y: auto;">
       <!-- Hero Section with Animation -->
       <section class="hero" style="padding-top: 20px; background: linear-gradient(135deg, #111 0%, #1a1a2e 100%); min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden;">
         <div class="container" style="max-width: 1200px; padding: 0 20px;">
@@ -262,7 +262,7 @@
   </div>
 
   <!-- Footer (English Links) -->
-  <footer style="text-align: center; padding: 40px 20px; background: #000; color: #666; border-top: 1px solid #333;">
+  <footer style="text-align: center; padding: 40px 20px; background: #000; color: #666; border-top: 1px solid #333; width: 100%;">
     <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; font-size: 14px;">
       <div>
         <h4 style="color: #fff; margin-bottom: 10px;">Contact Us</h4>
@@ -384,8 +384,9 @@
     details summary::-webkit-details-marker { display: none; }
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); width: 100%; z-index: 1001; }
-      .content { margin-left: 0; }
+      .main-layout { flex-direction: column; }
+      .sidebar { transform: translateX(-100%); width: 100%; order: 2; border-right: none; border-top: 1px solid rgba(255,255,255,0.1); }
+      .content { order: 1; margin-left: 0; padding: 20px; }
       #mobileToggle { display: block; }
       header { flex-direction: column; gap: 10px; padding: 10px; }
       nav { flex-wrap: wrap; justify-content: center; }
@@ -394,9 +395,10 @@
       .btn-big { padding: 15px 30px; font-size: 16px; }
       .cards, .testimonials-grid { grid-template-columns: 1fr; }
       .stats-bar { flex-direction: column; gap: 10px; }
+      footer { padding-left: 20px; padding-right: 20px; }
       footer div { justify-content: center; text-align: center; }
-      .main-layout { flex-direction: column; }
     }
+    .sidebar:not(.mobile-open) + .content { /* Optional: adjust if needed */ }
   </style>
 </body>
 </html>
