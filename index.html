@@ -15,354 +15,396 @@
   <script>const MY_WA = "919876543210";</script>
   <script>const MY_UPI = "taxgstpro@oksbi";</script>
 </head>
-<body>
+<body style="margin: 0; padding: 0; overflow-x: hidden;">
   <!-- Slim Header -->
-  <header class="header">
-    <div class="logo">
-      <img src="logo.png" alt="TaxEasePro Logo" loading="lazy">
-      <span>TaxEasePro</span>
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 1000;">
+    <div class="logo" style="display: flex; align-items: center; gap: 15px;">
+      <img src="logo.png" alt="TaxEasePro" style="height: 60px; width: auto; transition: transform 0.3s;" loading="lazy">
+      <span style="font-size: 24px; font-weight: 700; color: #667eea;">TaxEasePro</span>
     </div>
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="services.html">Services</a>
-      <a href="contact.html">Contact Us</a>
-      <a href="login.html" class="btn-highlight">Login</a>
-      <a href="signup.html" class="btn-highlight">Signup</a>
+    <nav style="display: flex; align-items: center; gap: 20px;">
+      <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Home</a>
+      <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">About Us</a>
+      <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Services</a>
+      <a href="contact.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Contact Us</a>
+      <a href="login.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none; transition: transform 0.3s;">Login</a>
+      <a href="signup.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none; transition: transform 0.3s;">Signup</a>
     </nav>
     <!-- Mobile Menu Toggle -->
-    <button id="mobileToggle" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+    <button id="mobileToggle" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer;"><i class="fas fa-bars"></i></button>
   </header>
   <!-- Main Layout with Sidebar -->
-  <div class="main-layout">
+  <div class="main-layout" style="display: flex; min-height: calc(100vh - 70px);">
     <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <!-- Quick Navigation (Always Visible on Mobile) -->
-      <div class="sidebar-section">
-        <h3>Quick Navigation</h3>
-        <ul>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="calculator.html">Income Tax Calculator</a></li>
-          <li><a href="#quickFAQs">FAQs</a></li>
+    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: visible; z-index: 999; transform: translateX(0); transition: transform 0.3s;">
+      <!-- Quick Navigation -->
+      <div class="sidebar-section" style="margin-bottom: 30px;">
+        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Quick Navigation</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="services.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.3s;">Services</a></li>
+          <li><a href="calculator.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.3s;">Income Tax Calculator</a></li>
+          <li><a href="#quickFAQs" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.3s;">FAQs</a></li>
         </ul>
       </div>
-      <!-- WhatsApp Chat (Always Visible on Mobile) -->
-      <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> WhatsApp Chat</a>
-      <!-- More Sections (Hidden Behind Accordion on Mobile) -->
-      <details class="more-sections">
-        <summary>More</summary>
-        <!-- Latest Blogs -->
-        <div class="sidebar-section">
-          <h3>Latest Blogs</h3>
-          <ul id="latestBlogs">
-            <!-- Static Dummy Blogs -->
-            <li><a href="blog.html#1"><strong>ITR Tips 2025</strong><br><small>2025-12-01 | Tax</small><br><small>Learn new slabs...</small></a></li>
-            <li><a href="blog.html#2"><strong>GST Updates</strong><br><small>2025-11-15 | GST</small><br><small>Threshold changes...</small></a></li>
-          </ul>
-          <a href="blog.html">More Blogs →</a>
+      <!-- Latest Blogs (Replaced Blog/Updates Section) -->
+      <div class="sidebar-section" style="margin-bottom: 30px;">
+        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Latest Blogs</h3>
+        <ul id="latestBlogs" style="list-style: none; padding: 0;">
+          <!-- JS से लोड होगा -->
+        </ul>
+        <a href="blog.html" style="color: #667eea; font-size: 14px; display: block; margin-top: 10px;">More Blogs →</a>
+      </div>
+      <!-- Support & Contact -->
+      <div class="sidebar-section" style="margin-bottom: 30px;">
+        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Support & Contact</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="https://wa.me/919876543210" target="_blank" style="color: #00c853; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="fab fa-whatsapp" style="margin-right: 8px;"></i>WhatsApp Chat</a></li>
+          <li><a href="mailto:info@taxeasepro.com" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><i class="fas fa-envelope" style="margin-right: 8px;"></i>Email Support</a></li>
+          <li><a href="dashboard.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0;"><i class="fas fa-tasks" style="margin-right: 8px;"></i>Track Status</a></li>
+        </ul>
+      </div>
+      <!-- Trust & Updates -->
+      <div class="sidebar-section" style="margin-bottom: 30px;">
+        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Latest Tax Updates</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li style="margin-bottom: 10px;"><small style="color: #aaa;">AY 2025-26 Slab Changes</small><br><a href="blog.html#slab" style="color: #ddd; font-size: 14px;">Read More →</a></li>
+          <li style="margin-bottom: 10px;"><small style="color: #aaa;">New GST Thresholds</small><br><a href="blog.html#gst" style="color: #ddd; font-size: 14px;">Read More →</a></li>
+          <li><small style="color: #aaa;">Belated ITR Fee Update</small><br><a href="blog.html#belated" style="color: #ddd; font-size: 14px;">Read More →</a></li>
+        </ul>
+        <div style="margin-top: 15px; display: flex; gap: 20px; font-size: 14px; color: #aaa;">
+          <span><i class="fas fa-users" style="color: #667eea;"></i>5,000+ Clients</span>
+          <span><i class="fas fa-star" style="color: #667eea;"></i>4.9/5 Rating</span>
         </div>
-        <!-- Support & Contact -->
-        <div class="sidebar-section">
-          <h3>Support & Contact</h3>
-          <ul>
-            <li><a href="mailto:info@taxeasepro.com"><i class="fas fa-envelope"></i> Email Support</a></li>
-            <li><a href="dashboard.html"><i class="fas fa-tasks"></i> Track Status</a></li>
-          </ul>
-        </div>
-        <!-- Trust & Updates -->
-        <div class="sidebar-section">
-          <h3>Latest Tax Updates</h3>
-          <ul>
-            <li><small>AY 2025-26 Slab Changes</small><br><a href="blog.html#slab">Read More →</a></li>
-            <li><small>New GST Thresholds</small><br><a href="blog.html#gst">Read More →</a></li>
-            <li><small>Belated ITR Fee Update</small><br><a href="blog.html#belated">Read More →</a></li>
-          </ul>
-          <div class="trust-stats">
-            <span><i class="fas fa-users"></i>5,000+ Clients</span>
-            <span><i class="fas fa-star"></i>4.9/5 Rating</span>
-          </div>
-        </div>
-        <!-- Quick FAQs -->
-        <div class="sidebar-section" id="quickFAQs">
-          <h3>Quick FAQs</h3>
-          <details>
-            <summary>What is Income Tax?</summary>
-            <p>Direct tax on earnings at progressive rates.</p>
-          </details>
-          <details>
-            <summary>FY vs AY for ITR?</summary>
-            <p>FY: Earn year; AY: Assess year (next FY).</p>
-          </details>
-          <details>
-            <summary>Old vs New Regime?</summary>
-            <p>New: Lower rates, fewer deductions. Old: Higher rates, more exemptions.</p>
-          </details>
-          <details>
-            <summary>GST Registration Time?</summary>
-            <p>3-5 days with docs help.</p>
-          </details>
-          <details>
-            <summary>Documents for ITR?</summary>
-            <p>Form-16, PAN, Aadhaar, bank statements.</p>
-          </details>
-          <a href="faqs.html">More FAQs →</a>
-        </div>
-        <!-- Newsletter Signup -->
-        <div class="sidebar-section">
-          <h3>Newsletter Signup</h3>
-          <form id="newsletterForm">
-            <input type="email" id="newsletterEmail" placeholder="Your Email" required>
-            <button type="submit" aria-label="Subscribe to newsletter">Subscribe</button>
-            <p id="newsletterFeedback" class="feedback"></p>
-          </form>
-        </div>
-        <!-- Search Bar -->
-        <div class="sidebar-section">
-          <h3>Search</h3>
-          <input type="search" placeholder="Search site...">
-        </div>
-      </details>
+      </div>
+      <!-- Quick FAQs (Top 5) -->
+      <div class="sidebar-section" id="quickFAQs" style="margin-bottom: 30px;">
+        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Quick FAQs</h3>
+        <details style="margin-bottom: 10px;">
+          <summary style="color: #fff; cursor: pointer; font-weight: 500;">What is Income Tax?</summary>
+          <p style="color: #ddd; font-size: 14px; margin-top: 5px;">Direct tax on earnings at progressive rates.</p>
+        </details>
+        <details style="margin-bottom: 10px;">
+          <summary style="color: #fff; cursor: pointer; font-weight: 500;">FY vs AY for ITR?</summary>
+          <p style="color: #ddd; font-size: 14px; margin-top: 5px;">FY: Earn year; AY: Assess year (next FY).</p>
+        </details>
+        <details style="margin-bottom: 10px;">
+          <summary style="color: #fff; cursor: pointer; font-weight: 500;">Old vs New Regime?</summary>
+          <p style="color: #ddd; font-size: 14px; margin-top: 5px;">New: Lower rates, fewer deductions. Old: Higher rates, more exemptions.</p>
+        </details>
+        <details style="margin-bottom: 10px;">
+          <summary style="color: #fff; cursor: pointer; font-weight: 500;">GST Registration Time?</summary>
+          <p style="color: #ddd; font-size: 14px; margin-top: 5px;">3-5 days with docs help.</p>
+        </details>
+        <details>
+          <summary style="color: #fff; cursor: pointer; font-weight: 500;">Documents for ITR?</summary>
+          <p style="color: #ddd; font-size: 14px; margin-top: 5px;">Form-16, PAN, Aadhaar, bank statements.</p>
+        </details>
+        <a href="faqs.html" style="color: #667eea; font-size: 14px;">More FAQs →</a>
+      </div>
+      <!-- Newsletter Signup -->
+      <div class="sidebar-section" style="margin-bottom: 30px;">
+        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Newsletter Signup</h3>
+        <input type="email" placeholder="Your Email" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff;">
+        <button style="width: 100%; padding: 10px; background: #667eea; color: white; border: none; border-radius: 10px; cursor: pointer;">Subscribe</button>
+      </div>
+      <!-- Search Bar -->
+      <div class="sidebar-section">
+        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Search</h3>
+        <input type="search" placeholder="Search site..." style="width: 100%; padding: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff;">
+      </div>
     </aside>
     <!-- Main Content -->
-    <main class="content">
+    <main class="content" style="flex: 1; padding: 20px; overflow-y: auto;">
       <!-- Hero Section with Animation -->
-      <section class="hero">
-        <div class="container">
-          <h1>Simplify Your Taxes & GST<br><span class="gradient-text">Starting at just ₹499</span></h1>
-          <p>5,000+ clients • 100% online • CA-verified • Money-back guarantee</p>
-          <div class="hero-buttons">
-            <a href="services.html" class="btn-big btn-primary">View All Services</a>
-            <a href="calculator.html" class="btn-big btn-primary">Income Tax Calculator</a>
-            <a href="https://wa.me/919876543210" target="_blank" class="btn-big btn-upi">Chat on WhatsApp</a>
+      <section class="hero" style="padding-top: 20px; background: linear-gradient(135deg, #111 0%, #1a1a2e 100%); min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden;">
+        <div class="container" style="max-width: 1200px; padding: 0 20px;">
+          <h1 style="font-size: 48px; margin-bottom: 20px; animation: fadeInUp 1s ease-out; white-space: normal; word-break: break-word;">
+            Simplify Your Taxes & GST
+            <br>
+            <span style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+              Starting at just ₹499
+            </span>
+          </h1>
+          <p style="font-size: 20px; color: #ccc; margin: 20px 0; animation: fadeInUp 1s ease-out 0.2s both;">
+            5,000+ clients • 100% online • CA-verified • Money-back guarantee
+          </p>
+          <div style="margin: 40px 0; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease-out 0.4s both;">
+            <a href="services.html" class="btn-big btn-primary" style="padding: 18px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; text-decoration: none; background: linear-gradient(135deg, #667eea, #764ba2); color: white; transition: transform 0.3s;">View All Services</a>
+            <a href="calculator.html" class="btn-big btn-primary" style="padding: 18px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; text-decoration: none; background: linear-gradient(135deg, #667eea, #764ba2); color: white; transition: transform 0.3s;">Income Tax Calculator</a>
+            <a href="https://wa.me/919876543210" target="_blank" class="btn-big btn-upi" style="padding: 18px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; text-decoration: none; background: linear-gradient(135deg, #00c853, #64dd17); color: white; transition: transform 0.3s;">Chat on WhatsApp</a>
           </div>
           <!-- Stats Bar -->
-          <div class="stats-bar">
-            <span><i class="fas fa-users"></i>5,000+ Clients</span>
-            <span><i class="fas fa-clock"></i>24 Hrs Delivery</span>
-            <span><i class="fas fa-shield-alt"></i>CA Verified</span>
+          <div class="stats-bar" style="display: flex; justify-content: center; gap: 40px; margin-top: 40px; color: #aaa; font-size: 16px; animation: fadeInUp 1s ease-out 0.6s both;">
+            <span><i class="fas fa-users" style="color: #667eea; margin-right: 8px;"></i>5,000+ Clients</span>
+            <span><i class="fas fa-clock" style="color: #667eea; margin-right: 8px;"></i>24 Hrs Delivery</span>
+            <span><i class="fas fa-shield-alt" style="color: #667eea; margin-right: 8px;"></i>CA Verified</span>
           </div>
         </div>
       </section>
       <!-- Trust Badges -->
-      <div class="trust-badges">
-        <div class="badges">
-          <span><i class="fas fa-certificate"></i> ISO Certified</span>
-          <span><i class="fas fa-lock"></i> SSL Secure</span>
-          <span><i class="fas fa-award"></i> 4.9/5 Rating</span>
+      <div style="background: #111; padding: 20px; text-align: center;">
+        <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+          <span style="color: #888; font-size: 16px;"><i class="fas fa-certificate" style="color: #667eea;"></i> ISO Certified</span>
+          <span style="color: #888; font-size: 16px;"><i class="fas fa-lock" style="color: #667eea;"></i> SSL Secure</span>
+          <span style="color: #888; font-size: 16px;"><i class="fas fa-award" style="color: #667eea;"></i> 4.9/5 Rating</span>
         </div>
-        <p>PAN India Service • 24×7 WhatsApp Support • Secure & Confidential • Money-Back Guarantee</p>
+        <p style="color: #888; font-size: 16px; margin-top: 10px;">
+          PAN India Service • 24×7 WhatsApp Support • Secure & Confidential • Money-Back Guarantee
+        </p>
       </div>
-      <!-- Popular Packages -->
-      <section class="container popular-services">
-        <h2 class="section-title">Most Popular Services</h2>
-        <div class="cards">
-          <div class="glass-card popular">
-            <i class="fas fa-file-invoice"></i>
-            <h3>Salaried Super Saver</h3>
-            <p class="price">₹999 <small>(incl. GST)</small></p>
-            <p>ITR-1 + Form-16 + Tax Tips + Filing in 24 hrs</p>
-            <span class="tag">Bestseller</span>
-            <div class="card-actions">
-              <button onclick="openBookingForm(999,'Salaried Super Saver')" class="btn-upi" aria-label="Pay and Book Salaried Super Saver">Pay & Book ₹999</button>
+      <!-- Popular Packages (Shortened to 4) -->
+      <section class="container" style="padding: 70px 20px; max-width: 1200px; margin: 0 auto;">
+        <h2 class="section-title" style="text-align: center; margin-bottom: 50px; font-size: 36px; color: white;">Most Popular Services</h2>
+        <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+          <div class="glass card popular" style="position: relative; transition: transform 0.3s;">
+            <i class="fas fa-file-invoice" style="font-size: 48px; color: #667eea; margin-bottom: 15px; display: block;"></i>
+            <h3 style="margin-bottom: 10px;">Salaried Super Saver</h3>
+            <p class="price" style="font-size: 28px; color: #667eea; font-weight: bold; margin-bottom: 10px;">₹999 <small style="font-size: 14px; color: #ccc;">(incl. GST)</small></p>
+            <p style="color: #ddd; margin-bottom: 15px;">ITR-1 + Form-16 + Tax Tips + Filing in 24 hrs</p>
+            <span class="tag" style="position: absolute; top: 15px; right: 15px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 13px;">Bestseller</span>
+            <div class="card-actions" style="margin-top: 20px;">
+              <button onclick="openBookingForm(999,'Salaried Super Saver')" class="btn-upi" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay & Book ₹999</button>
             </div>
           </div>
-          <!-- Other cards similar structure -->
-          <div class="glass-card popular">
-            <i class="fas fa-building"></i>
-            <h3>Business Starter Pack</h3>
-            <p class="price">₹4,999 <small>(incl. GST)</small></p>
-            <p>New GST Reg + Udyam + 3 Months Filing</p>
-            <div class="card-actions">
-              <button onclick="openBookingForm(4999,'Business Starter Pack')" class="btn-upi" aria-label="Pay and Book Business Starter Pack">Pay & Book ₹4,999</button>
+          <div class="glass card popular" style="position: relative; transition: transform 0.3s;">
+            <i class="fas fa-building" style="font-size: 48px; color: #667eea; margin-bottom: 15px; display: block;"></i>
+            <h3 style="margin-bottom: 10px;">Business Starter Pack</h3>
+            <p class="price" style="font-size: 28px; color: #667eea; font-weight: bold; margin-bottom: 10px;">₹4,999 <small style="font-size: 14px; color: #ccc;">(incl. GST)</small></p>
+            <p style="color: #ddd; margin-bottom: 15px;">New GST Reg + Udyam + 3 Months Filing</p>
+            <div class="card-actions" style="margin-top: 20px;">
+              <button onclick="openBookingForm(4999,'Business Starter Pack')" class="btn-upi" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay & Book ₹4,999</button>
             </div>
           </div>
-          <div class="glass-card popular">
-            <i class="fas fa-certificate"></i>
-            <h3>New GST Registration</h3>
-            <p class="price">₹999 <small>(incl. GST)</small></p>
-            <p>Complete in 3-5 days • All docs help</p>
-            <div class="card-actions">
-              <button onclick="openBookingForm(999,'New GST Registration')" class="btn-upi" aria-label="Pay and Book New GST Registration">Pay & Book ₹999</button>
+          <div class="glass card popular" style="position: relative; transition: transform 0.3s;">
+            <i class="fas fa-certificate" style="font-size: 48px; color: #667eea; margin-bottom: 15px; display: block;"></i>
+            <h3 style="margin-bottom: 10px;">New GST Registration</h3>
+            <p class="price" style="font-size: 28px; color: #667eea; font-weight: bold; margin-bottom: 10px;">₹999 <small style="font-size: 14px; color: #ccc;">(incl. GST)</small></p>
+            <p style="color: #ddd; margin-bottom: 15px;">Complete in 3-5 days • All docs help</p>
+            <div class="card-actions" style="margin-top: 20px;">
+              <button onclick="openBookingForm(999,'New GST Registration')" class="btn-upi" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay & Book ₹999</button>
             </div>
           </div>
-          <div class="glass-card popular">
-            <i class="fas fa-chart-line"></i>
-            <h3>Belated ITR Filing</h3>
-            <p class="price">₹1,499 <small>(incl. GST)</small></p>
-            <p>AY 2025-26 belated with late fee • Quick resolution</p>
-            <div class="card-actions">
-              <button onclick="openBookingForm(1499,'Belated ITR Filing')" class="btn-upi" aria-label="Pay and Book Belated ITR Filing">Pay & Book ₹1,499</button>
-            </div>
-          </div>
-        </div>
-        <p><a href="services.html">See all 17+ services →</a></p>
-      </section>
-      <!-- Why Choose Us -->
-      <section class="why-choose">
-        <div class="container">
-          <h2 class="section-title">Why Choose TaxEasePro?</h2>
-          <div class="cards">
-            <div class="glass-card">
-              <i class="fas fa-rupee-sign"></i>
-              <h3>Lowest Prices</h3>
-              <p>Starting ₹499 – no hidden charges</p>
-            </div>
-            <div class="glass-card">
-              <i class="fas fa-bolt"></i>
-              <h3>Super Fast</h3>
-              <p>ITR in 24 hrs • GST Reg in 3 days</p>
-            </div>
-            <div class="glass-card">
-              <i class="fas fa-check-circle"></i>
-              <h3>100% Accurate</h3>
-              <p>CA verified • Zero notice risk</p>
-            </div>
-            <div class="glass-card">
-              <i class="fas fa-headset"></i>
-              <h3>24×7 Support</h3>
-              <p>WhatsApp + Call anytime</p>
+          <div class="glass card popular" style="position: relative; transition: transform 0.3s;">
+            <i class="fas fa-chart-line" style="font-size: 48px; color: #667eea; margin-bottom: 15px; display: block;"></i>
+            <h3 style="margin-bottom: 10px;">Belated ITR Filing</h3>
+            <p class="price" style="font-size: 28px; color: #667eea; font-weight: bold; margin-bottom: 10px;">₹1,499 <small style="font-size: 14px; color: #ccc;">(incl. GST)</small></p>
+            <p style="color: #ddd; margin-bottom: 15px;">AY 2025-26 belated with late fee • Quick resolution</p>
+            <div class="card-actions" style="margin-top: 20px;">
+              <button onclick="openBookingForm(1499,'Belated ITR Filing')" class="btn-upi" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay & Book ₹1,499</button>
             </div>
           </div>
         </div>
+        <p style="text-align: center; margin-top: 40px;">
+          <a href="services.html" style="color: #667eea; font-size: 18px; text-decoration: none;">See all 17+ services →</a>
+        </p>
       </section>
-      <!-- Testimonials -->
-      <section class="testimonials">
-        <div class="container">
-          <h2 class="section-title">What Our Clients Say</h2>
-          <div class="testimonials-grid">
-            <div class="glass-card testimonial">
-              <p class="review-text">"ITR 2 ghante mein file ho gaya! ₹999 mein itna fast service pehle nahi dekha."</p>
-              <div class="client-info">– Rohan Malhotra, Bangalore</div>
+      <!-- Why Choose Us (Shortened) -->
+      <section style="background: #0d0d1f; padding: 60px 20px;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto;">
+          <h2 class="section-title" style="text-align: center; color: white; margin-bottom: 40px; font-size: 36px;">Why Choose TaxEasePro?</h2>
+          <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+            <div class="glass card" style="text-align: center; transition: transform 0.3s;">
+              <i class="fas fa-rupee-sign" style="font-size: 48px; color: #667eea; margin-bottom: 15px;"></i>
+              <h3 style="color: white; margin-bottom: 10px;">Lowest Prices</h3>
+              <p style="color: #ddd;">Starting ₹499 – no hidden charges</p>
             </div>
-            <div class="glass-card testimonial">
-              <p class="review-text">"GST registration 3 din mein complete. Team ne saare documents WhatsApp pe hi manage kiye."</p>
-              <div class="client-info">– Anjali Verma, Jaipur</div>
+            <div class="glass card" style="text-align: center; transition: transform 0.3s;">
+              <i class="fas fa-bolt" style="font-size: 48px; color: #667eea; margin-bottom: 15px;"></i>
+              <h3 style="color: white; margin-bottom: 10px;">Super Fast</h3>
+              <p style="color: #ddd;">ITR in 24 hrs • GST Reg in 3 days</p>
+            </div>
+            <div class="glass card" style="text-align: center; transition: transform 0.3s;">
+              <i class="fas fa-check-circle" style="font-size: 48px; color: #667eea; margin-bottom: 15px;"></i>
+              <h3 style="color: white; margin-bottom: 10px;">100% Accurate</h3>
+              <p style="color: #ddd;">CA verified • Zero notice risk</p>
+            </div>
+            <div class="glass card" style="text-align: center; transition: transform 0.3s;">
+              <i class="fas fa-headset" style="font-size: 48px; color: #667eea; margin-bottom: 15px;"></i>
+              <h3 style="color: white; margin-bottom: 10px;">24×7 Support</h3>
+              <p style="color: #ddd;">WhatsApp + Call anytime</p>
             </div>
           </div>
-          <div>
-            <p>★★★★★ <strong>4.9/5</strong> from <strong>5,000+ happy clients</strong></p>
+        </div>
+      </section>
+      <!-- Testimonials (Shortened to 2) -->
+      <section style="padding: 60px 20px; background: #0d0d1f;">
+ <div class="container" style="max-width: 1200px; margin: 0 auto;">
+          <h2 class="section-title" style="text-align: center; color: white; margin-bottom: 40px; font-size: 36px;">What Our Clients Say</h2>
+          <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px;">
+            <div class="glass card testimonial" style="transition: transform 0.3s;">
+              <p class="review-text" style="font-style: italic; color: #ddd; line-height: 1.7; margin-bottom: 15px;">"ITR 2 ghante mein file ho gaya! ₹999 mein itna fast service pehle nahi dekha."</p>
+              <div class="client-info" style="color: #667eea; font-weight: 600;">– Rohan Malhotra, Bangalore</div>
+            </div>
+            <div class="glass card testimonial" style="transition: transform 0.3s;">
+              <p class="review-text" style="font-style: italic; color: #ddd; line-height: 1.7; margin-bottom: 15px;">"GST registration 3 din mein complete. Team ne saare documents WhatsApp pe hi manage kiye."</p>
+              <div class="client-info" style="color: #667eea; font-weight: 600;">– Anjali Verma, Jaipur</div>
+            </div>
+          </div>
+          <div style="text-align: center; margin-top: 30px;">
+            <p style="color: #aaa; font-size: 20px;">★★★★★ <strong>4.9/5</strong> from <strong>5,000+ happy clients</strong></p>
           </div>
         </div>
       </section>
       <!-- Final CTA -->
-      <section class="final-cta">
-        <div class="container">
-          <h2>Ready to File Tax or Register GST?</h2>
-          <p>100% online • Takes only 2 minutes</p>
-          <a href="services.html" class="btn-big btn-primary">Choose Your Service Now</a>
+      <section style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 60px 20px; text-align: center; color: white;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto;">
+          <h2 style="font-size: 42px; margin-bottom: 20px;">Ready to File Tax or Register GST?</h2>
+          <p style="font-size: 22px; margin: 25px 0;">100% online • Takes only 2 minutes</p>
+          <a href="services.html" style="background: white; color: #667eea; padding: 18px 50px; border-radius: 50px; font-size: 20px; font-weight: 600; text-decoration: none; display: inline-block; transition: transform 0.3s;">Choose Your Service Now</a>
         </div>
       </section>
-      <!-- Footer -->
-      <footer>
-        <div>
-          <h4>Contact Us</h4>
-          <p><i class="fas fa-envelope"></i> info@taxeasepro.com</p>
-          <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210">Chat Now</a></p>
-        </div>
-        <div>
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="calculator.html">Income Tax Calculator</a></li>
-            <li><a href="#quickFAQs">FAQs</a></li>
-            <li><a href="services.html">All Services</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms</a></li>
-          </ul>
-        </div>
-        <p>© 2025 TaxEasePro. All rights reserved.</p>
-      </footer>
     </main>
   </div>
-  <!-- Booking Modal -->
-  <div id="bookingModal">
-    <div>
-      <h2>Complete Booking – ₹<span id="modalAmt"></span></h2>
-      <p id="modalService"></p>
-      <input type="text" id="name" placeholder="Full Name *" required>
-      <input type="tel" id="phone" placeholder="Mobile Number *" required>
-      <input type="email" id="email" placeholder="Email (optional)">
-      <textarea id="message" placeholder="PAN / Message (optional)" rows="3"></textarea>
+  <!-- Footer (English Links) -->
+  <footer style="text-align: center; padding: 40px 20px; background: #000; color: #666; border-top: 1px solid #333; width: 100%;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; font-size: 14px;">
       <div>
-        <button onclick="submitBooking()" aria-label="Pay via UPI and Confirm">Pay via UPI & Confirm</button>
-        <button onclick="closeModal()" aria-label="Cancel Booking">Cancel</button>
+        <h4 style="color: #fff; margin-bottom: 10px;">Contact Us</h4>
+        <p><i class="fas fa-envelope"></i> info@taxeasepro.com</p>
+        <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea;">Chat Now</a></p>
+      </div>
+      <div>
+        <h4 style="color: #fff; margin-bottom: 10px;">Quick Links</h4>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="calculator.html" style="color: #667eea;">Income Tax Calculator</a></li>
+          <li><a href="#quickFAQs" style="color: #667eea;">FAQs</a></li>
+          <li><a href="services.html" style="color: #667eea;">All Services</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color: #fff; margin-bottom: 10px;">Legal</h4>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="privacy.html" style="color: #667eea;">Privacy Policy</a></li>
+          <li><a href="terms.html" style="color: #667eea;">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top: 20px; border-top: 1px solid #333; padding-top: 10px;">© 2025 TaxEasePro. All rights reserved.</p>
+  </footer>
+  <!-- Booking Modal -->
+  <div id="bookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px; overflow-y: auto;">
+    <div style="background: #111; border-radius: 20px; max-width: 420px; margin: 40px auto; padding: 30px; color: white;">
+      <h2 style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Complete Booking – ₹<span id="modalAmt"></span>
+      </h2>
+      <p style="font-size: 18px; color: #00c853;" id="modalService"></p>
+      <input type="text" id="name" placeholder="Full Name *" required style="width: 100%; padding: 14px; margin: 12px 0; border-radius: 12px; border: none; background: #222; color: #fff;">
+      <input type="tel" id="phone" placeholder="Mobile Number *" required style="width: 100%; padding: 14px; margin: 12px 0; border-radius: 12px; border: none; background: #222; color: #fff;">
+      <input type="email" id="email" placeholder="Email (optional)" style="width: 100%; padding: 14px; margin: 12px 0; border-radius: 12px; border: none; background: #222; color: #fff;">
+      <textarea id="message" placeholder="PAN / Message (optional)" rows="3" style="width: 100%; padding: 14px; margin: 12px 0; border-radius: 12px; border: none; background: #222; color: #fff; resize: vertical;"></textarea>
+      <div style="display: flex; gap: 15px; margin-top: 25px;">
+        <button onclick="submitBooking()" style="flex: 1; padding: 16px; background: #00c853; color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay via UPI & Confirm</button>
+        <button onclick="document.getElementById('bookingModal').style.display='none'" style="padding: 16px; background: #444; color: white; border: none; border-radius: 50px; cursor: pointer;">Cancel</button>
       </div>
     </div>
   </div>
   <script>
-    // Existing script + new newsletter validation
-    document.getElementById('newsletterForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('newsletterEmail').value;
-      const feedback = document.getElementById('newsletterFeedback');
-      const button = e.target.querySelector('button');
-      if (!email || !email.includes('@')) {
-        feedback.textContent = 'Invalid email!';
-        feedback.style.color = 'red';
-        return;
-      }
-      button.disabled = true;
-      button.textContent = 'Subscribing...';
-      setTimeout(() => {
-        feedback.textContent = 'Subscribed successfully!';
-        feedback.style.color = 'green';
-        button.disabled = false;
-        button.textContent = 'Subscribe';
-      }, 1000);
-    });
-    function closeModal() {
-      document.getElementById('bookingModal').style.display = 'none';
+    let amt = 0, service = "";
+    function openBookingForm(amount, serviceName) {
+      amt = amount; service = serviceName;
+      document.getElementById('modalAmt').textContent = amount;
+      document.getElementById('modalService').textContent = serviceName;
+      document.getElementById('bookingModal').style.display = 'block';
     }
-    // Other script code remains the same
+    function submitBooking() {
+      const name = document.getElementById('name').value.trim() || "Customer";
+      const phone = document.getElementById('phone').value.trim() || "Not given";
+      const email = document.getElementById('email').value.trim();
+      const msg = document.getElementById('message').value.trim();
+      const waMsg = `*NEW BOOKING*%0A%0AService: ${service}%0AAmount: ₹${amt}%0AName: ${name}%0APhone: ${phone}%0A${email ? `Email: ${email}%0A` : ''}${msg ? `Message: ${msg}%0A` : ''}Time: ${new Date().toLocaleString('en-IN')}`;
+      window.open(`https://wa.me/${MY_WA}?text=${waMsg}`, '_blank');
+      const upiLink = `upi://pay?pa=${MY_UPI}&pn=TaxEasePro&am=${amt}&cu=INR&tn=${encodeURIComponent(service + ' by ' + name)}`;
+      window.open(upiLink, '_blank');
+      document.getElementById('bookingModal').style.display = 'none';
+      alert("Thank you! Payment link opened & details sent to us.");
+    }
+    // Sidebar Toggle for Mobile
+    const mobileToggle = document.getElementById('mobileToggle');
+    const sidebar = document.getElementById('sidebar');
+    const mainLayout = document.querySelector('.main-layout');
+    mobileToggle.addEventListener('click', () => {
+      sidebar.style.transform = sidebar.style.transform === 'translateX(-100%)' ? 'translateX(0)' : 'translateX(-100%)';
+    });
+    // Simple animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    });
+    document.querySelectorAll('.card, .testimonial').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+    // Newsletter Submit (Placeholder)
+    document.querySelector('.sidebar-section button').addEventListener('click', () => {
+      alert('Subscribed! Check your email for updates.');
+    });
+    // Replace the fetch('blogs.json') with this
+async function loadLatestBlogs() {
+  try {
+    const q = query(collection(db, 'blogs'), orderBy('date', 'desc'), limit(4));
+    const snapshot = await getDocs(q);
+    const latest = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const ul = document.getElementById('latestBlogs');
+    ul.innerHTML = '';
+    latest.forEach(blog => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="blog.html#blog-${blog.id}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>${blog.title}</strong><br><small style="color: #aaa;">${blog.date} | ${blog.category}</small><br><small>${blog.excerpt}</small></a>`;
+      ul.appendChild(li);
+    });
+  } catch (error) {
+    console.error('Sidebar blogs error:', error);
+  }
+}
+loadLatestBlogs(); // Call on load
   </script>
   <style>
     /* Global Styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-    .gradient-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
-    .gradient-text { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .btn-rounded { padding: 8px 16px; border-radius: 20px; text-decoration: none; transition: transform 0.3s; }
-    .btn-rounded:hover { transform: scale(1.05); }
-    .glass-card { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
-    .glass-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2); }
-    .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 1000; }
-    .logo img { height: 60px; width: auto; }
-    .logo span { font-size: 24px; font-weight: 700; color: #667eea; }
-    .nav a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; margin-left: 20px; }
-    .nav a:hover { color: #667eea; }
-    .sidebar { width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; transition: transform 0.3s; }
-    .sidebar a { color: #eee; } /* Brighter for contrast */
-    .more-sections summary { cursor: pointer; color: #667eea; }
-    .content { flex: 1; padding: 20px; overflow-y: auto; }
-    .hero { padding-top: 20px; background: linear-gradient(135deg, #111 0%, #1a1a2e 100%); min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
-    .hero h1 { font-size: 48px; margin-bottom: 20px; word-break: break-word; }
-    .btn-big { padding: 18px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; }
-    .whatsapp-link { color: #00c853; display: block; padding: 8px 0; }
-    .feedback { margin-top: 5px; font-size: 14px; }
+    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
+    .glass:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2); }
+    .btn-big { padding: 18px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; text-decoration: none; transition: transform 0.3s; }
+    .btn-upi { background: linear-gradient(135deg, #00c853, #64dd17); color: white; }
+    .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .tag { background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 13px; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+    .review-text { font-style: italic; color: #ddd; line-height: 1.7; }
+    .client-info { color: #667eea; font-weight: 600; margin-top: 15px; }
+    .btn-highlight { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none; transition: transform 0.3s; }
+    .btn-highlight:hover { transform: scale(1.05); }
+    nav a { color: #fff; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
+    nav a:hover { color: #667eea; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+    /* Animations */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    /* Sidebar Styles */
+    .sidebar a:hover { color: #667eea; }
+    .sidebar-section h3 { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+    details summary::-webkit-details-marker { display: none; }
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
       .main-layout { flex-direction: column; }
-      .sidebar { transform: translateX(-100%); width: 100%; border-right: none; border-top: 1px solid rgba(255,255,255,0.1); backdrop-filter: none; } /* No blur for performance */
-      .header { flex-direction: column; gap: 10px; padding: 10px; }
-      .nav { display: none; } /* Hide nav links */
+      .sidebar { transform: translateX(-100%) !important; width: 100% !important; order: 2; border-right: none; border-top: 1px solid rgba(255,255,255,0.1); }
+      .content { order: 1; margin-left: 0; padding: 20px; }
       #mobileToggle { display: block; }
-      .glass-card { transition: none; } /* Disable animations */
-      .hero h1 { font-size: 32px; }
+      header { flex-direction: column; gap: 10px; padding: 10px; }
+      nav { flex-wrap: wrap; justify-content: center; }
+      nav a { margin: 5px; }
+      h1 { font-size: 32px !important; }
       .btn-big { padding: 15px 30px; font-size: 16px; }
-      .cards { grid-template-columns: 1fr; }
+      .cards, .testimonials-grid { grid-template-columns: 1fr; }
       .stats-bar { flex-direction: column; gap: 10px; }
-      .more-sections { display: block; } /* Accordion on mobile */
+      footer { padding-left: 20px; padding-right: 20px; }
+      footer div { justify-content: center; text-align: center; }
     }
-    /* Footer Styles */
-    footer { text-align: center; padding: 40px 20px; background: #000; color: #666; border-top: 1px solid #333; }
-    footer h4 { color: #fff; margin-bottom: 10px; }
-    footer ul { list-style: none; padding: 0; }
-    footer a { color: #667eea; }
+    .sidebar:not(.mobile-open) + .content { /* Optional: adjust if needed */ }
   </style>
 </body>
 </html>
