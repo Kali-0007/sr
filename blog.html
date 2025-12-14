@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blogs - TaxEasePro</title>
+  <meta name="description" content="Latest Tax, ITR & GST Blogs | Updated for AY 2025-26">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>const MY_WA = "919876543210";</script>
+</head>
+<body style="margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Inter', sans-serif;">
+  <!-- Header (Same) -->
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 1000;">
+    <div class="logo" style="display: flex; align-items: center; gap: 15px;">
+      <img src="logo.png" alt="TaxEasePro" style="height: 40px;">
+      <span style="font-size: 24px; font-weight: 700; color: #667eea;">TaxEasePro</span>
+    </div>
+    <nav style="display: flex; align-items: center; gap: 20px;">
+      <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500;">Home</a>
+      <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500;">About Us</a>
+      <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500;">Services</a>
+      <a href="contact.html" style="color: #fff; text-decoration: none; font-weight: 500;">Contact Us</a>
+      <a href="login.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none;">Login</a>
+      <a href="signup.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none;">Signup</a>
+    </nav>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="main-layout" style="display: flex; min-height: calc(100vh - 70px);">
+    <!-- Sidebar (Same as Homepage) -->
+    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0;">
+      <!-- Copy same sections from homepage sidebar: Quick Nav, Support, Trust, Quick FAQs, Newsletter, Search -->
+      <!-- ... (paste from previous) ... -->
+      <!-- Blog Categories Here -->
+      <div class="sidebar-section" style="margin-bottom: 30px;">
+        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Blog Categories</h3>
+        <ul id="blogCategories" style="list-style: none; padding: 0;">
+          <!-- JS से लोड -->
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content: Blogs List -->
+    <main class="content" style="flex: 1; padding: 20px;">
+      <section style="padding-top: 20px; text-align: center;">
+        <h1 style="font-size: 42px; margin-bottom: 20px; color: white;">Our Blogs</h1>
+        <p style="color: #ccc; font-size: 18px;">Latest insights on Tax, ITR & GST | Updated for AY 2025-26</p>
+      </section>
+
+      <!-- Add New Blog Form -->
+      <section style="background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin-bottom: 40px;">
+        <h2 style="color: #667eea; margin-bottom: 20px;">Add New Blog (Admin)</h2>
+        <form id="newBlogForm">
+          <input type="text" id="title" placeholder="Blog Title" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; background: #222; color: #fff; border: none;">
+          <select id="category" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; background: #222; color: #fff; border: none;">
+            <option>ITR Tips</option>
+            <option>GST Updates</option>
+            <option>Tax Slabs</option>
+            <option>Deductions</option>
+          </select>
+          <textarea id="content" placeholder="Full Content (HTML supported)" rows="5" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; background: #222; color: #fff; border: none;"></textarea>
+          <input type="text" id="excerpt" placeholder="Short Excerpt (100 chars)" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; background: #222; color: #fff; border: none;">
+          <button type="submit" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 10px; cursor: pointer;">Publish Blog</button>
+        </form>
+      </section>
+
+      <!-- Blogs List by Category -->
+      <div id="blogsList" style="display: grid; gap: 20px;">
+        <!-- JS से लोड -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer (Same) -->
+  <footer style="..."> <!-- Copy from previous --> </footer>
+
+  <script>
+    // Load blogs
+    let allBlogs = [];
+    fetch('blogs.json')
+      .then(response => response.json())
+      .then(blogs => {
+        allBlogs = blogs;
+        displayBlogs(blogs);
+        displayCategories(blogs);
+      });
+
+    function displayBlogs(blogs) {
+      const container = document.getElementById('blogsList');
+      container.innerHTML = '';
+      blogs.forEach(blog => {
+        const div = document.createElement('div');
+        div.className = 'glass card';
+        div.style.padding = '20px; border-radius: 20px;';
+        div.innerHTML = `
+          <h3 style="color: white; margin-bottom: 10px;">${blog.title}</h3>
+          <p style="color: #aaa; margin-bottom: 10px;"><i>${blog.date} | ${blog.category}</i></p>
+          <p style="color: #ddd;">${blog.excerpt}</p>
+          <a href="${blog.url}" style="color: #667eea; text-decoration: none;">Read Full →</a>
+          <div style="margin-top: 15px;">${blog.content}</div> <!-- Full content inline -->
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function displayCategories(blogs) {
+      const categories = [...new Set(blogs.map(b => b.category))];
+      const ul = document.getElementById('blogCategories');
+      categories.forEach(cat => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="#" onclick="filterByCategory('${cat}')" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">${cat} (${blogs.filter(b => b.category === cat).length})</a>`;
+        ul.appendChild(li);
+      });
+    }
+
+    function filterByCategory(cat) {
+      const filtered = allBlogs.filter(b => b.category === cat);
+      displayBlogs(filtered);
+    }
+
+    // Publish New Blog
+    document.getElementById('newBlogForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newBlog = {
+        id: allBlogs.length + 1,
+        title: document.getElementById('title').value,
+        category: document.getElementById('category').value,
+        date: new Date().toISOString().split('T')[0],
+        excerpt: document.getElementById('excerpt').value,
+        content: document.getElementById('content').value,
+        url: `blog-post-${allBlogs.length + 1}.html`
+      };
+      allBlogs.unshift(newBlog); // Add to top
+      // Save to JSON (manual: copy console output to blogs.json)
+      console.log('New Blog JSON to add:', JSON.stringify(allBlogs, null, 2));
+      alert('Blog added! Copy the console output and update blogs.json manually, then push to GitHub.');
+      displayBlogs(allBlogs);
+      document.getElementById('newBlogForm').reset();
+    });
+  </script>
+
+  <style>
+    /* Same as previous: glass, etc. */
+    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; transition: all 0.3s; }
+    .glass:hover { transform: translateY(-5px); }
+    /* Mobile same */
+  </style>
+</body>
+</html>
