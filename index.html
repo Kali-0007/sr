@@ -25,7 +25,7 @@
         <span style="font-size: 16px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
       </div>
     </div>
-    <nav style="display: flex; align-items: center; gap: 20px;">
+    <nav style="display: flex; align-items: center; gap: 20px; flex-wrap: nowrap;">
       <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Home</a>
       <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">About Us</a>
       <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Services</a>
@@ -153,72 +153,72 @@
           <span style="background: rgba(255,255,255,0.05); border-radius: 20px; padding: 10px 20px; border: 1px solid rgba(255,255,255,0.1); color: #ddd; font-size: 14px;"><i class="fas fa-headset" style="color: #667eea; margin-right: 8px;"></i>24×7 Support – WhatsApp</span>
         </div>
       </div>
-      <!-- Popular Packages (Shortened to 4) -->
+      <!-- Popular Services Section -->
       <section class="container" style="padding: 50px 20px; max-width: 1200px; margin: 0 auto;">
         <h2 class="section-title" style="text-align: center; margin-bottom: 30px; font-size: 32px; color: white;">Most Popular Services</h2>
-        <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
-          <div class="glass card popular" style="position: relative; transition: transform 0.3s;">
-            <i class="fas fa-file-invoice" style="font-size: 48px; color: #667eea; margin-bottom: 15px; display: block;"></i>
-            <h3 style="margin-bottom: 10px;">Salaried Super Saver</h3>
-            <p class="price" style="font-size: 28px; color: #667eea; font-weight: bold; margin-bottom: 10px;">₹999 <small style="font-size: 14px; color: #ccc;">(incl. GST)</small></p>
-            <p style="color: #ddd; margin-bottom: 15px;">ITR-1 + Form-16 + Tax Tips + Filing in 24 hrs</p>
+        <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+          <div class="glass card popular" style="position: relative; transition: transform 0.3s; cursor: pointer;" onclick="openBookingForm(999,'Salaried Super Saver')">
+            <i class="fas fa-file-invoice" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
+            <h3 style="margin-bottom: 5px; font-size: 22px;">Salaried Super Saver</h3>
+            <p class="price" style="font-size: 24px; color: #667eea; font-weight: bold; margin-bottom: 5px;">₹999 <small style="font-size: 12px; color: #ccc;">(incl. GST)</small></p>
+            <p style="color: #ddd; margin-bottom: 10px; font-size: 14px;">ITR-1 + Form-16 + Tax Tips + Filing in 24 hrs</p>
             <span class="tag" style="position: absolute; top: 15px; right: 15px; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-size: 13px;">Bestseller</span>
-            <div class="card-actions" style="margin-top: 20px;">
-              <button onclick="openBookingForm(999,'Salaried Super Saver')" class="btn-upi" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay & Book ₹999</button>
+            <div class="card-actions" style="margin-top: 10px;">
+              <button class="btn-upi" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; transition: transform 0.3s; font-size: 14px;">Pay & Book ₹999</button>
             </div>
           </div>
-          <div class="glass card popular" style="position: relative; transition: transform 0.3s;">
-            <i class="fas fa-building" style="font-size: 48px; color: #667eea; margin-bottom: 15px; display: block;"></i>
-            <h3 style="margin-bottom: 10px;">Business Starter Pack</h3>
-            <p class="price" style="font-size: 28px; color: #667eea; font-weight: bold; margin-bottom: 10px;">₹4,999 <small style="font-size: 14px; color: #ccc;">(incl. GST)</small></p>
-            <p style="color: #ddd; margin-bottom: 15px;">New GST Reg + Udyam + 3 Months Filing</p>
-            <div class="card-actions" style="margin-top: 20px;">
-              <button onclick="openBookingForm(4999,'Business Starter Pack')" class="btn-upi" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay & Book ₹4,999</button>
+          <div class="glass card popular" style="position: relative; transition: transform 0.3s; cursor: pointer;" onclick="openBookingForm(4999,'Business Starter Pack')">
+            <i class="fas fa-building" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
+            <h3 style="margin-bottom: 5px; font-size: 22px;">Business Starter Pack</h3>
+            <p class="price" style="font-size: 24px; color: #667eea; font-weight: bold; margin-bottom: 5px;">₹4,999 <small style="font-size: 12px; color: #ccc;">(incl. GST)</small></p>
+            <p style="color: #ddd; margin-bottom: 10px; font-size: 14px;">New GST Reg + Udyam + 3 Months Filing</p>
+            <div class="card-actions" style="margin-top: 10px;">
+              <button class="btn-upi" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; transition: transform 0.3s; font-size: 14px;">Pay & Book ₹4,999</button>
             </div>
           </div>
-          <div class="glass card popular" style="position: relative; transition: transform 0.3s;">
-            <i class="fas fa-certificate" style="font-size: 48px; color: #667eea; margin-bottom: 15px; display: block;"></i>
-            <h3 style="margin-bottom: 10px;">New GST Registration</h3>
-            <p class="price" style="font-size: 28px; color: #667eea; font-weight: bold; margin-bottom: 10px;">₹999 <small style="font-size: 14px; color: #ccc;">(incl. GST)</small></p>
-            <p style="color: #ddd; margin-bottom: 15px;">Complete in 3-5 days • All docs help</p>
-            <div class="card-actions" style="margin-top: 20px;">
-              <button onclick="openBookingForm(999,'New GST Registration')" class="btn-upi" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay & Book ₹999</button>
+          <div class="glass card popular" style="position: relative; transition: transform 0.3s; cursor: pointer;" onclick="openBookingForm(999,'New GST Registration')">
+            <i class="fas fa-certificate" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
+            <h3 style="margin-bottom: 5px; font-size: 22px;">New GST Registration</h3>
+            <p class="price" style="font-size: 24px; color: #667eea; font-weight: bold; margin-bottom: 5px;">₹999 <small style="font-size: 12px; color: #ccc;">(incl. GST)</small></p>
+            <p style="color: #ddd; margin-bottom: 10px; font-size: 14px;">Complete in 3-5 days • All docs help</p>
+            <div class="card-actions" style="margin-top: 10px;">
+              <button class="btn-upi" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; transition: transform 0.3s; font-size: 14px;">Pay & Book ₹999</button>
             </div>
           </div>
-          <div class="glass card popular" style="position: relative; transition: transform 0.3s;">
-            <i class="fas fa-chart-line" style="font-size: 48px; color: #667eea; margin-bottom: 15px; display: block;"></i>
-            <h3 style="margin-bottom: 10px;">Belated ITR Filing</h3>
-            <p class="price" style="font-size: 28px; color: #667eea; font-weight: bold; margin-bottom: 10px;">₹1,499 <small style="font-size: 14px; color: #ccc;">(incl. GST)</small></p>
-            <p style="color: #ddd; margin-bottom: 15px;">AY 2025-26 belated with late fee • Quick resolution</p>
-            <div class="card-actions" style="margin-top: 20px;">
-              <button onclick="openBookingForm(1499,'Belated ITR Filing')" class="btn-upi" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.3s;">Pay & Book ₹1,499</button>
+          <div class="glass card popular" style="position: relative; transition: transform 0.3s; cursor: pointer;" onclick="openBookingForm(1499,'Belated ITR Filing')">
+            <i class="fas fa-chart-line" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
+            <h3 style="margin-bottom: 5px; font-size: 22px;">Belated ITR Filing</h3>
+            <p class="price" style="font-size: 24px; color: #667eea; font-weight: bold; margin-bottom: 5px;">₹1,499 <small style="font-size: 12px; color: #ccc;">(incl. GST)</small></p>
+            <p style="color: #ddd; margin-bottom: 10px; font-size: 14px;">AY 2025-26 belated with late fee • Quick resolution</p>
+            <div class="card-actions" style="margin-top: 10px;">
+              <button class="btn-upi" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #00c853, #64dd17); color: white; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; transition: transform 0.3s; font-size: 14px;">Pay & Book ₹1,499</button>
             </div>
           </div>
         </div>
         <p style="text-align: center; margin-top: 30px;">
           <a href="services.html" style="color: #667eea; font-size: 18px; text-decoration: none;">See all 17+ services →</a>
         </p>
+        <!-- Final CTA -->
+        <div style="text-align: center; margin: 40px 0;">
+          <a href="services.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 18px 50px; border-radius: 50px; font-size: 20px; font-weight: 600; text-decoration: none; display: inline-block; transition: transform 0.3s;">Choose Your Service Now</a>
+        </div>
       </section>
-      <!-- Final CTA (Shifted Here) -->
-      <div style="text-align: center; margin: 40px 0;">
-        <a href="services.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 18px 50px; border-radius: 50px; font-size: 20px; font-weight: 600; text-decoration: none; display: inline-block; transition: transform 0.3s;">Choose Your Service Now</a>
-      </div>
-      <!-- Testimonials (Compact) -->
-      <section style="padding: 60px 20px; background: #0d0d1f;">
+      <!-- Testimonials Section (Close to Services) -->
+      <section style="padding: 30px 20px 60px; background: #0d0d1f;">
         <div class="container" style="max-width: 1200px; margin: 0 auto;">
-          <h2 class="section-title" style="text-align: center; color: white; margin-bottom: 40px; font-size: 36px;">What Our Clients Say</h2>
-          <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px;">
-            <div class="glass card testimonial" style="transition: transform 0.3s;">
-              <p class="review-text" style="font-style: italic; color: #ddd; line-height: 1.7; margin-bottom: 15px;">"ITR 2 ghante mein file ho gaya! ₹999 mein itna fast service pehle nahi dekha."</p>
+          <h2 class="section-title" style="text-align: center; color: white; margin-bottom: 30px; font-size: 36px;">What Our Clients Say</h2>
+          <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div class="glass card testimonial" style="transition: transform 0.3s; padding: 20px;">
+              <p class="review-text" style="font-style: italic; color: #ddd; line-height: 1.5; margin-bottom: 10px;">"ITR 2 ghante mein file ho gaya! ₹999 mein itna fast service pehle nahi dekha."</p>
               <div class="client-info" style="color: #667eea; font-weight: 600;">– Rohan Malhotra, Bangalore</div>
             </div>
-            <div class="glass card testimonial" style="transition: transform 0.3s;">
-              <p class="review-text" style="font-style: italic; color: #ddd; line-height: 1.7; margin-bottom: 15px;">"GST registration 3 din mein complete. Team ne saare documents WhatsApp pe hi manage kiye."</p>
+            <div class="glass card testimonial" style="transition: transform 0.3s; padding: 20px;">
+              <p class="review-text" style="font-style: italic; color: #ddd; line-height: 1.5; margin-bottom: 10px;">"GST registration 3 din mein complete. Team ne saare documents WhatsApp pe hi manage kiye."</p>
               <div class="client-info" style="color: #667eea; font-weight: 600;">– Anjali Verma, Jaipur</div>
             </div>
           </div>
-          <div style="text-align: center; margin-top: 30px;">
-            <p style="color: #aaa; font-size: 20px;">★★★★★ <strong>4.9/5</strong> from <strong>5,000+ happy clients</strong></p>
+          <div style="text-align: center; margin-top: 20px;">
+            <p style="color: #aaa; font-size: 18px;">★★★★★ <strong>4.9/5</strong> from <strong>5,000+ happy clients</strong></p>
           </div>
         </div>
       </section>
@@ -348,9 +348,10 @@ loadLatestBlogs(); // Call on load
     .client-info { color: #667eea; font-weight: 600; margin-top: 15px; }
     .btn-highlight { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none; transition: transform 0.3s; }
     .btn-highlight:hover { transform: scale(1.05); }
-    nav a { color: #fff; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
+    nav { display: flex; align-items: center; gap: 20px; flex-wrap: nowrap; white-space: nowrap; }
+    nav a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; margin-left: 20px; }
     nav a:hover { color: #667eea; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
     /* Animations */
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     /* Sidebar Styles */
@@ -365,9 +366,9 @@ loadLatestBlogs(); // Call on load
       #mobileToggle { display: block; }
       header { flex-direction: column; gap: 10px; padding: 10px; }
       .logo img { height: 70px; }
-      .logo span { font-size: 24px; }
+      .logo div span { font-size: 24px; }
       .logo div span:last-child { font-size: 12px; }
-      nav { flex-wrap: wrap; justify-content: center; }
+      nav { flex-wrap: wrap; justify-content: center; gap: 10px; }
       nav a { margin: 5px; }
       h1 { font-size: 32px !important; }
       .btn-big { padding: 15px 30px; font-size: 16px; }
