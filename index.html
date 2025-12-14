@@ -344,20 +344,24 @@
     document.querySelector('.sidebar-section button').addEventListener('click', () => {
       alert('Subscribed! Check your email for updates.');
     });
-    // Load latest blogs
-    fetch('blogs.json')
-      .then(response => response.json())
-      .then(blogs => {
-        const latest = blogs.slice(0, 4); // Latest 4
-        const ul = document.getElementById('latestBlogs');
-        latest.forEach(blog => {
-          const li = document.createElement('li');
-          li.innerHTML = `<a href="${blog.url}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>${blog.title}</strong><br><small style="color: #aaa;">${blog.date} | ${blog.category}</small><br><small>${blog.excerpt}</small></a>`;
-          ul.appendChild(li);
-        });
-      })
-      .catch(err => console.error('Error loading blogs:', err));
-  </script>
+    // Replace the fetch('blogs.json') with this
+async function loadLatestBlogs() {
+  try {
+    const q = query(collection(db, 'blogs'), orderBy('date', 'desc'), limit(4));
+    const snapshot = await getDocs(q);
+    const latest = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const ul = document.getElementById('latestBlogs');
+    ul.innerHTML = '';
+    latest.forEach(blog => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="blog.html#blog-${blog.id}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>${blog.title}</strong><br><small style="color: #aaa;">${blog.date} | ${blog.category}</small><br><small>${blog.excerpt}</small></a>`;
+      ul.appendChild(li);
+    });
+  } catch (error) {
+    console.error('Sidebar blogs error:', error);
+  }
+}
+loadLatestBlogs(); // Call on load
   <style>
     /* Global Styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
