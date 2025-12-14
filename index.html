@@ -11,25 +11,22 @@
   <script>const MY_UPI = "taxgstpro@oksbi";</script>
 </head>
 <body>
-
-<header>
-  <div class="logo" style="text-align:left;">
-  <img src="logo.png" alt="TaxEasePro" style="height:100px; width:auto; display:block;">
-  <span style="font-size:20px; font-weight:700; color:#667eea; display:block; margin-top:5px;">TaxEasePro</span>
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #111; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+  <div class="logo" style="display: flex; align-items: center; gap: 15px;">
+    <img src="logo.png" alt="TaxEasePro" style="height: 90px; width: auto;">
+    <span style="font-size: 24px; font-weight: 700; color: #667eea;">TaxEasePro</span>
   </div>
   <nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About Us</a>
-  <a href="services.html">Services</a>
-  <a href="contact.html">Contact Us</a>
-  <a href="login.html" class="btn-highlight">Login</a>
-  <a href="signup.html" class="btn-highlight">Signup</a>
-</nav>
-
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="login.html" class="btn-highlight">Login</a>
+    <a href="signup.html" class="btn-highlight">Signup</a>
+  </nav>
 </header>
-
 <!-- HERO SECTION (FIXED TEXT CUT) -->
-<section class="hero" style="padding-top: 140px;">
+<section class="hero" style="padding-top: 80px;">
   <div class="container" style="text-align:center;">
     <h1 style="font-size:48px;margin-bottom:20px;">
       Simplify Your Taxes & GST<br>
@@ -41,167 +38,163 @@
       5,000+ clients • 100% online • CA-verified • Money-back guarantee
     </p>
     <div style="margin:40px 0;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
-  <a href="services.html" class="btn-big btn-primary">View All Services</a>
-
-  <a href="calculator.html" class="btn-big btn-primary">
-    Income Tax Calculator
-  </a>
-
-  <a href="https://wa.me/919876543210" target="_blank" class="btn-big btn-upi">
-    Chat on WhatsApp
-  </a>
-</div>
-
+      <a href="services.html" class="btn-big btn-primary">View All Services</a>
+      <a href="calculator.html" class="btn-big btn-primary">
+        Income Tax Calculator
+      </a>
+      <a href="https://wa.me/919876543210" target="_blank" class="btn-big btn-upi">
+        Chat on WhatsApp
+      </a>
+    </div>
   </div>
 </section>
 <!-- FAQs Section -->
 <section style="padding:80px 20px; background:#0d0d1f;">
   <div class="container">
     <h2 class="section-title" style="text-align:center; color:white; margin-bottom:60px;">Frequently Asked Questions</h2>
-    
+   
     <div id="faqList">
       <!-- First 6 FAQs (always visible) -->
       <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
         <summary style="font-weight:600; color:#fff; cursor:pointer;">1. What is Income Tax?</summary>
         <p style="color:#ddd; margin-top:15px;">Income Tax is a direct tax levied by the Government of India on your earnings (salary, business, investments, etc.). It is charged at progressive rates – higher income means higher tax.</p>
       </details>
-      
+     
       <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
         <summary style="font-weight:600; color:#fff; cursor:pointer;">2. What is the difference between Financial Year (FY) and Assessment Year (AY)?</summary>
         <p style="color:#ddd; margin-top:15px;">FY is the year in which you earn income (e.g., FY 2024-25: April 1, 2024 to March 31, 2025). AY is the next year in which that income is assessed for tax (AY 2025-26).</p>
       </details>
-      
+     
       <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
         <summary style="font-weight:600; color:#fff; cursor:pointer;">3. What is the difference between Old Tax Regime and New Tax Regime?</summary>
         <p style="color:#ddd; margin-top:15px;">New Regime has lower tax rates but most deductions/exemptions are not allowed. Old Regime has higher rates but allows deductions like 80C, HRA, 80D, etc. New Regime is the default; opt out to choose Old.</p>
       </details>
-      
+     
       <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
         <summary style="font-weight:600; color:#fff; cursor:pointer;">4. Which deductions are not available in the New Tax Regime?</summary>
         <p style="color:#ddd; margin-top:15px;">80C (PPF, ELSS), 80D (health insurance), HRA, home loan interest (self-occupied), LTA, etc. Only standard deduction (₹75,000 for salaried) and a few limited ones are allowed.</p>
       </details>
-      
+     
       <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
         <summary style="font-weight:600; color:#fff; cursor:pointer;">5. Which regime is better – Old or New?</summary>
         <p style="color:#ddd; margin-top:15px;">If your deductions exceed ₹3-4 lakh, Old is better. For low deductions, New is preferable. Use a tax calculator to compare.</p>
       </details>
-      
+     
       <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
         <summary style="font-weight:600; color:#fff; cursor:pointer;">6. When is ITR filing mandatory?</summary>
         <p style="color:#ddd; margin-top:15px;">If total income exceeds basic exemption (New: ₹4 lakh, Old: ₹2.5-5 lakh), or you have foreign assets, or high-value expenses (e.g., ₹2 lakh foreign travel). Also file for refund claims or loans/visas.</p>
       </details>
-      
+     
       <!-- Remaining 19 FAQs (hidden initially) -->
       <div id="moreFaqs" style="display:none;">
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">7. What is the last date for ITR filing for AY 2025-26?</summary>
           <p style="color:#ddd; margin-top:15px;">Non-audit cases: September 15, 2025 (extended). Audit cases: October 31. Belated ITR: December 31, 2025 (with late fee).</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">8. Which ITR form should I use?</summary>
           <p style="color:#ddd; margin-top:15px;">- ITR-1 (Sahaj): Salaried, income up to ₹50 lakh, one house property.<br>- ITR-2: Capital gains, foreign income.<br>- ITR-3: Business/profession income.<br>- ITR-4 (Sugam): Presumptive taxation for small businesses.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">9. How to file ITR online?</summary>
           <p style="color:#ddd; margin-top:15px;">Log in to incometax.gov.in, download pre-filled ITR, fill details, and e-Verify (Aadhaar OTP or net banking).</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">10. Why is e-Verification mandatory after filing ITR?</summary>
           <p style="color:#ddd; margin-top:15px;">If not done within 30 days, the ITR is considered invalid.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">11. When can I file Belated or Revised ITR?</summary>
           <p style="color:#ddd; margin-top:15px;">Belated: Up to December 31, 2025 (late fee up to ₹5,000). Revised: To correct mistakes, up to December 31, 2025.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">12. Do I need to attach documents with ITR?</summary>
           <p style="color:#ddd; margin-top:15px;">No, ITR is annexure-less. But keep proofs (Form-16, investment proofs) for potential notices.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">13. How much deduction under Section 80C?</summary>
           <p style="color:#ddd; margin-top:15px;">Up to ₹1.5 lakh (PPF, ELSS, LIC, tuition fees, etc.) – only in Old Regime.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">14. How much deduction for health insurance (80D)?</summary>
           <p style="color:#ddd; margin-top:15px;">Self/family: ₹25,000 (₹50,000 for seniors); Parents: additional ₹25,000/₹50,000 – Old Regime only.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">15. How much deduction on home loan?</summary>
           <p style="color:#ddd; margin-top:15px;">Interest: ₹2 lakh (self-occupied, 24(b)); Principal: under 80C – Old Regime. Unlimited loss set-off for let-out property.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">16. How to claim HRA exemption?</summary>
           <p style="color:#ddd; margin-top:15px;">For salaried paying rent (Metro: 50% salary, Non-metro: 40%) – Old Regime only.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">17. What is the Standard Deduction?</summary>
           <p style="color:#ddd; margin-top:15px;">₹75,000 for salaried/pensioners (available in both regimes).</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">18. When and how do I get tax refund?</summary>
           <p style="color:#ddd; margin-top:15px;">Within 30-45 days of processing, directly to bank account. Check status on e-filing portal.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">19. When do I need to pay Advance Tax?</summary>
           <p style="color:#ddd; margin-top:15px;">If tax liability > ₹10,000, pay in installments: June 15, September, December, March.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">20. What are the tax rules for NRIs?</summary>
           <p style="color:#ddd; margin-top:15px;">Only India-sourced income is taxable. Foreign income exempt if non-resident.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">21. How is Capital Gains taxed?</summary>
           <p style="color:#ddd; margin-top:15px;">Short-term: Slab rates; Long-term (equity): 12.5% (exempt up to ₹1.25 lakh).</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">22. What to do if I receive an Income Tax notice?</summary>
           <p style="color:#ddd; margin-top:15px;">Log in to portal, reply with documents. Do not ignore.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">23. What is Form-16 and why is it important?</summary>
           <p style="color:#ddd; margin-top:15px;">Issued by employer, shows TDS details. Essential for ITR filing.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">24. Should I check AIS and Form 26AS before filing ITR?</summary>
           <p style="color:#ddd; margin-top:15px;">Yes – they show TDS and high-value transactions. Correct mismatches.</p>
         </details>
-        
+       
         <details class="glass" style="margin-bottom:20px; padding:20px; border-radius:20px;">
           <summary style="font-weight:600; color:#fff; cursor:pointer;">25. Are emails asking for PIN/password from Income Tax Department fake?</summary>
           <p style="color:#ddd; margin-top:15px;">Yes, the department never asks for such details. Beware of fraud.</p>
         </details>
       </div>
     </div>
-    
+   
     <div style="text-align:center; margin-top:40px;">
       <button id="toggleBtn" onclick="toggleFaqs()" style="padding:14px 40px; background:linear-gradient(135deg,#667eea,#764ba2); color:white; border:none; border-radius:50px; font-size:18px; cursor:pointer;">
         Show More FAQs
       </button>
     </div>
-    
+   
     <div style="text-align:center; margin-top:50px;">
       <p style="color:#aaa;">Still have questions? <a href="https://wa.me/919876543210" style="color:#667eea;">Chat on WhatsApp</a></p>
     </div>
   </div>
 </section>
-
 <script>
 function toggleFaqs() {
   const more = document.getElementById('moreFaqs');
@@ -221,7 +214,6 @@ function toggleFaqs() {
     PAN India Service • 24×7 WhatsApp Support • Secure & Confidential • Money-Back Guarantee
   </p>
 </div>
-
 <!-- Popular Packages -->
 <section class="container" style="padding:70px 20px;">
   <h2 class="section-title" style="text-align:center;margin-bottom:50px;">Most Popular Services</h2>
@@ -256,11 +248,10 @@ function toggleFaqs() {
     <a href="services.html" style="color:#667eea;font-size:18px;">See all 17+ services →</a>
   </p>
 </section>
-
 <!-- Why Choose Us -->
 <section style="background:#0d0d1f;padding:80px 20px;">
   <div class="container">
-    <h2 class="section-title" style="text-align:center;color:white;margin-bottom:50px;">Why Choose TaxGSTPro?</h2>
+    <h2 class="section-title" style="text-align:center;color:white;margin-bottom:50px;">Why Choose TaxEasePro?</h2>
     <div class="cards">
       <div class="glass card"><h3>Lowest Prices</h3><p>Starting ₹499 – no hidden charges</p></div>
       <div class="glass card"><h3>Super Fast</h3><p>ITR in 24 hrs • GST Reg in 3 days</p></div>
@@ -269,7 +260,6 @@ function toggleFaqs() {
     </div>
   </div>
 </section>
-
 <!-- Testimonials -->
 <section style="padding:80px 20px;background:#0d0d1f;">
   <div class="container">
@@ -287,7 +277,6 @@ function toggleFaqs() {
     </div>
   </div>
 </section>
-
 <!-- Final CTA -->
 <section style="background:linear-gradient(135deg,#667eea,#764ba2);padding:90px 20px;text-align:center;color:white;">
   <h2 style="font-size:42px;">Ready to File Tax or Register GST?</h2>
@@ -296,11 +285,9 @@ function toggleFaqs() {
     Choose Your Service Now
   </a>
 </section>
-
 <footer style="text-align:center;padding:30px;background:#000;color:#666;">
   © 2025 TaxEasePro. All rights reserved. | <a href="#" style="color:#667eea;">Privacy Policy</a>
 </footer>
-
 <!-- Booking Modal -->
 <div id="bookingModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;padding:20px;overflow-y:auto;">
   <div style="background:#111;border-radius:20px;max-width:420px;margin:40px auto;padding:30px;color:white;">
@@ -318,7 +305,6 @@ function toggleFaqs() {
     </div>
   </div>
 </div>
-
 <script>
 let amt = 0, service = "";
 function openBookingForm(amount, serviceName) {
@@ -332,18 +318,14 @@ function submitBooking() {
   const phone = document.getElementById('phone').value.trim() || "Not given";
   const email = document.getElementById('email').value.trim();
   const msg = document.getElementById('message').value.trim();
-
   const waMsg = `*NEW BOOKING*%0A%0AService: ${service}%0AAmount: ₹${amt}%0AName: ${name}%0APhone: ${phone}%0A${email?`Email: ${email}%0A`:''}${msg?`Message: ${msg}%0A`:''}Time: ${new Date().toLocaleString('en-IN')}`;
   window.open(`https://wa.me/${MY_WA}?text=${waMsg}`, '_blank');
-
-  const upiLink = `upi://pay?pa=${MY_UPI}&pn=TaxGSTPro&am=${amt}&cu=INR&tn=${encodeURIComponent(service + ' by ' + name)}`;
+  const upiLink = `upi://pay?pa=${MY_UPI}&pn=TaxEasePro&am=${amt}&cu=INR&tn=${encodeURIComponent(service + ' by ' + name)}`;
   window.open(upiLink, '_blank');
-
   document.getElementById('bookingModal').style.display = 'none';
   alert("Thank you! Payment link opened & details sent to us.");
 }
 </script>
-
 <style>
 /* Existing styles + New additions */
 .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px; }
@@ -359,7 +341,9 @@ function submitBooking() {
 /* Auth highlight */
 .auth-links { display:flex; gap:10px; }
 .btn-highlight { background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:8px 16px; border-radius:20px; font-size:14px; text-decoration:none; }
+/* Nav links styling */
+nav a { color: #fff; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
+nav a:hover { color: #667eea; }
 </style>
-
 </body>
 </html>
