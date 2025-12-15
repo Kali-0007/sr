@@ -403,7 +403,6 @@
       mobileMenu.classList.remove('open');
       body.classList.remove('panel-open');
       body.style.overflow = '';
-      sidebar.style.transform = isMobile ? 'translateX(-100%)' : 'translateX(0)';
       sidebar.style.position = isMobile ? 'fixed' : 'sticky';
       sidebar.style.top = isMobile ? '60px' : '0';
       sidebar.style.left = isMobile ? '0' : '';
@@ -411,7 +410,6 @@
       sidebar.style.maxHeight = '100vh';
       sidebar.style.overflowY = 'auto';
       mobileMenu.style.display = isMobile ? 'block' : 'none'; // Ensure visible for transform
-      mobileMenu.style.transform = isMobile ? 'translateX(100%)' : '';
     }
     initMobile();
     window.addEventListener('resize', initMobile);
@@ -441,9 +439,9 @@
     details summary::-webkit-details-marker { display: none; }
     /* Mobile Menu Styles */
     #mobileMenu a:hover { background: rgba(102,126,234,0.1); }
-    #mobileMenu.open { transform: translateX(0); }
+    #mobileMenu.open { transform: translateX(0) !important; }
     /* Sidebar Styles */
-    .sidebar.open { transform: translateX(0); }
+    .sidebar.open { transform: translateX(0) !important; }
     /* Backdrop and Scroll Lock */
     body.panel-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; }
     /* Mobile Responsiveness */
