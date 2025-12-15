@@ -2,30 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us - TaxGSTPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+  <title>Contact Us – TaxEasePro</title>
+  <meta name="description" content="Fastest ITR Filing for AY 2025-26, GST Registration, Company Registration in India. Starting ₹499 only. 5,000+ happy clients. CA-verified.">
+  <meta name="keywords" content="ITR filing online AY 2025-26, GST registration, tax calculator, company registration India, income tax return">
+  <meta property="og:title" content="TaxEasePro – Simplify Taxes & GST Starting ₹499">
+  <meta name="og:description" content="Fastest ITR Filing for AY 2025-26, GST Registration in India. 5,000+ clients. CA-verified.">
+  <meta property="og:image" content="logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>const MY_WA = "919876543210";</script>
+  <script>const MY_UPI = "taxgstpro@oksbi";</script>
 </head>
-
-<body>
-
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 2px 20px; background: #111; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
-  <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-    <img src="logo.png" alt="TaxEasePro" style="height: 110px; width: auto;">
-    <span style="font-size: 44px; font-weight: 700; color: #667eea;">TaxEasePro</span>
+<body style="margin: 0; padding: 0; background: #000; overflow-x: hidden;">
+  <!-- Slim Header -->
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <!-- Dummy left for mobile centering -->
+    <div id="dummyLeft" style="flex-shrink: 0; width: 35px;"></div>
+    <!-- Center: Logo -->
+    <div class="logo" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+      <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto; transition: transform 0.3s;" loading="lazy">
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
+        <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
+      </div>
+    </div>
+    <!-- Right: Desktop Nav / Mobile Menu Toggle (extreme right) -->
+    <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; white-space: nowrap;">
+      <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Home</a>
+      <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">About Us</a>
+      <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Services</a>
+      <a href="contact.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Contact Us</a>
+      <a href="login.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Login</a>
+      <a href="signup.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Signup</a>
+    </nav>
+    <button id="mobileMenuToggle" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-right: -5px;" title="Menu"><i class="fas fa-bars"></i></button>
+  </header>
+  <!-- Mobile Main Menu Slide-in -->
+  <div id="mobileMenu" style="display: none; position: fixed; top: 60px; right: 0; width: 80%; max-width: 300px; height: calc(100vh - 60px); background: #111; z-index: 1001; padding: 10px 0; box-shadow: -2px 0 10px rgba(0,0,0,0.3); transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto;">
+    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0;">
+      <li><a href="index.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Home</a></li>
+      <li><a href="about.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">About Us</a></li>
+      <li><a href="services.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Services</a></li>
+      <li><a href="contact.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Contact Us</a></li>
+      <li><a href="login.html" style="display: block; color: #667eea; text-decoration: none; padding: 15px 20px; background: rgba(102,126,234,0.1); transition: background 0.3s;">Login</a></li>
+      <li><a href="signup.html" style="display: block; color: #667eea; text-decoration: none; padding: 15px 20px; background: rgba(102,126,234,0.1); transition: background 0.3s;">Signup</a></li>
+    </ul>
   </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="services.html">Services</a>
-    <a href="contact.html">Contact Us</a>
-    <a href="login.html" class="btn-highlight">Login</a>
-    <a href="signup.html" class="btn-highlight">Signup</a>
-  </nav>
-</header>
-
-<section class="page-section">
+  <!-- Main Content -->
+  <main class="content" style="min-height: calc(100vh - 60px); margin-top: 60px; padding: 0 20px 20px; overflow-y: auto; position: relative; z-index: 1;">
+    <section class="page-section">
 
   <h1 class="page-title">Contact Us</h1>
 
@@ -72,12 +98,157 @@
       </div>
   </div>
 
-</section>
-
-<footer>
-  © 2025 TaxGSTPro. All rights reserved. | <a href="#">Privacy Policy</a>
-</footer>
-
-<script src="script.js"></script>
+</section>  </main>
+  <!-- Footer (Fixed for alignment) -->
+  <footer style="text-align: center; padding: 20px 10px; background: #000; color: #666; border-top: 1px solid #333; width: 100%; position: relative; z-index: 1;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; font-size: 12px; align-items: stretch;">
+      <div style="flex: 1; min-width: 150px; text-align: center; min-height: 120px;">
+        <h4 style="color: #fff; margin-bottom: 10px; text-align: center;">Contact Us</h4>
+        <p style="margin: 5px 0; text-align: center;"><i class="fas fa-envelope"></i> <a href="mailto:info@taxeasepro.com" style="color: #ddd;">info@taxeasepro.com</a></p>
+        <p style="margin: 5px 0; text-align: center;"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea;">Chat Now</a></p>
+      </div>
+      <div style="flex: 1; min-width: 150px; text-align: center; min-height: 120px;">
+        <h4 style="color: #fff; margin-bottom: 10px; text-align: center;">Quick Links</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; text-align: center;">
+          <li style="margin: 5px 0;"><a href="calculator.html" style="color: #667eea;">Income Tax Calculator</a></li>
+          <li style="margin: 5px 0;"><a href="#quickFAQs" style="color: #667eea;">FAQs</a></li>
+          <li style="margin: 5px 0;"><a href="services.html" style="color: #667eea;">All Services</a></li>
+        </ul>
+      </div>
+      <div style="flex: 1; min-width: 150px; text-align: center; min-height: 120px;">
+        <h4 style="color: #fff; margin-bottom: 10px; text-align: center;">Legal</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; text-align: center;">
+          <li style="margin: 5px 0;"><a href="privacy.html" style="color: #667eea;">Privacy Policy</a></li>
+          <li style="margin: 5px 0;"><a href="terms.html" style="color: #667eea;">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; font-size: 12px;">© 2025 TaxEasePro. All rights reserved.</p>
+  </footer>
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const body = document.body;
+    function toggleMobileMenu() {
+      mobileMenu.classList.toggle('open');
+      body.classList.toggle('panel-open');
+      if (mobileMenu.classList.contains('open')) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.overflow = '';
+      }
+    }
+    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    // Close panels on outside click
+    document.addEventListener('click', (e) => {
+      if (body.classList.contains('panel-open')) {
+        if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+          mobileMenu.classList.remove('open');
+          body.classList.remove('panel-open');
+          body.style.overflow = '';
+        }
+      }
+    });
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && body.classList.contains('panel-open')) {
+        if (mobileMenu.classList.contains('open')) {
+          mobileMenu.classList.remove('open');
+        }
+        body.classList.remove('panel-open');
+        body.style.overflow = '';
+      }
+    });
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        body.classList.remove('panel-open');
+        body.style.overflow = '';
+      });
+    });
+    // Mobile Init
+    function initMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const desktopNav = document.getElementById('desktopNav');
+      mobileMenuToggle.style.display = isMobile ? 'block' : 'none';
+      desktopNav.style.display = isMobile ? 'none' : 'flex';
+      mobileMenu.classList.remove('open');
+      body.classList.remove('panel-open');
+      body.style.overflow = '';
+      mobileMenu.style.display = isMobile ? 'block' : 'none';
+    }
+    initMobile();
+    window.addEventListener('resize', initMobile);
+  </script>
+  <style>
+    /* Global Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
+    .glass:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2); }
+    .btn-highlight { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none; transition: transform 0.3s; }
+    .btn-highlight:hover { transform: scale(1.05); }
+    nav a { color: #fff; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
+    nav a:hover { color: #667eea; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    details summary::-webkit-details-marker { display: none; }
+    /* Mobile Menu Styles */
+    #mobileMenu a:hover { background: rgba(102,126,234,0.1); }
+    #mobileMenu.open { transform: translateX(0) !important; }
+    /* Backdrop and Scroll Lock */
+    body.panel-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; }
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .content { padding: 0 20px 20px !important; margin-top: 60px !important; }
+      #desktopNav { display: none !important; }
+      #mobileMenuToggle { display: block !important; }
+      h1 { font-size: 28px !important; line-height: 1.2; }
+      .cards { grid-template-columns: 1fr; gap: 15px; }
+      /* Footer alignment */
+      footer { padding: 15px 5px !important; }
+      footer > div { justify-content: center !important; gap: 10px !important; font-size: 11px; }
+      footer ul { text-align: center !important; padding: 0; }
+      footer ul li { margin: 2px 0 !important; }
+      #mobileMenu { top: 60px !important; }
+      #dummyLeft { display: block; }
+    }
+    @media (max-width: 480px) {
+      header { padding: 8px 10px; }
+      .logo span:first-child { font-size: 18px; }
+      .cards { gap: 10px; }
+      h1 { font-size: 24px !important; }
+      footer > div { gap: 5px !important; font-size: 10px; }
+      footer ul li { margin: 2px 0 !important; }
+      footer { padding: 10px 5px !important; }
+    }
+    /* Desktop Footer Fix - Equal height columns */
+    @media (min-width: 769px) {
+      footer > div > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        min-height: 120px; /* Ensures equal height */
+      }
+      footer h4 { text-align: center; }
+      footer ul { text-align: center; padding: 0; }
+      footer p { text-align: center; }
+      #dummyLeft { display: none; }
+    }
+    /* Additional Styles from Original */
+    .page-section { padding: 60px 20px; }
+    .page-title { text-align: center; margin-bottom: 40px; font-size: 36px; }
+    .contact-form { max-width: 600px; margin: 0 auto 40px; }
+    .contact-form input, .contact-form textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #333; border-radius: 8px; background: #222; color: #fff; }
+    .contact-form button { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; transition: transform 0.3s; }
+    .contact-form button:hover { transform: scale(1.02); }
+    .success-box { text-align: center; color: #00c853; margin-top: 10px; }
+    .card { text-align: center; }
+  </style>
 </body>
 </html>
+
