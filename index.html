@@ -7,7 +7,7 @@
   <meta name="description" content="Fastest ITR Filing for AY 2025-26, GST Registration, Company Registration in India. Starting ₹499 only. 5,000+ happy clients. CA-verified.">
   <meta name="keywords" content="ITR filing online AY 2025-26, GST registration, tax calculator, company registration India, income tax return">
   <meta property="og:title" content="TaxEasePro – Simplify Taxes & GST Starting ₹499">
-  <meta property="og:description" content="Fastest ITR Filing for AY 2025-26, GST Registration in India. 5,000+ clients. CA-verified.">
+  <meta name="og:description" content="Fastest ITR Filing for AY 2025-26, GST Registration in India. 5,000+ clients. CA-verified.">
   <meta property="og:image" content="logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,7 +18,9 @@
 <body style="margin: 0; padding: 0; background: #000; overflow-x: hidden;">
   <!-- Slim Header -->
   <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <!-- Left: Logo + Sidebar Toggle (extreme left) -->
     <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+      <button id="sidebarToggle" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-left: -5px;" title="Sidebar"><i class="fas fa-list"></i></button>
       <div class="logo" style="display: flex; align-items: center; gap: 10px;">
         <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto; transition: transform 0.3s;" loading="lazy">
         <div style="display: flex; flex-direction: column;">
@@ -26,9 +28,8 @@
           <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
         </div>
       </div>
-      <!-- Sidebar Toggle (Left side, after logo) -->
-      <button id="sidebarToggle" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Sidebar"><i class="fas fa-list"></i></button>
     </div>
+    <!-- Center: Desktop Nav -->
     <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; white-space: nowrap;">
       <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">Home</a>
       <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;">About Us</a>
@@ -37,10 +38,9 @@
       <a href="login.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Login</a>
       <a href="signup.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; transition: transform 0.3s;">Signup</a>
     </nav>
-    <!-- Main Menu Toggle (Right side) -->
-    <button id="mobileMenuToggle" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s;" title="Menu"><i class="fas fa-bars"></i></button>
+    <!-- Right: Main Menu Toggle (extreme right) -->
+    <button id="mobileMenuToggle" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-right: -5px;" title="Menu"><i class="fas fa-bars"></i></button>
   </header>
-
   <!-- Mobile Main Menu Dropdown -->
   <div id="mobileMenu" style="display: none; position: fixed; top: 60px; left: 0; width: 100%; background: #111; z-index: 1001; padding: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
     <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0;">
@@ -52,7 +52,6 @@
       <li><a href="signup.html" style="display: block; color: #667eea; text-decoration: none; padding: 15px 20px; background: rgba(102,126,234,0.1); transition: background 0.3s;">Signup</a></li>
     </ul>
   </div>
-
   <!-- Main Layout with Sidebar -->
   <div class="main-layout" style="min-height: calc(100vh - 60px); margin-top: 60px; display: flex;">
     <!-- Sidebar (Quick Nav only) -->
@@ -235,25 +234,25 @@
       </section>
     </main>
   </div>
-  <!-- Footer (3 Columns) -->
+  <!-- Footer (Fixed for alignment) -->
   <footer style="text-align: center; padding: 20px 10px; background: #000; color: #666; border-top: 1px solid #333; width: 100%; position: relative; z-index: 1;">
-    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; font-size: 12px; align-items: start;">
-      <div>
-        <h4 style="color: #fff; margin-bottom: 10px;">Contact Us</h4>
-        <p style="margin: 5px 0;"><i class="fas fa-envelope"></i> <a href="mailto:info@taxeasepro.com" style="color: #ddd;">info@taxeasepro.com</a></p>
-        <p style="margin: 5px 0;"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea;">Chat Now</a></p>
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; font-size: 12px; align-items: flex-start;">
+      <div style="flex: 1; min-width: 150px; text-align: left;">
+        <h4 style="color: #fff; margin-bottom: 10px; text-align: center;">Contact Us</h4>
+        <p style="margin: 5px 0; text-align: center;"><i class="fas fa-envelope"></i> <a href="mailto:info@taxeasepro.com" style="color: #ddd;">info@taxeasepro.com</a></p>
+        <p style="margin: 5px 0; text-align: center;"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea;">Chat Now</a></p>
       </div>
-      <div>
-        <h4 style="color: #fff; margin-bottom: 10px;">Quick Links</h4>
-        <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+      <div style="flex: 1; min-width: 150px; text-align: left;">
+        <h4 style="color: #fff; margin-bottom: 10px; text-align: center;">Quick Links</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; text-align: center;">
           <li style="margin: 5px 0;"><a href="calculator.html" style="color: #667eea;">Income Tax Calculator</a></li>
           <li style="margin: 5px 0;"><a href="#quickFAQs" style="color: #667eea;">FAQs</a></li>
           <li style="margin: 5px 0;"><a href="services.html" style="color: #667eea;">All Services</a></li>
         </ul>
       </div>
-      <div>
-        <h4 style="color: #fff; margin-bottom: 10px;">Legal</h4>
-        <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+      <div style="flex: 1; min-width: 150px; text-align: left;">
+        <h4 style="color: #fff; margin-bottom: 10px; text-align: center;">Legal</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; text-align: center;">
           <li style="margin: 5px 0;"><a href="privacy.html" style="color: #667eea;">Privacy Policy</a></li>
           <li style="margin: 5px 0;"><a href="terms.html" style="color: #667eea;">Terms</a></li>
         </ul>
@@ -299,14 +298,12 @@
       document.getElementById('bookingModal').style.display = 'none';
       alert("Thank you! Payment link opened & details sent to us.");
     }
-
     // Mobile Main Menu Toggle
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
     mobileMenuToggle.addEventListener('click', () => {
       mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
     });
-
     // Sidebar Toggle
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
@@ -322,7 +319,6 @@
       }
     }
     sidebarToggle.addEventListener('click', toggleSidebar);
-
     // Auto-close sidebar on outside click
     document.addEventListener('click', (e) => {
       if (body.classList.contains('sidebar-open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
@@ -330,14 +326,12 @@
         body.classList.remove('sidebar-open');
       }
     });
-
     // Close mobile menu on link click
     mobileMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.style.display = 'none';
       });
     });
-
     // Animations (same)
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -353,12 +347,10 @@
       el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
       observer.observe(el);
     });
-
     // Newsletter
     document.querySelector('.sidebar-section button').addEventListener('click', () => {
       alert('Subscribed! Check your email for updates.');
     });
-
     // Blogs
     async function loadLatestBlogs() {
       const ul = document.getElementById('latestBlogs');
@@ -368,7 +360,6 @@
       `;
     }
     loadLatestBlogs();
-
     // Mobile Init
     function initMobile() {
       const isMobile = window.innerWidth <= 768;
@@ -412,14 +403,11 @@
     .sidebar a:hover { color: #667eea; background: none; }
     .sidebar-section h3 { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
     details summary::-webkit-details-marker { display: none; }
-
     /* Mobile Menu Styles */
     #mobileMenu a:hover { background: rgba(102,126,234,0.1); }
-
     /* Sidebar Styles */
     .sidebar.open { transform: translateX(0) !important; }
     body.sidebar-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; }
-
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
       .main-layout { flex-direction: column; }
@@ -438,10 +426,10 @@
       .btn-big { padding: 12px 24px; font-size: 14px; flex: 1; min-width: 120px; }
       .stats-bar { flex-direction: column; gap: 10px; font-size: 14px; }
       .cards, .testimonials-grid { grid-template-columns: 1fr; gap: 15px; }
-      /* Footer 3 Columns */
+      /* Footer alignment */
       footer { padding: 15px 5px !important; }
-      footer > div { grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; font-size: 11px; }
-      footer ul { text-align: center !important; }
+      footer > div { justify-content: center !important; gap: 10px !important; font-size: 11px; }
+      footer ul { text-align: center !important; padding: 0; }
       footer ul li { margin: 2px 0 !important; }
       #mobileMenu { top: 60px !important; }
     }
@@ -452,7 +440,20 @@
       .sidebar { width: 85% !important; }
       .btn-big { min-width: 100px; padding: 10px 20px; }
       h1 { font-size: 24px !important; }
-      footer > div { grid-template-columns: repeat(3, 1fr) !important; gap: 5px !important; font-size: 10px; }
+      footer > div { gap: 5px !important; font-size: 10px; }
+    }
+    /* Desktop Footer Fix - Equal height columns */
+    @media (min-width: 769px) {
+      footer > div {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        min-height: 80px; /* Ensures equal height */
+      }
+      footer h4 { text-align: center; }
+      footer ul { text-align: center; padding: 0; }
+      footer p { text-align: center; }
     }
   </style>
 </body>
