@@ -1,23 +1,7 @@
-// signup.js – Final & Fully Working Version (Sheet + OTP + Hash + Session)
+// signup.js – Updated with Google reCAPTCHA v2 (Traditional Captcha Removed)
 
 const otpLength = 6;
 let generatedOtp = null;
-
-// Captcha generation
-function generateCaptcha() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let captcha = '';
-    for (let i = 0; i < 6; i++) {
-        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return captcha;
-}
-
-// Page load – show captcha
-document.addEventListener('DOMContentLoaded', () => {
-    const captchaTextEl = document.getElementById('captchaText');
-    if (captchaTextEl) captchaTextEl.innerText = generateCaptcha();
-});
 
 // Generate OTP (client-side)
 function generateOtp() {
@@ -58,7 +42,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     }
 });
 
-// Form submit – verify OTP & save to Google Sheet
+// Form submit – verify OTP & reCAPTCHA & save to Google Sheet
 document.getElementById('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -67,10 +51,12 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
     if (!generatedOtp) return alert("Please send OTP first");
     if (enteredOtp !== generatedOtp) return alert("Incorrect OTP");
 
-    // Captcha validation
-    const enteredCaptcha = document.getElementById('captcha').value.trim().toUpperCase();
-    const captchaText = document.getElementById('captchaText').innerText.trim().toUpperCase();
-    if (enteredCaptcha !== captchaText) return alert("Captcha incorrect");
+    // reCAPTCHA v2 validation
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (recaptchaResponse.length === 0) {
+        alert("Please verify that you are not a robot (complete reCAPTCHA).");
+        return;
+    }
 
     // Collect user data
     const userData = {
@@ -89,7 +75,8 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
 
     const formData = new URLSearchParams({
         action: "save-user",
-        userData: JSON.stringify(userData)
+        userData: JSON.stringify(userData),
+        'g-recaptcha-response': recaptchaResponse  // Send reCAPTCHA token to backend
     });
 
     try {
@@ -103,13 +90,15 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
             alert(`Signup successful! Welcome, ${userData.username}`);
             // Reset form
             document.getElementById('signupForm').reset();
-            document.getElementById('captchaText').innerText = generateCaptcha();
+            grecaptcha.reset();  // Reset reCAPTCHA after success
             generatedOtp = null;
         } else {
             alert("Signup failed: " + (result.message || "Unknown error"));
+            grecaptcha.reset();
         }
     } catch (err) {
         alert("Network error. Please try again.");
         console.error(err);
+        grecaptcha.reset();
     }
 });
