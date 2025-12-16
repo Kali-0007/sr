@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Signup - TaxGSTPro</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="signup.css"> <!-- Optional: signup specific CSS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - TaxGSTPro</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="signup.css"> <!-- Optional: signup specific CSS -->
+
+  <!-- Google reCAPTCHA v2 Script -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -119,9 +122,9 @@
           <label for="password">Create Password</label>
           <input type="password" id="password" name="password" required>
 
-          <div class="captcha-container">
-            <label for="captcha">Captcha: <span id="captchaText"></span></label>
-            <input type="text" id="captcha" required>
+          <!-- Google reCAPTCHA v2 -->
+          <div style="margin: 30px 0; display: flex; justify-content: center;">
+            <div class="g-recaptcha" data-sitekey="6Ld9Xi0sAAAAALhQHTWFqNGrFooMSAkwE813uE6L"></div>
           </div>
 
           <button type="submit">Signup</button>
