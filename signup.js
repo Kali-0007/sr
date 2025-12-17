@@ -9,7 +9,7 @@ function generateOtp() {
 }
 
 // Your latest Web App URL (यहाँ अपना सबसे नया deployment URL डालो)
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwDRiBSv_Up3dnl0jxKDfTncmNHcO_7YzakphEhKbT2PWjIrdPoSUZmoAh5EgrmKx00/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwUX8CAT_oPEDc7A3EcaPFEMsZmN52KoGOv0OK5Sk6Y4deS5GTgZ3lYjh11HVr7Qres/exec";
 
 // Send OTP button
 document.getElementById('sendOtpBtn').addEventListener('click', async () => {
