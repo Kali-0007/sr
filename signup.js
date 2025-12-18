@@ -5,7 +5,10 @@ let emailForOtp = null;
 // Page load
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('otpSection').style.display = 'none';
-    document.getElementById('mobile').value = '+91';
+    const mobile = document.getElementById('mobile');
+    if (mobile.value === '' || mobile.value === '+91') {
+        mobile.value = '+91';
+    }
     setupRealTimeValidations();
 });
 
@@ -20,12 +23,37 @@ function showError(id, msg) {
 }
 
 function setupRealTimeValidations() {
-    // Mobile: +91 fixed + 10 digits only
+    // Mobile: +91 fixed prefix, 10 digits only, backspace kaam karega
     const mobile = document.getElementById('mobile');
-    mobile.addEventListener('input', () => {
-        let val = mobile.value.replace(/\D/g, '');
-        if (val.length > 10) val = val.slice(0, 10);
-        mobile.value = '+91' + val.slice(0, 10);
+    mobile.addEventListener('input', (e) => {
+        let value = e.target.value;
+
+        // Remove anything that's not digit or +
+        value = value.replace(/[^\d+]/g, '');
+
+        // Ensure it starts with +91
+        if (value.startsWith('+91')) {
+            // Keep +91 and take only next 10 digits
+            const digits = value.slice(3).replace(/\D/g, '').slice(0, 10);
+            e.target.value = '+91' + digits;
+        } else if (value.startsWith('91')) {
+            const digits = value.slice(2).replace(/\D/g, '').slice(0, 10);
+            e.target.value = '+91' + digits;
+        } else {
+            // If user tries to delete +91, restore it
+            const digits = value.replace(/\D/g, '').slice(0, 10);
+            e.target.value = '+91' + digits;
+        }
+    });
+
+    // Prevent typing before +91
+    mobile.addEventListener('keydown', (e) => {
+        const pos = mobile.selectionStart;
+        if (pos < 3) { // Cursor in +91 area
+            if (e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+                e.preventDefault();
+            }
+        }
     });
 
     // Pincode: 6 digits only
@@ -43,13 +71,13 @@ function setupRealTimeValidations() {
         strengthEl.className = `strength-${strength}`;
     });
 
-    // Username live check
+    // Username live check (debounce)
     const username = document.getElementById('username');
     let timeout;
     username.addEventListener('input', () => {
         clearTimeout(timeout);
         clearError('usernameError');
-        clearError('usernameSuccess');
+        document.getElementById('usernameSuccess').textContent = '';
         if (username.value.trim().length < 3) return;
         timeout = setTimeout(checkUsernameAvailability, 800);
     });
@@ -76,14 +104,14 @@ async function checkUsernameAvailability() {
         if (result.status === "error") {
             showError('usernameError', 'Username already taken');
         } else {
-            showError('usernameSuccess', 'Username available ✓');
+            document.getElementById('usernameSuccess').textContent = 'Username available ✓';
         }
     } catch (err) {
         console.error(err);
     }
 }
 
-// Send OTP
+// Send OTP (same)
 document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     clearError('otpError');
     const email = document.getElementById('email').value.trim();
@@ -106,12 +134,11 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     }
 });
 
-// Submit Form
+// Submit Form (same as before, no change needed)
 document.getElementById('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     clearError('otpError');
 
-    // All validations
     const mobile = document.getElementById('mobile').value;
     if (!/^\+91[0-9]{10}$/.test(mobile)) {
         showError('mobileError', 'Enter valid 10-digit mobile number');
@@ -138,7 +165,6 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
 
     if (!emailForOtp) return alert("Send OTP first");
 
-    // OTP Verify
     const verifyData = new URLSearchParams({ action: "verify-otp", email: emailForOtp, otp });
     const verifyRes = await fetch(WEB_APP_URL, { method: "POST", body: verifyData });
     const verifyResult = await verifyRes.json();
@@ -147,11 +173,9 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
         return;
     }
 
-    // reCAPTCHA
     const recaptcha = grecaptcha.getResponse();
     if (!recaptcha) return alert("Complete reCAPTCHA");
 
-    // Collect data
     const userData = {
         firstName: document.getElementById('firstName').value.trim(),
         surname: document.getElementById('surname').value.trim(),
@@ -166,7 +190,6 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
         password
     };
 
-    // Save user
     const saveData = new URLSearchParams({
         action: "save-user",
         userData: JSON.stringify(userData),
