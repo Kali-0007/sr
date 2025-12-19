@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzSYl-Ns0Yk7Rn0e1DnFN7jBL5HQOx6l1hiEsQOs1D2Gv5IovgavAmuMkwJD7yzDJP6/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwFEt6sDApimduEXSQk4ReYcwz548jJweAJVPpuw7CRSaXt9EpUU0JjtjrJblhKODxW/exec";
 
 let emailForOtp = null;
 
