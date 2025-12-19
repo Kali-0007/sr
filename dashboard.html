@@ -259,8 +259,52 @@
     cursor: pointer;
     transition: 0.3s;
   }
-  .upload-area:hover { border-color: var(--secondary); background: rgba(0, 212, 255, 0.05); }
+  .upload-area:hover { border-color: var(--secondary); }
   
+  /* NEW: Upload Module Styles */
+  .upload-area.highlight {
+    border-color: var(--primary);
+    background: rgba(0, 255, 157, 0.1);
+  }
+  
+  #uploadProgressContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .upload-item {
+    background: #222;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #333;
+  }
+  
+  .upload-item.success { border-color: var(--primary); }
+  .upload-item.error { border-color: #ff4757; }
+
+  .file-info { display: flex; flex-direction: column; gap: 4px; }
+  .fname { font-weight: 600; font-size: 14px; color: #fff; }
+  .fmsg { font-size: 12px; color: #888; }
+  
+  .status-icon { font-weight: bold; font-size: 18px; }
+  .upload-item.success .status-icon { color: var(--primary); }
+  .upload-item.error .status-icon { color: #ff4757; }
+
+  /* Simple Spinner */
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid #555;
+    border-top: 2px solid var(--secondary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
   .doc-table {
     width: 100%;
     border-collapse: collapse;
@@ -441,19 +485,8 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>PAN Card.pdf</td>
-            <td>18 Dec 2025</td>
-            <td><span class="status-badge status-approved">Approved</span></td>
-            <td><a href="#" style="color:var(--secondary);">View</a></td>
-          </tr>
-          <tr>
-            <td>Bank Statement.pdf</td>
-            <td>18 Dec 2025</td>
-            <td><span class="status-badge status-pending">Pending</span></td>
-            <td><a href="#" style="color:#ff4757;">Delete</a></td>
-          </tr>
+        <tbody id="recentDocsBody">
+           <tr><td colspan="4" style="text-align:center; padding:20px; color:#666;">Loading documents...</td></tr>
         </tbody>
       </table>
     </div>
@@ -471,12 +504,18 @@
 
     <div id="upload" class="tab-content" style="display:none;">
       <h2 class="section-title">Upload Documents</h2>
-      <div class="upload-area">
+      
+      <div class="upload-area" id="dropZone">
         <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
         <p style="color:#aaa; margin-top:10px;">Drag & Drop files here or click to browse</p>
-        <p style="color:#666; font-size:12px;">Supports PDF, JPG, PNG (Max 5MB)</p>
-        <button class="service-btn" style="width:auto; margin-top:10px;">Select Files</button>
+        <p style="color:#666; font-size:12px;">Supports PDF, JPG, PNG (Max 15MB)</p>
+        
+        <input type="file" id="fileInput" multiple style="display:none" accept=".pdf,.jpg,.jpeg,.png">
+        
+        <button class="service-btn" id="selectFilesBtn" style="width:auto; margin-top:10px;">Select Files</button>
       </div>
+
+      <div id="uploadProgressContainer"></div>
     </div>
 
     <div id="services" class="tab-content" style="display:none;">
@@ -687,6 +726,8 @@ if(saveBtn) {
     }
 }
 </script>
+
+<script src="upload-handler.js"></script>
 
 </body>
 </html>
