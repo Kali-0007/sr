@@ -100,7 +100,7 @@ function handleFiles(files) {
             };
 
             // Call Backend using fetch
-            fetch('https://script.google.com/macros/s/AKfycbyQG6kN_RUqtyFVT0vt-5VqlxTbwGKnhsHKUjwaNi7CeWork55XpKBftvo3vRLHeh6k/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbw6TPHw7p9N6WNWBcbZi3H9EKlLeTvW5wL9gnIQcfov4p745odyMzHxWILS3lCjBInR/exec', {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: {
