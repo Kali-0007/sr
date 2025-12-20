@@ -49,7 +49,7 @@
       </button>
       <div id="message" class="message"></div>
       <p style="margin-top:25px; font-size:15px;">
-        Don’t have an account?
+        Don't have an account?
         <a href="signup.html" style="color:#00d4ff; font-weight:600;">Signup here</a>
       </p>
     </form>
@@ -59,8 +59,8 @@
   © 2025 TaxGSTPro. All rights reserved.
 </footer>
 <script>
-// Updated API URL - Use the single fixed script URL (replace if you have a different one)
-const API_URL = "https://script.google.com/macros/s/AKfycbwz4S1F-JLWxkvXmVOrnMU0YHfSDHsz0CM9vr7Gd0ENJ4NH4awMlSUc1edq-72XVJrD/exec"; // ← Latest CORS-fixed URL
+// Latest CORS-fixed URL
+const API_URL = "https://script.google.com/macros/s/AKfycbyQ6sIw49BXNg4cgXwSSOc17_YfjLZQmReH8etNdjrP6GCd74jRqdeD49sAzMTrBdaW/exec";
 
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -73,18 +73,17 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     return;
   }
 
-  // Assume identifier is email (backend expects email for login)
+  // Form data for simple POST (no preflight)
+  const formData = new URLSearchParams({
+    action: "login",
+    email: identifier,  // Backend expects 'email'
+    password: password
+  });
+
   try {
     const res = await fetch(API_URL, {
       method: "POST",
-      headers: {
-        'Content-Type': 'application/json'  // ← Yeh add kiya - JSON ke liye zaruri
-      },
-      body: JSON.stringify({               // ← URLSearchParams ki jagah JSON.stringify use kiya
-        action: "login",
-        email: identifier,                 // ← Backend mein email expect kar raha hai (identifier ko email maana)
-        password: password
-      })
+      body: formData  // No headers - browser auto-sets form-urlencoded
     });
 
     if (!res.ok) {
@@ -93,14 +92,11 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     const data = await res.json();
     if (data.status === "success") {
-      // Success → token aur username save karo
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('username', data.username);
-     
       showMessage("Login Successful! Redirecting...", "success");
-     
       setTimeout(() => {
-        window.location.href = "dashboard.html"; // ← Dashboard page
+        window.location.href = "dashboard.html";
       }, 1000);
     } else {
       showMessage(data.message || "Invalid credentials", "error");
