@@ -3,7 +3,7 @@
  */
 
 // Updated API URL - Single endpoint for all actions (CORS fixed)
-const API_URL = 'https://script.google.com/macros/s/AKfycbzTUALDXMllHmxN1rlCjp9pEhFMJUSszHbKQ3WeZ18xs9PgrAb4cyCBmghTpY1cW6Ms/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzTNv97lmIO4kvGnRfDQCW4r2CMOhUPluIw2NKX943dYQohOhHv3pimpKAdHkHwB_26/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
     initializeUploadHandler();
