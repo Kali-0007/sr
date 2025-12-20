@@ -2,20 +2,23 @@
  * TaxEasePro - Upload Handler & Recent Documents Logic
  */
 
+// Updated API URL - Single endpoint for all actions (CORS fixed)
+const API_URL = 'https://script.google.com/macros/s/AKfycbwz4S1F-JLWxkvXmVOrnMU0YHfSDHsz0CM9vr7Gd0ENJ4NH4awMlSUc1edq-72XVJrD/exec';
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeUploadHandler();
-    
-    // Load documents if we are already on the home tab, or when switching to it
-    if(document.querySelector('#home').style.display !== 'none') {
+   
+    // Load documents if on home tab
+    if (document.querySelector('#home')?.style.display !== 'none') {
         loadUserDocuments();
     }
 
-    // Hook into existing tab click logic to refresh tables
+    // Refresh on tab switch
     const tabs = document.querySelectorAll('.sidebar a');
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             if (tab.dataset.tab === 'home' || tab.dataset.tab === 'upload') {
-                loadUserDocuments(); // Refresh list on tab switch
+                loadUserDocuments();
             }
         });
     });
@@ -25,18 +28,15 @@ function initializeUploadHandler() {
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const selectBtn = document.getElementById('selectFilesBtn');
-    
-    if (!dropZone || !fileInput) return;
+   
+    if (!dropZone || !fileInput || !selectBtn) return;
 
-    // 1. Handle Browse Button
     selectBtn.addEventListener('click', () => fileInput.click());
-
     fileInput.addEventListener('change', (e) => {
         handleFiles(e.target.files);
-        fileInput.value = ''; // Reset input
+        fileInput.value = '';
     });
 
-    // 2. Handle Drag & Drop Events
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, preventDefaults, false);
     });
@@ -61,78 +61,73 @@ function initializeUploadHandler() {
     }, false);
 }
 
-/**
- * Process and Upload Files
- */
 function handleFiles(files) {
     const progressContainer = document.getElementById('uploadProgressContainer');
-    progressContainer.innerHTML = ''; // Clear previous messages
-    
+    progressContainer.innerHTML = '';
+
     const authToken = localStorage.getItem('authToken');
     if (!authToken) {
         alert("Please login to upload files.");
         return;
     }
 
-    ([...files]).forEach(file => {
-        // Validation: 15MB Limit (Apps Script limit is roughly 50MB, but 15MB is safe for web app transfer)
+    [...files].forEach(file => {
         if (file.size > 15 * 1024 * 1024) {
             createStatusItem(file.name, 'error', 'File too large (>15MB)');
             return;
         }
 
-        // Create UI Progress Item
         const statusId = 'status-' + Math.random().toString(36).substr(2, 9);
         createStatusItem(file.name, 'uploading', 'Uploading...', statusId);
 
-        // Read File
         const reader = new FileReader();
         reader.onload = function(e) {
             const rawData = new Uint8Array(e.target.result);
-            const base64Data = btoa(String.fromCharCode.apply(null, rawData)); // Convert to base64
+            const base64Data = btoa(String.fromCharCode(...rawData));
 
             const payload = {
                 action: 'upload-file',
-                fileName: file.name,
-                fileData: base64Data,
-                mimeType: file.type,
-                token: authToken
+                payload: {  // Backend expects payload object with token, fileName, etc.
+                    token: authToken,
+                    fileName: file.name,
+                    fileData: base64Data,
+                    mimeType: file.type || 'application/octet-stream'
+                }
             };
 
-            // Call Backend using fetch
-            fetch('https://script.google.com/macros/s/AKfycbw6TPHw7p9N6WNWBcbZi3H9EKlLeTvW5wL9gnIQcfov4p745odyMzHxWILS3lCjBInR/exec', {
+            fetch(API_URL, {
                 method: 'POST',
                 body: JSON.stringify(payload),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: { 'Content-Type': 'application/json' }
             })
-            .then(response => response.json())
             .then(res => {
-                if (res.status === 'success') {
+                if (!res.ok) throw new Error('Server error');
+                return res.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
                     updateStatusItem(statusId, 'success', 'Uploaded successfully');
-                    loadUserDocuments(); // Refresh table immediately
+                    loadUserDocuments(); // Refresh list
                 } else {
-                    updateStatusItem(statusId, 'error', 'Error: ' + res.message);
+                    updateStatusItem(statusId, 'error', 'Error: ' + (data.message || 'Unknown'));
                 }
             })
             .catch(err => {
                 updateStatusItem(statusId, 'error', 'Network Error');
-                console.error(err);
+                console.error('Upload failed:', err);
             });
         };
         reader.readAsArrayBuffer(file);
     });
 }
 
-// --- UI Helpers for Upload ---
-
+// UI Helpers
 function createStatusItem(fileName, status, message, id = null) {
     const container = document.getElementById('uploadProgressContainer');
     const div = document.createElement('div');
     div.className = `upload-item ${status}`;
     if (id) div.id = id;
-    
+
     div.innerHTML = `
         <div class="file-info">
             <span class="fname">${fileName}</span>
@@ -150,51 +145,45 @@ function createStatusItem(fileName, status, message, id = null) {
 function updateStatusItem(id, status, message) {
     const item = document.getElementById(id);
     if (!item) return;
-    
+
     item.className = `upload-item ${status}`;
     const msgEl = item.querySelector('.fmsg');
     const iconEl = item.querySelector('.status-icon');
-    
-    if(msgEl) msgEl.textContent = message;
-    
-    if(iconEl) {
-        if(status === 'success') iconEl.innerHTML = '✓';
-        else if(status === 'error') iconEl.innerHTML = '✕';
+
+    if (msgEl) msgEl.textContent = message;
+    if (iconEl) {
+        iconEl.innerHTML = status === 'success' ? '✓' : status === 'error' ? '✕' : '<div class="spinner"></div>';
     }
 }
 
 /**
- * Fetch and Display User Documents
+ * Load User Documents - Using GET for efficiency
  */
 function loadUserDocuments() {
     const authToken = localStorage.getItem('authToken');
     const tbody = document.getElementById('recentDocsBody');
-    if(!authToken || !tbody) return;
+    if (!authToken || !tbody) return;
 
-    // Optional: Show loading state in table if empty
-    // tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#666;">Loading documents...</td></tr>';
+    // Show loading
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#666; padding:20px;">Loading documents...</td></tr>';
 
-    fetch('https://script.google.com/macros/s/AKfycbyQG6kN_RUqtyFVT0vt-5VqlxTbwGKnhsHKUjwaNi7CeWork55XpKBftvo3vRLHeh6k/exec', {
-        method: 'POST',
-        body: JSON.stringify({
-            action: 'get-user-documents',
-            token: authToken
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(res => {
-        if (res.status === 'success') {
-            renderDocTable(res.documents);
-        } else {
-            console.error("Failed to load docs:", res.message);
-        }
-    })
-    .catch(err => {
-        console.error("Server failure:", err);
-    });
+    // GET request with query params
+    fetch(`${API_URL}?action=get-documents&token=${encodeURIComponent(authToken)}`)
+        .then(res => {
+            if (!res.ok) throw new Error('Server error');
+            return res.json();
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                renderDocTable(data.documents || []);
+            } else {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Error: ' + (data.message || 'Failed to load') + '</td></tr>';
+            }
+        })
+        .catch(err => {
+            console.error("Server failure:", err);
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Network error. Please try again.</td></tr>';
+        });
 }
 
 function renderDocTable(docs) {
@@ -220,10 +209,10 @@ function renderDocTable(docs) {
                 </div>
             </td>
             <td>${dateStr}</td>
-            <td><span class="status-badge status-approved">Available</span></td>
+            <td><span class="status-badge status-approved">${doc.status || 'Pending'}</span></td>
             <td>
-                <a href="${doc.viewUrl}" target="_blank" style="color:var(--secondary); text-decoration:none; margin-right:10px;">View</a>
-                </td>
+                <a href="${doc.url}" target="_blank" style="color:var(--secondary); text-decoration:none;">View</a>
+            </td>
         `;
         tbody.appendChild(row);
     });
