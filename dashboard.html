@@ -609,19 +609,29 @@ tabs.forEach(tab => {
 // Load Profile Function
 async function loadProfile() {
   const token = localStorage.getItem('authToken')?.trim();
-  const formData = new URLSearchParams({ action: "get-profile", token: token });
+  if (!token) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  // Pehle get-profile tha, ab load-profile hai
+  const formData = new URLSearchParams({ action: "load-profile", token: token });
 
   try {
-    const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
+    const res = await fetch(WEB_APP_URL, { 
+      method: "POST", 
+      body: formData,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
     const data = await res.json();
 
     if(data.status === "success"){
       const p = data.profile;
-      // Update Header Name
+      
+      // Update UI
       const nameEl = document.getElementById('firstNameDisplay');
       if(nameEl) nameEl.textContent = p.firstName;
       
-      // Update Profile Section
       const loadingEl = document.getElementById('profileLoading');
       const sectionEl = document.getElementById('profileSection');
       if(loadingEl) loadingEl.style.display = 'none';
@@ -637,7 +647,7 @@ async function loadProfile() {
             ["Mobile", p.mobile],
             ["Gender", p.gender || "—"],
             ["Address", `${p.city}, ${p.state}, ${p.country} - ${p.pincode}`],
-            ["Member Since", new Date(p.createdAt).toLocaleDateString('en-IN')]
+            ["Member Since", p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-IN') : "N/A"]
           ];
           fields.forEach(([label, value])=>{
             const l = document.createElement('div'); l.className="info-label"; l.textContent=label+":";
@@ -645,7 +655,22 @@ async function loadProfile() {
             grid.appendChild(l); grid.appendChild(v);
           });
       }
-
+      // Modal pre-fill (optional checks added)
+      if(document.getElementById('editUsername')) document.getElementById('editUsername').value = p.username;
+      if(document.getElementById('editFirstName')) document.getElementById('editFirstName').value = p.firstName;
+      // ... baki fields same rahenge
+    } else {
+      // Agar backend se error aaye tabhi logout hoga
+      console.error("Session error:", data.message);
+      alert("Session expired! Login again.");
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+  } catch(err){
+    console.error("Network error:", err);
+    alert("Failed to load profile (Network Error)");
+  }
+}
       // Pre-fill modal inputs
       if(document.getElementById('editUsername')) document.getElementById('editUsername').value = p.username;
       if(document.getElementById('editFirstName')) document.getElementById('editFirstName').value = p.firstName;
