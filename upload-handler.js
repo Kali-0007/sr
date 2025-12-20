@@ -1,17 +1,15 @@
 /**
- * TaxEasePro - Upload Handler & Recent Documents Logic
+ * TaxEasePro - Upload Handler & Recent Documents Logic (Fixed CORS)
  */
 
-// Updated API URL - Single endpoint for all actions (CORS fixed)
+// Dashboard se hi URL uthayega agar dashboard.html mein define hai
 const API_URL = 'https://script.google.com/macros/s/AKfycbzd81RjjizVxsTxSgXK8ur9ge_nzui1iDd-y6HnpZE6xEqc89a9qr8ihWdFdpEldKwK/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
     initializeUploadHandler();
-   
-    // Load documents if on home tab
-    if (document.querySelector('#home')?.style.display !== 'none') {
-        loadUserDocuments();
-    }
+    
+    // Initial Load
+    loadUserDocuments();
 
     // Refresh on tab switch
     const tabs = document.querySelectorAll('.sidebar a');
@@ -28,23 +26,22 @@ function initializeUploadHandler() {
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const selectBtn = document.getElementById('selectFilesBtn');
-   
+    
     if (!dropZone || !fileInput || !selectBtn) return;
 
     selectBtn.addEventListener('click', () => fileInput.click());
+    
     fileInput.addEventListener('change', (e) => {
         handleFiles(e.target.files);
         fileInput.value = '';
     });
 
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, preventDefaults, false);
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        }, false);
     });
-
-    function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
 
     ['dragenter', 'dragover'].forEach(eventName => {
         dropZone.addEventListener(eventName, () => dropZone.classList.add('highlight'), false);
@@ -55,17 +52,14 @@ function initializeUploadHandler() {
     });
 
     dropZone.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        handleFiles(files);
+        handleFiles(e.dataTransfer.files);
     }, false);
 }
 
 function handleFiles(files) {
     const progressContainer = document.getElementById('uploadProgressContainer');
-    progressContainer.innerHTML = '';
-
     const authToken = localStorage.getItem('authToken');
+
     if (!authToken) {
         alert("Please login to upload files.");
         return;
@@ -81,43 +75,40 @@ function handleFiles(files) {
         createStatusItem(file.name, 'uploading', 'Uploading...', statusId);
 
         const reader = new FileReader();
-        reader.onload = function(e) {
-            const rawData = new Uint8Array(e.target.result);
-            const base64Data = btoa(String.fromCharCode(...rawData));
+        reader.onload = async function(e) {
+            // Base64 nikalne ka simple tarika
+            const base64Data = e.target.result.split(',')[1];
 
-            const payload = {
-                action: 'upload-file',
-                payload: {  // Backend expects payload object with token, fileName, etc.
-                    token: authToken,
-                    fileName: file.name,
-                    fileData: base64Data,
-                    mimeType: file.type || 'application/octet-stream'
-                }
-            };
+            // CORS SE BACHNE KE LIYE URLSEARCHPARAMS USE KAREIN
+            const formData = new URLSearchParams();
+            formData.append('action', 'upload-file');
+            formData.append('token', authToken);
+            formData.append('fileName', file.name);
+            formData.append('fileData', base64Data);
+            formData.append('mimeType', file.type || 'application/octet-stream');
 
-            fetch(API_URL, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(res => {
-                if (!res.ok) throw new Error('Server error');
-                return res.json();
-            })
-            .then(data => {
+            try {
+                // Fetch call bina kisi custom header ke (CORS Safe)
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData,
+                    // Content-Type khud set ho jayega application/x-www-form-urlencoded
+                });
+
+                const data = await response.json();
+
                 if (data.status === 'success') {
                     updateStatusItem(statusId, 'success', 'Uploaded successfully');
-                    loadUserDocuments(); // Refresh list
+                    loadUserDocuments(); // Table refresh karein
                 } else {
-                    updateStatusItem(statusId, 'error', 'Error: ' + (data.message || 'Unknown'));
+                    updateStatusItem(statusId, 'error', 'Error: ' + data.message);
                 }
-            })
-            .catch(err => {
-                updateStatusItem(statusId, 'error', 'Network Error');
-                console.error('Upload failed:', err);
-            });
+            } catch (err) {
+                updateStatusItem(statusId, 'error', 'Network/CORS Error');
+                console.error('Upload Error:', err);
+            }
         };
-        reader.readAsArrayBuffer(file);
+        reader.readAsDataURL(file); // ArrayBuffer se better readAsDataURL hai base64 ke liye
     });
 }
 
@@ -145,44 +136,31 @@ function createStatusItem(fileName, status, message, id = null) {
 function updateStatusItem(id, status, message) {
     const item = document.getElementById(id);
     if (!item) return;
-
     item.className = `upload-item ${status}`;
     const msgEl = item.querySelector('.fmsg');
     const iconEl = item.querySelector('.status-icon');
-
     if (msgEl) msgEl.textContent = message;
-    if (iconEl) {
-        iconEl.innerHTML = status === 'success' ? '✓' : status === 'error' ? '✕' : '<div class="spinner"></div>';
-    }
+    if (iconEl) iconEl.innerHTML = status === 'success' ? '✓' : status === 'error' ? '✕' : '<div class="spinner"></div>';
 }
 
-/**
- * Load User Documents - Using GET for efficiency
- */
 function loadUserDocuments() {
     const authToken = localStorage.getItem('authToken');
     const tbody = document.getElementById('recentDocsBody');
     if (!authToken || !tbody) return;
 
-    // Show loading
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#666; padding:20px;">Loading documents...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#666; padding:20px;">Checking documents...</td></tr>';
 
-    // GET request with query params
     fetch(`${API_URL}?action=get-documents&token=${encodeURIComponent(authToken)}`)
-        .then(res => {
-            if (!res.ok) throw new Error('Server error');
-            return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
                 renderDocTable(data.documents || []);
             } else {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Error: ' + (data.message || 'Failed to load') + '</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#666; padding:20px;">No documents found.</td></tr>`;
             }
         })
         .catch(err => {
-            console.error("Server failure:", err);
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Network error. Please try again.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Connection Error</td></tr>';
         });
 }
 
@@ -196,23 +174,12 @@ function renderDocTable(docs) {
     }
 
     docs.forEach(doc => {
-        const dateStr = new Date(doc.date).toLocaleDateString('en-IN', {
-            day: 'numeric', month: 'short', year: 'numeric'
-        });
-
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span style="font-size:20px;">📄</span>
-                    ${doc.name}
-                </div>
-            </td>
-            <td>${dateStr}</td>
-            <td><span class="status-badge status-approved">${doc.status || 'Pending'}</span></td>
-            <td>
-                <a href="${doc.url}" target="_blank" style="color:var(--secondary); text-decoration:none;">View</a>
-            </td>
+            <td><div style="display:flex; align-items:center; gap:10px;"><span>📄</span> ${doc.name}</div></td>
+            <td>${new Date(doc.date).toLocaleDateString()}</td>
+            <td><span class="status-badge status-approved">${doc.status || 'Success'}</span></td>
+            <td><a href="${doc.url}" target="_blank" style="color:var(--secondary);">View</a></td>
         `;
         tbody.appendChild(row);
     });
