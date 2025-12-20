@@ -89,31 +89,37 @@ function handleFiles(files) {
         const reader = new FileReader();
         reader.onload = function(e) {
             const rawData = new Uint8Array(e.target.result);
-            // Convert to standard array for Google Script compatibility
-            const dataArray = Array.from(rawData); 
+            const base64Data = btoa(String.fromCharCode.apply(null, rawData)); // Convert to base64
 
             const payload = {
-                data: dataArray,
-                name: file.name,
+                action: 'upload-file',
+                fileName: file.name,
+                fileData: base64Data,
                 mimeType: file.type,
                 token: authToken
             };
 
-            // Call Backend
-            google.script.run
-                .withSuccessHandler((res) => {
-                    if (res.status === 'success') {
-                        updateStatusItem(statusId, 'success', 'Uploaded successfully');
-                        loadUserDocuments(); // Refresh table immediately
-                    } else {
-                        updateStatusItem(statusId, 'error', 'Error: ' + res.message);
-                    }
-                })
-                .withFailureHandler((err) => {
-                    updateStatusItem(statusId, 'error', 'Network Error');
-                    console.error(err);
-                })
-                .uploadFile(payload);
+            // Call Backend using fetch
+            fetch('https://script.google.com/macros/s/AKfycbyQG6kN_RUqtyFVT0vt-5VqlxTbwGKnhsHKUjwaNi7CeWork55XpKBftvo3vRLHeh6k/exec', {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(res => {
+                if (res.status === 'success') {
+                    updateStatusItem(statusId, 'success', 'Uploaded successfully');
+                    loadUserDocuments(); // Refresh table immediately
+                } else {
+                    updateStatusItem(statusId, 'error', 'Error: ' + res.message);
+                }
+            })
+            .catch(err => {
+                updateStatusItem(statusId, 'error', 'Network Error');
+                console.error(err);
+            });
         };
         reader.readAsArrayBuffer(file);
     });
@@ -168,18 +174,27 @@ function loadUserDocuments() {
     // Optional: Show loading state in table if empty
     // tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#666;">Loading documents...</td></tr>';
 
-    google.script.run
-        .withSuccessHandler((res) => {
-            if (res.status === 'success') {
-                renderDocTable(res.documents);
-            } else {
-                console.error("Failed to load docs:", res.message);
-            }
-        })
-        .withFailureHandler((err) => {
-            console.error("Server failure:", err);
-        })
-        .getUserDocuments(authToken);
+    fetch('https://script.google.com/macros/s/AKfycbyQG6kN_RUqtyFVT0vt-5VqlxTbwGKnhsHKUjwaNi7CeWork55XpKBftvo3vRLHeh6k/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+            action: 'get-user-documents',
+            token: authToken
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(res => {
+        if (res.status === 'success') {
+            renderDocTable(res.documents);
+        } else {
+            console.error("Failed to load docs:", res.message);
+        }
+    })
+    .catch(err => {
+        console.error("Server failure:", err);
+    });
 }
 
 function renderDocTable(docs) {
