@@ -1,174 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signup - TaxGSTPro</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="signup.css">
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <style>
-    /* Inline CSS for validation messages and password strength */
-    .error-msg {
-      color: red;
-      font-size: 12px;
-      margin-top: 4px;
-      display: block;
-    }
-    .success-msg {
-      color: green;
-      font-size: 12px;
-      margin-top: 4px;
-      display: block;
-    }
-    #passwordStrength {
-      margin-top: 5px;
-      font-weight: bold;
-    }
-    .strength-weak { color: red; }
-    .strength-medium { color: orange; }
-    .strength-strong { color: green; }
-    #otpSection { display: none; margin-top: 15px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - TaxEasePro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        /* Base Styling from Home */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        /* Signup Container */
+        .signup-container {
+            max-width: 900px;
+            width: 95%;
+            margin: 100px auto 40px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .signup-container h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Two Column Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+        label { display: block; margin-top: 15px; font-size: 14px; color: #aaa; margin-bottom: 5px; }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus { background: rgba(255, 255, 255, 0.15); border: 1px solid #667eea; }
+
+        .action-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .otp-btn {
+            background: #444;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .error-msg { color: #ff6b6b; font-size: 12px; margin-top: 4px; }
+        .success-msg { color: #00ff9d; font-size: 12px; margin-top: 4px; }
+        
+        #passwordStrength { font-size: 12px; margin-top: 5px; font-weight: 600; }
+        .strength-weak { color: #ff6b6b; }
+        .strength-medium { color: #ffa502; }
+        .strength-strong { color: #00ff9d; }
+
+        #otpSection { display: none; background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px; margin-top: 10px; }
+    </style>
 </head>
 <body>
 
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 0px 20px; background: #111; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
-  <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-    <img src="logo.png" alt="TaxEasePro" style="height: 130px; width: auto;">
-    <span style="font-size: 44px; font-weight: 700; color: #667eea;">TaxEasePro</span>
-  </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="services.html">Services</a>
-    <a href="contact.html">Contact Us</a>
-    <a href="login.html" class="btn-highlight">Login</a>
-    <a href="signup.html" class="btn-highlight">Signup</a>
-  </nav>
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;">
+    <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+        <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto;">
+        <div style="display: flex; flex-direction: column;">
+            <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
+            <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
+        </div>
+    </div>
+    <nav style="display: flex; align-items: center; gap: 15px;">
+        <a href="index.html" style="color: #fff; text-decoration: none; font-size: 14px;">Home</a>
+        <a href="login.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Login</a>
+        <a href="signup.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Signup</a>
+    </nav>
 </header>
 
-<section class="signup-section">
-  <div class="signup-container">
+<main class="signup-container glass">
     <h2>Create Your Account</h2>
     <form id="signupForm">
-      <div class="row">
-        <div class="column">
-          <label for="firstName">First Name</label>
-          <input type="text" id="firstName" name="firstName" required>
-          <div id="firstNameError" class="error-msg"></div>
+        <div class="form-grid">
+            <div class="column">
+                <label>First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+                <div id="firstNameError" class="error-msg"></div>
 
-          <label for="surname">Surname</label>
-          <input type="text" id="surname" name="surname" required>
-          <div id="surnameError" class="error-msg"></div>
+                <label>Surname</label>
+                <input type="text" id="surname" name="surname" required>
+                <div id="surnameError" class="error-msg"></div>
 
-          <label for="gender">Gender</label>
-          <select id="gender" name="gender" required>
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
+                <label>Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
 
-          <label for="country">Country</label>
-          <select id="country" name="country" required>
-            <option value="India" selected>India</option>
-          </select>
+                <label>State / UT</label>
+                <select id="state" name="state" required>
+                    <option value="">Select State/UT</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Karnataka">Karnataka</option>
+                    </select>
 
-          <label for="state">State / UT</label>
-<select id="state" name="state" required>
-  <option value="">Select State/UT</option>
-  <option value="Andhra Pradesh">Andhra Pradesh</option>
-  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-  <option value="Assam">Assam</option>
-  <option value="Bihar">Bihar</option>
-  <option value="Chhattisgarh">Chhattisgarh</option>
-  <option value="Goa">Goa</option>
-  <option value="Gujarat">Gujarat</option>
-  <option value="Haryana">Haryana</option>
-  <option value="Himachal Pradesh">Himachal Pradesh</option>
-  <option value="Jharkhand">Jharkhand</option>
-  <option value="Karnataka">Karnataka</option>
-  <option value="Kerala">Kerala</option>
-  <option value="Madhya Pradesh">Madhya Pradesh</option>
-  <option value="Maharashtra">Maharashtra</option>
-  <option value="Manipur">Manipur</option>
-  <option value="Meghalaya">Meghalaya</option>
-  <option value="Mizoram">Mizoram</option>
-  <option value="Nagaland">Nagaland</option>
-  <option value="Odisha">Odisha</option>
-  <option value="Punjab">Punjab</option>
-  <option value="Rajasthan">Rajasthan</option>
-  <option value="Sikkim">Sikkim</option>
-  <option value="Tamil Nadu">Tamil Nadu</option>
-  <option value="Telangana">Telangana</option>
-  <option value="Tripura">Tripura</option>
-  <option value="Uttar Pradesh">Uttar Pradesh</option>
-  <option value="Uttarakhand">Uttarakhand</option>
-  <option value="West Bengal">West Bengal</option>
-  <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-  <option value="Chandigarh">Chandigarh</option>
-  <option value="Dadra and Nagar Haveli and Daman & Diu">Dadra and Nagar Haveli and Daman & Diu</option>
-  <option value="Delhi">Delhi</option>
-  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-  <option value="Ladakh">Ladakh</option>
-  <option value="Lakshadweep">Lakshadweep</option>
-  <option value="Puducherry">Puducherry</option>
-</select>
+                <label>City</label>
+                <input type="text" id="city" name="city" required>
 
-          <label for="city">City</label>
-          <input type="text" id="city" name="city" required>
+                <label>PIN Code</label>
+                <input type="text" id="pincode" name="pincode" maxlength="6" placeholder="6 digits" required>
+                <div id="pincodeError" class="error-msg"></div>
+            </div>
 
-          <label for="pincode">PIN Code</label>
-          <input type="text" id="pincode" name="pincode" maxlength="6" placeholder="6 digits" required>
-          <div id="pincodeError" class="error-msg"></div>
+            <div class="column">
+                <label>Mobile Number</label>
+                <input type="tel" id="mobile" name="mobile" value="+91" required>
+                <div id="mobileError" class="error-msg"></div>
+
+                <label>Email</label>
+                <input type="email" id="email" name="email" required>
+                <button type="button" id="sendOtpBtn" class="otp-btn">Send OTP to Email</button>
+
+                <div id="otpSection">
+                    <label>Enter 6-digit OTP</label>
+                    <input type="text" id="otp" name="otp" maxlength="6" placeholder="XXXXXX">
+                    <div id="otpError" class="error-msg"></div>
+                </div>
+
+                <label>Create Username</label>
+                <input type="text" id="username" name="username" required>
+                <div id="usernameError" class="error-msg"></div>
+                <div id="usernameSuccess" class="success-msg"></div>
+
+                <label>Create Password</label>
+                <input type="password" id="password" name="password" required>
+                <div id="passwordStrength">Strength: Weak</div>
+                <div id="passwordError" class="error-msg"></div>
+
+                <div style="margin: 20px 0; display: flex; justify-content: center;">
+                    <div class="g-recaptcha" data-sitekey="6Ld9Xi0sAAAAALhQHTWFqNGrFooMSAkwE813uE6L"></div>
+                </div>
+
+                <button type="submit" class="action-btn">Register Account</button>
+                <p style="text-align: center; font-size: 14px; margin-top: 15px; color: #ccc;">
+                    Already have an account? <a href="login.html" style="color: #667eea; text-decoration: none;">Login here</a>
+                </p>
+            </div>
         </div>
-
-        <div class="column">
-          <label for="mobile">Mobile Number</label>
-          <input type="tel" id="mobile" name="mobile" value="+91" required>
-          <div id="mobileError" class="error-msg"></div>
-
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-
-          <button type="button" id="sendOtpBtn">Send OTP</button>
-
-          <div id="otpSection">
-            <label for="otp">Enter OTP</label>
-            <input type="text" id="otp" name="otp" maxlength="6" placeholder="6-digit OTP" required>
-            <div id="otpError" class="error-msg"></div>
-          </div>
-
-          <label for="username">Create Username</label>
-          <input type="text" id="username" name="username" required>
-          <div id="usernameError" class="error-msg"></div>
-          <div id="usernameSuccess" class="success-msg"></div>
-
-          <label for="password">Create Password</label>
-          <input type="password" id="password" name="password" required>
-          <div id="passwordStrength">Password Strength: Weak</div>
-          <div id="passwordError" class="error-msg"></div>
-
-          <div style="margin: 30px 0; display: flex; justify-content: center;">
-            <div class="g-recaptcha" data-sitekey="6Ld9Xi0sAAAAALhQHTWFqNGrFooMSAkwE813uE6L"></div>
-          </div>
-
-          <button type="submit">Signup</button>
-        </div>
-      </div>
     </form>
 
-    <div id="successBox" class="success-box" style="display: none; margin-top: 20px; padding: 15px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center;">
-      Signup successful! You can now <a href="login.html">login here</a>.
+    <div id="successBox" style="display: none; margin-top: 20px; padding: 20px; background: rgba(0, 255, 157, 0.1); border: 1px solid #00ff9d; border-radius: 10px; text-align: center; color: #00ff9d;">
+        Signup successful! <a href="login.html" style="color: white; font-weight: 700;">Click here to Login</a>.
     </div>
-  </div>
-</section>
+</main>
 
-<footer>
-  © 2025 TaxGSTPro. All rights reserved.
+<footer style="text-align: center; padding: 20px 10px; background: #000; color: #666; border-top: 1px solid #333; width: 100%; box-sizing: border-box;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; font-size: 12px;">
+        <div style="flex: 1; min-width: 150px;">
+            <h4 style="color: #fff; margin-bottom: 10px;">Contact Us</h4>
+            <p><i class="fas fa-envelope"></i> info@taxeasepro.com</p>
+            <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea; text-decoration: none;">Chat Now</a></p>
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+            <h4 style="color: #fff; margin-bottom: 10px;">Quick Links</h4>
+            <a href="index.html" style="color: #667eea; text-decoration: none; display: block; margin-bottom: 5px;">Home</a>
+            <a href="login.html" style="color: #667eea; text-decoration: none; display: block;">Login</a>
+        </div>
+    </div>
+    <div style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; font-size: 12px;">© 2025 TaxEasePro. All rights reserved.</div>
 </footer>
 
 <script src="signup.js"></script>
