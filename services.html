@@ -68,27 +68,30 @@
 <body>
 
   <header>
-    <div class="logo">
-      <img src="logo.png" alt="TaxEasePro" style="height: 40px;">
-      <span style="font-size: 18px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
-    </div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html" style="color:var(--primary)">Services</a>
-      <a href="contact.html">Contact</a>
-      <a href="signup.html" style="background:var(--primary); padding:5px 15px; border-radius:20px;">Signup</a>
-    </nav>
-    <i class="fas fa-bars mobile-btn" onclick="toggleMenu()"></i>
-  </header>
-
-  <div class="mobile-menu" id="mobileMenu">
+  <div class="logo">
+    <img src="logo.png" alt="TaxEasePro" style="height: 40px;">
+    <span style="font-size: 18px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
+  </div>
+  <nav class="nav-links">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="services.html">Services</a>
+    <a href="services.html" style="color:var(--primary)">Services</a>
     <a href="contact.html">Contact</a>
-    <a href="signup.html">Signup</a>
-  </div>
+    <a href="login.html" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; color: var(--primary);">Login</a>
+    <a href="signup.html" style="background:var(--primary); padding:6px 18px; border-radius:20px; color: #fff;">Signup</a>
+  </nav>
+  <i class="fas fa-bars mobile-btn" onclick="toggleMenu()"></i>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="contact.html">Contact</a>
+  <hr style="border: 0; border-top: 1px solid #333; margin: 10px 0;">
+  <a href="login.html" style="color: var(--primary);">Login to Portal</a>
+  <a href="signup.html" style="color: var(--success);">Create Account</a>
+</div>
 
   <main class="wrapper">
     <div class="container">
