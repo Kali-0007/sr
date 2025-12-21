@@ -10,6 +10,21 @@
     .message { margin-top: 15px; font-size: 15px; font-weight: 600; }
     .success { color: #00ff9d; }
     .error { color: #ff6b6b; }
+
+    /* Modal Styles */
+    .modal {
+      display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+    }
+    .modal-content {
+      background: #1a1a1a; margin: 10% auto; padding: 30px; border: 1px solid #444;
+      width: 90%; max-width: 400px; border-radius: 15px; color: white; text-align: left;
+    }
+    .modal-content input {
+      width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 5px;
+    }
+    .close-btn { float: right; cursor: pointer; font-size: 24px; color: #aaa; }
+    .forgot-link { display: block; margin-top: 10px; font-size: 14px; color: #00d4ff; text-decoration: none; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -27,88 +42,151 @@
     <a href="signup.html" class="btn-highlight">Signup</a>
   </nav>
 </header>
+
 <section class="container" style="margin-top:100px; text-align:center;">
   <h1 class="section-title">Login to TaxGSTPro</h1>
  
   <div class="form-container glass" style="max-width:450px; margin:auto; padding:30px;">
     <form id="loginForm">
-      <input
-        type="text"
-        id="identifier"
-        placeholder="Email or Username"
-        required
-        style="padding:14px; font-size:16px; width:100%; box-sizing:border-box;">
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        required
-        style="padding:14px; font-size:16px; width:100%; box-sizing:border-box; margin-top:10px;">
-      <button type="submit" class="neon-btn" style="margin-top:20px; width:100%; padding:14px;">
-        Login
-      </button>
+      <input type="text" id="identifier" placeholder="Email or Username" required style="padding:14px; font-size:16px; width:100%; box-sizing:border-box;">
+      <input type="password" id="password" placeholder="Password" required style="padding:14px; font-size:16px; width:100%; box-sizing:border-box; margin-top:10px;">
+      
+      <button type="submit" class="neon-btn" style="margin-top:20px; width:100%; padding:14px;">Login</button>
+      
+      <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+        <span class="forgot-link" onclick="openModal('usernameModal')">Forgot Username?</span>
+        <span class="forgot-link" onclick="openModal('passwordModal')">Forgot Password?</span>
+      </div>
+
       <div id="message" class="message"></div>
       <p style="margin-top:25px; font-size:15px;">
-        Don't have an account?
-        <a href="signup.html" style="color:#00d4ff; font-weight:600;">Signup here</a>
+        Don't have an account? <a href="signup.html" style="color:#00d4ff; font-weight:600;">Signup here</a>
       </p>
     </form>
   </div>
 </section>
-<footer>
-  © 2025 TaxGSTPro. All rights reserved.
-</footer>
+
+<div id="usernameModal" class="modal">
+  <div class="modal-content glass">
+    <span class="close-btn" onclick="closeModal('usernameModal')">&times;</span>
+    <h3>Recover Username</h3>
+    <p style="font-size:14px; color:#ccc;">Enter your registered email address.</p>
+    <input type="email" id="forgotUserEmail" placeholder="Enter Email">
+    <button onclick="handleForgotUsername()" class="neon-btn" style="width:100%; padding:10px; margin-top:10px;">Send Username</button>
+    <div id="forgotUserMsg" class="message"></div>
+  </div>
+</div>
+
+<div id="passwordModal" class="modal">
+  <div class="modal-content glass">
+    <span class="close-btn" onclick="closeModal('passwordModal')">&times;</span>
+    <h3>Reset Password</h3>
+    <div id="step1">
+      <input type="text" id="resetUser" placeholder="Username">
+      <input type="email" id="resetEmail" placeholder="Registered Email">
+      <button onclick="handleSendResetOTP()" class="neon-btn" style="width:100%; padding:10px;">Send OTP</button>
+    </div>
+    <div id="step2" style="display:none;">
+      <input type="text" id="resetOTP" placeholder="Enter 6-digit OTP">
+      <input type="password" id="newPassword" placeholder="Enter New Password">
+      <button onclick="handleResetPassword()" class="neon-btn" style="width:100%; padding:10px;">Update Password</button>
+    </div>
+    <div id="forgotPassMsg" class="message"></div>
+  </div>
+</div>
+
+<footer>© 2025 TaxGSTPro. All rights reserved.</footer>
+
 <script>
-// Latest CORS-fixed URL
 const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
 
+// --- LOGIN LOGIC ---
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const identifier = document.getElementById('identifier').value.trim();
   const password = document.getElementById('password').value;
-  const messageEl = document.getElementById('message');
-  
-  if (!identifier || !password) {
-    showMessage("Please fill both fields", "error");
-    return;
-  }
-
-  // Form data for simple POST (no preflight)
-  const formData = new URLSearchParams({
-    action: "login",
-    email: identifier,  // Backend expects 'email'
-    password: password
-  });
+  const formData = new URLSearchParams({ action: "login", email: identifier, password: password });
 
   try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      body: formData  // No headers - browser auto-sets form-urlencoded
-    });
-
-    if (!res.ok) {
-      throw new Error('Server error');
-    }
-
+    const res = await fetch(API_URL, { method: "POST", body: formData });
     const data = await res.json();
     if (data.status === "success") {
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('username', data.username);
-      showMessage("Login Successful! Redirecting...", "success");
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 1000);
+      showMessage("message", "Login Successful!", "success");
+      setTimeout(() => { window.location.href = "dashboard.html"; }, 1000);
     } else {
-      showMessage(data.message || "Invalid credentials", "error");
+      showMessage("message", data.message || "Invalid credentials", "error");
     }
-  } catch (err) {
-    showMessage("Network error. Try again.", "error");
-    console.error(err);
-  }
+  } catch (err) { showMessage("message", "Network error", "error"); }
 });
 
-function showMessage(text, type) {
-  const el = document.getElementById('message');
+// --- MODAL HELPERS ---
+function openModal(id) { document.getElementById(id).style.display = "block"; }
+function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+// --- FORGOT USERNAME LOGIC ---
+async function handleForgotUsername() {
+  const email = document.getElementById('forgotUserEmail').value.trim();
+  if(!email) return alert("Enter email");
+  
+  const msg = document.getElementById('forgotUserMsg');
+  msg.textContent = "Checking...";
+
+  const res = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "forget-username", email: email }) });
+  const data = await res.json();
+  if(data.status === "success") {
+    showMessage("forgotUserMsg", "Username sent to your email!", "success");
+  } else {
+    showMessage("forgotUserMsg", data.message, "error");
+  }
+}
+
+// --- FORGOT PASSWORD LOGIC ---
+async function handleSendResetOTP() {
+  const email = document.getElementById('resetEmail').value.trim();
+  if(!email) return alert("Enter email");
+
+  const res = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "send-otp", email: email }) });
+  const data = await res.json();
+  if(data.status === "success") {
+    alert("OTP sent to your email!");
+    document.getElementById('step1').style.display = "none";
+    document.getElementById('step2').style.display = "block";
+  } else {
+    alert("Error sending OTP");
+  }
+}
+
+async function handleResetPassword() {
+  const email = document.getElementById('resetEmail').value.trim();
+  const username = document.getElementById('resetUser').value.trim();
+  const otp = document.getElementById('resetOTP').value.trim();
+  const newPassword = document.getElementById('newPassword').value;
+
+  // 1. Verify OTP first
+  const verifyRes = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "verify-otp", email: email, otp: otp }) });
+  const verifyData = await verifyRes.json();
+
+  if(verifyData.status === "success") {
+    // 2. Update Password
+    const resetRes = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ 
+      action: "reset-password", email: email, username: username, newPassword: newPassword 
+    })});
+    const resetData = await resetRes.json();
+    if(resetData.status === "success") {
+      showMessage("forgotPassMsg", "Password updated! You can now login.", "success");
+      setTimeout(() => location.reload(), 2000);
+    } else {
+      showMessage("forgotPassMsg", resetData.message, "error");
+    }
+  } else {
+    showMessage("forgotPassMsg", "Invalid OTP", "error");
+  }
+}
+
+function showMessage(id, text, type) {
+  const el = document.getElementById(id);
   el.textContent = text;
   el.className = "message " + type;
 }
