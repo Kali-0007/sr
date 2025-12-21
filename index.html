@@ -3,301 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=yes">
-    <title>TaxEasePro | Strategic Tax Architecture & MSME Funding | 20+ Years Legacy</title>
-    <meta name="description" content="Two decades of uncompromising financial integrity. Expert CA-verified ITR, GST, and MSME Solutions. Trusted by 5,000+ legacies since 2005.">
-    <meta name="keywords" content="Elite tax planning, GST audit, MSME funding India, CA verified tax, financial architecture">
-    <meta property="og:title" content="TaxEasePro - Beyond Filing, We Protect Your Wealth">
-    <meta name="og:description" content="20+ years of professional excellence. Serving 5,000+ happy clients with CA-verified precision.">
-    <meta property="og:image" content="logo.png">
+    <title>TaxEasePro | 2 Decades of Professional Tax & Financial Expertise</title>
+    <meta name="description" content="Dedicated tax and financial services with 20 years of professional experience. CA-verified ITR, GST, and MSME solutions since 2005.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>const MYWA = '919876543210';</script>
-    <script>const MYUPI = 'taxgstpro@oksbi';</script>
+    
+    <script>const MYWA = '919876543210'; const MYUPI = 'taxgstpro@oksbi';</script>
+
     <style>
+        /* CSS VERBATIM FROM BACKUP1 TO PROTECT SIDEBAR/HEADER */
         :root { --primary: #667eea; --secondary: #764ba2; --accent: #00c853; --dark: #0a0a0f; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--dark); color: #fff; line-height: 1.6; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; }
         
-        /* Premium Components */
-        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .glass:hover { transform: translateY(-8px); background: rgba(255,255,255,0.06); border-color: var(--primary); box-shadow: 0 15px 40px rgba(102, 126, 234, 0.15); }
+        .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; transition: all 0.3s; }
         
-        .btn-premium { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 14px 28px; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; border: none; cursor: pointer; }
-        .btn-premium:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; background: #111; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; }
         
-        .btn-outline { border: 1px solid var(--primary); color: #fff; padding: 14px 28px; border-radius: 50px; text-decoration: none; transition: 0.3s; }
-        .btn-outline:hover { background: rgba(102,126,234,0.1); }
+        .main-layout { display: flex; min-height: 100vh; margin-top: 70px; }
 
-        /* Sections Layout */
-        .content-wrapper { padding: 40px 5%; max-width: 1300px; margin: 0 auto; }
-        .hero-section { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; padding-top: 100px; }
-        .hero-title { font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .trust-ribbon { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 100%; margin: 40px 0; padding: 25px; }
-        .stat-item { text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
-        .stat-item:last-child { border: none; }
-        .stat-number { font-size: 24px; font-weight: 700; color: var(--primary); display: block; }
-        .stat-label { font-size: 13px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .sidebar { width: 280px; background: #111; border-right: 1px solid #222; padding: 25px; position: sticky; top: 70px; height: calc(100vh - 70px); overflow-y: auto; z-index: 999; transition: transform 0.3s ease; }
+        .sidebar-section { margin-bottom: 30px; }
+        .sidebar-section h3 { color: var(--primary); font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
+        .sidebar ul { list-style: none; }
+        .sidebar ul li { margin-bottom: 12px; }
+        .sidebar ul li a { color: #aaa; text-decoration: none; font-size: 14px; transition: 0.3s; }
 
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin: 50px 0; }
-        .service-card { padding: 35px; position: relative; overflow: hidden; }
-        .service-card i { font-size: 40px; color: var(--primary); margin-bottom: 20px; opacity: 0.8; }
-        .service-card h3 { font-size: 22px; margin-bottom: 12px; }
-        .service-card p { color: #ccc; font-size: 15px; margin-bottom: 20px; }
-        
-        .genius-comparison { margin: 80px 0; padding: 50px; background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(0,0,0,0)); }
-        
-        /* Footer */
-        footer { background: #050507; border-top: 1px solid rgba(255,255,255,0.05); padding: 60px 5% 30px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
-        .footer-col h4 { color: var(--primary); margin-bottom: 20px; font-size: 18px; }
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col ul li a { color: #aaa; text-decoration: none; transition: 0.3s; }
-        .footer-col ul li a:hover { color: #fff; padding-left: 5px; }
+        .content { flex: 1; padding: 0; background: #000; }
 
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .hero-section { text-align: center; align-items: center; }
-            .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
-            .main-layout { margin-top: 60px !important; }
+        /* NEW HONEST PREMIUM STYLES */
+        .hero-banner { padding: 80px 40px; text-align: left; background: linear-gradient(135deg, #0a0a0f 0%, #16213e 100%); }
+        .trust-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; padding: 30px; margin: -40px 40px 0; position: relative; z-index: 10; }
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 40px; }
+        .btn-gold { display: inline-block; padding: 15px 35px; border-radius: 50px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; text-decoration: none; font-weight: 700; border: none; cursor: pointer; }
+        
+        @media (max-width: 900px) {
+            .sidebar { position: fixed; left: -280px; top: 60px; height: calc(100vh - 60px); }
+            .sidebar.open { transform: translateX(280px); }
+            .hero-banner { text-align: center; padding: 60px 20px; }
+            .trust-bar { margin: 20px; grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000;">
-    <button id="sidebarToggle" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-left: -5px;"><i class="fas fa-list"></i></button>
-    <div class="logo" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
-        <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto;" loading="lazy">
-        <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
-            <span style="font-size: 12px; color: #aaa;">Pro Tax, Zero Stress</span>
+<header>
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <button id="sidebarToggle" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;"><i class="fas fa-list"></i></button>
+        <div class="logo">
+            <span style="font-size: 22px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
         </div>
     </div>
-    <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px;">
-        <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500;">Home</a>
-        <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500;">Services</a>
-        <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500;">About</a>
-        <a href="contact.html" class="btn-premium" style="padding: 8px 16px; font-size: 13px;">Contact Us</a>
+    <nav style="display: flex; gap: 20px; align-items: center;" id="desktopNav">
+        <a href="index.html" style="color: var(--primary); text-decoration: none;">Home</a>
+        <a href="services.html" style="color: #fff; text-decoration: none;">Services</a>
+        <a href="about.html" style="color: #fff; text-decoration: none;">About</a>
+        <a href="contact.html" class="btn-gold" style="padding: 8px 20px; font-size: 13px;">Free Consultation</a>
     </nav>
-    <button id="mobileMenuToggle" style="display: none; background: none; border: none; color: #fff; font-size: 24px;"><i class="fas fa-bars"></i></button>
 </header>
 
-<div id="mobileMenu" style="display: none; position: fixed; top: 60px; right: 0; width: 80%; max-width: 300px; height: calc(100vh - 60px); background: #111; z-index: 1001; transform: translateX(100%); transition: transform 0.3s ease;">
-    <ul style="list-style: none; padding: 20px;">
-        <li><a href="index.html" style="display: block; color: #fff; padding: 15px 0; border-bottom: 1px solid #333; text-decoration: none;">Home</a></li>
-        <li><a href="services.html" style="display: block; color: #fff; padding: 15px 0; border-bottom: 1px solid #333; text-decoration: none;">Services</a></li>
-        <li><a href="contact.html" style="display: block; color: #fff; padding: 15px 0; text-decoration: none;">Contact</a></li>
-    </ul>
-</div>
-
-<div class="main-layout" style="display: flex; margin-top: 80px;">
-    
-    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; position: sticky; top: 80px; height: calc(100vh - 80px); overflow-y: auto;">
-        <div class="sidebar-section" style="margin-bottom: 30px;">
-            <h3 style="color: #667eea; margin-bottom: 15px; font-size: 16px;">Elite Access</h3>
-            <ul style="list-style: none;">
-                <li><a href="services.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0;">Strategic Services</a></li>
-                <li><a href="calculator.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0;">Tax Optimizer</a></li>
-                <li><a href="#case-studies" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0;">Success Stories</a></li>
+<div class="main-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-section">
+            <h3>Quick Navigation</h3>
+            <ul>
+                <li><a href="services.html">ITR Services</a></li>
+                <li><a href="services.html">GST Registration</a></li>
+                <li><a href="services.html">MSME & Loans</a></li>
             </ul>
         </div>
-        <div style="padding: 20px; background: rgba(102,126,234,0.1); border-radius: 15px; font-size: 13px;">
-            <p style="color: #fff; font-weight: 600;">Legacy Hotline</p>
-            <p style="color: #aaa; margin-top: 5px;">+91 98765 43210</p>
+        <div class="sidebar-section">
+            <h3>Expert Support</h3>
+            <p style="font-size: 13px; color: #888;"><i class="fas fa-phone"></i> +91 98765 43210</p>
+            <p style="font-size: 13px; color: #888; margin-top: 10px;"><i class="fab fa-whatsapp"></i> Chat with Us</p>
         </div>
     </aside>
 
-    <main style="flex: 1; overflow-x: hidden;">
-        <div class="content-wrapper">
-            
-            <section class="hero-section">
-                <span style="color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 14px;">The Gold Standard Since 2005</span>
-                <h1 class="hero-title">Strategic Wealth Protection <br>& Tax Architecture</h1>
-                <p style="font-size: 18px; color: #aaa; max-width: 650px; margin-bottom: 35px;">We don't just "file" taxes. We craft multi-generational financial strategies with 20 years of audit-room experience. Verified by Senior CAs, trusted by 5,000+ elite clients.</p>
-                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <button class="btn-premium" onclick="openBookingForm(0, 'Strategic Consultation')">Book Strategic Consultation <i class="fas fa-arrow-right"></i></button>
-                    <a href="services.html" class="btn-outline">Explore Our Expertise</a>
-                </div>
-            </section>
-
-            <div class="glass trust-ribbon">
-                <div class="stat-item">
-                    <span class="stat-number">20+ Years</span>
-                    <span class="stat-label">Financial Legacy</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">5,000+</span>
-                    <span class="stat-label">Elite Clients</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">₹500Cr+</span>
-                    <span class="stat-label">Tax Liability Optimized</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">99.9%</span>
-                    <span class="stat-label">Compliance Rate</span>
-                </div>
+    <main class="content">
+        <section class="hero-banner">
+            <span style="color: var(--primary); font-weight: 700; letter-spacing: 2px; font-size: 12px; text-transform: uppercase;">Established Since 2005</span>
+            <h1 style="font-size: 48px; margin: 20px 0; line-height: 1.1; font-weight: 800;">Reliable Tax Solutions <br>& Financial Consultancy</h1>
+            <p style="font-size: 18px; color: #aaa; max-width: 700px; margin-bottom: 30px;">Two decades of uncompromising professional integrity. We provide CA-verified ITR filing, GST management, and MSME funding support with 100% transparent processes.</p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <button onclick="openBookingForm(0, 'Expert Consultation')" class="btn-gold">Get Free Consultation <i class="fas fa-arrow-right"></i></button>
+                <a href="services.html" style="padding: 15px 35px; border-radius: 50px; border: 1px solid #444; color: #fff; text-decoration: none; font-weight: 600;">View Services</a>
             </div>
+        </section>
 
-            <h2 style="text-align: center; margin-bottom: 40px; font-size: 32px;">Core Service Pillars</h2>
-            <div class="service-grid">
-                <div class="glass service-card">
-                    <i class="fas fa-shield-halved"></i>
-                    <h3>ITR Strategic Filing</h3>
-                    <p>Advanced tax planning for HNIs and NRIs. We maximize your legal deductions using 2 decades of case-law knowledge.</p>
-                    <button class="btn-premium" style="width: 100%; justify-content: center;" onclick="openBookingForm(0, 'Elite ITR Planning')">Secure Your Refund</button>
-                </div>
-                <div class="glass service-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Corporate GST Audit</h3>
-                    <p>End-to-end compliance management with zero-penalty assurance. Professional representation for GST scrutiny.</p>
-                    <button class="btn-premium" style="width: 100%; justify-content: center;" onclick="openBookingForm(0, 'GST Compliance Audit')">Audit-Proof Your Business</button>
-                </div>
-                <div class="glass service-card">
-                    <i class="fas fa-building-columns"></i>
-                    <h3>MSME Capital Funding</h3>
-                    <p>Bank-ready Balance Sheets, CMA Reports, and Project Documentation for seamless business loan approvals.</p>
-                    <button class="btn-premium" style="width: 100%; justify-content: center;" onclick="openBookingForm(0, 'MSME Loan Support')">Get Funded</button>
-                </div>
-                <div class="glass service-card">
-                    <i class="fas fa-scale-balanced"></i>
-                    <h3>Notice Management</h3>
-                    <p>Strategic response to Income Tax and GST notices. Our senior experts represent you before tax authorities.</p>
-                    <button class="btn-premium" style="width: 100%; justify-content: center;" onclick="openBookingForm(0, 'Notice Resolution')">Resolve Notices Now</button>
-                </div>
-                <div class="glass service-card">
-                    <i class="fas fa-rocket"></i>
-                    <h3>Startup Incorporation</h3>
-                    <p>From MCA registration to legal licensing. We build your business foundation on a 20-year-old rock of trust.</p>
-                    <button class="btn-premium" style="width: 100%; justify-content: center;" onclick="openBookingForm(0, 'Business Incorporation')">Launch Your Legacy</button>
-                </div>
-                <div class="glass service-card">
-                    <i class="fas fa-gem"></i>
-                    <h3>Wealth Optimization</h3>
-                    <p>Custom tax-saving investment portfolios and estate planning for long-term wealth preservation.</p>
-                    <button class="btn-premium" style="width: 100%; justify-content: center;" onclick="openBookingForm(0, 'Wealth Management')">Plan Your Future</button>
-                </div>
+        <div class="glass trust-bar">
+            <div style="text-align: center;">
+                <span style="display: block; font-size: 24px; font-weight: 800; color: var(--primary);">20 Years</span>
+                <span style="font-size: 12px; color: #777;">In Practice</span>
             </div>
-
-            <div class="glass genius-comparison">
-                <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                    <h2 style="font-size: 36px; margin-bottom: 25px;">Why Experience Wins Over Algorithms</h2>
-                    <p style="font-size: 18px; color: #ccc;">Modern "Tax Apps" use bots to fill forms. We use 20 years of litigation and audit experience to find legal tax-saving loopholes that bots miss. We don't just file your returns—we defend them.</p>
-                    <div style="display: flex; justify-content: center; gap: 40px; margin-top: 40px; flex-wrap: wrap;">
-                        <div style="color: var(--primary);"><i class="fas fa-check-circle"></i> CA-Verified Accuracy</div>
-                        <div style="color: var(--primary);"><i class="fas fa-check-circle"></i> Senior Litigation Support</div>
-                        <div style="color: var(--primary);"><i class="fas fa-check-circle"></i> Strategic Wealth View</div>
-                    </div>
-                </div>
+            <div style="text-align: center;">
+                <span style="display: block; font-size: 24px; font-weight: 800; color: var(--primary);">5,000+</span>
+                <span style="font-size: 12px; color: #777;">Happy Clients</span>
             </div>
-
+            <div style="text-align: center;">
+                <span style="display: block; font-size: 24px; font-weight: 800; color: var(--primary);">CA-Verified</span>
+                <span style="font-size: 12px; color: #777;">Accuracy Assured</span>
+            </div>
+            <div style="text-align: center;">
+                <span style="display: block; font-size: 24px; font-weight: 800; color: var(--primary);">100%</span>
+                <span style="font-size: 12px; color: #777;">Transparent Process</span>
+            </div>
         </div>
 
-        <footer>
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                        <img src="logo.png" style="height: 40px;">
-                        <span style="font-size: 20px; font-weight: 700;">TaxEasePro</span>
-                    </div>
-                    <p style="color: #777; font-size: 14px;">Elevating Indian Tax Standards since 2005. A legacy built on trust, transparency, and technical precision.</p>
+        <div class="service-grid">
+            <div class="glass" style="padding: 30px;" onclick="openBookingForm(0, 'ITR Filing')">
+                <i class="fas fa-file-invoice-dollar" style="font-size: 32px; color: var(--primary); margin-bottom: 20px;"></i>
+                <h3>ITR Filing</h3>
+                <p style="color: #777; font-size: 14px; margin-top: 10px;">Accurate income tax return filing for individuals, professionals, and business owners.</p>
+                <span style="color: var(--primary); font-size: 12px; font-weight: 700; margin-top: 15px; display: block;">BOOK NOW →</span>
+            </div>
+            <div class="glass" style="padding: 30px;" onclick="openBookingForm(0, 'GST Services')">
+                <i class="fas fa-certificate" style="font-size: 32px; color: var(--primary); margin-bottom: 20px;"></i>
+                <h3>GST Registration</h3>
+                <p style="color: #777; font-size: 14px; margin-top: 10px;">Hassle-free GST registration and monthly/quarterly return filing for businesses.</p>
+                <span style="color: var(--primary); font-size: 12px; font-weight: 700; margin-top: 15px; display: block;">BOOK NOW →</span>
+            </div>
+            <div class="glass" style="padding: 30px;" onclick="openBookingForm(0, 'MSME & Loans')">
+                <i class="fas fa-hand-holding-dollar" style="font-size: 32px; color: var(--primary); margin-bottom: 20px;"></i>
+                <h3>MSME & Business Loans</h3>
+                <p style="color: #777; font-size: 14px; margin-top: 10px;">Complete documentation and project reports for business loan approvals.</p>
+                <span style="color: var(--primary); font-size: 12px; font-weight: 700; margin-top: 15px; display: block;">BOOK NOW →</span>
+            </div>
+            <div class="glass" style="padding: 30px;" onclick="openBookingForm(0, 'Accounting')">
+                <i class="fas fa-calculator" style="font-size: 32px; color: var(--primary); margin-bottom: 20px;"></i>
+                <h3>Bookkeeping</h3>
+                <p style="color: #777; font-size: 14px; margin-top: 10px;">Systematic maintenance of business accounts and financial records.</p>
+                <span style="color: var(--primary); font-size: 12px; font-weight: 700; margin-top: 15px; display: block;">BOOK NOW →</span>
+            </div>
+            <div class="glass" style="padding: 30px;" onclick="openBookingForm(0, 'Company Setup')">
+                <i class="fas fa-briefcase" style="font-size: 32px; color: var(--primary); margin-bottom: 20px;"></i>
+                <h3>Company Formation</h3>
+                <p style="color: #777; font-size: 14px; margin-top: 10px;">Private Limited, LLP, and OPC registration with end-to-end legal support.</p>
+                <span style="color: var(--primary); font-size: 12px; font-weight: 700; margin-top: 15px; display: block;">BOOK NOW →</span>
+            </div>
+            <div class="glass" style="padding: 30px;" onclick="openBookingForm(0, 'Tax Audit')">
+                <i class="fas fa-magnifying-glass-chart" style="font-size: 32px; color: var(--primary); margin-bottom: 20px;"></i>
+                <h3>Audit & Compliance</h3>
+                <p style="color: #777; font-size: 14px; margin-top: 10px;">Professional support for tax audits and statutory compliance requirements.</p>
+                <span style="color: var(--primary); font-size: 12px; font-weight: 700; margin-top: 15px; display: block;">BOOK NOW →</span>
+            </div>
+        </div>
+
+        <div class="glass" style="margin: 40px; padding: 60px; text-align: center;">
+            <h2 style="font-size: 32px; margin-bottom: 20px;">Experience You Can Trust.</h2>
+            <p style="color: #aaa; max-width: 800px; margin: 0 auto;">With 20 years in the tax industry, we don't rely on automation alone. Our senior consultants review every document to ensure maximum tax savings and 100% legal compliance. No shortcuts, just professional excellence.</p>
+        </div>
+
+        <footer style="background: #050507; padding: 60px 40px 30px; border-top: 1px solid #111;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;">
+                <div>
+                    <h4 style="color: var(--primary); margin-bottom: 20px;">TaxEasePro</h4>
+                    <p style="font-size: 13px; color: #555;">Providing professional tax and financial consultancy since 2005. Trusted for accuracy and integrity.</p>
                 </div>
-                <div class="footer-col">
-                    <h4>Core Expertise</h4>
-                    <ul>
-                        <li><a href="#">Individual Tax Planning</a></li>
-                        <li><a href="#">Business GST Solutions</a></li>
-                        <li><a href="#">MSME Funding</a></li>
-                        <li><a href="#">Audit Representation</a></li>
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 20px;">Useful Links</h4>
+                    <ul style="list-style: none; font-size: 13px;">
+                        <li style="margin-bottom: 10px;"><a href="services.html" style="color: #555; text-decoration: none;">All Services</a></li>
+                        <li style="margin-bottom: 10px;"><a href="about.html" style="color: #555; text-decoration: none;">About Us</a></li>
+                        <li style="margin-bottom: 10px;"><a href="contact.html" style="color: #555; text-decoration: none;">Contact</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <h4>Direct Contact</h4>
-                    <p style="color: #aaa; font-size: 14px; margin-bottom: 10px;"><i class="fas fa-phone" style="color: var(--primary);"></i> +91 98765 43210</p>
-                    <p style="color: #aaa; font-size: 14px; margin-bottom: 10px;"><i class="fas fa-envelope" style="color: var(--primary);"></i> info@taxeasepro.com</p>
-                    <p style="color: #aaa; font-size: 14px;"><i class="fas fa-location-dot" style="color: var(--primary);"></i> New Delhi, India</p>
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 20px;">Contact Us</h4>
+                    <p style="font-size: 13px; color: #555;"><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p style="font-size: 13px; color: #555; margin-top: 10px;"><i class="fas fa-envelope"></i> info@taxeasepro.com</p>
                 </div>
-                <div class="footer-col">
-                    <h4>Join Our Network</h4>
-                    <div style="display: flex; gap: 15px; margin-top: 10px;">
-                        <a href="#" style="color: #fff; font-size: 20px;"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" style="color: #fff; font-size: 20px;"><i class="fab fa-facebook"></i></a>
-                        <a href="#" style="color: #fff; font-size: 20px;"><i class="fab fa-instagram"></i></a>
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 20px;">Connect</h4>
+                    <div style="display: flex; gap: 15px; font-size: 20px; color: #333;">
+                        <i class="fab fa-linkedin"></i> <i class="fab fa-facebook"></i> <i class="fab fa-instagram"></i>
                     </div>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); color: #555; font-size: 12px;">
-                &copy; 2025 TaxEasePro. All Rights Reserved. Verified by Senior Chartered Accountants.
-            </div>
+            <p style="text-align: center; margin-top: 50px; font-size: 12px; color: #333; border-top: 1px solid #111; padding-top: 20px;">© 2025 TaxEasePro. All rights reserved. Professionalism in every filing.</p>
         </footer>
     </main>
 </div>
 
-<div id="bookingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; align-items:center; justify-content:center; backdrop-filter:blur(5px);">
-    <div class="glass" style="width:90%; max-width:400px; padding:30px;">
-        <h2 id="modalTitle" style="margin-bottom:20px;">Book Consultation</h2>
-        <input type="text" id="userName" placeholder="Your Name" style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:none; background:rgba(255,255,255,0.1); color:#fff;">
-        <input type="text" id="userPhone" placeholder="Mobile Number" style="width:100%; padding:12px; margin-bottom:20px; border-radius:10px; border:none; background:rgba(255,255,255,0.1); color:#fff;">
-        <div style="display:flex; gap:10px;">
-            <button onclick="submitBooking()" class="btn-premium" style="flex:1; justify-content:center;">Submit</button>
-            <button onclick="document.getElementById('bookingModal').style.display='none'" style="background:none; border:none; color:#aaa; cursor:pointer;">Cancel</button>
-        </div>
+<div id="bookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10001; align-items: center; justify-content: center;">
+    <div class="glass" style="max-width: 400px; padding: 35px; background: #111;">
+        <h2 id="modalTitle">Request Consultation</h2>
+        <input type="text" id="userName" placeholder="Your Name" style="width: 100%; padding: 12px; margin: 15px 0; background: #222; border: none; color: #fff; border-radius: 8px;">
+        <input type="tel" id="userPhone" placeholder="Mobile Number" style="width: 100%; padding: 12px; margin-bottom: 25px; background: #222; border: none; color: #fff; border-radius: 8px;">
+        <button onclick="submitBooking()" class="btn-gold" style="width: 100%;">Submit Request</button>
+        <button onclick="document.getElementById('bookingModal').style.display='none'" style="width: 100%; background: none; border: none; color: #555; margin-top: 15px; cursor: pointer;">Cancel</button>
     </div>
 </div>
 
 <script>
-    let selectedService = '';
-    
-    function openBookingForm(price, serviceName) {
-        selectedService = serviceName;
-        document.getElementById('modalTitle').innerText = 'Discuss ' + serviceName;
+    let currentService = '';
+    function openBookingForm(p, s) {
+        currentService = s;
+        document.getElementById('modalTitle').innerText = s;
         document.getElementById('bookingModal').style.display = 'flex';
     }
-
     function submitBooking() {
-        const name = document.getElementById('userName').value;
-        const phone = document.getElementById('userPhone').value;
-        if(!name || !phone) return alert('Please fill details');
-        
-        const msg = `Hi TaxEasePro Team, I am interested in ${selectedService}. My name is ${name} and contact is ${phone}. Please schedule a strategic consultation.`;
+        const n = document.getElementById('userName').value;
+        const p = document.getElementById('userPhone').value;
+        if(!n || !p) return alert('Please fill details');
+        const msg = `Hi TaxEasePro, I would like to consult for: ${currentService}. Name: ${n}, Phone: ${p}.`;
         window.open(`https://wa.me/${MYWA}?text=${encodeURIComponent(msg)}`, '_blank');
         document.getElementById('bookingModal').style.display = 'none';
     }
-
-    // Logic for Mobile Toggles (Verbatim from backup)
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    // SIDEBAR LOGIC FROM BACKUP1
     const sidebar = document.getElementById('sidebar');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    function checkWidth() {
-        if(window.innerWidth <= 1024) {
-            sidebarToggle.style.display = 'block';
-            mobileMenuToggle.style.display = 'block';
-            sidebar.style.transform = 'translateX(-100%)';
-            sidebar.style.position = 'fixed';
-        } else {
-            sidebarToggle.style.display = 'none';
-            mobileMenuToggle.style.display = 'none';
-            sidebar.style.transform = 'translateX(0)';
-            sidebar.style.position = 'sticky';
-        }
-    }
-
-    sidebarToggle.onclick = () => {
-        const isOpen = sidebar.style.transform === 'translateX(0)';
-        sidebar.style.transform = isOpen ? 'translateX(-100%)' : 'translateX(0)';
-    };
-
-    mobileMenuToggle.onclick = () => {
-        const isOpen = mobileMenu.style.transform === 'translateX(0)';
-        mobileMenu.style.transform = isOpen ? 'translateX(100%)' : 'translateX(0)';
-    };
-
-    window.onresize = checkWidth;
-    window.onload = checkWidth;
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+    });
 </script>
 
 </body>
