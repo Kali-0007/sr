@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Styling - Matching Home/Login/Signup */
+        /* Base Styling - Same as before */
         body {
             margin: 0; padding: 0; 
             background: #000; 
@@ -18,7 +18,6 @@
             min-height: 100vh;
         }
 
-        /* Premium Gradient Background */
         .contact-content {
             flex: 1;
             background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
@@ -28,7 +27,6 @@
             align-items: center;
         }
 
-        /* Centered Glass Card */
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
@@ -38,23 +36,12 @@
             width: 100%;
             max-width: 600px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative;
         }
 
-        h2 { 
-            color: #fff; 
-            font-size: 32px; 
-            margin-bottom: 10px; 
-            text-align: center;
-        }
+        h2 { color: #fff; font-size: 32px; margin-bottom: 10px; text-align: center; }
+        p.subtitle { color: #aaa; font-size: 15px; text-align: center; margin-bottom: 35px; }
 
-        p.subtitle {
-            color: #aaa;
-            font-size: 15px;
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        /* Form Inputs */
         input, textarea {
             width: 100%; padding: 16px; margin: 12px 0;
             border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
@@ -63,11 +50,7 @@
             outline: none; transition: 0.3s;
         }
 
-        input:focus, textarea:focus {
-            border-color: #667eea;
-            background: rgba(0,0,0,0.6);
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
-        }
+        input:focus, textarea:focus { border-color: #667eea; background: rgba(0,0,0,0.6); }
 
         .btn-submit {
             width: 100%; padding: 18px; margin-top: 20px;
@@ -78,28 +61,35 @@
             display: flex; justify-content: center; align-items: center; gap: 10px;
         }
 
-        .btn-submit:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        .btn-submit:disabled { background: #444; cursor: not-allowed; transform: none; }
+
+        /* Success Message Styling */
+        #successMessage {
+            display: none;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
-        @media (max-width: 480px) {
-            .glass-card { padding: 30px 20px; }
-            h2 { font-size: 26px; }
-        }
+        @media (max-width: 480px) { .glass-card { padding: 30px 20px; } }
     </style>
 </head>
 <body>
 
 <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;">
-    <div class="logo" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+    <div class="logo" style="display: flex; align-items: center; gap: 10px;">
         <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto;">
         <div style="display: flex; flex-direction: column;">
             <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
             <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
         </div>
     </div>
-    <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; white-space: nowrap;">
+    <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px;">
         <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500;">Home</a>
         <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500;">About Us</a>
         <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500;">Services</a>
@@ -111,22 +101,24 @@
 
 <main class="contact-content">
     <div class="glass-card">
-        <h2>Get In Touch</h2>
-        <p class="subtitle">Send us your query, and our experts will contact you shortly.</p>
+        <div id="successMessage">
+            <i class="fas fa-check-circle"></i> Message sent successfully! We will contact you soon.
+        </div>
         
-        <form action="https://formsubmit.co/sr.ravindra@zohomail.in" method="POST">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" value="https://kali-0007.github.io/sr/contact.html">
-
-            <input type="text" name="name" placeholder="Full Name" required>
-            <input type="email" name="email" placeholder="Email Address" required>
-            <textarea name="message" rows="6" placeholder="Write your query or message here..." required></textarea>
+        <div id="formContainer">
+            <h2>Get In Touch</h2>
+            <p class="subtitle">Send us your query, and our experts will contact you shortly.</p>
             
-            <button type="submit" class="btn-submit">
-                Send Message <i class="fas fa-paper-plane"></i>
-            </button>
-        </form>
+            <form id="contactForm">
+                <input type="text" name="name" id="name" placeholder="Full Name" required>
+                <input type="email" name="email" id="email" placeholder="Email Address" required>
+                <textarea name="message" id="message" rows="6" placeholder="Write your query or message here..." required></textarea>
+                
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span>Send Message</span> <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
     </div>
 </main>
 
@@ -134,23 +126,57 @@
     <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; font-size: 12px;">
         <div style="flex: 1; min-width: 150px;">
             <h4 style="color: #fff; margin-bottom: 15px;">Contact Us</h4>
-            <p style="margin: 8px 0;"><i class="fas fa-envelope"></i> <a href="mailto:info@taxeasepro.com" style="color: #ddd; text-decoration: none;">info@taxeasepro.com</a></p>
-            <p style="margin: 8px 0;"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea; text-decoration: none;">Chat Now</a></p>
+            <p style="margin: 8px 0;"><i class="fas fa-envelope"></i> info@taxeasepro.com</p>
+            <p style="margin: 8px 0;"><i class="fab fa-whatsapp"></i> Chat Now</p>
         </div>
         <div style="flex: 1; min-width: 150px;">
             <h4 style="color: #fff; margin-bottom: 15px;">Quick Links</h4>
-            <a href="calculator.html" style="color: #667eea; text-decoration: none; display: block; margin-bottom: 8px;">Income Tax Calculator</a>
-            <a href="index.html#quickFAQs" style="color: #667eea; text-decoration: none; display: block; margin-bottom: 8px;">FAQs</a>
-            <a href="services.html" style="color: #667eea; text-decoration: none; display: block;">All Services</a>
+            <a href="calculator.html" style="color: #667eea; text-decoration: none; display: block; margin-bottom: 8px;">Tax Calculator</a>
+            <a href="services.html" style="color: #667eea; text-decoration: none; display: block;">Services</a>
         </div>
         <div style="flex: 1; min-width: 150px;">
             <h4 style="color: #fff; margin-bottom: 15px;">Legal</h4>
-            <a href="privacy.html" style="color: #667eea; text-decoration: none; display: block; margin-bottom: 8px;">Privacy Policy</a>
-            <a href="terms.html" style="color: #667eea; text-decoration: none; display: block;">Terms & Conditions</a>
+            <a href="privacy.html" style="color: #667eea; text-decoration: none; display: block;">Privacy Policy</a>
         </div>
     </div>
     <div style="margin-top: 20px; border-top: 1px solid #222; padding-top: 15px; font-size: 11px;">© 2025 TaxEasePro. All rights reserved.</div>
 </footer>
+
+<script>
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMsg = document.getElementById('successMessage');
+    const formContainer = document.getElementById('formContainer');
+
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // UI Feedback
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "Sending... <i class='fas fa-spinner fa-spin'></i>";
+
+        const formData = new FormData(contactForm);
+        
+        fetch("https://formsubmit.co/ajax/sr.ravindra@zohomail.in", {
+            method: "POST",
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide form and show success message
+            formContainer.style.display = 'none';
+            successMsg.style.display = 'block';
+        })
+        .catch(error => {
+            alert("Oops! Something went wrong. Please try again.");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = "Send Message <i class='fas fa-paper-plane'></i>";
+        });
+    });
+</script>
 
 </body>
 </html>
