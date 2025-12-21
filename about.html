@@ -2,216 +2,283 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=yes">
   
-  <title>About Us | 20+ Years of Tax & GST Expertise | TaxEasePro</title>
-  <meta name="description" content="Learn about TaxEasePro's 20-year legacy in Indian taxation. Specialized in ITR, GST, and MSME loan balance sheets.">
-
+  <title>About Us - TaxEasePro | 20+ Years of Financial Expertise</title>
+  <meta name="description" content="TaxEasePro has 20+ years of experience in Income Tax, GST, and MSME loan balance sheets. 100% refund track record and 5000+ happy clients.">
+  <meta name="keywords" content="tax consultant, ITR filing expert, GST registration, MSME loan balance sheet, 20 years experience tax">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    :root { --primary: #667eea; --secondary: #764ba2; --success: #00c853; --dark: #0a0a0f; }
+    :root { --primary: #667eea; --secondary: #764ba2; --success: #00ff9d; --dark: #0a0a0f; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; padding-bottom: 60px; }
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; }
     
-    /* Responsive Header */
+    /* --- HEADER STYLES --- */
     header {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 5%; background: #111; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222;
+      padding: 10px 5%; background: #111; box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+      position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222;
     }
     .logo { display: flex; align-items: center; gap: 10px; }
-    .nav-links { display: flex; gap: 20px; align-items: center; }
-    .nav-links a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; }
-    .mobile-btn { display: none; font-size: 24px; color: var(--primary); cursor: pointer; }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+    .nav-links a:hover { color: var(--primary); }
+    
+    .btn-signup {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white !important; padding: 8px 18px; border-radius: 20px;
+      font-size: 13px !important; font-weight: 600 !important;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
 
-    /* Mobile Menu Overlay */
+    .mobile-toggle { display: none; font-size: 24px; color: var(--primary); cursor: pointer; }
+
+    /* --- MOBILE MENU OVERLAY --- */
     .mobile-menu {
-      position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: #111;
-      padding: 80px 30px; display: flex; flex-direction: column; gap: 20px; transition: 0.4s; z-index: 999; border-left: 1px solid #333;
+      position: fixed; top: 0; right: -100%; width: 300px; height: 100vh;
+      background: #111; padding: 80px 30px; display: flex; flex-direction: column;
+      gap: 25px; transition: 0.4s ease-in-out; z-index: 999; border-left: 1px solid #333;
     }
     .mobile-menu.active { right: 0; }
     .mobile-menu a { color: #fff; text-decoration: none; font-size: 18px; font-weight: 600; }
 
-    /* Main Section - FIXED FOR MOBILE */
+    /* --- MAIN CONTENT --- */
     .about-main {
-        padding: 100px 5% 40px;
-        background: radial-gradient(circle at top right, #1a1a2e, #000);
-        min-height: 100vh;
-        width: 100%;
+        min-height: 100vh; margin-top: 60px;
+        background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%);
+        padding: 60px 20px; display: flex; justify-content: center;
     }
+    .container { max-width: 1000px; width: 100%; }
 
-    .container { max-width: 1000px; margin: 0 auto; width: 100%; }
-
-    /* Glass Card - FIXED FOR MOBILE */
     .glass { 
-        background: rgba(255,255,255,0.05); 
-        backdrop-filter: blur(15px); 
-        border-radius: 24px; 
-        padding: 40px 5%; /* Flexible padding */
+        background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); 
+        border-radius: 24px; padding: 50px 40px; 
         border: 1px solid rgba(255,255,255,0.1); 
-        width: 100%;
-        word-wrap: break-word; /* Prevents text cutting */
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
 
     .experience-badge {
-        display: inline-block;
-        background: rgba(102, 126, 234, 0.2);
-        color: var(--primary);
-        padding: 8px 18px;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 13px;
-        margin-bottom: 20px;
+        display: inline-block; background: rgba(102, 126, 234, 0.15);
+        color: var(--primary); padding: 8px 20px; border-radius: 50px;
+        font-weight: 700; font-size: 14px; margin-bottom: 25px;
         border: 1px solid rgba(102, 126, 234, 0.3);
     }
 
-    h1 { font-size: clamp(24px, 5vw, 38px); margin-bottom: 25px; background: linear-gradient(135deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
+    h1 { 
+      font-size: clamp(28px, 5vw, 42px); line-height: 1.2; margin-bottom: 25px;
+      background: linear-gradient(135deg, #fff 30%, var(--primary) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
 
     .refund-highlight {
-        background: rgba(0, 255, 157, 0.05);
-        border-left: 4px solid var(--success);
-        padding: 20px;
-        margin: 30px 0;
-        border-radius: 0 12px 12px 0;
+        background: rgba(0, 255, 157, 0.03); border-left: 4px solid var(--success);
+        padding: 25px; margin: 35px 0; border-radius: 0 15px 15px 0;
     }
+    .refund-highlight h3 { color: var(--success); margin-bottom: 10px; font-size: 20px; }
 
-    /* Grid - FIXED FOR MOBILE */
+    /* --- GRID STYLES --- */
     .expertise-grid { 
-        display: grid; 
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
-        gap: 20px; 
-        margin-top: 40px; 
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        gap: 25px; margin-top: 45px; 
     }
     .expert-card { 
-        background: rgba(255,255,255,0.03); 
-        padding: 25px; 
-        border-radius: 16px; 
-        border: 1px solid rgba(255,255,255,0.05); 
-        text-decoration: none;
-        transition: 0.3s;
+        background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+        text-decoration: none; display: block;
     }
-    .expert-card:hover { border-color: var(--primary); background: rgba(255,255,255,0.06); }
-    .expert-card i { color: var(--primary); font-size: 24px; margin-bottom: 15px; }
+    .expert-card:hover { 
+        transform: translateY(-10px); border-color: var(--primary);
+        background: rgba(102, 126, 234, 0.05);
+    }
+    .expert-card i { color: var(--primary); font-size: 28px; margin-bottom: 20px; }
+    .expert-card h4 { color: #fff; margin-bottom: 12px; font-size: 18px; }
+    .expert-card p { font-size: 14px; color: #aaa; }
 
-    /* CTA Section */
-    .cta-section {
-        margin-top: 50px;
-        padding: 30px 5%;
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-        border-radius: 20px;
-        text-align: center;
-        border: 1px dashed var(--primary);
+    /* --- CTA SECTION --- */
+    .cta-integration {
+        margin-top: 60px; padding: 40px; border-radius: 20px; text-align: center;
+        background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+        border: 1px dashed rgba(102,126,234,0.3);
     }
-    .cta-btn {
-        display: inline-block;
-        margin-top: 15px;
-        background: var(--primary);
-        color: #fff;
-        padding: 12px 25px;
-        border-radius: 30px;
-        text-decoration: none;
-        font-weight: 700;
+    .cta-integration h2 { margin-bottom: 15px; font-size: 24px; }
+    .main-btn {
+        display: inline-block; background: var(--primary); color: #fff;
+        padding: 14px 35px; border-radius: 30px; text-decoration: none;
+        font-weight: 700; margin-top: 15px; transition: 0.3s;
     }
+    .main-btn:hover { background: #5a6fd6; transform: scale(1.05); box-shadow: 0 10px 20px rgba(102,126,234,0.3); }
 
-    /* Sticky Action Bar (Mobile Only) */
+    /* --- FOOTER STYLES --- */
+    footer { background: #0a0a0a; padding: 60px 5% 100px; border-top: 1px solid #222; margin-top: 50px; }
+    .footer-container { 
+        max-width: 1100px; margin: 0 auto; display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; 
+    }
+    .footer-col h4 { color: #fff; margin-bottom: 25px; font-size: 18px; position: relative; }
+    .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: -8px; width: 30px; height: 2px; background: var(--primary); }
+    .footer-col p, .footer-col a { color: #888; text-decoration: none; font-size: 14px; margin-bottom: 12px; display: block; transition: 0.3s; }
+    .footer-col a:hover { color: var(--primary); transform: translateX(5px); }
+
+    /* --- STICKY MOBILE BAR --- */
     .sticky-bar { 
-        position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #111; 
+        position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: #111; 
         display: none; justify-content: space-around; align-items: center; z-index: 2000; border-top: 1px solid #333; 
     }
-    .sticky-btn { flex: 1; text-align: center; color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; gap: 4px; }
+    .sticky-item { text-align: center; color: #fff; text-decoration: none; font-size: 11px; font-weight: 600; display: flex; flex-direction: column; gap: 5px; }
+    .sticky-item i { font-size: 18px; }
 
-    /* Responsive Queries */
-    @media (max-width: 768px) {
+    /* --- RESPONSIVE FIXES --- */
+    @media (max-width: 900px) {
         .nav-links { display: none; }
-        .mobile-btn { display: block; }
+        .mobile-toggle { display: block; }
         .sticky-bar { display: flex; }
-        .about-main { padding-top: 80px; }
-        .glass { padding: 30px 15px; }
+        .glass { padding: 40px 20px; }
+    }
+
+    @media (max-width: 480px) {
+        .about-main { padding: 40px 15px; }
+        .glass { border-radius: 15px; }
+        .experience-badge { font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <img src="logo.png" alt="TaxEasePro Logo" style="height: 40px;">
-    <span style="font-size: 18px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
-  </div>
-  <nav class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="about.html" style="color:var(--primary)">About</a>
-    <a href="services.html">Services</a>
-    <a href="contact.html">Contact</a>
-    <a href="login.html" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px;">Login</a>
-  </nav>
-  <i class="fas fa-bars mobile-btn" onclick="toggleMenu()"></i>
-</header>
-
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()">Home</a>
-  <a href="about.html" onclick="toggleMenu()">About</a>
-  <a href="services.html" onclick="toggleMenu()">Services</a>
-  <a href="contact.html" onclick="toggleMenu()">Contact</a>
-  <hr style="border: 0; border-top: 1px solid #333;">
-  <a href="login.html" style="color: var(--primary);">Login</a>
-  <a href="signup.html" style="color: var(--success);">Sign Up</a>
-</div>
-
-<main class="about-main">
-  <div class="container">
-    <div class="glass">
-      <div style="text-align: center;">
-          <span class="experience-badge">20+ Years of Professional Experience</span>
-      </div>
-      <h1>Reliable Consultancy Built on Trust</h1>
-      
-      <p style="color: #ccc; font-size: 16px; text-align: center; margin-bottom: 20px;">
-        With over two decades in the financial landscape, TaxEasePro has been a cornerstone for individuals and businesses navigating Indian taxation.
-      </p>
-
-      <div class="refund-highlight">
-        <h3 style="color: var(--success); font-size: 18px;"><i class="fas fa-check-circle"></i> Guaranteed Refund Track Record</h3>
-        <p style="color: #ddd; font-size: 14px;">Our meticulous approach ensures nil pendency. Every single one of our clients has received their maximum eligible refund.</p>
-      </div>
-
-      <div class="expertise-grid">
-          <a href="services.html" class="expert-card">
-              <i class="fas fa-university"></i>
-              <h4>MSME Loans</h4>
-              <p style="font-size: 13px; color: #aaa;">Professional Balance Sheets for CC/OD & Business Loans.</p>
-          </a>
-          <a href="services.html" class="expert-card">
-              <i class="fas fa-calculator"></i>
-              <h4>Tax Expert</h4>
-              <p style="font-size: 13px; color: #aaa;">Planning & filing to maximize legal deductions.</p>
-          </a>
-          <a href="services.html" class="expert-card">
-              <i class="fas fa-file-invoice-dollar"></i>
-              <h4>GST Returns</h4>
-              <p style="font-size: 13px; color: #aaa;">Monthly compliance with zero-penalty experience.</p>
-          </a>
-      </div>
-      
-      <div class="cta-section">
-          <h3>Ready to file your Taxes?</h3>
-          <a href="services.html" class="cta-btn">Explore 20+ Services</a>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="TaxEasePro Logo" style="height: 45px;">
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 20px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px;">TaxEasePro</span>
+        <span style="font-size: 11px; color: #777; font-weight: 400;">Pro Tax, Zero Stress</span>
       </div>
     </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html" style="color: var(--primary);">About Us</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="login.html" style="margin-left: 10px;">Login</a>
+      <a href="signup.html" class="btn-signup">Sign Up Free</a>
+    </nav>
+    <i class="fas fa-bars mobile-toggle" onclick="toggleMenu()"></i>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div style="text-align: right;"><i class="fas fa-times" style="font-size: 24px;" onclick="toggleMenu()"></i></div>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact Us</a>
+    <hr style="border: 0; border-top: 1px solid #222;">
+    <a href="login.html">Login</a>
+    <a href="signup.html" style="color: var(--primary);">Sign Up Free</a>
   </div>
-</main>
 
-<div class="sticky-bar">
-  <a href="https://wa.me/919876543210" class="sticky-btn" style="color: #25D366;"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
-  <a href="tel:+919876543210" class="sticky-btn"><i class="fas fa-phone-alt"></i><span>Call Now</span></a>
-  <a href="services.html" class="sticky-btn" style="color: var(--primary);"><i class="fas fa-list"></i><span>Services</span></a>
-</div>
+  <main class="about-main">
+    <div class="container">
+      <div class="glass">
+        <div style="text-align: center;">
+            <span class="experience-badge"><i class="fas fa-history"></i> 20+ Years of Financial Legacy</span>
+        </div>
+        <h1 style="text-align: center;">Reliable Consultancy Built on Decades of Trust</h1>
+        
+        <p style="color: #bbb; font-size: 17px; margin-bottom: 25px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
+          Since 2005, TaxEasePro has been a cornerstone for individuals and businesses navigating the complex Indian taxation landscape. We don't just file taxes; we build long-term financial security for our clients.
+        </p>
 
-<script>
-  function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('active');
-  }
-</script>
+        <div class="refund-highlight">
+          <h3><i class="fas fa-check-circle"></i> 100% Refund Success Track Record</h3>
+          <p style="color: #ccc;">Our meticulous approach ensures nil pendency. To date, every single one of our clients has received their maximum eligible Income Tax refund without technical delays, notices, or rejections.</p>
+        </div>
+
+        <div style="margin-top: 50px;">
+            <h2 style="text-align: center; font-size: 26px; margin-bottom: 30px;">Why Thousands Trust Us</h2>
+            <div class="expertise-grid">
+                <a href="services.html" class="expert-card">
+                    <i class="fas fa-university"></i>
+                    <h4>MSME Loan Support</h4>
+                    <p>Expertise in creating professional Projected and Provisional Balance Sheets that banks actually approve for business loans.</p>
+                </a>
+                <a href="services.html" class="expert-card">
+                    <i class="fas fa-calculator"></i>
+                    <h4>Income Tax Planning</h4>
+                    <p>Deep dive into legal deductions (80C, 80D, etc.) to ensure you keep more of your hard-earned money while staying compliant.</p>
+                </a>
+                <a href="services.html" class="expert-card">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h4>GST & Compliance</h4>
+                    <p>End-to-end management of GST registrations and monthly returns with a record of zero-penalty for our regular clients.</p>
+                </a>
+            </div>
+        </div>
+        
+        <div class="cta-integration">
+            <h2 style="color: #fff;">Take the Next Step</h2>
+            <p style="color: #aaa; font-size: 15px;">Experience the ease of professional tax management. Let our 20 years of expertise work for you.</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="services.html" class="main-btn">View All 20+ Services</a>
+                <a href="contact.html" class="main-btn" style="background: transparent; border: 2px solid var(--primary);">Talk to an Expert</a>
+            </div>
+        </div>
+
+        <p style="margin-top: 50px; color: #666; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; font-style: italic; font-size: 14px;">
+          "Our mission is to simplify the financial journey of every Indian taxpayer with accuracy and transparency."
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4 style="color: var(--primary);">TaxEasePro</h4>
+        <p>Your trusted partner in taxation and finance for over 20 years. Professionalism you can count on.</p>
+        <div style="display: flex; gap: 15px; margin-top: 20px; font-size: 18px;">
+            <i class="fab fa-facebook" style="cursor: pointer;"></i>
+            <i class="fab fa-linkedin" style="cursor: pointer;"></i>
+            <i class="fab fa-instagram" style="cursor: pointer;"></i>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="services.html">ITR Filing</a>
+        <a href="services.html">GST Registration</a>
+        <a href="services.html">MSME Loan Balance Sheet</a>
+        <a href="services.html">Audit Support</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms & Conditions</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <p><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> +91 98765 43210</p>
+        <p><i class="fas fa-envelope" style="margin-right: 8px;"></i> info@taxeasepro.com</p>
+        <p><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Delhi NCR, India</p>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #222; color: #555; font-size: 12px;">
+        © 2025 TaxEasePro. All rights reserved. Designed for Excellence.
+    </div>
+  </footer>
+
+  <div class="sticky-bar">
+    <a href="https://wa.me/919876543210" class="sticky-item" style="color: #25D366;"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+    <a href="tel:+919876543210" class="sticky-item"><i class="fas fa-phone-alt"></i><span>Call</span></a>
+    <a href="services.html" class="sticky-item" style="color: var(--primary);"><i class="fas fa-th-large"></i><span>Services</span></a>
+    <a href="login.html" class="sticky-item"><i class="fas fa-user"></i><span>Login</span></a>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    }
+  </script>
 
 </body>
 </html>
