@@ -3,13 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services - TaxEasePro</title>
+  
+  <title>ITR, GST & Business Services Pricing | Affordable Tax Filing | TaxEasePro</title>
+  <meta name="title" content="ITR, GST & Business Services Pricing | Affordable Tax Filing | TaxEasePro">
+  <meta name="description" content="Expert filing for ITR-1 to ITR-5, NRI taxation, GST returns, and Loan balance sheets. 20+ professional tax services with 20 years of expertise. lowest prices guaranteed.">
+  <meta name="keywords" content="ITR filing online, GST return pricing, professional tax consultant, balance sheet for bank loan, DSC registration, NRI tax India">
+  <meta name="author" content="TaxEasePro">
+  <link rel="canonical" href="https://www.taxeasepro.com/services.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.taxeasepro.com/services.html">
+  <meta property="og:title" content="Professional Tax & GST Services - TaxEasePro">
+  <meta property="og:description" content="Get your ITR, GST, and Business Loans handled by experts with 20+ years of experience.">
+  <meta property="og:image" content="logo.png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="Professional Tax & GST Services - TaxEasePro">
+  <meta property="twitter:description" content="Expert tax solutions at the most affordable prices.">
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     :root { --primary: #667eea; --secondary: #764ba2; --success: #00c853; --dark: #0a0a0f; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.5; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.5; overflow-x: hidden; padding-bottom: 60px; }
 
     /* Header */
     header {
@@ -26,6 +44,14 @@
       padding: 80px 30px; display: flex; flex-direction: column; gap: 20px; transition: 0.4s; z-index: 999; border-left: 1px solid #333;
     }
     .mobile-menu.active { right: 0; }
+
+    /* Sticky Action Bar (Mobile Only) */
+    .sticky-bar {
+      position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #111;
+      display: none; justify-content: space-around; align-items: center; z-index: 2000; border-top: 1px solid #333;
+    }
+    .sticky-btn { flex: 1; text-align: center; color: #fff; text-decoration: none; font-size: 12px; font-weight: 600; padding: 10px; display: flex; flex-direction: column; gap: 4px; }
+    .sticky-btn i { font-size: 18px; }
 
     /* Content Styling */
     .wrapper { padding: 100px 5% 40px; background: radial-gradient(circle at top right, #1a1a2e, #000); min-height: 100vh; }
@@ -62,36 +88,52 @@
     footer a { color: #888; text-decoration: none; margin: 0 10px; }
     
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @media (max-width: 768px) { .nav-links { display: none; } .mobile-btn { display: block; } }
+    @media (max-width: 768px) { 
+      .nav-links { display: none; } 
+      .mobile-btn { display: block; } 
+      .sticky-bar { display: flex; }
+    }
   </style>
 </head>
 <body>
 
   <header>
-  <div class="logo">
-    <img src="logo.png" alt="TaxEasePro" style="height: 40px;">
-    <span style="font-size: 18px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
-  </div>
-  <nav class="nav-links">
+    <div class="logo">
+      <img src="logo.png" alt="TaxEasePro - Professional Tax Consultant Logo" style="height: 40px;">
+      <span style="font-size: 18px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html" style="color:var(--primary)">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; color: var(--primary);">Login</a>
+      <a href="signup.html" style="background:var(--primary); padding:6px 18px; border-radius:20px; color: #fff;">Signup</a>
+    </nav>
+    <i class="fas fa-bars mobile-btn" onclick="toggleMenu()" aria-label="Open Menu"></i>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="services.html" style="color:var(--primary)">Services</a>
+    <a href="services.html">Services</a>
     <a href="contact.html">Contact</a>
-    <a href="login.html" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; color: var(--primary);">Login</a>
-    <a href="signup.html" style="background:var(--primary); padding:6px 18px; border-radius:20px; color: #fff;">Signup</a>
-  </nav>
-  <i class="fas fa-bars mobile-btn" onclick="toggleMenu()"></i>
-</header>
+    <hr style="border: 0; border-top: 1px solid #333; margin: 10px 0;">
+    <a href="login.html" style="color: var(--primary);">Login to Portal</a>
+    <a href="signup.html" style="color: var(--success);">Create Account</a>
+  </div>
 
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="services.html">Services</a>
-  <a href="contact.html">Contact</a>
-  <hr style="border: 0; border-top: 1px solid #333; margin: 10px 0;">
-  <a href="login.html" style="color: var(--primary);">Login to Portal</a>
-  <a href="signup.html" style="color: var(--success);">Create Account</a>
-</div>
+  <div class="sticky-bar">
+    <a href="https://wa.me/YOUR_NUMBER" class="sticky-btn" style="color: #25D366;">
+      <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
+    </a>
+    <a href="tel:YOUR_NUMBER" class="sticky-btn">
+      <i class="fas fa-phone-alt"></i><span>Call Now</span>
+    </a>
+    <a href="contact.html" class="sticky-btn" style="color: var(--primary);">
+      <i class="fas fa-envelope"></i><span>Enquiry</span>
+    </a>
+  </div>
 
   <main class="wrapper">
     <div class="container">
