@@ -1,219 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - TaxGSTPro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .message { margin-top: 15px; font-size: 15px; font-weight: 600; }
-    .success { color: #00ff9d; }
-    .error { color: #ff6b6b; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TaxEasePro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styling from Home */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* Modal Styles */
-    .modal {
-      display: none; position: fixed; z-index: 1000; left: 0; top: 0;
-      width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-    }
-    .modal-content {
-      background: #1a1a1a; margin: 10% auto; padding: 30px; border: 1px solid #444;
-      width: 90%; max-width: 400px; border-radius: 15px; color: white; text-align: left;
-    }
-    .modal-content input {
-      width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 5px;
-    }
-    .close-btn { float: right; cursor: pointer; font-size: 24px; color: #aaa; }
-    .forgot-link { display: block; margin-top: 10px; font-size: 14px; color: #00d4ff; text-decoration: none; cursor: pointer; }
-  </style>
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        /* Form Styling */
+        .form-container {
+            max-width: 400px;
+            width: 90%;
+            margin: 120px auto 40px; /* Offset for fixed header */
+            padding: 30px;
+            text-align: center;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: none;
+            background: #222;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .neon-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-size: 16px;
+        }
+
+        .neon-btn:hover { transform: scale(1.02); }
+
+        .message { margin-top: 15px; font-size: 14px; font-weight: 600; }
+        .success { color: #00ff9d; }
+        .error { color: #ff6b6b; }
+
+        /* Modal Styles */
+        .modal {
+            display: none; position: fixed; z-index: 10000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            margin: 10% auto; padding: 30px; width: 90%; max-width: 400px;
+        }
+        .close-btn { float: right; cursor: pointer; font-size: 24px; color: #aaa; }
+        .forgot-link { font-size: 14px; color: #667eea; text-decoration: none; cursor: pointer; }
+
+        footer a { text-decoration: none; }
+    </style>
 </head>
 <body>
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 0px 20px; background: #111; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
-  <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-    <img src="logo.png" alt="TaxEasePro" style="height: 130px; width: auto;">
-    <span style="font-size: 44px; font-weight: 700; color: #667eea;">TaxEasePro</span>
-  </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="services.html">Services</a>
-    <a href="contact.html">Contact Us</a>
-    <a href="login.html" class="btn-highlight">Login</a>
-    <a href="signup.html" class="btn-highlight">Signup</a>
-  </nav>
+
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;">
+    <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+        <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto;">
+        <div style="display: flex; flex-direction: column;">
+            <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
+            <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
+        </div>
+    </div>
+    <nav style="display: flex; align-items: center; gap: 15px;">
+        <a href="index.html" style="color: #fff; text-decoration: none; font-size: 14px;">Home</a>
+        <a href="login.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Login</a>
+        <a href="signup.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Signup</a>
+    </nav>
 </header>
 
-<section class="container" style="margin-top:100px; text-align:center;">
-  <h1 class="section-title">Login to TaxEasePro</h1>
- 
-  <div class="form-container glass" style="max-width:450px; margin:auto; padding:30px;">
-    <form id="loginForm">
-      <input type="text" id="identifier" placeholder="Email or Username" required style="padding:14px; font-size:16px; width:100%; box-sizing:border-box;">
-      <input type="password" id="password" placeholder="Password" required style="padding:14px; font-size:16px; width:100%; box-sizing:border-box; margin-top:10px;">
-      
-      <button type="submit" class="neon-btn" style="margin-top:20px; width:100%; padding:14px;">Login</button>
-      
-      <div style="display: flex; justify-content: space-between; margin-top: 15px;">
-        <span class="forgot-link" onclick="openModal('usernameModal')">Forgot Username?</span>
-        <span class="forgot-link" onclick="openModal('passwordModal')">Forgot Password?</span>
-      </div>
+<main style="flex: 1;">
+    <div class="form-container glass">
+        <h2 style="margin-bottom: 20px; font-size: 28px;">Welcome Back</h2>
+        <form id="loginForm">
+            <input type="text" id="identifier" placeholder="Email or Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" class="neon-btn">Login to Dashboard</button>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <span class="forgot-link" onclick="openModal('usernameModal')">Forgot Username?</span>
+                <span class="forgot-link" onclick="openModal('passwordModal')">Forgot Password?</span>
+            </div>
 
-      <div id="message" class="message"></div>
-      <p style="margin-top:25px; font-size:15px;">
-        Don't have an account? <a href="signup.html" style="color:#00d4ff; font-weight:600;">Signup here</a>
-      </p>
-    </form>
-  </div>
-</section>
+            <div id="message" class="message"></div>
+            <p style="margin-top:25px; font-size:14px; color: #ccc;">
+                New here? <a href="signup.html" style="color:#667eea; font-weight:600; text-decoration: none;">Create an account</a>
+            </p>
+        </form>
+    </div>
+</main>
+
+<footer style="text-align: center; padding: 20px 10px; background: #000; color: #666; border-top: 1px solid #333; width: 100%; box-sizing: border-box;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; font-size: 12px;">
+        <div style="flex: 1; min-width: 150px;">
+            <h4 style="color: #fff; margin-bottom: 10px;">Contact Us</h4>
+            <p><i class="fas fa-envelope"></i> <a href="mailto:info@taxeasepro.com" style="color: #ddd;">info@taxeasepro.com</a></p>
+            <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/919876543210" style="color: #667eea;">Chat Now</a></p>
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+            <h4 style="color: #fff; margin-bottom: 10px;">Quick Links</h4>
+            <a href="services.html" style="color: #667eea; display: block; margin-bottom: 5px;">All Services</a>
+            <a href="index.html#quickFAQs" style="color: #667eea; display: block;">FAQs</a>
+        </div>
+    </div>
+    <div style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; font-size: 12px;">© 2025 TaxEasePro. All rights reserved.</div>
+</footer>
 
 <div id="usernameModal" class="modal">
-  <div class="modal-content glass">
-    <span class="close-btn" onclick="closeModal('usernameModal')">&times;</span>
-    <h3>Recover Username</h3>
-    <p style="font-size:14px; color:#ccc;">Enter your registered email address.</p>
-    <input type="email" id="forgotUserEmail" placeholder="Enter Email">
-    <button onclick="handleForgotUsername()" class="neon-btn" style="width:100%; padding:10px; margin-top:10px;">Send Username</button>
-    <div id="forgotUserMsg" class="message"></div>
-  </div>
+    <div class="modal-content glass">
+        <span class="close-btn" onclick="closeModal('usernameModal')">&times;</span>
+        <h3>Recover Username</h3>
+        <input type="email" id="forgotUserEmail" placeholder="Registered Email">
+        <button onclick="handleForgotUsername()" class="neon-btn">Send Username</button>
+        <div id="forgotUserMsg" class="message"></div>
+    </div>
 </div>
 
 <div id="passwordModal" class="modal">
-  <div class="modal-content glass">
-    <span class="close-btn" onclick="closeModal('passwordModal')">&times;</span>
-    <h3>Reset Password</h3>
-    <div id="step1">
-      <input type="text" id="resetUser" placeholder="Username">
-      <input type="email" id="resetEmail" placeholder="Registered Email">
-      <button onclick="handleSendResetOTP()" class="neon-btn" style="width:100%; padding:10px;">Send OTP</button>
+    <div class="modal-content glass">
+        <span class="close-btn" onclick="closeModal('passwordModal')">&times;</span>
+        <h3>Reset Password</h3>
+        <div id="step1">
+            <input type="text" id="resetUser" placeholder="Username">
+            <input type="email" id="resetEmail" placeholder="Email">
+            <button onclick="handleSendResetOTP()" class="neon-btn">Send OTP</button>
+        </div>
+        <div id="step2" style="display:none;">
+            <input type="text" id="resetOTP" placeholder="6-digit OTP">
+            <input type="password" id="newPassword" placeholder="New Password">
+            <button onclick="handleResetPassword()" class="neon-btn">Update Password</button>
+        </div>
+        <div id="forgotPassMsg" class="message"></div>
     </div>
-    <div id="step2" style="display:none;">
-      <input type="text" id="resetOTP" placeholder="Enter 6-digit OTP">
-      <input type="password" id="newPassword" placeholder="Enter New Password">
-      <button onclick="handleResetPassword()" class="neon-btn" style="width:100%; padding:10px;">Update Password</button>
-    </div>
-    <div id="forgotPassMsg" class="message"></div>
-  </div>
 </div>
-
-<footer>© 2025 TaxGSTPro. All rights reserved.</footer>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
 
-// --- LOGIN LOGIC ---
+// Login Logic
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const identifier = document.getElementById('identifier').value.trim();
-  const password = document.getElementById('password').value;
-  const formData = new URLSearchParams({ action: "login", email: identifier, password: password });
+    e.preventDefault();
+    const msg = document.getElementById('message');
+    msg.textContent = "Verifying...";
+    msg.className = "message";
 
-  try {
-    const res = await fetch(API_URL, { method: "POST", body: formData });
-    const data = await res.json();
-    if (data.status === "success") {
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('username', data.username);
-      showMessage("message", "Login Successful!", "success");
-      setTimeout(() => { window.location.href = "dashboard.html"; }, 1000);
-    } else {
-      showMessage("message", data.message || "Invalid credentials", "error");
-    }
-  } catch (err) { showMessage("message", "Network error", "error"); }
+    const identifier = document.getElementById('identifier').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+        const res = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "login", email: identifier, password: password }) });
+        const data = await res.json();
+        if (data.status === "success") {
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('username', data.username);
+            showMessage("message", "Login Successful! Redirecting...", "success");
+            setTimeout(() => { window.location.href = "dashboard.html"; }, 1000);
+        } else {
+            showMessage("message", data.message || "Invalid credentials", "error");
+        }
+    } catch (err) { showMessage("message", "Network error. Try again.", "error"); }
 });
 
-// --- MODAL HELPERS ---
-function openModal(id) { 
-  document.getElementById(id).style.display = "block"; 
-  // Clear messages and reset steps when opening
-  if(id === 'passwordModal') {
-    document.getElementById('step1').style.display = "block";
-    document.getElementById('step2').style.display = "none";
-    document.getElementById('forgotPassMsg').textContent = "";
-  }
-}
+// Modal Logic
+function openModal(id) { document.getElementById(id).style.display = "block"; }
 function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-// --- FORGOT USERNAME LOGIC ---
 async function handleForgotUsername() {
-  const email = document.getElementById('forgotUserEmail').value.trim();
-  if(!email) return alert("Enter email");
-  
-  const msg = document.getElementById('forgotUserMsg');
-  msg.textContent = "Checking...";
-
-  const res = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "forget-username", email: email }) });
-  const data = await res.json();
-  if(data.status === "success") {
-    showMessage("forgotUserMsg", "Username sent to your email!", "success");
-  } else {
-    showMessage("forgotUserMsg", data.message, "error");
-  }
+    const email = document.getElementById('forgotUserEmail').value.trim();
+    if(!email) return alert("Enter email");
+    const res = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "forget-username", email: email }) });
+    const data = await res.json();
+    showMessage("forgotUserMsg", data.message, data.status === "success" ? "success" : "error");
 }
 
-// --- FORGOT PASSWORD LOGIC ---
 async function handleSendResetOTP() {
-  const email = document.getElementById('resetEmail').value.trim();
-  const username = document.getElementById('resetUser').value.trim();
-  
-  if(!email || !username) return alert("Please enter both Username and Email");
-
-  const msg = document.getElementById('forgotPassMsg');
-  msg.textContent = "Verifying details...";
-
-  // Backend ab check karega ki username aur email match hai ya nahi
-  const res = await fetch(API_URL, { 
-    method: "POST", 
-    body: new URLSearchParams({ 
-      action: "send-otp", 
-      email: email, 
-      username: username 
-    }) 
-  });
-  
-  const data = await res.json();
-  if(data.status === "success") {
-    alert("OTP sent to your email!");
-    document.getElementById('step1').style.display = "none";
-    document.getElementById('step2').style.display = "block";
-    msg.textContent = "";
-  } else {
-    // Agar Username match nahi hua toh yahan error dikhayega aur aage nahi badhega
-    showMessage("forgotPassMsg", data.message || "Details mismatch", "error");
-  }
+    const email = document.getElementById('resetEmail').value.trim();
+    const user = document.getElementById('resetUser').value.trim();
+    if(!email || !user) return alert("Enter both Username and Email");
+    
+    const res = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "send-otp", email: email, username: user }) });
+    const data = await res.json();
+    if(data.status === "success") {
+        document.getElementById('step1').style.display = "none";
+        document.getElementById('step2').style.display = "block";
+        showMessage("forgotPassMsg", "OTP sent to email!", "success");
+    } else { showMessage("forgotPassMsg", data.message, "error"); }
 }
 
 async function handleResetPassword() {
-  const email = document.getElementById('resetEmail').value.trim();
-  const username = document.getElementById('resetUser').value.trim();
-  const otp = document.getElementById('resetOTP').value.trim();
-  const newPassword = document.getElementById('newPassword').value;
+    const email = document.getElementById('resetEmail').value.trim();
+    const user = document.getElementById('resetUser').value.trim();
+    const otp = document.getElementById('resetOTP').value.trim();
+    const pass = document.getElementById('newPassword').value;
 
-  if(!otp || !newPassword) return alert("Please enter OTP and New Password");
-
-  const res = await fetch(API_URL, { 
-    method: "POST", 
-    body: new URLSearchParams({ 
-      action: "reset-password", 
-      email: email, 
-      username: username, 
-      otp: otp, 
-      newPassword: newPassword 
-    }) 
-  });
-  
-  const data = await res.json();
-  if(data.status === "success") {
-    showMessage("forgotPassMsg", "Password updated! You can now login.", "success");
-    setTimeout(() => location.reload(), 2000);
-  } else {
-    showMessage("forgotPassMsg", data.message, "error");
-  }
+    const res = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "reset-password", email: email, username: user, otp: otp, newPassword: pass }) });
+    const data = await res.json();
+    if(data.status === "success") {
+        showMessage("forgotPassMsg", "Success! Reloading...", "success");
+        setTimeout(() => location.reload(), 2000);
+    } else { showMessage("forgotPassMsg", data.message, "error"); }
 }
 
 function showMessage(id, text, type) {
-  const el = document.getElementById(id);
-  el.textContent = text;
-  el.className = "message " + type;
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.className = "message " + type;
 }
 </script>
 </body>
