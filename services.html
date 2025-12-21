@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Services - TaxEasePro</title>
+  <title>Services - TaxEasePro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -11,11 +11,12 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.5; overflow-x: hidden; }
 
-    /* Header & Mobile Menu */
+    /* Header */
     header {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 5%; background: #111; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222;
+      padding: 10px 5%; background: #111; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222;
     }
+    .logo { display: flex; align-items: center; gap: 10px; }
     .nav-links { display: flex; gap: 20px; align-items: center; }
     .nav-links a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; }
     .mobile-btn { display: none; font-size: 24px; color: var(--primary); cursor: pointer; }
@@ -26,56 +27,57 @@
     }
     .mobile-menu.active { right: 0; }
 
-    /* Wrapper & Titles */
+    /* Content Styling */
     .wrapper { padding: 100px 5% 40px; background: radial-gradient(circle at top right, #1a1a2e, #000); min-height: 100vh; }
-    .cat-title { margin: 40px 0 20px; padding-left: 15px; border-left: 4px solid var(--primary); font-size: 22px; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+    .cat-title { margin: 30px 0 15px; padding-left: 12px; border-left: 4px solid var(--primary); font-size: 20px; color: #fff; text-transform: uppercase; }
 
-    /* Compact Grid */
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-    .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; transition: 0.3s; height: fit-content; }
+    /* Compact Grid Layout */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+    .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; transition: 0.3s; height: fit-content; }
     .card:hover { border-color: var(--primary); background: rgba(255,255,255,0.08); }
     
-    .card h3 { font-size: 18px; color: #fff; margin-bottom: 8px; }
-    .price-row { margin-bottom: 15px; display: flex; align-items: baseline; gap: 10px; }
-    .m-price { text-decoration: line-through; color: #666; font-size: 13px; }
-    .o-price { font-size: 22px; font-weight: 700; color: var(--success); }
+    .card h3 { font-size: 16px; color: #fff; margin-bottom: 5px; }
+    .price-row { margin-bottom: 10px; display: flex; align-items: baseline; gap: 8px; }
+    .m-price { text-decoration: line-through; color: #666; font-size: 12px; }
+    .o-price { font-size: 20px; font-weight: 700; color: var(--success); }
 
-    .know-more { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; margin-bottom: 15px; }
+    .know-more { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 4px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 600; margin-bottom: 10px; }
     
-    /* Detailed Explanation Section */
-    .details { display: none; padding: 15px 0; border-top: 1px solid #333; margin-top: 10px; animation: fadeIn 0.4s; }
+    /* Expandable Details */
+    .details { display: none; padding: 10px 0; border-top: 1px solid #333; margin-top: 8px; animation: fadeIn 0.3s; }
     .details ul { list-style: none; }
-    .details li { font-size: 13px; color: #ccc; margin-bottom: 10px; display: flex; gap: 10px; line-height: 1.4; }
-    .details i { color: var(--success); margin-top: 3px; font-size: 12px; }
+    .details li { font-size: 12px; color: #ccc; margin-bottom: 8px; display: flex; gap: 8px; line-height: 1.4; }
+    .details i { color: var(--success); margin-top: 3px; font-size: 10px; }
 
-    .opt-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .opt-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 10px; border-radius: 8px; width: 100%; font-weight: 700; cursor: pointer; font-size: 13px; }
 
     /* Modal */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; }
-    .modal-content { background: #111; width: 90%; max-width: 450px; padding: 30px; border-radius: 20px; border: 1px solid #333; position: relative; }
-    .modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #333; color: #fff; border-radius: 8px; }
-    .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #666; }
+    .modal-content { background: #111; width: 90%; max-width: 400px; padding: 25px; border-radius: 15px; border: 1px solid #333; position: relative; }
+    .modal-content input { width: 100%; padding: 10px; margin-bottom: 10px; background: #222; border: 1px solid #333; color: #fff; border-radius: 8px; }
+    .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #666; }
 
-    /* Footer (Restored Exactly) */
-    footer { padding: 30px 10px; background: #000; color: #666; border-top: 1px solid #333; margin-top: 50px; text-align: center;}
+    /* Footer Restore */
+    footer { padding: 30px 10px; background: #000; color: #666; border-top: 1px solid #333; margin-top: 50px; text-align: center; font-size: 13px;}
+    footer a { color: #888; text-decoration: none; margin: 0 10px; }
     
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @media (max-width: 768px) { .nav-links { display: none; } .mobile-btn { display: block; } }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-      <img src="logo.png" alt="TaxEasePro" style="height: 45px;">
-      <span style="font-size: 20px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
+    <div class="logo">
+      <img src="logo.png" alt="TaxEasePro" style="height: 40px;">
+      <span style="font-size: 18px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
     </div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="services.html" style="color:var(--primary)">Services</a>
       <a href="contact.html">Contact</a>
-      <a href="signup.html" style="background:var(--primary); padding:6px 18px; border-radius:20px;">Signup</a>
+      <a href="signup.html" style="background:var(--primary); padding:5px 15px; border-radius:20px;">Signup</a>
     </nav>
     <i class="fas fa-bars mobile-btn" onclick="toggleMenu()"></i>
   </header>
@@ -90,162 +92,293 @@
 
   <main class="wrapper">
     <div class="container">
-      <h1 style="text-align: center; font-size: 32px; margin-bottom: 10px;">Services & Pricing</h1>
-      <p style="text-align: center; color: #888; margin-bottom: 40px;">Expert financial solutions with 20+ years of trust.</p>
-
-      <h2 class="cat-title">Income Tax (ITR) Services</h2>
+      
+      <h2 class="cat-title">Income Tax Services</h2>
       <div class="grid">
         <div class="card">
-          <h3>ITR-1 (Salaried Individual)</h3>
+          <h3>ITR-1 (Salaried)</h3>
           <div class="price-row"><span class="m-price">₹1,299</span><span class="o-price">₹899</span></div>
-          <button class="know-more" onclick="toggle('itr1')">Know More</button>
-          <div id="itr1" class="details">
+          <button class="know-more" onclick="toggle('s1')">Know More</button>
+          <div id="s1" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> Perfect for Salary & Single House Property.</li>
-              <li><i class="fas fa-check-circle"></i> Verification of Form 16, 26AS & AIS/TIS data.</li>
-              <li><i class="fas fa-check-circle"></i> Maximum Tax Refund calculation by experts.</li>
-              <li><i class="fas fa-check-circle"></i> Digital delivery of ITR-V (Acknowledgment).</li>
+              <li><i class="fas fa-check"></i> Salary & One House Property income filing.</li>
+              <li><i class="fas fa-check"></i> Form 16 & 26AS data matching with AIS.</li>
+              <li><i class="fas fa-check"></i> Maximum Tax Refund optimization by experts.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('ITR-1 Salaried', 899)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('ITR-1', 899)">Opt This</button>
         </div>
 
         <div class="card">
-          <h3>ITR-3 (Audit & Partners)</h3>
+          <h3>ITR-2 (Capital Gains)</h3>
+          <div class="price-row"><span class="m-price">₹2,999</span><span class="o-price">₹1,999</span></div>
+          <button class="know-more" onclick="toggle('s2')">Know More</button>
+          <div id="s2" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> Share Market (STCG/LTCG) & Property Sale.</li>
+              <li><i class="fas fa-check"></i> Handling more than one house property.</li>
+              <li><i class="fas fa-check"></i> Loss set-off and carry forward advice.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('ITR-2', 1999)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>ITR-3 (Audit & Business)</h3>
           <div class="price-row"><span class="m-price">₹3,999</span><span class="o-price">₹2,499</span></div>
-          <button class="know-more" onclick="toggle('itr3')">Know More</button>
-          <div id="itr3" class="details">
+          <button class="know-more" onclick="toggle('s3')">Know More</button>
+          <div id="s3" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> For Individuals/HUF having income from Business.</li>
-              <li><i class="fas fa-check-circle"></i> Handling of Audit cases & Partner's salary/interest.</li>
-              <li><i class="fas fa-check-circle"></i> Proper Balance Sheet & P&L Statement preparation.</li>
-              <li><i class="fas fa-check-circle"></i> Expert handling of Digital Assets & Foreign Income.</li>
+              <li><i class="fas fa-check"></i> Balance Sheet & P&L Statement preparation.</li>
+              <li><i class="fas fa-check"></i> Handling Audit cases & Partner's Income.</li>
+              <li><i class="fas fa-check"></i> Complex Business & Professional income.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('ITR-3 Business', 2499)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('ITR-3', 2499)">Opt This</button>
         </div>
 
         <div class="card">
-          <h3>ITR-4 (Presumptive/Sugam)</h3>
+          <h3>ITR-4 (Presumptive)</h3>
           <div class="price-row"><span class="m-price">₹2,499</span><span class="o-price">₹1,499</span></div>
-          <button class="know-more" onclick="toggle('itr4')">Know More</button>
-          <div id="itr4" class="details">
+          <button class="know-more" onclick="toggle('s4')">Know More</button>
+          <div id="s4" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> For Small Businesses (44AD) & Professionals (44ADA).</li>
-              <li><i class="fas fa-check-circle"></i> No need to maintain detailed books of accounts.</li>
-              <li><i class="fas fa-check-circle"></i> Best for Shopkeepers, Doctors, and Freelancers.</li>
-              <li><i class="fas fa-check-circle"></i> Quick filing with accurate tax computation.</li>
+              <li><i class="fas fa-check"></i> Best for Small Business (44AD) & Freelancers.</li>
+              <li><i class="fas fa-check"></i> No need for detailed books of accounts.</li>
+              <li><i class="fas fa-check"></i> Fast & Error-free government filing.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('ITR-4 Presumptive', 1499)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('ITR-4', 1499)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>ITR-5 (Firms/LLP)</h3>
+          <div class="price-row"><span class="m-price">₹4,999</span><span class="o-price">₹2,999</span></div>
+          <button class="know-more" onclick="toggle('s5')">Know More</button>
+          <div id="s5" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> Partnership Firm & LLP Tax Filing.</li>
+              <li><i class="fas fa-check"></i> Remuneration & Interest calculation for partners.</li>
+              <li><i class="fas fa-check"></i> Compliant with latest MCA & IT norms.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('ITR-5', 2999)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>NRI Taxation</h3>
+          <div class="price-row"><span class="m-price">₹5,999</span><span class="o-price">₹3,999</span></div>
+          <button class="know-more" onclick="toggle('s6')">Know More</button>
+          <div id="s6" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> NRE/NRO Account Interest & Income issues.</li>
+              <li><i class="fas fa-check"></i> DTAA Benefit advice to avoid double tax.</li>
+              <li><i class="fas fa-check"></i> Resident status determination & Tax planning.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('NRI Tax', 3999)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>Tax Notice Support</h3>
+          <div class="price-row"><span class="m-price">₹3,499</span><span class="o-price">₹1,999</span></div>
+          <button class="know-more" onclick="toggle('s7')">Know More</button>
+          <div id="s7" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> Section 143(1), 139(9) & Scrutiny replies.</li>
+              <li><i class="fas fa-check"></i> Professional drafting of legal responses.</li>
+              <li><i class="fas fa-check"></i> Minimizing penalties through expert liaison.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('Notice Support', 1999)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>TDS Return Filing</h3>
+          <div class="price-row"><span class="m-price">₹1,499</span><span class="o-price">₹999</span></div>
+          <button class="know-more" onclick="toggle('s8')">Know More</button>
+          <div id="s8" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> 24Q, 26Q & 27Q Quarterly Returns.</li>
+              <li><i class="fas fa-check"></i> Error-free FVU generation & submission.</li>
+              <li><i class="fas fa-check"></i> Form 16/16A generation for deductees.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('TDS Return', 999)">Opt This</button>
         </div>
       </div>
 
-      <h2 class="cat-title">GST Compliance & Returns</h2>
+      <h2 class="cat-title">GST Compliance</h2>
       <div class="grid">
-        <div class="card" style="border-color: var(--primary);">
-          <h3>GST Regular Combo Plan</h3>
-          <div class="price-row"><span class="m-price">₹6,000</span><span class="o-price">₹3,999</span></div>
-          <button class="know-more" onclick="toggle('gstreg')">Know More</button>
-          <div id="gstreg" class="details">
+        <div class="card">
+          <h3>New GST Registration</h3>
+          <div class="price-row"><span class="m-price">₹1,499</span><span class="o-price">₹999</span></div>
+          <button class="know-more" onclick="toggle('s9')">Know More</button>
+          <div id="s9" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> New GST Registration with zero rejection.</li>
-              <li><i class="fas fa-check-circle"></i> 3 Months All Returns Filing (GSTR-1 & 3B).</li>
-              <li><i class="fas fa-check-circle"></i> <strong>FREE</strong> Udyam (MSME) Registration.</li>
-              <li><i class="fas fa-check-circle"></i> Monthly ITC Reconciliation (2A/2B).</li>
+              <li><i class="fas fa-check"></i> Hassle-free Registration with zero rejection.</li>
+              <li><i class="fas fa-check"></i> Expert verification of business documents.</li>
+              <li><i class="fas fa-check"></i> Digital Certificate delivered in 3-7 days.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('GST Regular Combo', 3999)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('GST Reg', 999)">Opt This</button>
+        </div>
+
+        <div class="card" style="border: 1px solid var(--primary);">
+          <h3>GST Regular Combo Plan</h3>
+          <div class="price-row"><span class="m-price">₹5,999</span><span class="o-price">₹3,999</span></div>
+          <button class="know-more" onclick="toggle('s10')">Know More</button>
+          <div id="s10" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> New GST Registration + 3 Months Returns.</li>
+              <li><i class="fas fa-check"></i> FREE Udyam MSME Registration.</li>
+              <li><i class="fas fa-check"></i> Best for New Startups and Small Shops.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('GST Combo', 3999)">Opt This</button>
         </div>
 
         <div class="card">
           <h3>Composition Annual Plan</h3>
-          <div class="price-row"><span class="m-price">₹7,500</span><span class="o-price">₹4,999</span></div>
-          <button class="know-more" onclick="toggle('gstcomp')">Know More</button>
-          <div id="gstcomp" class="details">
+          <div class="price-row"><span class="m-price">₹7,499</span><span class="o-price">₹4,999</span></div>
+          <button class="know-more" onclick="toggle('s11')">Know More</button>
+          <div id="s11" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> All 4 Quarterly Returns (CMP-08) Included.</li>
-              <li><i class="fas fa-check-circle"></i> GSTR-4 Annual Return filing for the full year.</li>
-              <li><i class="fas fa-check-circle"></i> <strong>FREE</strong> Udyam Registration for business.</li>
-              <li><i class="fas fa-check-circle"></i> Complete guidance on tax payment liability.</li>
+              <li><i class="fas fa-check"></i> 4 CMP-08 Quarterly returns included.</li>
+              <li><i class="fas fa-check"></i> Full GSTR-4 Annual Return filing.</li>
+              <li><i class="fas fa-check"></i> Complete annual compliance peace of mind.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('Composition Annual', 4999)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('GST Comp Plan', 4999)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>Monthly GST Filing</h3>
+          <div class="price-row"><span class="m-price">₹1,999</span><span class="o-price">₹1,499</span></div>
+          <button class="know-more" onclick="toggle('s12')">Know More</button>
+          <div id="s12" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> Regular GSTR-1 & GSTR-3B filings.</li>
+              <li><i class="fas fa-check"></i> Monthly 2B Input Tax (ITC) Reconciliation.</li>
+              <li><i class="fas fa-check"></i> Timely alerts to avoid government penalties.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('Monthly GST', 1499)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>Composition Quarterly</h3>
+          <div class="price-row"><span class="m-price">₹1,499</span><span class="o-price">₹999</span></div>
+          <button class="know-more" onclick="toggle('s13')">Know More</button>
+          <div id="s13" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> Fast filing of CMP-08 Quarterly statement.</li>
+              <li><i class="fas fa-check"></i> Accurate tax liability calculation.</li>
+              <li><i class="fas fa-check"></i> Expert review of purchase invoices.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('Comp Quarterly', 999)">Opt This</button>
         </div>
 
         <div class="card">
           <h3>GST Annual Return (GSTR-9)</h3>
           <div class="price-row"><span class="m-price">₹4,999</span><span class="o-price">₹2,499</span></div>
-          <button class="know-more" onclick="toggle('gstr9')">Know More</button>
-          <div id="gstr9" class="details">
+          <button class="know-more" onclick="toggle('s14')">Know More</button>
+          <div id="s14" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> Detailed Audit of full year's outward & inward data.</li>
-              <li><i class="fas fa-check-circle"></i> Reconciliation of 3B vs GSTR-1 vs Books.</li>
-              <li><i class="fas fa-check-circle"></i> Rectification of ITC errors to avoid future notices.</li>
-              <li><i class="fas fa-check-circle"></i> Professional filing to ensure 100% compliance.</li>
+              <li><i class="fas fa-check"></i> Complete year-end audit of sales & ITC.</li>
+              <li><i class="fas fa-check"></i> Reconciliation with GSTR-1 & 3B data.</li>
+              <li><i class="fas fa-check"></i> Rectification of data errors for notice safety.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('GSTR-9 Annual Return', 2499)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('GSTR-9 Annual', 2499)">Opt This</button>
         </div>
-        
+
         <div class="card">
-          <h3>Composition Quarterly Return</h3>
-          <div class="price-row"><span class="m-price">₹1,499</span><span class="o-price">₹999</span></div>
-          <button class="know-more" onclick="toggle('gstq')">Know More</button>
-          <div id="gstq" class="details">
+          <h3>GSTR-9C (Reconciliation)</h3>
+          <div class="price-row"><span class="m-price">₹5,999</span><span class="o-price">₹2,999</span></div>
+          <button class="know-more" onclick="toggle('s15')">Know More</button>
+          <div id="s15" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> Filing of Quarterly Statement CMP-08.</li>
-              <li><i class="fas fa-check-circle"></i> Calculation of tax at fixed low rates.</li>
-              <li><i class="fas fa-check-circle"></i> Timely alerts to avoid late fees.</li>
+              <li><i class="fas fa-check"></i> Audit Report for turnover above 5Cr.</li>
+              <li><i class="fas fa-check"></i> Reconciliation of Books vs GST Returns.</li>
+              <li><i class="fas fa-check"></i> Professional certification of accounts.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('Composition Quarterly', 999)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('GSTR-9C Audit', 2999)">Opt This</button>
         </div>
       </div>
 
-      <h2 class="cat-title">MSME, Banking & DSC</h2>
+      <h2 class="cat-title">Banking & Legal</h2>
       <div class="grid">
         <div class="card">
           <h3>Loan Balance Sheets</h3>
           <div class="price-row"><span class="m-price">₹5,000</span><span class="o-price">₹2,499</span></div>
-          <button class="know-more" onclick="toggle('loan')">Know More</button>
-          <div id="loan" class="details">
+          <button class="know-more" onclick="toggle('s16')">Know More</button>
+          <div id="s16" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> Projected & Provisional P&L and Balance Sheets.</li>
-              <li><i class="fas fa-check-circle"></i> Preparation of CMA Data for Bank Loans (CC/OD).</li>
-              <li><i class="fas fa-check-circle"></i> Guaranteed Bank Acceptable professional format.</li>
-              <li><i class="fas fa-check-circle"></i> Expert consultation based on 20+ years experience.</li>
+              <li><i class="fas fa-check"></i> Projected, Provisional & CMA Data Reports.</li>
+              <li><i class="fas fa-check"></i> Guaranteed Bank Acceptable Professional Format.</li>
+              <li><i class="fas fa-check"></i> Expertly prepared for CC/OD & Business Loans.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('Loan Balance Sheet', 2499)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('Balance Sheet', 2499)">Opt This</button>
         </div>
 
         <div class="card">
           <h3>Udyam (MSME) Registration</h3>
           <div class="price-row"><span class="m-price">₹999</span><span class="o-price">₹399</span></div>
-          <button class="know-more" onclick="toggle('udyam')">Know More</button>
-          <div id="udyam" class="details">
+          <button class="know-more" onclick="toggle('s17')">Know More</button>
+          <div id="s17" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> Instant MSME Certificate for your business.</li>
-              <li><i class="fas fa-check-circle"></i> Access to Government Tenders & Subsidies.</li>
-              <li><i class="fas fa-check-circle"></i> Required for lower interest rates on Bank Loans.</li>
+              <li><i class="fas fa-check"></i> Lifetime Valid Government Business Certificate.</li>
+              <li><i class="fas fa-check"></i> Access to Bank Subsidies & Govt Tenders.</li>
+              <li><i class="fas fa-check"></i> Digital Certificate delivered within 24 hours.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('Udyam Registration', 399)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('Udyam MSME', 399)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>Company/LLP Registration</h3>
+          <div class="price-row"><span class="m-price">₹8,999</span><span class="o-price">₹5,999</span></div>
+          <button class="know-more" onclick="toggle('s18')">Know More</button>
+          <div id="s18" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> Full Pvt Ltd or LLP Registration process.</li>
+              <li><i class="fas fa-check"></i> Includes DSC, DIN, MOA/AOA & PAN/TAN.</li>
+              <li><i class="fas fa-check"></i> End-to-end guidance for new entrepreneurs.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('Company Reg', 5999)">Opt This</button>
         </div>
 
         <div class="card">
           <h3>Digital Signature (DSC)</h3>
-          <div class="price-row"><span class="m-price">₹1,999</span><span class="o-price">₹999</span></div>
-          <button class="know-more" onclick="toggle('dsc')">Know More</button>
-          <div id="dsc" class="details">
+          <div class="price-row"><span class="m-price">₹1,499</span><span class="o-price">₹999</span></div>
+          <button class="know-more" onclick="toggle('s19')">Know More</button>
+          <div id="s19" class="details">
             <ul>
-              <li><i class="fas fa-check-circle"></i> Class 3 DSC with 2 Years Validity.</li>
-              <li><i class="fas fa-check-circle"></i> Secure USB Token (ePass/Watchdata).</li>
-              <li><i class="fas fa-check-circle"></i> Valid for ITR, GST, MCA & E-Tendering.</li>
+              <li><i class="fas fa-check"></i> Class-3 DSC with 2 Years Validity.</li>
+              <li><i class="fas fa-check"></i> Secure USB Token (ePass/Watchdata) included.</li>
+              <li><i class="fas fa-check"></i> Required for MCA, GST, ITR & E-Tendering.</li>
             </ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('DSC Class 3', 999)">Opt This Service</button>
+          <button class="opt-btn" onclick="openBooking('DSC Class 3', 999)">Opt This</button>
+        </div>
+
+        <div class="card">
+          <h3>Trademark Registration</h3>
+          <div class="price-row"><span class="m-price">₹5,999</span><span class="o-price">₹3,999</span></div>
+          <button class="know-more" onclick="toggle('s20')">Know More</button>
+          <div id="s20" class="details">
+            <ul>
+              <li><i class="fas fa-check"></i> Protect your Brand Name & Logo legally.</li>
+              <li><i class="fas fa-check"></i> TM Application filing under correct classes.</li>
+              <li><i class="fas fa-check"></i> Search report and expert legal consultation.</li>
+            </ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('Trademark', 3999)">Opt This</button>
         </div>
       </div>
 
@@ -256,14 +389,12 @@
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
       <h2 id="m_title">Service</h2>
-      <p id="m_price" style="color:var(--success); font-weight:700; margin-bottom:20px;"></p>
-      
-      <form action="PLACEHOLDER_FOR_FORMSPREE" method="POST">
+      <p id="m_price" style="color:var(--success); font-weight:700; margin-bottom:15px;"></p>
+      <form action="PLACEHOLDER_FOR_FORMSPREE_ID" method="POST">
         <input type="hidden" name="Service" id="h_title">
         <input type="text" name="Name" placeholder="Full Name *" required>
         <input type="tel" name="Mobile" placeholder="WhatsApp Number *" required>
         <input type="text" name="Location" placeholder="City & State *" required>
-        <p style="font-size: 11px; color: #777; margin-bottom: 15px;">After payment, our expert will contact you for documents.</p>
         <button type="submit" class="opt-btn">Make Payment</button>
       </form>
     </div>
@@ -272,8 +403,8 @@
   <footer>
     <div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px; max-width:1000px; margin:0 auto;">
       <div><h4>Contact</h4><p>info@taxeasepro.com</p></div>
-      <div><h4>Legal</h4><a href="terms.html" style="color:#666; text-decoration:none;">Terms</a> | <a href="privacy.html" style="color:#666; text-decoration:none;">Privacy</a></div>
-      <div><h4>Quick Links</h4><a href="calculator.html" style="color:#666; text-decoration:none;">Tax Calculator</a></div>
+      <div><h4>Legal</h4><a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a></div>
+      <div><h4>Quick Links</h4><a href="calculator.html">Tax Calculator</a></div>
     </div>
     <p style="margin-top:20px;">© 2025 TaxEasePro. All rights reserved.</p>
   </footer>
@@ -281,20 +412,16 @@
   <script>
     function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
     function closeModal() { document.getElementById('bookingModal').style.display = 'none'; }
-    
-    // Fixed Independent Toggle Function
     function toggle(id) {
       const el = document.getElementById(id);
       el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
-
     function openBooking(title, price) {
       document.getElementById('m_title').innerText = title;
       document.getElementById('m_price').innerText = 'Payable: ₹' + price;
       document.getElementById('h_title').value = title;
       document.getElementById('bookingModal').style.display = 'flex';
     }
-
     window.onclick = function(e) { if(e.target == document.getElementById('bookingModal')) closeModal(); }
   </script>
 </body>
