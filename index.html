@@ -3,189 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=yes">
-    
     <title>TaxEasePro | 2 Decades of Expertise in ITR, GST & MSME Loans</title>
     <meta name="description" content="Get CA-verified tax solutions with 2 decades of professional experience. 100% refund track record and 5000+ happy clients for ITR and GST.">
-    <meta name="keywords" content="Tax consultant, 2 decades experience, ITR filing, GST expert, MSME loan balance sheet, business tax India">
+    <meta name="keywords" content="ITR filing online, GST registration, tax consultant, 2 decades experience, MSME loan, income tax return India">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>const MYWA = '919876543210'; const MYUPI = 'taxgstpro@oksbi';</script>
-
-    <style>
-        /* BASE STYLES FROM YOUR BACKUP */
-        :root { --primary: #667eea; --secondary: #764ba2; --success: #00c853; --dark: #0a0a0f; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; }
-        
-        header { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; background: #111; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; }
-        
-        .main-layout { display: flex; min-height: 100vh; margin-top: 70px; }
-
-        /* SIDEBAR (VERBATIM FROM BACKUP) */
-        .sidebar { width: 280px; background: #111; border-right: 1px solid #222; padding: 25px; position: sticky; top: 70px; height: calc(100vh - 70px); overflow-y: auto; z-index: 999; transition: transform 0.3s ease; }
-        .sidebar-section { margin-bottom: 30px; }
-        .sidebar-section h3 { color: var(--primary); font-size: 16px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        .sidebar ul { list-style: none; }
-        .sidebar ul li { margin-bottom: 12px; }
-        .sidebar ul li a { color: #aaa; text-decoration: none; font-size: 14px; transition: 0.3s; }
-        .sidebar ul li a:hover { color: var(--primary); padding-left: 5px; }
-
-        .content { flex: 1; padding: 40px; background: #000; }
-
-        /* HERO SECTION */
-        .hero { text-align: center; padding: 60px 20px; }
-        .hero h1 { font-size: 42px; margin-bottom: 20px; line-height: 1.2; }
-        .hero p { font-size: 18px; color: #aaa; max-width: 800px; margin: 0 auto 30px; }
-        
-        /* UPDATED BUTTONS */
-        .btn-big { display: inline-block; padding: 15px 35px; border-radius: 50px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(102,126,234,0.3); }
-        .btn-signup { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 8px 20px; border-radius: 20px; color: #fff; text-decoration: none; font-weight: 600; font-size: 13px; }
-
-        /* MODAL */
-        #bookingModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10001; }
-
-        /* MEDIA QUERIES FROM YOUR BACKUP */
-        @media (max-width: 900px) {
-            .nav-links { display: none; }
-            .sidebar { position: fixed; left: -280px; top: 60px; height: calc(100vh - 60px); }
-            .sidebar.open { transform: translateX(280px); }
-        }
-    </style>
+    <script>const MYWA = '919876543210';</script>
+    <script>const MYUPI = 'taxgstpro@oksbi';</script>
 </head>
-<body>
+<body style="margin: 0; padding: 0; background: #000; overflow-x: hidden;">
 
-<header>
-    <div style="display: flex; align-items: center; gap: 15px;">
-        <button id="sidebarToggle" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;"><i class="fas fa-list"></i></button>
-        <div class="logo">
-            <span style="font-size: 22px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <button id="sidebarToggle" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-left: -5px;" title="Sidebar"><i class="fas fa-list"></i></button>
+    
+    <div class="logo" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+        <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto; transition: transform 0.3s;" loading="lazy">
+        <div style="display: flex; flex-direction: column;">
+            <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
+            <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
         </div>
     </div>
-    <nav class="nav-links" style="display: flex; gap: 20px; align-items: center;">
-        <a href="index.html" style="color: var(--primary); text-decoration: none; font-size: 14px;">Home</a>
-        <a href="about.html" style="color: #fff; text-decoration: none; font-size: 14px;">About Us</a>
-        <a href="services.html" style="color: #fff; text-decoration: none; font-size: 14px;">Services</a>
-        <a href="contact.html" style="color: #fff; text-decoration: none; font-size: 14px;">Contact Us</a>
-        <a href="login.html" style="color: #fff; text-decoration: none; font-size: 14px; margin-left: 10px;">Login</a>
-        <a href="signup.html" class="btn-signup">Sign Up Free</a>
+    
+    <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; white-space: nowrap;">
+        <a href="index.html" style="color: #667eea; text-decoration: none; font-weight: 500;">Home</a>
+        <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500;">About Us</a>
+        <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500;">Services</a>
+        <a href="contact.html" style="color: #fff; text-decoration: none; font-weight: 500;">Contact Us</a>
+        <a href="login.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Login</a>
+        <a href="signup.html" class="btn-highlight" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Signup</a>
     </nav>
+    <button id="mobileMenuToggle" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-right: -5px;" title="Menu"><i class="fas fa-bars"></i></button>
 </header>
 
-<div class="main-layout">
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-section">
-            <h3>Support & Contact</h3>
-            <ul>
-                <li><a href="https://wa.me/919876543210"><i class="fab fa-whatsapp"></i> WhatsApp Chat</a></li>
-                <li><a href="tel:+919876543210"><i class="fas fa-phone-alt"></i> Call Expert</a></li>
+<div id="mobileMenu" style="display: none; position: fixed; top: 60px; right: 0; width: 80%; max-width: 300px; height: calc(100vh - 60px); background: #111; z-index: 1001; padding: 10px 0; box-shadow: -2px 0 10px rgba(0,0,0,0.3); transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto;">
+    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column;">
+        <li><a href="index.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333;">Home</a></li>
+        <li><a href="about.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333;">About Us</a></li>
+        <li><a href="services.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333;">Services</a></li>
+        <li><a href="contact.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333;">Contact Us</a></li>
+    </ul>
+</div>
+
+<div class="main-layout" style="min-height: calc(100vh - 60px); margin-top: 100px; display: flex;">
+
+    <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; position: sticky; top: 0; height: calc(100vh - 60px);">
+        <div class="sidebar-section" style="margin-bottom: 30px;">
+            <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Quick Navigation</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li><a href="services.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">Services</a></li>
+                <li><a href="calculator.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">Tax Calculator</a></li>
+                <li><a href="#quickFAQs" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0;">FAQs</a></li>
             </ul>
         </div>
-        <div class="sidebar-section">
-            <h3>Quick Services</h3>
-            <ul>
-                <li><a href="services.html">ITR Filing</a></li>
-                <li><a href="services.html">GST Returns</a></li>
-                <li><a href="services.html">MSME Balance Sheet</a></li>
-                <li><a href="calculator.html">Tax Calculator</a></li>
+        <div class="sidebar-section" style="margin-bottom: 30px;">
+            <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Support Contact</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li><a href="https://wa.me/919876543210" target="_blank" style="color: #00c853; text-decoration: none; display: block; padding: 8px 0;"><i class="fab fa-whatsapp" style="margin-right: 8px;"></i>WhatsApp Chat</a></li>
+                <li><a href="mailto:info@taxeasepro.com" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0;"><i class="fas fa-envelope" style="margin-right: 8px;"></i>Email Support</a></li>
             </ul>
         </div>
-        <div class="sidebar-section">
-            <h3>Experience</h3>
-            <p style="font-size: 12px; color: #666; font-style: italic;">Serving clients with excellence since 2005.</p>
+        <div style="margin-top: 15px; display: flex; gap: 20px; font-size: 14px; color: #aaa;">
+            <span><i class="fas fa-users" style="color: #667eea;"></i> 5,000+ Clients</span>
+            <span><i class="fas fa-star" style="color: #667eea;"></i> 4.95 Rating</span>
         </div>
     </aside>
 
-    <main class="content">
-        <section class="hero">
-            <div style="margin-bottom: 20px;"><span style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 12px; color: var(--primary); font-weight: 700;">TRUSTED FOR 2 DECADES</span></div>
-            <h1>Expert Tax & Financial Solutions <br><span style="color: var(--primary);">Built on 20+ Years of Trust</span></h1>
-            <p>Providing professional ITR, GST, and MSME loan consultancy to 5,000+ happy clients. Get accuracy and peace of mind with our CA-verified experts.</p>
-            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                <a href="javascript:void(0)" onclick="document.getElementById('bookingModal').style.display='block'" class="btn-big">Get Free Consultation</a>
-                <a href="services.html" style="padding: 15px 35px; border-radius: 50px; border: 1px solid #444; color: #fff; text-decoration: none; font-weight: 600;">Explore Services</a>
+    <main class="content" style="flex: 1; background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%); padding: 0 20px 20px; overflow-y: auto; position: relative; z-index: 1;">
+
+        <section class="hero" style="padding: 0 20px 40px; text-align: center;">
+            <h1 style="font-size: 45px; margin-bottom: 20px; animation: fadeInUp 1s ease-out;">Expert Tax Solutions <span style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Starting at ₹499</span></h1>
+            <p style="font-size: 20px; color: #ccc; margin: 20px 0;">2 Decades of Excellence | 5,000+ happy clients | CA-verified</p>
+            <div style="margin: 40px 0; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="javascript:void(0)" onclick="openBookingForm(0, 'Free Consultation')" class="btn-big btn-primary" style="padding: 18px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; text-decoration: none; background: linear-gradient(135deg, #667eea, #764ba2); color: white;">Get Free Consultation</a>
+                <a href="services.html" class="btn-big btn-primary" style="padding: 18px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; text-decoration: none; background: rgba(255,255,255,0.1); color: white;">View All Services</a>
+                <a href="https://wa.me/919876543210" target="_blank" class="btn-big btn-upi" style="padding: 18px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; text-decoration: none; background: linear-gradient(135deg, #00c853, #64dd17); color: white;">Chat on WhatsApp</a>
             </div>
         </section>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 50px;">
-            <div style="background: #111; padding: 30px; border-radius: 20px; border: 1px solid #222;">
-                <i class="fas fa-university" style="color: var(--primary); font-size: 32px; margin-bottom: 20px;"></i>
-                <h3>ITR Filing Experts</h3>
-                <p style="color: #777; font-size: 14px; margin-top: 10px;">End-to-end filing with 100% refund track record and audit support.</p>
+        <section class="container" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto;">
+            <h2 style="text-align: center; margin-bottom: 30px; font-size: 32px; color: white;">Most Popular Services</h2>
+            <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                <div class="glass card" onclick="openBookingForm(999,'Salaried Super Saver')">
+                    <i class="fas fa-file-invoice" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                    <h3>Salaried ITR</h3>
+                    <p class="price" style="font-size: 24px; color: #667eea; font-weight: bold;">₹999</p>
+                    <p style="color: #ddd; font-size: 14px;">Filing in 24 hrs | CA Verified</p>
+                </div>
+                <div class="glass card" onclick="openBookingForm(999,'New GST Registration')">
+                    <i class="fas fa-certificate" style="font-size: 40px; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                    <h3>GST Registration</h3>
+                    <p class="price" style="font-size: 24px; color: #667eea; font-weight: bold;">₹999</p>
+                    <p style="color: #ddd; font-size: 14px;">Complete in 3-5 days</p>
+                </div>
             </div>
-            <div style="background: #111; padding: 30px; border-radius: 20px; border: 1px solid #222;">
-                <i class="fas fa-chart-line" style="color: var(--primary); font-size: 32px; margin-bottom: 20px;"></i>
-                <h3>MSME Loan Support</h3>
-                <p style="color: #777; font-size: 14px; margin-top: 10px;">Professional Balance Sheets and Project Reports for bank loan approvals.</p>
-            </div>
-            <div style="background: #111; padding: 30px; border-radius: 20px; border: 1px solid #222;">
-                <i class="fas fa-shield-alt" style="color: var(--primary); font-size: 32px; margin-bottom: 20px;"></i>
-                <h3>GST Compliance</h3>
-                <p style="color: #777; font-size: 14px; margin-top: 10px;">Timely GST returns and new registrations with zero penalty assurance.</p>
-            </div>
-        </div>
+        </section>
+
     </main>
 </div>
 
-<footer style="background: #0a0a0a; border-top: 1px solid #222; padding: 60px 5% 20px;">
+<footer style="background: #000; padding: 60px 5% 20px; border-top: 1px solid #333; color: #666; font-size: 13px;">
     <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
         <div>
-            <h4 style="color: var(--primary); margin-bottom: 20px;">TaxEasePro</h4>
-            <p style="font-size: 13px; color: #666;">2 Decades of excellence in tax and finance. Professionalism you can count on since 2005.</p>
+            <h4 style="color: #fff; margin-bottom: 20px;">TaxEasePro</h4>
+            <p>Providing professional tax solutions since 2005. 2 Decades of trust and financial security.</p>
         </div>
         <div>
             <h4 style="color: #fff; margin-bottom: 20px;">Quick Links</h4>
-            <ul style="list-style: none; font-size: 13px;">
-                <li style="margin-bottom: 10px;"><a href="services.html" style="color: #666; text-decoration: none;">All Services</a></li>
-                <li style="margin-bottom: 10px;"><a href="about.html" style="color: #666; text-decoration: none;">About Us</a></li>
-                <li style="margin-bottom: 10px;"><a href="contact.html" style="color: #666; text-decoration: none;">Contact Us</a></li>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px;"><a href="services.html" style="color: #667eea; text-decoration: none;">All Services</a></li>
+                <li style="margin-bottom: 10px;"><a href="about.html" style="color: #667eea; text-decoration: none;">About Us</a></li>
+                <li style="margin-bottom: 10px;"><a href="contact.html" style="color: #667eea; text-decoration: none;">Contact Us</a></li>
             </ul>
         </div>
         <div>
             <h4 style="color: #fff; margin-bottom: 20px;">Contact Us</h4>
-            <p style="font-size: 13px; color: #666;"><i class="fas fa-phone-alt"></i> +91 98765 43210</p>
-            <p style="font-size: 13px; color: #666; margin-top: 10px;"><i class="fas fa-envelope"></i> info@taxeasepro.com</p>
-            <p style="font-size: 13px; color: #666; margin-top: 10px;"><i class="fas fa-map-marker-alt"></i> Delhi NCR, India</p>
+            <p><i class="fas fa-phone-alt"></i> +91 98765 43210</p>
+            <p style="margin-top: 10px;"><i class="fas fa-envelope"></i> info@taxeasepro.com</p>
+            <p style="margin-top: 10px;"><i class="fas fa-map-marker-alt"></i> Delhi NCR, India</p>
         </div>
         <div>
-            <h4 style="color: #fff; margin-bottom: 20px;">Follow Us</h4>
-            <div style="display: flex; gap: 15px; font-size: 18px; color: #444;">
+            <h4 style="color: #fff; margin-bottom: 20px;">Social</h4>
+            <div style="display: flex; gap: 15px; font-size: 20px;">
                 <i class="fab fa-facebook"></i> <i class="fab fa-linkedin"></i> <i class="fab fa-instagram"></i>
             </div>
         </div>
     </div>
-    <div style="text-align: center; margin-top: 50px; border-top: 1px solid #111; padding-top: 20px; font-size: 12px; color: #333;">
-        © 2025 TaxEasePro. All rights reserved. Professional Tax Solutions.
+    <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #111;">
+        © 2025 TaxEasePro. All rights reserved.
     </div>
 </footer>
 
-<div id="bookingModal">
-    <div style="max-width: 400px; margin: 100px auto; background: #111; padding: 35px; border-radius: 20px; border: 1px solid #333; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
-        <h2 style="margin-bottom: 10px;">Free Consultation</h2>
-        <p style="font-size: 14px; color: #888; margin-bottom: 25px;">Hamare experts aapko jald hi call back karenge.</p>
-        <input type="text" placeholder="Your Name" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: none; color: #fff; border-radius: 8px;">
-        <input type="tel" placeholder="Mobile Number" style="width: 100%; padding: 12px; margin-bottom: 25px; background: #222; border: none; color: #fff; border-radius: 8px;">
-        <button style="width: 100%; padding: 14px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Request Call Back</button>
-        <button onclick="document.getElementById('bookingModal').style.display='none'" style="width: 100%; background: none; border: none; color: #555; margin-top: 15px; cursor: pointer;">Close</button>
+<div id="bookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px; overflow-y: auto;">
+    <div style="background: #111; border-radius: 20px; max-width: 420px; margin: 40px auto; padding: 30px; color: white;">
+        <h2 id="modalService"></h2>
+        <p>Consultation Amount: ₹<span id="modalAmt"></span></p>
+        <input type="text" id="name" placeholder="Full Name" style="width: 100%; padding: 14px; margin: 12px 0; border-radius: 12px; border: none; background: #222; color: #fff;">
+        <input type="tel" id="phone" placeholder="Mobile Number" style="width: 100%; padding: 14px; margin: 12px 0; border-radius: 12px; border: none; background: #222; color: #fff;">
+        <button onclick="submitBooking()" style="width: 100%; padding: 16px; background: #00c853; color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer;">Confirm Now</button>
+        <button onclick="document.getElementById('bookingModal').style.display='none'" style="width: 100%; background: none; border: none; color: #555; margin-top: 10px;">Cancel</button>
     </div>
 </div>
 
 <script>
-    // SIDEBAR TOGGLE (ORIGINAL LOGIC)
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('sidebarToggle');
+    // Preserved Logic
+    let amt = 0, service = '';
+    function openBookingForm(amount, serviceName) {
+        amt = amount; service = serviceName;
+        document.getElementById('modalAmt').textContent = amount;
+        document.getElementById('modalService').textContent = serviceName;
+        document.getElementById('bookingModal').style.display = 'block';
+    }
+    function submitBooking() {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const waMsg = `NEW BOOKING\nService: ${service}\nName: ${name}\nPhone: ${phone}`;
+        window.open(`https://wa.me/${MYWA}?text=${encodeURIComponent(waMsg)}`, '_blank');
+        document.getElementById('bookingModal').style.display = 'none';
+    }
 
-    toggleBtn.addEventListener('click', () => {
+    // Sidebar & Mobile Toggle (Preserved)
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    sidebarToggle.addEventListener('click', () => {
         sidebar.classList.toggle('open');
     });
 
-    // Close modal on outside click
-    window.onclick = function(event) {
-        let modal = document.getElementById('bookingModal');
-        if (event.target == modal) { modal.style.display = "none"; }
-    }
+    window.addEventListener('resize', () => {
+        const isMobile = window.innerWidth <= 768;
+        sidebarToggle.style.display = isMobile ? 'block' : 'none';
+        document.getElementById('desktopNav').style.display = isMobile ? 'none' : 'flex';
+    });
 </script>
+
+<style>
+    /* Preserved CSS Classes */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; }
+    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
+    .glass:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2); }
+    .btn-big { transition: transform 0.3s; }
+    @media (max-width: 768px) {
+        .sidebar { position: fixed !important; transform: translateX(-100%); z-index: 1002; }
+        .sidebar.open { transform: translateX(0) !important; }
+        #sidebarToggle { display: block !important; }
+    }
+</style>
 
 </body>
 </html>
