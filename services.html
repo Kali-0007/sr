@@ -3,334 +3,272 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Services - TaxEasePro</title>
+  <title>Services - TaxEasePro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root { --primary: #667eea; --secondary: #764ba2; --success: #00c853; --dark: #0a0a0f; }
+    :root { --primary: #667eea; --secondary: #764ba2; --success: #00c853; --dark-bg: #0a0a0f; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.5; overflow-x: hidden; }
 
-    /* Header & Navigation */
+    /* Header & Mobile Menu Logic */
     header {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 15px 5%; background: rgba(10, 10, 15, 0.95);
-      position: fixed; top: 0; width: 100%; z-index: 1000;
-      border-bottom: 1px solid #222; backdrop-filter: blur(10px);
+      padding: 10px 5%; background: #111; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222;
     }
-    .logo-box { display: flex; align-items: center; gap: 10px; }
-    .nav-links { display: flex; gap: 25px; align-items: center; }
-    .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; transition: 0.3s; font-weight: 500; }
-    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-links { display: flex; gap: 20px; align-items: center; }
+    .nav-links a { color: #fff; text-decoration: none; font-size: 14px; }
+    .mobile-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--primary); }
     
-    .mobile-btn { display: none; color: #fff; font-size: 24px; cursor: pointer; }
-    
-    .mobile-nav {
-      position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
-      background: #111; padding: 80px 30px; display: flex; flex-direction: column;
-      gap: 20px; transition: 0.4s; z-index: 999; border-left: 1px solid #222;
+    .mobile-menu {
+      position: fixed; top: 0; right: -100%; width: 250px; height: 100vh; background: #111;
+      padding: 70px 20px; display: flex; flex-direction: column; gap: 20px; transition: 0.4s; z-index: 999;
     }
-    .mobile-nav.active { right: 0; }
+    .mobile-menu.active { right: 0; }
 
-    /* Layout Sections */
-    .hero-section { padding: 120px 5% 40px; text-align: center; background: radial-gradient(circle at top, #1a1a2e, #000); }
-    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-    .category-title { margin: 40px 0 20px; padding-left: 15px; border-left: 4px solid var(--primary); font-size: 24px; color: #fff; }
+    /* Main Content Styling */
+    .page-wrapper { padding: 90px 20px 40px; background: radial-gradient(circle at top right, #1a1a2e, #000); min-height: 100vh; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-title { text-align: center; margin-bottom: 30px; font-size: 28px; }
 
-    /* Service Cards */
-    .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+    /* Compact Service Cards */
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
     .card { 
-      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
-      border-radius: 18px; padding: 25px; transition: 0.3s; display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
+      border-radius: 12px; padding: 15px; transition: 0.3s; height: fit-content;
     }
-    .card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(255,255,255,0.05); }
+    .card h3 { font-size: 17px; color: #fff; margin-bottom: 5px; }
+    .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+    .m-price { text-decoration: line-through; color: #666; font-size: 12px; }
+    .o-price { font-size: 20px; font-weight: 700; color: var(--success); }
+
+    .know-more-btn { background: none; border: 1px solid var(--primary); color: var(--primary); padding: 4px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
     
-    .price-row { margin: 15px 0; display: flex; align-items: baseline; gap: 10px; }
-    .m-price { text-decoration: line-through; color: #666; font-size: 14px; }
-    .o-price { font-size: 24px; font-weight: 700; color: var(--success); }
+    /* Important: Independent Expansion Fix */
+    .details-pane { display: none; padding: 10px 0; border-top: 1px solid #222; margin-top: 5px; }
+    .details-pane ul { list-style: none; font-size: 12px; color: #bbb; }
+    .details-pane li { margin-bottom: 5px; display: flex; gap: 6px; }
+    .details-pane i { color: var(--success); font-size: 10px; margin-top: 3px; }
 
-    .know-more-btn { background: none; border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-bottom: 10px; width: fit-content; }
-    .details-pane { display: none; padding: 15px 0; border-top: 1px solid #222; margin-top: 10px; animation: fadeIn 0.3s; }
-    .details-pane ul { list-style: none; font-size: 13px; color: #aaa; }
-    .details-pane li { margin-bottom: 8px; display: flex; gap: 8px; }
-    .details-pane i { color: var(--success); font-size: 12px; margin-top: 4px; }
+    .opt-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 700; font-size: 14px; }
 
-    .opt-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 700; margin-top: auto; }
+    /* Modal Styling */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; }
+    .modal-content { background: #111; width: 90%; max-width: 400px; padding: 25px; border-radius: 15px; border: 1px solid #333; position: relative; }
+    .modal-content input { width: 100%; padding: 10px; margin-bottom: 10px; background: #222; border: 1px solid #333; color: #fff; border-radius: 6px; }
+    .close-modal { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; color: #666; }
 
-    /* Footer Styles */
-    footer { background: #0a0a0f; border-top: 1px solid #222; padding: 60px 5% 20px; margin-top: 80px; }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
-    .footer-col h4 { color: #fff; margin-bottom: 20px; font-size: 18px; }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 12px; }
-    .footer-col ul li a { color: #888; text-decoration: none; font-size: 14px; transition: 0.3s; }
-    .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
-    .social-links { display: flex; gap: 15px; margin-top: 20px; }
-    .social-links a { color: #fff; background: #222; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
-    .social-links a:hover { background: var(--primary); }
-
-    /* Modal */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
-    .modal-content { background: #111; width: 100%; max-width: 450px; padding: 30px; border-radius: 20px; border: 1px solid #333; position: relative; }
-    .modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #333; color: #fff; border-radius: 8px; }
-    .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #666; }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
+    /* Footer Restore */
+    footer { padding: 30px 10px; background: #000; color: #666; border-top: 1px solid #333; margin-top: 50px; text-align: center;}
+    
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .mobile-btn { display: block; }
+      .mobile-toggle { display: block; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo-box">
-      <img src="logo.png" alt="Logo" style="height: 40px;">
-      <span style="font-size: 20px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
+    <div class="logo" style="display: flex; align-items: center; gap: 8px;">
+      <img src="logo.png" alt="TaxEasePro" style="height: 40px;">
+      <span style="font-size: 18px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
     </div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
-      <a href="services.html" class="active">Services</a>
-      <a href="calculator.html">Calculator</a>
+      <a href="services.html" style="color:var(--primary)">Services</a>
       <a href="contact.html">Contact</a>
-      <a href="signup.html" style="background: var(--primary); color: #fff; padding: 8px 20px; border-radius: 20px;">Signup</a>
+      <a href="signup.html" style="background:var(--primary); padding:5px 15px; border-radius:20px;">Signup</a>
     </nav>
-    <div class="mobile-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    <i class="fas fa-bars mobile-toggle" onclick="toggleMobileMenu()"></i>
   </header>
 
-  <div class="mobile-nav" id="mobileNav">
+  <div class="mobile-menu" id="mobileMenu">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="services.html">Services</a>
-    <a href="calculator.html">Calculator</a>
     <a href="contact.html">Contact</a>
-    <a href="signup.html" style="color: var(--primary);">Create Account</a>
+    <a href="signup.html">Signup</a>
   </div>
 
-  <main>
-    <section class="hero-section">
-      <h1>Transparent Pricing, Expert Service</h1>
-      <p style="color: #888; margin-top: 10px;">Select a service to see details and start your filing process.</p>
-    </section>
-
+  <main class="page-wrapper">
     <div class="container">
+      <h1 class="section-title">Our Expert Services</h1>
       
-      <h2 class="category-title">Income Tax Services</h2>
       <div class="service-grid">
+        
         <div class="card">
           <h3>ITR-1 (Salaried)</h3>
           <div class="price-row"><span class="m-price">₹1,299</span><span class="o-price">₹899</span></div>
-          <button class="know-more-btn" onclick="toggleDetails('s1')">Know More</button>
-          <div id="s1" class="details-pane">
-            <ul>
-              <li><i class="fas fa-check"></i> Salary & House Property Income</li>
-              <li><i class="fas fa-check"></i> Form 16 & AIS Verification</li>
-              <li><i class="fas fa-check"></i> Maximum Refund Processing</li>
-            </ul>
+          <button class="know-more-btn" onclick="toggleDetails('itr1')">Know More</button>
+          <div id="itr1" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Salary & House Property</li><li><i class="fas fa-check"></i> Max Refund Guarantee</li></ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('ITR-1 Salaried', 899)">Opt Service</button>
+          <button class="opt-btn" onclick="openBooking('ITR-1', 899)">Opt Now</button>
         </div>
 
         <div class="card">
-          <h3>ITR-4 (Business/Prof.)</h3>
-          <div class="price-row"><span class="m-price">₹2,499</span><span class="o-price">₹1,499</span></div>
-          <button class="know-more-btn" onclick="toggleDetails('s2')">Know More</button>
-          <div id="s2" class="details-pane">
-            <ul>
-              <li><i class="fas fa-check"></i> Presumptive Taxation (44AD/ADA)</li>
-              <li><i class="fas fa-check"></i> Small Business & Freelancers</li>
-              <li><i class="fas fa-check"></i> Profit/Loss Audit Check</li>
-            </ul>
+          <h3>ITR-2 (Capital Gains)</h3>
+          <div class="price-row"><span class="m-price">₹2,999</span><span class="o-price">₹1,999</span></div>
+          <button class="know-more-btn" onclick="toggleDetails('itr2')">Know More</button>
+          <div id="itr2" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Share Market & Property</li><li><i class="fas fa-check"></i> Multiple House Income</li></ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('ITR-4 Business', 1499)">Opt Service</button>
+          <button class="opt-btn" onclick="openBooking('ITR-2', 1999)">Opt Now</button>
+        </div>
+
+        <div class="card">
+          <h3>ITR-3 (Complex Business)</h3>
+          <div class="price-row"><span class="m-price">₹3,499</span><span class="o-price">₹2,499</span></div>
+          <button class="know-more-btn" onclick="toggleDetails('itr3')">Know More</button>
+          <div id="itr3" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Audit & Partner Cases</li><li><i class="fas fa-check"></i> Balance Sheet Inclusion</li></ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('ITR-3', 2499)">Opt Now</button>
+        </div>
+
+        <div class="card">
+          <h3>ITR-4 (Presumptive)</h3>
+          <div class="price-row"><span class="m-price">₹2,499</span><span class="o-price">₹1,499</span></div>
+          <button class="know-more-btn" onclick="toggleDetails('itr4')">Know More</button>
+          <div id="itr4" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Small Business 44AD</li><li><i class="fas fa-check"></i> Professional 44ADA</li></ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('ITR-4', 1499)">Opt Now</button>
         </div>
 
         <div class="card">
           <h3>Tax Notice Support</h3>
-          <div class="price-row"><span class="m-price">₹2,999</span><span class="o-price">₹1,999</span></div>
-          <button class="know-more-btn" onclick="toggleDetails('s3')">Know More</button>
-          <div id="s3" class="details-pane">
-            <ul>
-              <li><i class="fas fa-check"></i> Notice Reply Drafting</li>
-              <li><i class="fas fa-check"></i> Section 143(1), 139(9) Experts</li>
-              <li><i class="fas fa-check"></i> Scrutiny Case Consultation</li>
-            </ul>
+          <div class="price-row"><span class="m-price">₹3,499</span><span class="o-price">₹1,999</span></div>
+          <button class="know-more-btn" onclick="toggleDetails('notice')">Know More</button>
+          <div id="notice" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Expert Drafting Reply</li><li><i class="fas fa-check"></i> Scrutiny Case Handling</li></ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('Tax Notice Support', 1999)">Opt Service</button>
+          <button class="opt-btn" onclick="openBooking('Notice Support', 1999)">Opt Now</button>
         </div>
-      </div>
 
-      <h2 class="category-title">GST Compliance</h2>
-      <div class="service-grid">
         <div class="card">
-          <span style="background:var(--secondary); font-size:10px; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:10px;">BEST SELLER</span>
+          <h3>New GST Reg.</h3>
+          <div class="price-row"><span class="m-price">₹1,499</span><span class="o-price">₹999</span></div>
+          <button class="know-more-btn" onclick="toggleDetails('gstreg')">Know More</button>
+          <div id="gstreg" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Zero Rejection Process</li><li><i class="fas fa-check"></i> Digital Certificate Delivery</li></ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('GST Reg', 999)">Opt Now</button>
+        </div>
+
+        <div class="card" style="border-color: var(--primary);">
           <h3>GST Regular Combo</h3>
           <div class="price-row"><span class="m-price">₹5,999</span><span class="o-price">₹3,999</span></div>
-          <button class="know-more-btn" onclick="toggleDetails('s4')">Know More</button>
-          <div id="s4" class="details-pane">
-            <ul>
-              <li><i class="fas fa-check"></i> New GST Registration</li>
-              <li><i class="fas fa-check"></i> 3 Months Returns Included</li>
-              <li><i class="fas fa-check"></i> FREE Udyam Registration</li>
-            </ul>
+          <button class="know-more-btn" onclick="toggleDetails('gstcombo')">Know More</button>
+          <div id="gstcombo" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Reg + 3 Months Filing</li><li><i class="fas fa-check"></i> FREE Udyam Registration</li></ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('GST Regular Combo', 3999)">Opt Service</button>
+          <button class="opt-btn" onclick="openBooking('GST Regular Combo', 3999)">Opt Now</button>
         </div>
 
         <div class="card">
-          <h3>Composition Annual Plan</h3>
-          <div class="price-row"><span class="m-price">₹7,000</span><span class="o-price">₹4,999</span></div>
-          <button class="know-more-btn" onclick="toggleDetails('s5')">Know More</button>
-          <div id="s5" class="details-pane">
-            <ul>
-              <li><i class="fas fa-check"></i> All 4 Quarter Returns (CMP-08)</li>
-              <li><i class="fas fa-check"></i> GSTR-4 Annual Filing</li>
-              <li><i class="fas fa-check"></i> FREE MSME Registration</li>
-            </ul>
+          <h3>GST Composition Combo</h3>
+          <div class="price-row"><span class="m-price">₹7,499</span><span class="o-price">₹4,999</span></div>
+          <button class="know-more-btn" onclick="toggleDetails('gstcomp')">Know More</button>
+          <div id="gstcomp" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> 4 Quarters + GSTR-4</li><li><i class="fas fa-check"></i> Complete Annual Compliance</li></ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('GST Composition Annual', 4999)">Opt Service</button>
+          <button class="opt-btn" onclick="openBooking('GST Composition Combo', 4999)">Opt Now</button>
         </div>
 
         <div class="card">
-          <h3>Annual Return (GSTR-9)</h3>
-          <div class="price-row"><span class="m-price">₹4,999</span><span class="o-price">₹2,499</span></div>
-          <button class="know-more-btn" onclick="toggleDetails('s6')">Know More</button>
-          <div id="s6" class="details-pane">
-            <ul>
-              <li><i class="fas fa-check"></i> Yearly Data Reconciliation</li>
-              <li><i class="fas fa-check"></i> ITC Error Checking</li>
-              <li><i class="fas fa-check"></i> Penalty Protection Audit</li>
-            </ul>
+          <h3>Monthly GST Filing</h3>
+          <div class="price-row"><span class="m-price">₹1,999</span><span class="o-price">₹1,499</span></div>
+          <button class="know-more-btn" onclick="toggleDetails('gstmonth')">Know More</button>
+          <div id="gstmonth" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> GSTR-1 & 3B Filing</li><li><i class="fas fa-check"></i> 2B ITC Reconciliation</li></ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('GSTR-9 Annual Return', 2499)">Opt Service</button>
+          <button class="opt-btn" onclick="openBooking('Monthly GST', 1499)">Opt Now</button>
         </div>
-      </div>
 
-      <h2 class="category-title">MSME & Banking</h2>
-      <div class="service-grid">
         <div class="card">
           <h3>Loan Balance Sheets</h3>
           <div class="price-row"><span class="m-price">₹5,000</span><span class="o-price">₹2,499</span></div>
-          <button class="know-more-btn" onclick="toggleDetails('s7')">Know More</button>
-          <div id="s7" class="details-pane">
-            <ul>
-              <li><i class="fas fa-check"></i> Projected & Provisional Reports</li>
-              <li><i class="fas fa-check"></i> Certified for Bank Loans</li>
-              <li><i class="fas fa-check"></i> 20+ Years Expertise Check</li>
-            </ul>
+          <button class="know-more-btn" onclick="toggleDetails('bal')">Know More</button>
+          <div id="bal" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Projected/Provisional</li><li><i class="fas fa-check"></i> Bank Ready Format</li></ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('Loan Balance Sheets', 2499)">Opt Service</button>
+          <button class="opt-btn" onclick="openBooking('Loan Balance Sheet', 2499)">Opt Now</button>
         </div>
 
         <div class="card">
           <h3>Udyam (MSME) Reg.</h3>
           <div class="price-row"><span class="m-price">₹999</span><span class="o-price">₹399</span></div>
-          <button class="know-more-btn" onclick="toggleDetails('s8')">Know More</button>
-          <div id="s8" class="details-pane">
-            <ul>
-              <li><i class="fas fa-check"></i> Government MSME Certificate</li>
-              <li><i class="fas fa-check"></i> Access to Subsidy & Schemes</li>
-              <li><i class="fas fa-check"></i> Fast Delivery (24 Hours)</li>
-            </ul>
+          <button class="know-more-btn" onclick="toggleDetails('udyam')">Know More</button>
+          <div id="udyam" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> Govt Certificate Delivery</li><li><i class="fas fa-check"></i> Fast Track Processing</li></ul>
           </div>
-          <button class="opt-btn" onclick="openBooking('Udyam Registration', 399)">Opt Service</button>
+          <button class="opt-btn" onclick="openBooking('Udyam Reg', 399)">Opt Now</button>
         </div>
-      </div>
 
+        <div class="card">
+          <h3>DSC (Class 3)</h3>
+          <div class="price-row"><span class="m-price">₹1,499</span><span class="o-price">₹999</span></div>
+          <button class="know-more-btn" onclick="toggleDetails('dsc')">Know More</button>
+          <div id="dsc" class="details-pane">
+            <ul><li><i class="fas fa-check"></i> 2 Years Validity</li><li><i class="fas fa-check"></i> For GST/Income Tax/MCA</li></ul>
+          </div>
+          <button class="opt-btn" onclick="openBooking('DSC', 999)">Opt Now</button>
+        </div>
+
+      </div>
     </div>
   </main>
 
   <div id="bookingModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
-      <h2 id="m_title">Service</h2>
-      <p id="m_price" style="color:var(--success); font-weight:700; margin-bottom:20px;"></p>
-      
-      <form action="https://formspree.io/f/YOUR_ID_HERE" method="POST">
-        <input type="hidden" name="Service_Name" id="h_title">
-        <input type="hidden" name="Price" id="h_price">
+      <h2 id="modalTitle">Service</h2>
+      <p id="modalPrice" style="color:var(--success); font-weight:700; margin-bottom:15px;"></p>
+      <form action="PLACEHOLDER_FOR_FORMSPREE_ID" method="POST">
+        <input type="hidden" name="Service" id="h_service">
         <input type="text" name="Name" placeholder="Full Name *" required>
-        <input type="tel" name="Mobile" placeholder="WhatsApp Number *" required>
-        <input type="email" name="Email" placeholder="Email Address *" required>
+        <input type="tel" name="Mobile" placeholder="Mobile Number *" required>
         <input type="text" name="City" placeholder="City & State *" required>
-        
-        <p style="font-size: 11px; color: #666; margin-bottom: 15px;">
-          * After payment, our expert team will contact you within 2 business hours for document collection.
-        </p>
-        <button type="submit" class="opt-btn" style="width: 100%;">Secure Payment</button>
+        <button type="submit" class="opt-btn">Make Payment</button>
       </form>
     </div>
   </div>
 
   <footer>
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4 style="color:var(--primary)">TaxEasePro</h4>
-        <p style="font-size:13px; color:#666;">Serving clients since 2005. Expertise you can trust, prices you can afford.</p>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="calculator.html">Tax Calculator</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-          <li><a href="refund.html">Refund Policy</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Support</h4>
-        <ul>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="faq.html">FAQs</a></li>
-          <li><a href="login.html">Client Login</a></li>
-        </ul>
-      </div>
+    <div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px; max-width:1000px; margin:0 auto;">
+      <div><h4>Contact</h4><p>info@taxeasepro.com</p></div>
+      <div><h4>Legal</h4><a href="terms.html" style="color:#666; text-decoration:none;">Terms</a> | <a href="privacy.html" style="color:#666; text-decoration:none;">Privacy</a></div>
+      <div><h4>Quick Links</h4><a href="calculator.html" style="color:#666; text-decoration:none;">Tax Calculator</a></div>
     </div>
-    <div style="text-align:center; padding-top:40px; border-top:1px solid #222; margin-top:40px; font-size:12px; color:#444;">
-      © 2025 TaxEasePro. All rights reserved. Registered Tax Consultants.
-    </div>
+    <p style="margin-top:20px;">© 2025 TaxEasePro. All rights reserved.</p>
   </footer>
 
   <script>
-    function toggleMenu() {
-      document.getElementById('mobileNav').classList.toggle('active');
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('active');
     }
 
     function toggleDetails(id) {
       const el = document.getElementById(id);
+      // Close all other panes first (Optional, for cleaner look)
+      document.querySelectorAll('.details-pane').forEach(p => {
+        if(p.id !== id) p.style.display = 'none';
+      });
       el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 
     function openBooking(title, price) {
-      document.getElementById('m_title').innerText = title;
-      document.getElementById('m_price').innerText = 'Payable Amount: ₹' + price;
-      document.getElementById('h_title').value = title;
-      document.getElementById('h_price').value = '₹' + price;
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalPrice').innerText = 'Price: ₹' + price;
+      document.getElementById('h_service').value = title;
       document.getElementById('bookingModal').style.display = 'flex';
     }
 
     function closeModal() {
       document.getElementById('bookingModal').style.display = 'none';
-    }
-
-    window.onclick = function(e) {
-      if(e.target == document.getElementById('bookingModal')) closeModal();
     }
   </script>
 </body>
