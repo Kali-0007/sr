@@ -122,7 +122,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 });
 
 // --- MODAL HELPERS ---
-function openModal(id) { document.getElementById(id).style.display = "block"; }
+function openModal(id) { 
+  document.getElementById(id).style.display = "block"; 
+  // Clear messages and reset steps when opening
+  if(id === 'passwordModal') {
+    document.getElementById('step1').style.display = "block";
+    document.getElementById('step2').style.display = "none";
+    document.getElementById('forgotPassMsg').textContent = "";
+  }
+}
 function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
 // --- FORGOT USERNAME LOGIC ---
@@ -145,16 +153,32 @@ async function handleForgotUsername() {
 // --- FORGOT PASSWORD LOGIC ---
 async function handleSendResetOTP() {
   const email = document.getElementById('resetEmail').value.trim();
-  if(!email) return alert("Enter email");
+  const username = document.getElementById('resetUser').value.trim();
+  
+  if(!email || !username) return alert("Please enter both Username and Email");
 
-  const res = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "send-otp", email: email }) });
+  const msg = document.getElementById('forgotPassMsg');
+  msg.textContent = "Verifying details...";
+
+  // Backend ab check karega ki username aur email match hai ya nahi
+  const res = await fetch(API_URL, { 
+    method: "POST", 
+    body: new URLSearchParams({ 
+      action: "send-otp", 
+      email: email, 
+      username: username 
+    }) 
+  });
+  
   const data = await res.json();
   if(data.status === "success") {
     alert("OTP sent to your email!");
     document.getElementById('step1').style.display = "none";
     document.getElementById('step2').style.display = "block";
+    msg.textContent = "";
   } else {
-    alert("Error sending OTP");
+    // Agar Username match nahi hua toh yahan error dikhayega aur aage nahi badhega
+    showMessage("forgotPassMsg", data.message || "Details mismatch", "error");
   }
 }
 
@@ -164,24 +188,25 @@ async function handleResetPassword() {
   const otp = document.getElementById('resetOTP').value.trim();
   const newPassword = document.getElementById('newPassword').value;
 
-  // 1. Verify OTP first
-  const verifyRes = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ action: "verify-otp", email: email, otp: otp }) });
-  const verifyData = await verifyRes.json();
+  if(!otp || !newPassword) return alert("Please enter OTP and New Password");
 
-  if(verifyData.status === "success") {
-    // 2. Update Password
-    const resetRes = await fetch(API_URL, { method: "POST", body: new URLSearchParams({ 
-      action: "reset-password", email: email, username: username, newPassword: newPassword 
-    })});
-    const resetData = await resetRes.json();
-    if(resetData.status === "success") {
-      showMessage("forgotPassMsg", "Password updated! You can now login.", "success");
-      setTimeout(() => location.reload(), 2000);
-    } else {
-      showMessage("forgotPassMsg", resetData.message, "error");
-    }
+  const res = await fetch(API_URL, { 
+    method: "POST", 
+    body: new URLSearchParams({ 
+      action: "reset-password", 
+      email: email, 
+      username: username, 
+      otp: otp, 
+      newPassword: newPassword 
+    }) 
+  });
+  
+  const data = await res.json();
+  if(data.status === "success") {
+    showMessage("forgotPassMsg", "Password updated! You can now login.", "success");
+    setTimeout(() => location.reload(), 2000);
   } else {
-    showMessage("forgotPassMsg", "Invalid OTP", "error");
+    showMessage("forgotPassMsg", data.message, "error");
   }
 }
 
