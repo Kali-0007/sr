@@ -52,66 +52,44 @@
     }
   </style>
 
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
-
-    // Replace with your real config
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const isAdminMode = urlParams.get('admin') === 'true';
-
-    // UI Logic
-    onAuthStateChanged(auth, (user) => {
-      const adminSec = document.getElementById('adminSection');
-      const loginSec = document.getElementById('loginSection');
-      
-      if (isAdminMode) {
-        if (user && user.email === 'admin@taxeasepro.com') {
-          adminSec.style.display = 'block';
-          loginSec.style.display = 'none';
-        } else {
-          loginSec.style.display = 'block';
-        }
-      }
-      loadAllContent();
-    });
-
-    // Combined Loader (JSON + Firebase)
+ <script type="module">
+    // Firebase setup ko maine abhi ke liye side mein rakha hai taaki JSON pehle chale
     async function loadAllContent() {
       let combinedBlogs = [];
 
       try {
-        // 1. Fetch from blogs.json
-        const res = await fetch('blogs.json');
+        // IMPORTANT: Humne path badal kar './blogs.json' kiya hai
+        console.log("Fetching JSON...");
+        const res = await fetch('./blogs.json');
+        
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
         const jsonBlogs = await res.json();
+        console.log("JSON Data Loaded:", jsonBlogs);
         combinedBlogs = [...jsonBlogs];
 
-        // 2. Fetch from Firebase
-        const q = query(collection(db, 'blogs'), orderBy('date', 'desc'));
-        const snap = await getDocs(q);
-        const fbBlogs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        
-        combinedBlogs = [...combinedBlogs, ...fbBlogs];
+        // Blog display function ko call karein
         displayBlogs(combinedBlogs);
-      } catch (e) { console.error("Loading error:", e); }
+
+      } catch (e) { 
+        console.error("Loading error (Check if blogs.json exists in /sr/):", e);
+        document.getElementById('blogsList').innerHTML = `
+            <div style="text-align:center; width:100%; grid-column: 1/-1; padding:50px;">
+                <p style="color:#ff4444;">Dukaan mein saaman nahi mila! (JSON Load Error)</p>
+                <p style="font-size:12px; color:#888;">Error Detail: ${e.message}</p>
+            </div>`;
+      }
     }
 
     function displayBlogs(blogs) {
       const container = document.getElementById('blogsList');
+      if (!blogs || blogs.length === 0) {
+          container.innerHTML = "<p>No blogs found.</p>";
+          return;
+      }
+
       container.innerHTML = blogs.map(blog => `
         <div class="glass card">
           <div class="meta">${blog.date} | ${blog.category}</div>
@@ -124,16 +102,9 @@
       `).join('');
     }
 
-    // Login Handle
-    window.handleLogin = (e) => {
-        e.preventDefault();
-        const email = e.target.email.value;
-        const pass = e.target.pass.value;
-        signInWithEmailAndPassword(auth, email, pass)
-            .then(() => alert("Admin Verified!"))
-            .catch(err => alert("Access Denied"));
-    };
-  </script>
+    // Isse turant chalao
+    loadAllContent();
+</script>
 </head>
 <body>
 
