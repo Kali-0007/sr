@@ -81,22 +81,28 @@
     
     // Display Blogs
     function displayBlogs(blogs) {
-      const container = document.getElementById('blogsList');
-      container.innerHTML = '';
-      blogs.forEach(blog => {
-        const div = document.createElement('div');
-        div.className = 'glass card';
-        div.style.padding = '20px; border-radius: 20px;';
-        div.innerHTML = `
-          <h3 style="color: white;">${blog.title}</h3>
-          <p style="color: #aaa;"><i>${blog.date} | ${blog.category}</i></p>
-          <p style="color: #ddd;">${blog.excerpt}</p>
-          <div style="margin-bottom: 15px;">${blog.content}</div>
-          ${isAdminMode ? `<button onclick="deleteBlog('${blog.id}')" style="background: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Delete</button>` : ''}
-        `;
-        container.appendChild(div);
-      });
-    }
+  const container = document.getElementById('blogsList');
+  container.innerHTML = '';
+  
+  blogs.forEach(blog => {
+    const div = document.createElement('div');
+    div.className = 'glass card';
+    div.style.padding = '25px';
+    div.style.borderRadius = '15px';
+    
+    // Yahan hum sirf Title aur Excerpt dikhayenge
+    div.innerHTML = `
+      <h3 style="color: #00d4ff; margin-bottom: 10px;">${blog.title}</h3>
+      <p style="color: #888; font-size: 13px;">${blog.date} | <span style="color: #667eea;">${blog.category}</span></p>
+      <p style="color: #ddd; margin-bottom: 15px;">${blog.excerpt}</p>
+      
+      <a href="blog-detail.html?id=${blog.id}" style="color: #00d4ff; text-decoration: none; font-weight: bold; font-size: 14px;">
+        Read Full Article <i class="fas fa-arrow-right" style="font-size: 12px; margin-left: 5px;"></i>
+      </a>
+    `;
+    container.appendChild(div);
+  });
+}
     
     // Display Latest Sidebar
     function displayLatestBlogs(blogs) {
