@@ -66,7 +66,7 @@ document.write(`
   </div>
   
   <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #222; color: #555; font-size: 12px;">
-      © 2025 TaxEasePro. All rights reserved. | 20+ Years of Trust.
+      © 2025 TaxEasePro. All rights reserved.
   </div>
 </footer>
 
