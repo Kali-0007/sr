@@ -35,7 +35,7 @@ document.write(`
       <a href="#" onclick="handleEliteAction('ITR Filing')">ITR Filing</a>
       <a href="#" onclick="handleEliteAction('Business ITR')">Business ITR</a>
       <a href="#" onclick="handleEliteAction('Tax Notice')">Notice Reply</a>
-      <a href="index.html#calculator">Tax Calculator</a>
+      <a href="calculator.html#calculator">Tax Calculator</a>
     </div>
 
     <div class="footer-col">
