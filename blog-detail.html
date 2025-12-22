@@ -127,7 +127,7 @@
             opacity: 0.8;
         }
 
-        /* CTA Box (if present in content) */
+        /* CTA Box Styling */
         .blog-content div[style*="background: #111"] {
             background: #111111 !important;
             border: 1px dashed var(--accent-color);
@@ -145,22 +145,19 @@
             font-weight: bold;
         }
 
+        /* Ad Card Responsive Helpers */
+        .ad-card-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
         @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            .blog-header h1 {
-                font-size: 36px;
-            }
-
-            body {
-                font-size: 18px;
-            }
-
-            .blog-content h2 {
-                font-size: 28px;
-            }
+            .container { padding: 20px; }
+            .blog-header h1 { font-size: 36px; }
+            body { font-size: 18px; }
+            .blog-content h2 { font-size: 28px; }
         }
     </style>
 </head>
@@ -206,6 +203,17 @@
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        // FIXED: Ye section dynamic buttons ko footer modal se connect karega
+        document.addEventListener('click', function(e) {
+            if (e.target && (e.target.getAttribute('onclick') === 'openModal()' || e.target.innerText.includes('Request Call Back'))) {
+                if (typeof openModal === "function") {
+                    openModal();
+                } else if (document.getElementById('callbackModal')) {
+                    document.getElementById('callbackModal').style.display = 'flex';
+                }
+            }
         });
     </script>
 </body>
