@@ -1,35 +1,9 @@
 document.write(`
-<style>
-  footer { background: #0a0a0a; color: #fff; padding: 60px 20px 20px; font-family: 'Inter', sans-serif; border-top: 1px solid #222; }
-  .footer-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.2fr; gap: 30px; }
-  
-  @media (max-width: 900px) { .footer-container { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 500px) { .footer-container { grid-template-columns: 1fr; } }
-
-  .footer-col h4 { color: #00d4ff; margin-bottom: 20px; font-size: 16px; font-weight: 700; }
-  .footer-col a, .footer-col p { color: #bbb; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; transition: 0.3s; line-height: 1.6; }
-  .footer-col a:hover { color: #00d4ff; padding-left: 5px; }
-  
-  .social-icons i { font-size: 22px; color: #bbb; transition: 0.3s; cursor: pointer; margin-right: 15px; }
-  .social-icons i:hover { color: #00d4ff; transform: scale(1.1); }
-
-  /* Modal Styling */
-  .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; justify-content:center; align-items:center; }
-  .callback-box { background:#111; padding:30px; border-radius:15px; width:90%; max-width:400px; border:1px solid #00d4ff; position:relative; box-shadow: 0 10px 30px rgba(0,212,255,0.2); }
-  .callback-box input, .callback-box textarea { width:100%; padding:12px; margin-bottom:15px; background:#222; border:1px solid #333; color:white; border-radius:5px; border-left: 3px solid #00d4ff; outline:none; box-sizing: border-box; }
-  .callback-btn { background:#00d4ff; color:#000; border:none; padding:12px; width:100%; border-radius:5px; font-weight:bold; cursor:pointer; transition: 0.3s; }
-  .callback-btn:hover { background:#fff; }
-</style>
-
 <footer>
   <div class="footer-container">
     <div class="footer-col">
       <h4 style="font-size: 22px;">TaxEasePro</h4>
       <p>Helping businesses and individuals navigate the complex world of taxes for over two decades.</p>
-      <div class="social-icons">
-          <a href="#"><i class="fab fa-linkedin"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-      </div>
     </div>
     
     <div class="footer-col">
@@ -56,55 +30,30 @@ document.write(`
 
     <div class="footer-col">
       <h4>Get in Touch</h4>
-      <a href="https://wa.me/919876543210" target="_blank" style="color: #25D366; font-weight: bold;">
-        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
-      </a>
-      <a href="mailto:taxeasepro@zohomail.in"><i class="fas fa-envelope"></i> taxeasepro@zohomail.in</a>
-      <button onclick="openModal()" style="background:none; border:1px solid #00d4ff; color:#00d4ff; padding:10px; width:100%; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px;">
-          Request Call Back
-      </button>
+      <a href="https://wa.me/919876543210" target="_blank" style="color: #25D366; font-weight: bold;">Chat on WhatsApp</a>
+      <a href="mailto:taxeasepro@zohomail.in">taxeasepro@zohomail.in</a>
+      <button onclick="openModal()" style="background:none; border:1px solid #00d4ff; color:#00d4ff; padding:10px; width:100%; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px;">Request Call Back</button>
     </div>
-  </div>
-  
-  <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #222; color: #555; font-size: 12px;">
-      © 2025 TaxEasePro. All rights reserved.
   </div>
 </footer>
 
-<div id="callbackModal" class="modal-overlay">
-  <div class="callback-box">
+<div id="callbackModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; justify-content:center; align-items:center;">
+  <div class="callback-box" style="background:#111; padding:30px; border-radius:15px; width:90%; max-width:400px; border:1px solid #00d4ff; position:relative;">
     <span onclick="closeModal()" style="position:absolute; right:15px; top:10px; color:#fff; cursor:pointer; font-size:24px;">&times;</span>
     <h3 style="color:#00d4ff; margin-top:0;">Callback Request</h3>
     <form action="https://formspree.io/f/xqezdlrb" method="POST" id="leadForm">
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="tel" name="phone" placeholder="10 Digits Mobile Number" pattern="[0-9]{10}" required>
-      <textarea name="reason" placeholder="Which service do you need?" rows="3" required></textarea>
-      <button type="submit" class="callback-btn">Submit Now</button>
+      <input type="text" name="name" placeholder="Full Name" required style="width:100%; padding:12px; margin-bottom:15px; background:#222; border:1px solid #333; color:white;">
+      <input type="tel" name="phone" placeholder="10 Digits Mobile Number" pattern="[0-9]{10}" required style="width:100%; padding:12px; margin-bottom:15px; background:#222; border:1px solid #333; color:white;">
+      <textarea name="reason" placeholder="Message" rows="3" required style="width:100%; padding:12px; margin-bottom:15px; background:#222; border:1px solid #333; color:white;"></textarea>
+      <button type="submit" style="background:#00d4ff; color:#000; border:none; padding:12px; width:100%; border-radius:5px; font-weight:bold; cursor:pointer;">Submit Now</button>
     </form>
   </div>
 </div>
 
 <script>
-  // Modal Functions
   function openModal() { document.getElementById('callbackModal').style.display = 'flex'; }
   function closeModal() { document.getElementById('callbackModal').style.display = 'none'; }
-
-  // Form Handling
-  const footerForm = document.getElementById('leadForm');
-  if(footerForm){
-    footerForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const response = await fetch(footerForm.action, {
-        method: 'POST',
-        body: new FormData(footerForm),
-        headers: { 'Accept': 'application/json' }
-      });
-      if (response.ok) {
-        alert("Success! Our expert will call you shortly.");
-        footerForm.reset();
-        closeModal();
-      }
-    };
-  }
+  const f = document.getElementById('leadForm');
+  if(f){ f.onsubmit = async (e) => { e.preventDefault(); await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' } }); alert("Success!"); f.reset(); closeModal(); }; }
 </script>
 `);
