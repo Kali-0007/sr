@@ -23,7 +23,7 @@ document.write(`
   <div class="footer-container">
     <div class="footer-col">
       <h4 style="font-size: 22px;">TaxEasePro</h4>
-      <p>Helping businesses and individuals navigate the complex world of taxes for over 20 years.</p>
+      <p>Helping businesses and individuals navigate the complex world of taxes for over two decades.</p>
       <div class="social-icons">
           <a href="YOUR_LINKEDIN_URL" target="_blank"><i class="fab fa-linkedin"></i></a>
           <a href="YOUR_INSTAGRAM_URL" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -57,7 +57,7 @@ document.write(`
       <a href="https://wa.me/919876543210?text=Hi%20TaxEasePro,%20I%20need%20expert%20consultation." target="_blank" style="color: #25D366; font-weight: bold;">
         <i class="fab fa-whatsapp"></i> Chat on WhatsApp
       </a>
-      <a href="mailto:info@taxeasepro.com"><i class="fas fa-envelope"></i> info@taxeasepro.com</a>
+      <a href="taxeasepro@zohomail.in"><i class="fas fa-envelope"></i> taxeasepro@zohomail.in</a>
       
       <button onclick="openModal()" style="background:none; border:1px solid #00d4ff; color:#00d4ff; padding:10px; width:100%; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px;">
          Request Call Back
