@@ -3,196 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blogs - TaxEasePro</title>
-  <meta name="description" content="Latest Tax, ITR & GST Blogs | Updated for AY 2025-26">
+  <title>Insights & Blogs | TaxEasePro India</title>
+  <meta name="description" content="Expert tax insights, ITR filing tips, and GST updates for 2025-26. Stay ahead with TaxEasePro India.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Firebase SDK (ES Modules) -->
+  
+  <style>
+    :root { --primary: #00d4ff; --bg: #050505; --glass: rgba(255, 255, 255, 0.05); }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; margin: 0; }
+    
+    .glass { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+    
+    .blogs-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+      gap: 25px; 
+      max-width: 1200px; 
+      margin: 40px auto; 
+      padding: 0 20px; 
+    }
+
+    .card { padding: 25px; border-radius: 20px; transition: 0.3s ease; display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-8px); border-color: var(--primary); }
+    .card h3 { color: var(--primary); margin: 0 0 10px 0; font-size: 22px; }
+    .card p { color: #ccc; font-size: 15px; line-height: 1.6; flex-grow: 1; }
+    .card .meta { font-size: 12px; color: #888; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+    
+    .read-btn { 
+      color: var(--primary); 
+      text-decoration: none; 
+      font-weight: 700; 
+      font-size: 14px; 
+      display: inline-flex; 
+      align-items: center; 
+      margin-top: 15px;
+    }
+
+    input, select, textarea { 
+      width: 100%; padding: 12px; margin-bottom: 15px; 
+      border-radius: 10px; background: #111; border: 1px solid #333; color: #fff; 
+      box-sizing: border-box;
+    }
+
+    .hero { 
+      text-align: center; 
+      padding: 100px 20px; 
+      background: radial-gradient(circle at top, #1a1a2e 0%, #050505 100%); 
+    }
+  </style>
+
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
-    
-    // Paste your Firebase config here from console
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+
+    // Replace with your real config
     const firebaseConfig = {
-      // Example (replace with yours):
-      apiKey: "AIzaSyD...your-api-key",
-      authDomain: "your-project.firebaseapp.com",
-      projectId: "your-project-id",
-      storageBucket: "your-project.appspot.com",
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
       messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef123456"
+      appId: "1:123456789:web:abcdef"
     };
-    
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    
-    // Globals
-    let allBlogs = [];
-    const ADMIN_EMAIL = 'admin@taxeasepro.com'; // Change to your email
-    
-    // Check URL for admin mode
+
     const urlParams = new URLSearchParams(window.location.search);
     const isAdminMode = urlParams.get('admin') === 'true';
-    
-    // Auth State
+
+    // UI Logic
     onAuthStateChanged(auth, (user) => {
-      const isAdmin = user && user.email === ADMIN_EMAIL;
-      if (isAdminMode && isAdmin) {
-        document.getElementById('adminSection').style.display = 'block';
-      } else if (!isAdminMode) {
-        // Normal users: hide admin entirely
-        document.getElementById('adminSection').style.display = 'none';
-      }
-      loadBlogs();
-    });
-    
-    // Sign In (if needed for write)
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => alert('Signed in! Now add blogs.'))
-        .catch(error => alert('Error: ' + error.message));
-    });
-    
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      signOut(auth).then(() => {
-        alert('Logged out!');
-        window.location.href = 'blog.html'; // Redirect without ?admin=true
-      });
-    });
-    
-    // Load Blogs
-    async function loadBlogs() {
-      try {
-        const q = query(collection(db, 'blogs'), orderBy('date', 'desc'));
-        const snapshot = await getDocs(q);
-        allBlogs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        displayBlogs(allBlogs);
-        displayLatestBlogs(allBlogs.slice(0, 4));
-      } catch (error) {
-        console.error('Load error:', error);
-      }
-    }
-    
-    // Display Blogs
-    function displayBlogs(blogs) {
-  const container = document.getElementById('blogsList');
-  container.innerHTML = '';
-  
-  blogs.forEach(blog => {
-    const div = document.createElement('div');
-    div.className = 'glass card';
-    div.style.padding = '25px';
-    div.style.borderRadius = '15px';
-    
-    // Yahan hum sirf Title aur Excerpt dikhayenge
-    div.innerHTML = `
-      <h3 style="color: #00d4ff; margin-bottom: 10px;">${blog.title}</h3>
-      <p style="color: #888; font-size: 13px;">${blog.date} | <span style="color: #667eea;">${blog.category}</span></p>
-      <p style="color: #ddd; margin-bottom: 15px;">${blog.excerpt}</p>
+      const adminSec = document.getElementById('adminSection');
+      const loginSec = document.getElementById('loginSection');
       
-      <a href="blog-detail.html?id=${blog.id}" style="color: #00d4ff; text-decoration: none; font-weight: bold; font-size: 14px;">
-        Read Full Article <i class="fas fa-arrow-right" style="font-size: 12px; margin-left: 5px;"></i>
-      </a>
-    `;
-    container.appendChild(div);
-  });
-}
-    
-    // Display Latest Sidebar
-    function displayLatestBlogs(blogs) {
-      const ul = document.getElementById('latestBlogs');
-      ul.innerHTML = '';
-      blogs.forEach(blog => {
-        const li = document.createElement('li');
-        li.innerHTML = `<a href="blog.html#blog-${blog.id}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>${blog.title}</strong><br><small style="color: #aaa;">${blog.date} | ${blog.category}</small><br><small>${blog.excerpt}</small></a>`;
-        ul.appendChild(li);
-      });
-    }
-    
-    // Add Blog
-    document.getElementById('newBlogForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      try {
-        const newBlog = {
-          title: document.getElementById('title').value,
-          category: document.getElementById('category').value,
-          date: new Date().toISOString().split('T')[0],
-          excerpt: document.getElementById('excerpt').value,
-          content: document.getElementById('content').value
-        };
-        await addDoc(collection(db, 'blogs'), newBlog);
-        alert('Blog added!');
-        document.getElementById('newBlogForm').reset();
-        loadBlogs();
-      } catch (error) {
-        alert('Add error: ' + error.message); // Will show if not authenticated
-      }
-    });
-    
-    // Delete Blog
-    window.deleteBlog = async (id) => {
-      if (confirm('Delete this blog?')) {
-        try {
-          await deleteDoc(doc(db, 'blogs', id));
-          alert('Deleted!');
-          loadBlogs();
-        } catch (error) {
-          alert('Delete error: ' + error.message);
+      if (isAdminMode) {
+        if (user && user.email === 'admin@taxeasepro.com') {
+          adminSec.style.display = 'block';
+          loginSec.style.display = 'none';
+        } else {
+          loginSec.style.display = 'block';
         }
       }
+      loadAllContent();
+    });
+
+    // Combined Loader (JSON + Firebase)
+    async function loadAllContent() {
+      let combinedBlogs = [];
+
+      try {
+        // 1. Fetch from blogs.json
+        const res = await fetch('blogs.json');
+        const jsonBlogs = await res.json();
+        combinedBlogs = [...jsonBlogs];
+
+        // 2. Fetch from Firebase
+        const q = query(collection(db, 'blogs'), orderBy('date', 'desc'));
+        const snap = await getDocs(q);
+        const fbBlogs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        combinedBlogs = [...combinedBlogs, ...fbBlogs];
+        displayBlogs(combinedBlogs);
+      } catch (e) { console.error("Loading error:", e); }
+    }
+
+    function displayBlogs(blogs) {
+      const container = document.getElementById('blogsList');
+      container.innerHTML = blogs.map(blog => `
+        <div class="glass card">
+          <div class="meta">${blog.date} | ${blog.category}</div>
+          <h3>${blog.title}</h3>
+          <p>${blog.excerpt}</p>
+          <a href="blog-detail.html?id=${blog.id}" class="read-btn">
+            READ FULL ARTICLE <i class="fas fa-arrow-right" style="margin-left:8px"></i>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    // Login Handle
+    window.handleLogin = (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const pass = e.target.pass.value;
+        signInWithEmailAndPassword(auth, email, pass)
+            .then(() => alert("Admin Verified!"))
+            .catch(err => alert("Access Denied"));
     };
-    
-    // Init
-    loadBlogs();
   </script>
 </head>
 <body>
-  <!-- Header, Sidebar (same as before) -->
-  <!-- Hero Section -->
-  <section style="padding-top: 20px; text-align: center; background: linear-gradient(135deg, #111 0%, #1a1a2e 100%); min-height: 50vh; display: flex; align-items: center; justify-content: center;">
-    <div style="max-width: 1200px; padding: 0 20px;">
-      <h1 style="font-size: 42px; margin-bottom: 20px; color: white;">Our Blogs</h1>
-      <p style="color: #ccc; font-size: 18px;">Latest insights on Tax, ITR & GST | Updated for AY 2025-26</p>
-    </div>
+
+  <section class="hero">
+    <h1>Our Knowledge Hub</h1>
+    <p>Simplifying Indian Taxation for You</p>
   </section>
 
-  <!-- Admin Section (hidden by default, show if ?admin=true and authenticated) -->
-  <div id="adminSection" style="display: none; background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; margin-bottom: 40px;">
-    <h2 style="color: #667eea;">Add New Blog</h2>
+  <div id="loginSection" style="display:none; max-width:400px; margin:auto; padding:20px;">
+      <form onsubmit="handleLogin(event)">
+          <input type="email" name="email" placeholder="Admin Email" required>
+          <input type="password" name="pass" placeholder="Password" required>
+          <button type="submit" style="width:100%; padding:10px; background:var(--primary); border:none; border-radius:10px; font-weight:bold;">Login as Admin</button>
+      </form>
+  </div>
+
+  <div id="adminSection" style="display: none; max-width:800px; margin: 20px auto; padding: 30px;" class="glass">
+    <h2 style="color: var(--primary);">Add New Blog</h2>
     <form id="newBlogForm">
-      <input type="text" id="title" placeholder="Blog Title" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; background: #222; color: #fff; border: none;" required>
-      <select id="category" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; background: #222; color: #fff; border: none;" required>
-        <option value="">Select Category</option>
+      <input type="text" id="title" placeholder="Blog Title" required>
+      <select id="category" required>
         <option value="ITR Tips">ITR Tips</option>
         <option value="GST Updates">GST Updates</option>
-        <option value="Tax Slabs">Tax Slabs</option>
-        <option value="Deductions">Deductions</option>
+        <option value="Tax Planning">Tax Planning</option>
       </select>
-      <textarea id="content" placeholder="Full Content (HTML like <p>text</p>)" rows="5" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; background: #222; color: #fff; border: none;" required></textarea>
-      <input type="text" id="excerpt" placeholder="Short Excerpt" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; background: #222; color: #fff; border: none;" required>
-      <button type="submit" style="padding: 10px 20px; background: #00c853; color: white; border: none; border-radius: 10px;">Publish</button>
-      <button id="logoutBtn" type="button" style="padding: 10px 20px; background: #ff6b6b; color: white; border: none; border-radius: 10px; margin-left: 10px;">Logout</button>
+      <textarea id="excerpt" placeholder="Short Summary (SEO Description)" rows="2" required></textarea>
+      <textarea id="content" placeholder="Full Content (HTML allowed)" rows="6" required></textarea>
+      <button type="submit" style="background:#00c853; color:#fff; border:none; padding:12px 30px; border-radius:10px; cursor:pointer; font-weight:bold;">Publish to Firebase</button>
     </form>
   </div>
 
-  <!-- Blogs List -->
-  <div id="blogsList" style="display: grid; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-    <!-- Loaded by JS -->
-  </div>
+  <div id="blogsList" class="blogs-grid">
+    </div>
 
-  <!-- Footer (same) -->
-  <footer style="text-align: center; padding: 40px 20px; background: #000; color: #666; border-top: 1px solid #333;">
-    <!-- Copy from previous -->
-  </footer>
+  <script src="footer.js"></script>
 
-  <style>
-    /* Same styles */
-  </style>
 </body>
 </html>
