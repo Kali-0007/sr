@@ -32,24 +32,24 @@ document.write(`
     
     <div class="footer-col">
       <h4>Income Tax</h4>
-      <a href="./index.html#services">ITR Filing</a>
-      <a href="./index.html#services">Business ITR</a>
-      <a href="./index.html#contact">Notice Reply</a>
-      <a href="./calculator.html">Tax Calculator</a>
+      <a href="/sr/index.html#services">ITR Filing</a>
+      <a href="/sr/index.html#services">Business ITR</a>
+      <a href="/sr/index.html#contact">Notice Reply</a>
+      <a href="/sr/calculator.html">Tax Calculator</a>
     </div>
 
     <div class="footer-col">
       <h4>GST Services</h4>
-      <a href="./index.html#services">GST Registration</a>
-      <a href="./index.html#services">Monthly Returns</a>
-      <a href="./index.html#services">GST Revocation</a>
+      <a href="/sr/index.html#services">GST Registration</a>
+      <a href="/sr/index.html#services">Monthly Returns</a>
+      <a href="/sr/index.html#services">GST Revocation</a>
     </div>
 
     <div class="footer-col">
       <h4>Registration</h4>
-      <a href="./index.html#registration">MSME Registration</a>
-      <a href="./index.html#registration">Private Limited</a>
-      <a href="./index.html#registration">Digital Signature</a>
+      <a href="/sr/index.html#registration">MSME Registration</a>
+      <a href="/sr/index.html#registration">Private Limited</a>
+      <a href="/sr/index.html#registration">Digital Signature</a>
     </div>
 
     <div class="footer-col">
@@ -91,11 +91,6 @@ document.write(`
 <script>
   function openModal() { document.getElementById('callbackModal').style.display = 'flex'; }
   function closeModal() { document.getElementById('callbackModal').style.display = 'none'; }
-
-  // Services links ke liye agar function use karna ho
-  function handleEliteAction(service) {
-      window.location.href = "./index.html#contact";
-  }
 
   const form = document.getElementById('leadForm');
   if(form){
