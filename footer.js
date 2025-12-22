@@ -1,6 +1,6 @@
 document.write(`
 <style>
-  footer { background: #0a0a0a; color: #fff; padding: 60px 20px 20px; font-family: 'Poppins', sans-serif; }
+  footer { background: #0a0a0a; color: #fff; padding: 60px 20px 20px; font-family: 'Inter', sans-serif; }
   .footer-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.2fr; gap: 30px; }
   
   @media (max-width: 900px) { .footer-container { grid-template-columns: 1fr 1fr; } }
@@ -25,31 +25,31 @@ document.write(`
       <h4 style="font-size: 22px;">TaxEasePro</h4>
       <p>Helping businesses and individuals navigate the complex world of taxes for over two decades.</p>
       <div class="social-icons">
-          <a href="YOUR_LINKEDIN_URL" target="_blank"><i class="fab fa-linkedin"></i></a>
-          <a href="YOUR_INSTAGRAM_URL" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
     
     <div class="footer-col">
       <h4>Income Tax</h4>
-      <a href="#" onclick="handleEliteAction('ITR Filing')">ITR Filing</a>
-      <a href="#" onclick="handleEliteAction('Business ITR')">Business ITR</a>
-      <a href="#" onclick="handleEliteAction('Tax Notice')">Notice Reply</a>
-      <a href="calculator.html#calculator">Tax Calculator</a>
+      <a href="./index.html#services">ITR Filing</a>
+      <a href="./index.html#services">Business ITR</a>
+      <a href="./index.html#contact">Notice Reply</a>
+      <a href="./calculator.html">Tax Calculator</a>
     </div>
 
     <div class="footer-col">
       <h4>GST Services</h4>
-      <a href="#" onclick="handleEliteAction('GST Registration')">GST Registration</a>
-      <a href="#" onclick="handleEliteAction('GST Returns')">Monthly Returns</a>
-      <a href="#" onclick="handleEliteAction('GST Revocation')">GST Revocation</a>
+      <a href="./index.html#services">GST Registration</a>
+      <a href="./index.html#services">Monthly Returns</a>
+      <a href="./index.html#services">GST Revocation</a>
     </div>
 
     <div class="footer-col">
       <h4>Registration</h4>
-      <a href="#" onclick="handleEliteAction('MSME')">MSME Registration</a>
-      <a href="#" onclick="handleEliteAction('Company')">Private Limited</a>
-      <a href="#" onclick="handleEliteAction('DSC')">Digital Signature</a>
+      <a href="./index.html#registration">MSME Registration</a>
+      <a href="./index.html#registration">Private Limited</a>
+      <a href="./index.html#registration">Digital Signature</a>
     </div>
 
     <div class="footer-col">
@@ -57,10 +57,10 @@ document.write(`
       <a href="https://wa.me/919876543210?text=Hi%20TaxEasePro,%20I%20need%20expert%20consultation." target="_blank" style="color: #25D366; font-weight: bold;">
         <i class="fab fa-whatsapp"></i> Chat on WhatsApp
       </a>
-      <a href="taxeasepro@zohomail.in"><i class="fas fa-envelope"></i> taxeasepro@zohomail.in</a>
+      <a href="mailto:taxeasepro@zohomail.in"><i class="fas fa-envelope"></i> taxeasepro@zohomail.in</a>
       
       <button onclick="openModal()" style="background:none; border:1px solid #00d4ff; color:#00d4ff; padding:10px; width:100%; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px;">
-         Request Call Back
+          Request Call Back
       </button>
     </div>
   </div>
@@ -91,6 +91,11 @@ document.write(`
 <script>
   function openModal() { document.getElementById('callbackModal').style.display = 'flex'; }
   function closeModal() { document.getElementById('callbackModal').style.display = 'none'; }
+
+  // Services links ke liye agar function use karna ho
+  function handleEliteAction(service) {
+      window.location.href = "./index.html#contact";
+  }
 
   const form = document.getElementById('leadForm');
   if(form){
