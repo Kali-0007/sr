@@ -76,7 +76,12 @@ document.write(`
     <h3 style="color:#00d4ff; margin-top:0;">Callback Request</h3>
     <form action="https://formspree.io/f/xqezdlrb" method="POST" id="leadForm">
       <input type="text" name="name" placeholder="Full Name" required>
-      <input type="tel" name="phone" placeholder="Mobile Number" required>
+      <input type="tel" name="phone" placeholder="10 Digits Mobile Number" 
+       pattern="[0-9]{10}" 
+       maxlength="10" 
+       minlength="10" 
+       oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
+       required title="Please enter exactly 10 digits">
       <textarea name="reason" placeholder="Message? (e.g. GST/ITR)" rows="3" required></textarea>
       <button type="submit" class="callback-btn">Submit Now</button>
     </form>
