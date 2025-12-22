@@ -6,7 +6,7 @@ document.write(`
   @media (max-width: 900px) { .footer-container { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 500px) { .footer-container { grid-template-columns: 1fr; } }
 
-  .footer-col h4 { color: #00d4ff; margin-bottom: 20px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
+  .footer-col h4 { color: #00d4ff; margin-bottom: 20px; font-size: 16px; }
   .footer-col a, .footer-col p { color: #bbb; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; transition: 0.3s; line-height: 1.6; }
   .footer-col a:hover { color: #fff; padding-left: 5px; }
   
@@ -75,9 +75,9 @@ document.write(`
     <span onclick="closeModal()" style="position:absolute; right:15px; top:10px; color:#fff; cursor:pointer; font-size:20px;">&times;</span>
     <h3 style="color:#00d4ff; margin-top:0;">Callback Request</h3>
     <form action="https://formspree.io/f/YOUR_ID_HERE" method="POST" id="leadForm">
-      <input type="text" name="name" placeholder="Apna Naam" required>
+      <input type="text" name="name" placeholder="Full Name" required>
       <input type="tel" name="phone" placeholder="Mobile Number" required>
-      <textarea name="reason" placeholder="Kish topic pe help chahiye? (e.g. GST/ITR)" rows="3" required></textarea>
+      <textarea name="reason" placeholder="Message? (e.g. GST/ITR)" rows="3" required></textarea>
       <button type="submit" class="callback-btn">Submit Now</button>
     </form>
   </div>
