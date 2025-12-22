@@ -467,6 +467,28 @@
         footer > div > div { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; min-height: 120px; }
     }
 </style>
+<script>
+  // 1. WhatsApp Configuration
+  const MY_WHATSAPP_NUMBER = "919876543210"; // <--- Bhai yahan apna sahi number daal dena
 
+  // 2. Chatbase Loader (Jo aapne code diya tha, wahi hai ye)
+  (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="zmzAqRQn0pLJAK8M_Eg_Q";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+
+  // 3. Smart Action Function (Mobile vs Desktop)
+  function handleServiceClick(serviceName) {
+    const isMobile = /iPhone|Android|iPad|iPod/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // Mobile hai toh seedha WhatsApp par message bhej do
+      const msg = `Hi TaxEasePro, I need expert help with *${serviceName}*.`;
+      window.open(`https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+    } else {
+      // Desktop hai toh Chatbot kholo
+      if (window.chatbase) {
+        window.chatbase("open");
+      }
+    }
+  }
+</script>
 </body>
 </html>
