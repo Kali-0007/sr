@@ -4,194 +4,137 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Insights & Blogs | TaxEasePro India</title>
-  <meta name="description" content="Expert tax insights, ITR filing tips, and GST updates for 2025-26. Stay ahead with TaxEasePro India.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  :root {
-  --primary: #00d4ff;
-  --text-main: #eeeeee;
-  --text-muted: #a0a0a0;
-  --card-bg: #111111;
-  --border: #222222;
-}
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #050505;
-  color: var(--text-main);
-  margin: 0;
-  line-height: 1.6;
-}
-
-.hero {
-  text-align: left; /* Blogspot style side alignment */
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 80px 20px 40px;
-  border-bottom: 1px solid var(--border);
-}
-
-.hero h1 {
-  font-size: 2.5rem;
-  margin: 0;
-  font-weight: 700;
-}
-
-.hero p {
-  color: var(--text-muted);
-  font-size: 1.1rem;
-}
-
-.blogs-grid {
-  display: flex;
-  flex-direction: column; /* List view like Blogspot */
-  gap: 0;
-  max-width: 1000px;
-  margin: 0 auto 100px;
-  padding: 0 20px;
-}
-
-.card {
-  padding: 40px 0;
-  border-bottom: 1px solid var(--border); /* Divider lines like professional blogs */
-  transition: 0.2s;
-  background: transparent;
-}
-
-.card:hover {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.meta {
-  font-size: 13px;
-  color: var(--primary);
-  margin-bottom: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.card h3 {
-  font-size: 28px;
-  margin: 0 0 15px 0;
-  color: #fff;
-  cursor: pointer;
-}
-
-.card h3:hover {
-  color: var(--primary);
-  text-decoration: underline;
-}
-
-.card p {
-  color: var(--text-muted);
-  font-size: 17px;
-  margin-bottom: 20px;
-  max-width: 800px;
-}
-
-.read-btn {
-  color: #fff;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 0;
-  border-bottom: 2px solid var(--primary); /* Minimal underline button */
-  display: inline-block;
-}
-
-.read-btn:hover {
-  color: var(--primary);
-}
-
- <script type="module">
-    // Firebase setup ko maine abhi ke liye side mein rakha hai taaki JSON pehle chale
-    async function loadAllContent() {
-      let combinedBlogs = [];
-
-      try {
-        // IMPORTANT: Humne path badal kar './blogs.json' kiya hai
-        console.log("Fetching JSON...");
-        const res = await fetch('./blogs.json');
-        
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
-        const jsonBlogs = await res.json();
-        console.log("JSON Data Loaded:", jsonBlogs);
-        combinedBlogs = [...jsonBlogs];
-
-        // Blog display function ko call karein
-        displayBlogs(combinedBlogs);
-
-      } catch (e) { 
-        console.error("Loading error (Check if blogs.json exists in /sr/):", e);
-        document.getElementById('blogsList').innerHTML = `
-            <div style="text-align:center; width:100%; grid-column: 1/-1; padding:50px;">
-                <p style="color:#ff4444;">Dukaan mein saaman nahi mila! (JSON Load Error)</p>
-                <p style="font-size:12px; color:#888;">Error Detail: ${e.message}</p>
-            </div>`;
-      }
+  <style>
+    /* Classic Blogging Vibe - Clean & Professional */
+    :root {
+      --primary: #00d4ff;
+      --bg: #050505;
+      --border: #222222;
+      --text-muted: #a0a0a0;
     }
 
-    function displayBlogs(blogs) {
-      const container = document.getElementById('blogsList');
-      if (!blogs || blogs.length === 0) {
-          container.innerHTML = "<p>No blogs found.</p>";
-          return;
-      }
-
-      container.innerHTML = blogs.map(blog => `
-        <div class="glass card">
-          <div class="meta">${blog.date} | ${blog.category}</div>
-          <h3>${blog.title}</h3>
-          <p>${blog.excerpt}</p>
-          <a href="blog-detail.html?id=${blog.id}" class="read-btn">
-            READ FULL ARTICLE <i class="fas fa-arrow-right" style="margin-left:8px"></i>
-          </a>
-        </div>
-      `).join('');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: #ffffff;
+      margin: 0;
+      line-height: 1.6;
     }
 
-    // Isse turant chalao
-    loadAllContent();
-</script>
+    .hero {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 100px 20px 40px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin: 0 0 10px 0;
+      letter-spacing: -1px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .blogs-grid {
+      max-width: 850px;
+      margin: 0 auto 100px;
+      padding: 0 20px;
+    }
+
+    .card {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      transition: 0.3s;
+    }
+
+    /* Meta Info (Date/Category) */
+    .meta {
+      font-size: 13px;
+      color: var(--primary);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      font-size: 28px;
+      margin: 0 0 15px 0;
+      line-height: 1.3;
+      cursor: pointer;
+    }
+
+    .card h3:hover {
+      color: var(--primary);
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 17px;
+      margin-bottom: 25px;
+    }
+
+    /* Read More Link like Medium */
+    .read-btn {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--primary);
+      padding-bottom: 2px;
+    }
+
+    .read-btn:hover {
+      color: var(--primary);
+    }
+  </style>
 </head>
 <body>
 
   <section class="hero">
     <h1>Our Knowledge Hub</h1>
-    <p>Simplifying Indian Taxation for You</p>
+    <p>Expert insights on Indian Taxation & Finance</p>
   </section>
-
-  <div id="loginSection" style="display:none; max-width:400px; margin:auto; padding:20px;">
-      <form onsubmit="handleLogin(event)">
-          <input type="email" name="email" placeholder="Admin Email" required>
-          <input type="password" name="pass" placeholder="Password" required>
-          <button type="submit" style="width:100%; padding:10px; background:var(--primary); border:none; border-radius:10px; font-weight:bold;">Login as Admin</button>
-      </form>
-  </div>
-
-  <div id="adminSection" style="display: none; max-width:800px; margin: 20px auto; padding: 30px;" class="glass">
-    <h2 style="color: var(--primary);">Add New Blog</h2>
-    <form id="newBlogForm">
-      <input type="text" id="title" placeholder="Blog Title" required>
-      <select id="category" required>
-        <option value="ITR Tips">ITR Tips</option>
-        <option value="GST Updates">GST Updates</option>
-        <option value="Tax Planning">Tax Planning</option>
-      </select>
-      <textarea id="excerpt" placeholder="Short Summary (SEO Description)" rows="2" required></textarea>
-      <textarea id="content" placeholder="Full Content (HTML allowed)" rows="6" required></textarea>
-      <button type="submit" style="background:#00c853; color:#fff; border:none; padding:12px 30px; border-radius:10px; cursor:pointer; font-weight:bold;">Publish to Firebase</button>
-    </form>
-  </div>
 
   <div id="blogsList" class="blogs-grid">
     </div>
 
-  <script src="footer.js"></script>
+  <script>
+    async function loadBlogs() {
+      try {
+        const res = await fetch('./blogs.json');
+        const blogs = await res.json();
+        const container = document.getElementById('blogsList');
+        
+        container.innerHTML = blogs.map(blog => `
+          <div class="card">
+            <div class="meta">${blog.date} | ${blog.category}</div>
+            <a href="blog-detail.html?id=${blog.id}" style="text-decoration:none; color:inherit;">
+                <h3>${blog.title}</h3>
+            </a>
+            <p>${blog.excerpt}</p>
+            <a href="blog-detail.html?id=${blog.id}" class="read-btn">
+              Read Article <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error("Error loading blogs:", e);
+      }
+    }
+    loadBlogs();
+  </script>
 
 </body>
 </html>
