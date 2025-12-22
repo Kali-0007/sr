@@ -5,16 +5,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Detail - TaxEasePro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Georgia,serif&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; }
-        .container { max-width: 800px; margin: 50px auto; padding: 20px; }
-        .blog-header { border-bottom: 1px solid #222; padding-bottom: 20px; margin-bottom: 30px; }
-        .blog-content { font-size: 18px; color: #ccc; }
-        .blog-content h2 { color: #00d4ff; margin-top: 30px; }
-        .back-btn { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --accent-color: #00d4ff;
+            --meta-color: #888888;
+            --border-color: #222222;
+            --progress-bg: #1a1a1a;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Georgia', serif;
+            font-size: 20px;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Reading Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent-color);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.2s ease;
+        }
+
+        .back-btn {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 40px;
+            transition: opacity 0.3s;
+        }
+
+        .back-btn:hover {
+            opacity: 0.8;
+        }
+
+        .blog-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin: 0 0 20px 0;
+            line-height: 1.2;
+        }
+
+        .blog-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: var(--meta-color);
+            margin-bottom: 60px;
+        }
+
+        .blog-content {
+            font-size: 20px;
+            color: var(--text-color);
+        }
+
+        .blog-content h2,
+        .blog-content h3 {
+            font-family: 'Inter', sans-serif;
+            color: var(--accent-color);
+            margin-top: 60px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .blog-content h2 {
+            font-size: 32px;
+        }
+
+        .blog-content h3 {
+            font-size: 26px;
+        }
+
+        .blog-content p {
+            margin-bottom: 28px;
+        }
+
+        .blog-content ul,
+        .blog-content ol {
+            padding-left: 30px;
+            margin-bottom: 28px;
+        }
+
+        .blog-content li {
+            margin-bottom: 12px;
+        }
+
+        .blog-content b,
+        .blog-content strong {
+            color: #ffffff;
+        }
+
+        .blog-content a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .blog-content a:hover {
+            opacity: 0.8;
+        }
+
+        /* CTA Box (if present in content) */
+        .blog-content div[style*="background: #111"] {
+            background: #111111 !important;
+            border: 1px dashed var(--accent-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 50px 0;
+        }
+
+        .blog-content div[style*="background: #111"] p {
+            margin: 0;
+        }
+
+        .blog-content div[style*="color: #00d4ff"] {
+            color: var(--accent-color) !important;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .blog-header h1 {
+                font-size: 36px;
+            }
+
+            body {
+                font-size: 18px;
+            }
+
+            .blog-content h2 {
+                font-size: 28px;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="progress-bar"></div>
+
     <div class="container">
         <a href="blogs.html" class="back-btn"><i class="fas fa-chevron-left"></i> Back to Blogs</a>
         <div id="blogContent">
@@ -23,32 +175,38 @@
     </div>
 
     <script src="footer.js"></script>
-
     <script>
-        // URL se ID nikalne ka tareeka (e.g., ?id=1)
+        // Fetch and render blog
         const params = new URLSearchParams(window.location.search);
         const blogId = params.get('id');
 
-        // JSON file se data fetch karna
         fetch('blogs.json')
             .then(response => response.json())
             .then(data => {
                 const blog = data.find(b => b.id == blogId);
                 if (blog) {
                     document.getElementById('blogContent').innerHTML = `
-                        <div class="blog-header">
-                            <h1 style="font-size: 36px; color: #fff;">${blog.title}</h1>
-                            <p style="color: #888;">Published on ${blog.date} | Category: ${blog.category}</p>
-                        </div>
-                        <div class="blog-content">
+                        <header class="blog-header">
+                            <h1>${blog.title}</h1>
+                            <div class="blog-meta">Published on ${blog.date} | Category: ${blog.category}</div>
+                        </header>
+                        <article class="blog-content">
                             ${blog.content}
-                        </div>
+                        </article>
                     `;
                     document.title = blog.title + " - TaxEasePro";
                 } else {
                     document.getElementById('blogContent').innerHTML = "<h2>Blog Not Found!</h2>";
                 }
             });
+
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
     </script>
 </body>
 </html>
