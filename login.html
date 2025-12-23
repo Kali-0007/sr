@@ -78,6 +78,16 @@
             margin: 100px auto; padding: 30px; border: 1px solid #333;
         }
     </style>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<style>
+    /* Divider style for "OR" */
+    .divider {
+        display: flex; align-items: center; margin: 20px 0; color: #aaa;
+    }
+    .divider hr { flex: 1; border: 0.5px solid rgba(255,255,255,0.1); }
+    .divider span { padding: 0 10px; font-size: 12px; font-weight: 600; }
+</style>
 </head>
 <body>
 
@@ -104,7 +114,18 @@
     <div class="glass-card">
         <h2 style="color: #fff; margin-bottom: 10px;">Welcome Back</h2>
         <p style="color: #aaa; font-size: 14px; margin-bottom: 30px;">Login to manage your taxes</p>
-        
+        <div id="g_id_onload"
+     data-client_id="550754215798-ud6hkuvag4ee6dp8jqkro1ob8i8f0g3b.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse">
+</div>
+
+<div style="display: flex; justify-content: center; margin-bottom: 5px;">
+    <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_blue" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
+</div>
+
+<div class="divider">
+    <hr> <span>OR LOGIN WITH EMAIL</span> <hr>
+</div>
         <form id="loginForm">
             <input type="text" id="identifier" placeholder="Email or Username" required>
             <input type="password" id="password" placeholder="Password" required>
@@ -155,9 +176,39 @@
 
 <script>
     // Paste your existing Login & Recovery JS logic here (API_URL, fetch, etc.)
-    const API_URL = "YOUR_SCRIPT_URL_HERE"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec"; 
     // ... logic remains same as previous steps ...
+    function handleCredentialResponse(response) {
+    const responsePayload = parseJwt(response.credential);
     
+    // GitHub se Apps Script ko data bhej raha hai
+    fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+            action: "google-login",
+            userData: responsePayload
+        })
+    })
+    .then(res => res.json())
+    .then(res => {
+        if(res.status === "success") {
+            // Login details ko browser mein save kar raha hai
+            localStorage.setItem('userToken', res.token);
+            localStorage.setItem('username', res.username);
+            
+            document.getElementById('message').innerHTML = '<span class="success">Welcome ' + res.name + '! Redirecting...</span>';
+            
+            setTimeout(() => {
+                window.location.href = "index.html"; 
+            }, 1500);
+        } else {
+            document.getElementById('message').innerHTML = '<span class="error">' + res.message + '</span>';
+        }
+    })
+    .catch(err => {
+        document.getElementById('message').innerHTML = '<span class="error">Connection Error!</span>';
+    });
+}
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 </script>
