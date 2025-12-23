@@ -39,7 +39,7 @@ function initUploadSystem() {
 }
 
 async function handleFiles(files) {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('userToken');
     if (!token) return alert("Please login first!");
 
     const container = document.getElementById('uploadProgressContainer');
@@ -98,7 +98,7 @@ function updateUI(id, status, msg) {
 }
 
 function loadUserDocuments() {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('userToken');
     const tbody = document.getElementById('recentDocsBody');
     if (!token || !tbody) return;
 
