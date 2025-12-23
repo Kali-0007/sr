@@ -206,7 +206,7 @@
                 localStorage.setItem('userToken', res.token);
                 localStorage.setItem('username', res.username);
                 document.getElementById('message').innerHTML = '<span class="success">Welcome ' + res.name + '! Redirecting...</span>';
-                setTimeout(() => { window.location.href = "index.html"; }, 1500);
+                setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
             } else {
                 document.getElementById('message').innerHTML = '<span class="error">' + res.message + '</span>';
             }
@@ -231,7 +231,7 @@
             if(res.status === "success") {
                 localStorage.setItem('userToken', res.token);
                 localStorage.setItem('username', res.username);
-                window.location.href = "index.html";
+                window.location.href = "dashboard.html";
             } else {
                 document.getElementById('message').innerHTML = '<span class="error">' + res.message + '</span>';
             }
