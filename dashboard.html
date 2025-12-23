@@ -107,11 +107,13 @@
 
   /* --- 2. Sidebar & Container (Updated) --- */
  /* --- 2. Sidebar & Container (Overlap Fix) --- */
+ /* --- 2. Sidebar & Container (Perfect Footer Alignment) --- */
   .container { 
     display: flex; 
     margin-top: 70px; 
     min-height: calc(100vh - 70px); 
-    position: relative; /* Sidebar ko iske andar rakhne ke liye */
+    position: relative; /* Sidebar ko iske borders ke andar lock karne ke liye */
+    align-items: stretch; /* Taaki sidebar aur content ki height barabar chale */
   }
 
   .sidebar {
@@ -119,16 +121,16 @@
     background: var(--panel-bg);
     border-right: 1px solid var(--border);
     
-    /* FIX: Fixed se hatakar sticky kiya taaki footer ke upar na chadhe */
-    position: sticky; 
-    top: 70px; 
-    height: calc(100vh - 70px); 
+    /* FIX: Absolute aur Bottom 0 se sidebar footer ki boundary tak jayega */
+    position: absolute; 
+    top: 0;
+    bottom: 0; 
+    left: 0;
     
     padding-top: 20px;
-    transition: 0.3s;
     z-index: 900;
     overflow-y: auto;
-    flex-shrink: 0; /* Sidebar ko dabne se rokne ke liye */
+    transition: 0.3s;
   }
 
   .sidebar a {
@@ -151,10 +153,11 @@
 
   /* --- 3. Main Content Area --- */
   .main-content {
-    /* FIX: Margin-left hataya kyunki flex use ho raha hai */
+    /* FIX: Sidebar absolute hai, isliye margin-left zaroori hai */
+    margin-left: 250px; 
     padding: 30px;
     flex: 1;
-    min-width: 0; /* Flexbox layout fix */
+    min-height: calc(100vh - 70px);
     box-sizing: border-box;
   }
 
