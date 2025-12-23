@@ -105,18 +105,26 @@
   }
   .logout-btn-header:hover { background: #ff4757; color: #fff; }
 
-  /* --- 2. Sidebar --- */
-  .container { display: flex; margin-top: 70px; min-height: calc(100vh - 70px); }
+  /* --- 2. Sidebar & Container (Updated) --- */
+  .container { 
+    display: flex; 
+    margin-top: 70px; /* Header ki height ke barabar gap */
+    min-height: calc(100vh - 70px); 
+    position: relative;
+  }
 
   .sidebar {
     width: 250px;
     background: var(--panel-bg);
     border-right: 1px solid var(--border);
-    position: fixed;
-    height: 100%;
+    position: fixed; /* Taaki scroll karne par sidebar wahin rahe */
+    height: calc(100vh - 70px); /* Pura viewport minus header height */
+    top: 70px; /* Header ke thik niche se shuru */
+    left: 0;
     padding-top: 20px;
     transition: 0.3s;
     z-index: 900;
+    overflow-y: auto; /* Agar menu lambi ho jaye toh andar scroll ho */
   }
 
   .sidebar a {
@@ -137,12 +145,13 @@
     border-left: 3px solid var(--primary);
   }
 
-  /* --- 3. Main Content Area --- */
+  /* --- 3. Main Content Area (Updated) --- */
   .main-content {
-    margin-left: 250px;
+    margin-left: 250px; /* Sidebar ki jagah chhod di */
     padding: 30px;
     flex: 1;
-    width: 100%;
+    width: calc(100% - 250px); /* Sidebar ki width minus kar di */
+    box-sizing: border-box;
   }
 
   /* Progress Tracker */
