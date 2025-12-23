@@ -169,7 +169,6 @@
             <i class="fas fa-calculator"></i>
             <h1>Tax Computation Tool</h1>
             <div>Pro Tax, Zero Stress</div>
-            <!-- Close Button -->
             <button class="close-calculator" onclick="closeCalculator()">✕</button>
         </header>
         <div class="step-indicator" id="stepIndicator">
@@ -179,7 +178,6 @@
             <div class="step" data-step="4">4</div>
         </div>
         <form id="taxForm" class="tool-form">
-            <!-- Step 1: Tax Profile -->
             <div class="form-step active" data-step="1">
                 <h3><i class="fas fa-user"></i> Step 1: Tax Profile</h3>
                 <div class="form-grid">
@@ -231,7 +229,6 @@
                     <button type="button" class="btn-secondary" onclick="nextStep(2)">Next</button>
                 </div>
             </div>
-            <!-- Step 2: Income Streams -->
             <div class="form-step" data-step="2">
                 <h3><i class="fas fa-chart-line"></i> Step 2: Income Streams</h3>
                 <div class="form-grid">
@@ -265,7 +262,6 @@
                     <button type="button" class="btn-primary" onclick="nextStep(3)">Next</button>
                 </div>
             </div>
-            <!-- Step 3: Deductions -->
             <div class="form-step" data-step="3">
                 <h3><i class="fas fa-shield-alt"></i> Step 3: Allowable Deductions (Traditional Regime)</h3>
                 <p style="color: #ccc;">New regime limits to standard deduction only.</p>
@@ -312,7 +308,6 @@
                     </tr>
                 </thead>
                 <tbody id="resultsTable">
-                    <!-- Dynamically populated -->
                 </tbody>
             </table>
             <div class="download-btns">
@@ -323,24 +318,22 @@
         </div>
     </div>
     <script>
-    // Auto-format number inputs with commas
     function formatNumber(input) {
-        let value = input.value.replace(/,/g, ''); // Remove existing commas
+        let value = input.value.replace(/,/g, '');
         if (!isNaN(value) && value !== '') {
             let num = parseFloat(value);
             input.value = new Intl.NumberFormat('en-IN').format(num);
         }
     }
 
-    // Parse formatted value to number
     function parseFormatted(value) {
         return parseFloat(value.replace(/,/g, '')) || 0;
     }
 
-    // Utility Functions
     function formatINR(n) {
         return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n || 0));
     }
+
     function updateSteps(currentStep) {
         document.querySelectorAll('.step').forEach((step, index) => {
             step.classList.remove('active', 'completed');
@@ -351,31 +344,29 @@
             s.classList.toggle('active', i === currentStep - 1);
         });
     }
+
     function nextStep(step) { updateSteps(step); }
     function prevStep(step) { updateSteps(step); }
-    function closeCalculator() { /* Add logic to close if needed */ }
+    function closeCalculator() {}
     function resetForm() {
         document.getElementById('taxForm').reset();
         document.getElementById('results').style.display = 'none';
         updateSteps(1);
         delete window.taxData;
     }
+
     updateSteps(1);
-    // ---------------------------------------------------------
-    // UPDATED TAX CALCULATION LOGIC (BUDGET 2025 - FY 2025-26)
-    // ---------------------------------------------------------
+
     function calculateTax(income, regime, ageGroup, isResident) {
         let tax = 0;
         let slabs = [];
         let rebate = 0;
         let preRebateTax = 0;
       
-        // Standard Deduction: 50k for Old, 75k for New
         let stdDeduction = regime === 'old' ? 50000 : 75000;
         let totalTaxable = Math.max(0, income - stdDeduction);
       
         if (regime === 'new') {
-            // --- NEW REGIME SLABS (BUDGET 2025) ---
             if (totalTaxable <= 400000) {
                 preRebateTax = 0;
             } else if (totalTaxable <= 800000) {
@@ -397,18 +388,15 @@
                 preRebateTax = 300000 + (totalTaxable - 2400000) * 0.30;
                 slabs.push('5% on ₹4L-₹8L', '10% on ₹8L-₹12L', '15% on ₹12L-₹16L', '20% on ₹16L-₹20L', '25% on ₹20L-₹24L', '30% above ₹24L');
             }
-            // --- 87A REBATE (Updated to 12 Lakhs for New Regime) ---
             if (isResident && totalTaxable <= 1200000) {
                 rebate = preRebateTax;
             }
         } else {
-            // --- OLD REGIME SLABS (Improved breakdown) ---
             let exemptionLimit = ageGroup === 'under60' ? 250000 : ageGroup === 'senior' ? 300000 : 500000;
-            slabs = []; // Reset slabs
+            slabs = [];
             preRebateTax = 0;
           
             if (totalTaxable > exemptionLimit) {
-                // 5% slab
                 const fiveEnd = Math.min(totalTaxable, 500000);
                 const fiveAmount = fiveEnd - exemptionLimit;
                 if (fiveAmount > 0) {
@@ -416,7 +404,6 @@
                     slabs.push(`5% on ₹${(exemptionLimit / 1000).toFixed(0)}L - ₹5L`);
                 }
               
-                // 20% slab
                 if (totalTaxable > 500000) {
                     const twentyEnd = Math.min(totalTaxable, 1000000);
                     const twentyAmount = twentyEnd - 500000;
@@ -424,7 +411,6 @@
                     slabs.push('20% on ₹5L - ₹10L');
                 }
               
-                // 30% slab
                 if (totalTaxable > 1000000) {
                     const thirtyAmount = totalTaxable - 1000000;
                     preRebateTax += thirtyAmount * 0.30;
@@ -432,13 +418,11 @@
                 }
             }
           
-            // 87A Rebate for Old Regime (5 Lakhs limit)
             if (isResident && totalTaxable <= 500000) {
                 rebate = Math.min(preRebateTax, 12500);
             }
         }
         tax = Math.max(0, preRebateTax - rebate);
-        // Surcharge Logic (New regime capped at 25%)
         let surcharge = 0;
         if (totalTaxable > 5000000) {
             let surchargeRate = 0;
@@ -448,7 +432,7 @@
             else surchargeRate = regime === 'new' ? 0.25 : 0.37;
             surcharge = tax * surchargeRate;
         }
-        let finalTax = (tax + surcharge) * 1.04; // 4% Cess
+        let finalTax = (tax + surcharge) * 1.04;
         return {
             tax: Math.round(finalTax),
             preRebateTax: Math.round(preRebateTax),
@@ -458,7 +442,7 @@
             taxableIncome: Math.round(totalTaxable)
         };
     }
-    // Main Generate Report Logic
+
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('generateBtn').addEventListener('click', function(e) {
             e.preventDefault();
@@ -485,21 +469,17 @@
             const furtherDeductions = parseFormatted(document.getElementById('otherDeductions').value);
             const totalIncomeSource = basicSalary + otherIncome + (rentalIncome - homeLoanLetOut);
            
-            // OLD REGIME - Updated with all deductions
             const oldRegimeDeductions = section80C + section80D + section80G + section80E + section80TTA + homeLoanSelf + hraExemption + otherExemptions + furtherDeductions;
             let oldResult = calculateTax(totalIncomeSource - oldRegimeDeductions, 'old', ageGroup, isResident);
-           
-            // NEW REGIME
             let newResult = calculateTax(totalIncomeSource, 'new', ageGroup, isResident);
            
-            // Set window.taxData here - This fixes the download issue!
             window.taxData = {
                 timestamp: new Date().toLocaleString('en-IN'),
                 userName: userName,
                 userCategory: userCategory,
                 grossIncome: totalIncomeSource,
-                oldStd: oldResult.stdDeduction, // 50000
-                newStd: newResult.stdDeduction, // 75000
+                oldStd: oldResult.stdDeduction,
+                newStd: newResult.stdDeduction,
                 deductions: oldRegimeDeductions,
                 oldTaxable: oldResult.taxableIncome,
                 newTaxable: newResult.taxableIncome,
@@ -515,7 +495,6 @@
                 newSlabs: newResult.slabs
             };
            
-            // UI Update
             const regimeAdvantage = oldResult.tax - newResult.tax;
             const recommendedRegime = oldResult.tax > newResult.tax ? 'New' : 'Traditional';
             document.getElementById('resultsTable').innerHTML = `
@@ -534,233 +513,228 @@
             updateSteps(4);
         });
     });
-        // PDF Download
-        function downloadPDF() {
-            if (typeof window.taxData === 'undefined') {
-                alert('Please calculate tax first.');
-                return;
-            }
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const g = window.taxData;
-            // ========================
-            // HEADER (Top of every page)
-            // ========================
-            doc.setFillColor(0, 51, 102); // Dark blue
-            doc.rect(0, 0, 210, 45, 'F');
 
-            // Logo
-            const logo = new Image();
-            logo.src = 'logo.png';
-            let logoLoaded = false;
-
-            logo.onload = function () {
-                doc.addImage(logo, 'PNG', 15, 5, 35, 35);
-                logoLoaded = true;
-                renderContent();
-            };
-
-            logo.onerror = function () {
-                logoLoaded = false;
-                renderContent();
-            };
-
-            // Timeout fallback
-            setTimeout(() => {
-                if (!logoLoaded) renderContent();
-            }, 2000);
-
-            function renderContent() {
-                const xOffset = logoLoaded ? 60 : 15;
-
-                doc.setTextColor(255, 255, 255);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(24);
-                doc.text('TaxEasePro', xOffset, 22);
-
-                doc.setFontSize(12);
-                doc.text('Tax Computation Report (FY 2025-26)', xOffset, 32);
-
-                // Contact Info (Header me)
-                doc.setFontSize(10);
-                doc.text('Email: support@taxeasepro.com', xOffset, 40);
-                doc.text('WhatsApp: +91 98765 43210', xOffset + 70, 40);
-
-                // ========================
-                // Main Table (Computation)
-                // ========================
-                doc.setTextColor(0);
-                let y = 55;
-
-                doc.setFontSize(14);
-                doc.setTextColor(0, 51, 102);
-                doc.text(`Hello ${g.userName}! Here is your Tax Summary`, 15, y);
-                y += 10;
-
-                const recommended = g.recommendedRegime;
-                const advantage = g.savings;
-
-                const tableData = [
-                    ['Component', 'Traditional Regime (₹)', 'New Regime (₹)'],
-                    ['Gross Earnings', formatINR(g.grossIncome), formatINR(g.grossIncome)],
-                    ['Standard Deduction', formatINR(g.oldStd), formatINR(g.newStd)],
-                    ['Deductions Applied', formatINR(g.deductions), '₹0'],
-                    ['Taxable Income', formatINR(g.oldTaxable), formatINR(g.newTaxable)],
-                    ['Tax Before Rebate', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
-                    ['87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
-                    ['Final Tax (incl. Cess)', formatINR(g.oldTax), formatINR(g.newTax)],
-                    ['Recommendation', `Save ₹${formatINR(advantage)} with ${recommended}`, '']
-                ];
-
-                doc.autoTable({
-                    startY: y,
-                    head: [tableData[0]],
-                    body: tableData.slice(1),
-                    theme: 'grid',
-                    styles: { fontSize: 9, cellPadding: 4, overflow: 'linebreak' },
-                    headStyles: { fillColor: [0, 51, 102], textColor: [255,255,255] },
-                    columnStyles: { 0: { cellWidth: 55 }, 1: { cellWidth: 70 }, 2: { cellWidth: 70 } },
-                    margin: { left: 15, right: 15 }
-                });
-
-                y = doc.lastAutoTable.finalY + 15;
-
-                // ========================
-                // BOTTOM SECTION: Recommendations & Promotion (last ~1/4 page)
-                // ========================
-                doc.setFillColor(240, 240, 240); // Light gray background
-                doc.rect(0, y - 5, 210, 297 - y + 10, 'F'); // Background till bottom
-
-                doc.setFontSize(13);
-                doc.setTextColor(40, 167, 69); // Green
-                doc.text("Your Personalized Tax Saving Tips & Next Steps", 105, y, { align: 'center' });
-                y += 10;
-
-                doc.setFontSize(11);
-                doc.setTextColor(0);
-
-                // Dynamic Personalized Tips (Based on tax result + category)
-                let summaryLine = "";
-                let tip1 = "";
-                let tip2 = "";
-                let tip3 = "";
-                const oldTax = g.oldTax;
-                const newTax = g.newTax;
-                const minTax = Math.min(oldTax, newTax);
-                const category = g.userCategory;
-
-                if (minTax === 0) {
-                    summaryLine = "Great! Your tax is ₹0 this year.";
-                    tip1 = `Stay tax-free next year with smart planning.`;
-                } else if (minTax < 50000) {
-                    summaryLine = `Your tax is low at ₹${formatINR(minTax)} – Well done!`;
-                    tip1 = `Optimize further to keep it under ₹25,000.`;
-                } else if (minTax < 200000) {
-                    summaryLine = `You're paying ₹${formatINR(minTax)} tax – Save more!`;
-                    tip1 = `Invest ₹1.5 Lakh in eligible options to reduce it by 30%.`;
-                } else {
-                    summaryLine = `High tax of ₹${formatINR(minTax)} – Time to act!`;
-                    tip1 = `Switch regimes or claim deductions to save ₹50,000+ instantly.`;
-                }
-
-                if (recommended === 'Traditional') {
-                    tip2 = `Traditional Regime saves you ₹${formatINR(advantage)} – Maximize 80C/80D for more benefits.`;
-                } else {
-                    tip2 = `New Regime saves you ₹${formatINR(advantage)} – Consider NPS for extra savings.`;
-                }
-
-                // Category-specific tip
-                if (category === "salaried") {
-                    tip3 = "As Salaried, focus on HRA, Home Loan, and NPS for max deductions.";
-                } else if (category === "business") {
-                    tip3 = "As Business Owner, use Presumptive Taxation (44AD) + GST optimization.";
-                } else if (category === "freelancer") {
-                    tip3 = "As Freelancer, claim 44ADA + manage TDS/GST threshold wisely.";
-                } else if (category === "investor") {
-                    tip3 = "As Investor, reinvest Capital Gains under 54/54F to defer tax.";
-                } else {
-                    tip3 = "Tailored advice available – Book a call!";
-                }
-
-                doc.text(summaryLine, 15, y);
-                y += 8;
-                doc.text("• " + tip1, 15, y); y += 7;
-                doc.text("• " + tip2, 15, y); y += 7;
-                doc.text("• " + tip3, 15, y); y += 10;
-
-                // Small Services List (English)
-                doc.setFontSize(10);
-                doc.text("Our Special Services:", 15, y);
-                y += 7;
-                doc.text("• ITR Filing + TDS Refund", 20, y); y += 6;
-                doc.text("• GST Return + Compliance", 20, y); y += 6;
-                doc.text("• Tax Saving Planning", 20, y); y += 6;
-                doc.text("• Notice/Scrutiny Handling", 20, y); y += 10;
-
-                // Big CTA Box (English)
-                doc.setFillColor(40, 167, 69); // Green background for CTA box
-                doc.rect(15, y - 5, 180, 30, 'F');
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(14);
-                doc.setFont('helvetica', 'bold');
-                doc.text("Contact us NOW for FREE 15-min Consultation!", 105, y + 5, { align: 'center' });
-                y += 35;
-
-                doc.setTextColor(0);
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(12);
-                doc.text("WhatsApp: wa.me/919876543210", 105, y, { align: 'center' });
-                y += 8;
-                doc.text("Call: +91 98765 43210", 105, y, { align: 'center' });
-                y += 8;
-                doc.text("www.taxeasepro.com", 105, y, { align: 'center' });
-
-                // Last Viral Line (English)
-                y += 12;
-                doc.setFontSize(10);
-                doc.setTextColor(100);
-                doc.text("Share this report with your friends and family!", 105, y, { align: 'center' });
-                y += 8;
-
-                // Disclaimer
-                doc.setFontSize(9);
-                doc.setTextColor(120);
-                doc.text("This is a system-generated report. For any financial decision, consult a qualified CA.", 105, y, { align: 'center' });
-
-                // Save PDF
-                doc.save(`TaxEasePro_Tax_Report_${g.userName}_FY_2025-26.pdf`);
-            }
+    function downloadPDF() {
+        if (typeof window.taxData === 'undefined') {
+            alert('Please calculate tax first.');
+            return;
         }
-        // Excel Download
-        function downloadExcel() {
-            if (!window.taxData) {
-                alert('Please generate computation first');
-                return;
-            }
-            const wsData = [
-                ["INCOME TAX COMPUTATION – FY 2025-26 (AY 2026-27)"],
-                [],
-                ["Particulars", "Traditional Regime (₹)", "New Regime (₹)"],
-                ["Gross Total Income", window.taxData.grossIncome, window.taxData.grossIncome],
-                ["Less: Deductions", window.taxData.deductions, 0],
-                ["Taxable Income", window.taxData.oldTaxable, window.taxData.newTaxable],
-                [],
-                ["Income Tax Payable"],
-                ["Final Tax Liability (incl. cess)", window.taxData.oldTax, window.taxData.newTax],
-                [],
-                [
-                    "Recommended Regime",
-                    window.taxData.oldTax > window.taxData.newTax ? "New Regime" : "Traditional Regime",
-                    ""
-                ],
-                [],
-                ["Generated on", window.taxData.timestamp]
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const g = window.taxData;
+        
+        // Header
+        doc.setFillColor(0, 51, 102);
+        doc.rect(0, 0, 210, 40, 'F');
+        
+        const logo = new Image();
+        logo.src = 'logo.png';
+        let logoLoaded = false;
+
+        logo.onload = function () {
+            doc.addImage(logo, 'PNG', 10, 5, 25, 25);
+            logoLoaded = true;
+            renderContent();
+        };
+
+        logo.onerror = function () {
+            logoLoaded = false;
+            renderContent();
+        };
+
+        setTimeout(() => {
+            if (!logoLoaded) renderContent();
+        }, 1000);
+
+        function renderContent() {
+            const xOffset = logoLoaded ? 45 : 10;
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(20);
+            doc.text('TaxEasePro', xOffset, 18);
+
+            doc.setFontSize(11);
+            doc.text('Tax Computation Report (FY 2025-26)', xOffset, 26);
+
+            doc.setFontSize(9);
+            doc.text('Email: support@taxeasepro.com', xOffset, 34);
+            doc.text('WhatsApp: +91 98765 43210', xOffset + 60, 34);
+
+            // Main content
+            doc.setTextColor(0);
+            let y = 50;
+
+            doc.setFontSize(14);
+            doc.setTextColor(0, 51, 102);
+            doc.text(`Hello ${g.userName}! Here is your Tax Summary`, 15, y);
+            y += 12;
+
+            const recommended = g.recommendedRegime;
+            const advantage = g.savings;
+
+            const tableData = [
+                ['Component', 'Traditional (₹)', 'New Regime (₹)'],
+                ['Gross Earnings', formatINR(g.grossIncome), formatINR(g.grossIncome)],
+                ['Standard Deduction', formatINR(g.oldStd), formatINR(g.newStd)],
+                ['Deductions Applied', formatINR(g.deductions), '₹0'],
+                ['Taxable Income', formatINR(g.oldTaxable), formatINR(g.newTaxable)],
+                ['Tax Before Rebate', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
+                ['87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
+                ['Final Tax (incl. Cess)', formatINR(g.oldTax), formatINR(g.newTax)],
+                ['Recommendation', `Save ₹${formatINR(advantage)} with ${recommended}`, '']
             ];
-            const ws = XLSX.utils.aoa_to_sheet(wsData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Tax Computation");
-            XLSX.writeFile(wb, "TaxEasePro_Income_Tax_Computation_FY_2025_26.xlsx");
+
+            doc.autoTable({
+                startY: y,
+                head: [tableData[0]],
+                body: tableData.slice(1),
+                theme: 'grid',
+                styles: { 
+                    fontSize: 8, 
+                    cellPadding: 3, 
+                    overflow: 'linebreak',
+                    halign: 'left',
+                    valign: 'middle'
+                },
+                headStyles: { 
+                    fillColor: [0, 51, 102], 
+                    textColor: [255,255,255],
+                    fontSize: 9
+                },
+                columnStyles: { 
+                    0: { cellWidth: 52 }, 
+                    1: { cellWidth: 68 }, 
+                    2: { cellWidth: 68 } 
+                },
+                margin: { left: 12, right: 12, top: y }
+            });
+
+            y = doc.lastAutoTable.finalY + 12;
+
+            // Bottom section with proper margins
+            if (y > 250) {
+                doc.addPage();
+                y = 20;
+            }
+
+            doc.setFillColor(240, 240, 240);
+            doc.rect(5, y - 3, 200, 270 - y + 5, 'F');
+
+            doc.setFontSize(12);
+            doc.setTextColor(40, 167, 69);
+            doc.text("Your Personalized Tax Saving Tips", 105, y, { align: 'center' });
+            y += 10;
+
+            doc.setFontSize(10);
+            doc.setTextColor(0);
+
+            let summaryLine = "";
+            let tip1 = "";
+            let tip2 = "";
+            let tip3 = "";
+            const oldTax = g.oldTax;
+            const newTax = g.newTax;
+            const minTax = Math.min(oldTax, newTax);
+            const category = g.userCategory;
+
+            if (minTax === 0) {
+                summaryLine = "Great! Your tax is ₹0 this year.";
+                tip1 = `Stay tax-free next year with smart planning.`;
+            } else if (minTax < 50000) {
+                summaryLine = `Your tax is low at ₹${formatINR(minTax)} – Well done!`;
+                tip1 = `Optimize further to keep it under ₹25,000.`;
+            } else if (minTax < 200000) {
+                summaryLine = `You're paying ₹${formatINR(minTax)} tax – Save more!`;
+                tip1 = `Invest ₹1.5 Lakh in eligible options to reduce it by 30%.`;
+            } else {
+                summaryLine = `High tax of ₹${formatINR(minTax)} – Time to act!`;
+                tip1 = `Switch regimes or claim deductions to save ₹50,000+.`;
+            }
+
+            if (recommended === 'Traditional') {
+                tip2 = `Traditional saves you ₹${formatINR(advantage)} – Maximize 80C/80D.`;
+            } else {
+                tip2 = `New Regime saves you ₹${formatINR(advantage)} – Consider NPS.`;
+            }
+
+            if (category === "salaried") {
+                tip3 = "Salaried: Focus on HRA, Home Loan, and NPS deductions.";
+            } else if (category === "business") {
+                tip3 = "Business: Use Presumptive Taxation (44AD) + GST optimization.";
+            } else if (category === "freelancer") {
+                tip3 = "Freelancer: Claim 44ADA + manage TDS/GST threshold.";
+            } else if (category === "investor") {
+                tip3 = "Investor: Reinvest Capital Gains under 54/54F.";
+            } else {
+                tip3 = "Tailored advice available – Book a call!";
+            }
+
+            doc.text(summaryLine, 12, y);
+            y += 8;
+            doc.text("• " + tip1, 12, y); y += 7;
+            doc.text("• " + tip2, 12, y); y += 7;
+            doc.text("• " + tip3, 12, y); y += 10;
+
+            doc.setFontSize(9);
+            doc.text("Our Services:", 12, y);
+            y += 7;
+            doc.text("• ITR Filing + TDS Refund", 18, y); y += 6;
+            doc.text("• GST Return + Compliance", 18, y); y += 6;
+            doc.text("• Tax Saving Planning", 18, y); y += 6;
+            doc.text("• Notice/Scrutiny Handling", 18, y); y += 12;
+
+            doc.setTextColor(0);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            doc.text("WhatsApp: wa.me/919876543210", 105, y, { align: 'center' });
+            y += 7;
+            doc.text("Call: +91 98765 43210", 105, y, { align: 'center' });
+            y += 7;
+            doc.text("www.taxeasepro.com", 105, y, { align: 'center' });
+
+            y += 12;
+            doc.setFontSize(9);
+            doc.setTextColor(100);
+            doc.text("Share this report with friends & family!", 105, y, { align: 'center' });
+            y += 8;
+
+            doc.setTextColor(120);
+            doc.text("System-generated report. Consult qualified CA for decisions.", 105, y, { align: 'center' });
+
+            doc.save(`TaxEasePro_Tax_Report_${g.userName}_FY_2025-26.pdf`);
         }
+    }
+
+    function downloadExcel() {
+        if (!window.taxData) {
+            alert('Please generate computation first');
+            return;
+        }
+        const wsData = [
+            ["INCOME TAX COMPUTATION – FY 2025-26 (AY 2026-27)"],
+            [],
+            ["Particulars", "Traditional Regime (₹)", "New Regime (₹)"],
+            ["Gross Total Income", window.taxData.grossIncome, window.taxData.grossIncome],
+            ["Less: Deductions", window.taxData.deductions, 0],
+            ["Taxable Income", window.taxData.oldTaxable, window.taxData.newTaxable],
+            [],
+            ["Income Tax Payable"],
+            ["Final Tax Liability (incl. cess)", window.taxData.oldTax, window.taxData.newTax],
+            [],
+            [
+                "Recommended Regime",
+                window.taxData.oldTax > window.taxData.newTax ? "New Regime" : "Traditional Regime",
+                ""
+            ],
+            [],
+            ["Generated on", window.taxData.timestamp]
+        ];
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Tax Computation");
+        XLSX.writeFile(wb, "TaxEasePro_Income_Tax_Computation_FY_2025_26.xlsx");
+    }
     </script>
 </body>
 </html>
