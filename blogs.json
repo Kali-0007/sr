@@ -1,5 +1,31 @@
 [
   {
+  "id": "tax-saving-guide-freelancers-2025",
+  "title": "Freelancers ke Liye Tax Saving Guide 2025: GST aur ITR Mein Kaise Bachayein Lakhs Rupaye?",
+  "slug": "freelancer-tax-saving-tips-2025",
+  "date": "2025-05-20",
+  "category": "Tax Planning",
+  "author": "TaxEasePro Team",
+  "image": "images/blog/freelancer-tax.jpg",
+  "metaDesc": "Kya aap ek freelancer hain? Hamari 2025 ki Tax Saving Guide se seekhein kaise Section 44ADA aur Business Expenses ka use karke aap lakho rupaye bacha sakte hain. Free tax calculator aur detailed PDF report ke liye click karein!",
+  "content": "India mein freelancing ka craze tezi se badh raha hai. Lekin freelancing ke saath sabse badi pareshani hoti hai taxation ki. Agar aap sahi tax planning karte ho, toh legally apne hard-earned money se lakhs rupaye bacha sakte ho.<br><br><h3>1. Section 44ADA: Freelancers ka Sabse Powerful Tool</h3>Agar aapki annual gross receipts ₹75 lakh se kam hain, toh aap Section 44ADA ka fayda utha sakte hain. Government maan leti hai ki aapki income ka sirf 50% profit hai.<br><br><div class='cta-box'><h4>Confused hain ki aapka kitna Tax bachega?</h4><p>Hamare Free Income Tax Calculator ka use karein aur paayein detailed PDF report WhatsApp par!</p><a href='calculator.html' class='btn-link'>👉 Apna Tax Calculate Karein</a></div><br><h3>2. Business Expenses Se Tax Bachayein</h3>Agar aap regular scheme mein hain, toh aap Laptop depreciation, Internet bills, Software subscriptions (Adobe, Canva), aur Client meetings ke traveling expenses minus kar sakte hain.<br><br><h3>3. GST for Freelancers</h3>Agar aapka turnover ₹20 lakh se zyada hai, toh GST registration mandatory hai. Foreign clients ke liye 'Export of Services' 0% GST par hoti hai, lekin iske liye LUT file karna zaroori hai.<br><br><div class='services-card-inline'><h4>Our Specialized Services for Freelancers:</h4><ul><li>Freelancer ITR Filing (ITR-3 & ITR-4)</li><li>GST Registration & LUT Filing</li><li>Quarterly GST Returns</li></ul><button onclick='requestCallback()' class='btn-callback'>Request Call Back</button></div><br><h3>4. Advance Tax aur TDS</h3>Agar aapka total tax ₹10,000 se zyada hai, toh Advance Tax 4 installments mein bharna zaroori hai. Saath hi, agar client ne TDS kaata hai, toh ITR file karke refund claim karein.<br><br><h3>Conclusion</h3>Section 44ADA aur sahi expense tracking se aap apni tax liability zero ya bahut kam kar sakte hain.<br><br><div class='disclaimer'><strong>Disclaimer:</strong> This guide is for educational purposes. Consult a CA before filing.</div>",
+  "faqs": [
+    {
+      "q": "Kya freelancers ko ITR file karna mandatory hai?",
+      "a": "Haan, agar aapki income basic exemption limit (₹3L in New Regime) se zyada hai toh mandatory hai. TDS refund ke liye bhi ye zaroori hai."
+    },
+    {
+      "q": "Section 44ADA kya hai?",
+      "a": "Ye professionals ke liye presumptive scheme hai jisme sirf 50% income par tax dena hota hai."
+    },
+    {
+      "q": "Kya foreign income par GST lagta hai?",
+      "a": "Nahi, ye Zero-rated supply hai, par iske liye GST registration aur LUT zaroori hai."
+    }
+  ],
+  "keywords": ["freelancer tax saving tips", "GST for freelancers India", "Section 44ADA", "ITR filing for freelancers", "advance tax freelancers"]
+},
+  {
   "id": "msme-45-days-payment-rule-2025",
   "title": "MSME 45 Days Payment Rule under Section 43B(h): Save Your Tax Deductions in 2025",
   "category": "Income Tax",
