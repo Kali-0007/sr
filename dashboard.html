@@ -454,7 +454,7 @@
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec"; // <--- Zaroori: Naya Deployment URL yahan dalein
 
 // 1. Session Check
-if (!localStorage.getItem('authToken')) {
+if (!localStorage.getItem('userToken')) {
     window.location.href = "login.html";
 }
 
@@ -474,7 +474,7 @@ tabs.forEach(tab => {
 
 // 3. Load Profile Function (Fixed & Clean)
 async function loadProfile() {
-    const token = localStorage.getItem('authToken')?.trim();
+    const token = localStorage.getItem('userToken')?.trim();
     if (!token) return;
 
     try {
@@ -534,7 +534,7 @@ async function loadProfile() {
 // 4. Save Profile Logic
 document.getElementById('saveProfileBtn').onclick = async () => {
     const btn = document.getElementById('saveProfileBtn');
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('userToken');
     const formData = new URLSearchParams({
         action: "update-profile",
         token: token,
