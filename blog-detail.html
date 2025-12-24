@@ -163,7 +163,8 @@
 
 </head>
 <body>
-    <script src="header.js"></script>
+  <!-- Header include -->
+  <div id="header-placeholder"></div>
     <div id="progress-bar"></div>
 
     <div class="container">
@@ -172,7 +173,14 @@
             <p>Loading blog content...</p>
         </div>
     </div>
-
+<script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').outerHTML = data;
+      })
+      .catch(err => console.error('Header load failed:', err));
+  </script>
     <script src="footer.js"></script>
     <script>
         // Fetch and render blog
