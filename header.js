@@ -1,11 +1,13 @@
-// header.js - Yeh version body ready hone ke baad hi chalega
+// header.js - FINAL FIXED VERSION (no document.write)
 
-// Function to load header
-function loadHeader() {
-    // Agar header pehle se exist na kare to hi daalo
-    if (document.querySelector('header')) return;
+(function() {
+    // Sirf ek baar chalao + agar header pehle se ho to skip karo
+    if (document.querySelector('header')) {
+        console.log('Header already exists, skipping...');
+        return;
+    }
 
-    const headerContent = `
+    const headerHTML = `
 <header>
   <div class="logo">
     <img src="logo.png" alt="TaxEasePro - Professional Tax Consultant Logo" style="height: 40px;">
@@ -35,10 +37,10 @@ function loadHeader() {
 </div>
 
 <div class="sticky-bar">
-  <a href="https://wa.me/919876543210" class="sticky-btn" style="color: #25D366;">
+  <a href="https://wa.me/91XXXXXXXXXX" class="sticky-btn" style="color: #25D366;">
     <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
   </a>
-  <a href="tel:+919876543210" class="sticky-btn">
+  <a href="tel:+91XXXXXXXXXX" class="sticky-btn">
     <i class="fas fa-phone-alt"></i><span>Call Now</span>
   </a>
   <a href="contact.html" class="sticky-btn" style="color: var(--primary);">
@@ -47,21 +49,12 @@ function loadHeader() {
 </div>
     `;
 
-    // Ab body ready hai, safely insert karo
-    document.body.insertAdjacentHTML('afterbegin', headerContent);
-}
+    // Header ko body ke sabse upar daalo
+    document.body.insertAdjacentHTML('afterbegin', headerHTML);
 
-// Toggle function
-function toggleMenu() {
-    const menu = document.getElementById('mobileMenu');
-    if (menu) menu.classList.toggle('active');
-}
-
-// Yeh script ko sahi time pe chalao
-if (document.readyState === 'loading') {
-    // Agar page abhi load ho raha hai
-    document.addEventListener('DOMContentLoaded', loadHeader);
-} else {
-    // Agar script body ke baad load ho raha hai (ya page already loaded)
-    loadHeader();
-}
+    // Mobile menu toggle
+    window.toggleMenu = function() {
+        const menu = document.getElementById('mobileMenu');
+        if (menu) menu.classList.toggle('active');
+    };
+})();
