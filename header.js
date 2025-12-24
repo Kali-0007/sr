@@ -1,8 +1,8 @@
-// header.js  ← Yeh file bilkul replace kar do isse
+// header.js - Yeh version body ready hone ke baad hi chalega
 
-// Yeh function sirf ek baar chalega aur header ko page ke sabse top pe daal dega
-(function() {
-    // Agar header pehle se exist na kare to hi daalo (duplicate avoid karne ke liye)
+// Function to load header
+function loadHeader() {
+    // Agar header pehle se exist na kare to hi daalo
     if (document.querySelector('header')) return;
 
     const headerContent = `
@@ -35,10 +35,10 @@
 </div>
 
 <div class="sticky-bar">
-  <a href="https://wa.me/91XXXXXXXXXX" class="sticky-btn" style="color: #25D366;">
+  <a href="https://wa.me/919876543210" class="sticky-btn" style="color: #25D366;">
     <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
   </a>
-  <a href="tel:+91XXXXXXXXXX" class="sticky-btn">
+  <a href="tel:+919876543210" class="sticky-btn">
     <i class="fas fa-phone-alt"></i><span>Call Now</span>
   </a>
   <a href="contact.html" class="sticky-btn" style="color: var(--primary);">
@@ -47,12 +47,21 @@
 </div>
     `;
 
-    // Page ke sabse shuru mein insert karo
+    // Ab body ready hai, safely insert karo
     document.body.insertAdjacentHTML('afterbegin', headerContent);
-})();
+}
 
-// Toggle function - yeh global rahega
-window.toggleMenu = function() {
+// Toggle function
+function toggleMenu() {
     const menu = document.getElementById('mobileMenu');
     if (menu) menu.classList.toggle('active');
-};
+}
+
+// Yeh script ko sahi time pe chalao
+if (document.readyState === 'loading') {
+    // Agar page abhi load ho raha hai
+    document.addEventListener('DOMContentLoaded', loadHeader);
+} else {
+    // Agar script body ke baad load ho raha hai (ya page already loaded)
+    loadHeader();
+}
