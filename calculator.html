@@ -390,8 +390,9 @@
     function nextStep(step) { updateSteps(step); }
     function prevStep(step) { updateSteps(step); }
     function closeCalculator() {
-        resetForm();
-    }
+    resetForm();                     // optional
+    window.location.href = "index.html";  
+}
     function resetForm() {
         document.getElementById('taxForm').reset();
         document.getElementById('results').style.display = 'none';
