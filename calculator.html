@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Income Tax Computation Tool by TaxEasePro – FY 2025-26 (Accurate & Detailed)</title>
+    <title>Advanced Tax Computation Tool – FY 2025-26 (Accurate & Detailed)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
@@ -169,7 +169,7 @@
             <i class="fas fa-calculator"></i>
             <h1>Advanced Tax Computation Tool</h1>
             <div>Pro Tax, Zero Stress</div>
-            <button class="close-calculator" onclick="closeCalculator()">✕</button>
+            <button class="close-calculator">✕</button>
         </header>
         <div class="step-indicator" id="stepIndicator">
             <div class="step active" data-step="1">1</div>
@@ -227,7 +227,7 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn-secondary" onclick="nextStep(2)">Next</button>
+                    <button type="button" class="btn-secondary">Next</button>
                 </div>
             </div>
             <div class="form-step" data-step="2">
@@ -279,8 +279,8 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn-secondary" onclick="prevStep(1)">Previous</button>
-                    <button type="button" class="btn-primary" onclick="nextStep(3)">Next</button>
+                    <button type="button" class="btn-secondary">Previous</button>
+                    <button type="button" class="btn-primary">Next</button>
                 </div>
             </div>
             <div class="form-step" data-step="3">
@@ -313,8 +313,8 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn-secondary" onclick="prevStep(2)">Previous</button>
-                    <button type="button" class="btn-primary" onclick="nextStep(4)">Next</button>
+                    <button type="button" class="btn-secondary">Previous</button>
+                    <button type="button" class="btn-primary">Next</button>
                 </div>
             </div>
             <div class="form-step" data-step="4">
@@ -334,7 +334,7 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn-secondary" onclick="prevStep(3)">Previous</button>
+                    <button type="button" class="btn-secondary">Previous</button>
                     <button type="button" id="generateBtn" class="btn-primary">Generate Report</button>
                 </div>
             </div>
@@ -342,7 +342,8 @@
         <div id="results" class="computation-results">
             <h2><i class="fas fa-file-invoice"></i> Computation Summary</h2>
             <p style="color: #ccc; text-align: center;">For Individuals only. Special incomes approximate. Consult CA for complex cases/Losses/Foreign income.</p>
-            <table class="results-table">
+            <div id="summaryResults" style="text-align: center; margin-bottom: 20px;"></div>
+            <table class="results-table" style="display: none;">
                 <thead>
                     <tr>
                         <th>Component</th>
@@ -354,10 +355,10 @@
                 </tbody>
             </table>
             <div class="download-btns">
-                <button class="download-btn" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download as PDF</button>
-                <button class="download-btn" onclick="downloadExcel()"><i class="fas fa-file-excel"></i> Download as Excel</button>
+                <button class="download-btn"><i class="fas fa-file-pdf"></i> Download as PDF</button>
+                <button class="download-btn"><i class="fas fa-file-excel"></i> Download as Excel</button>
             </div>
-            <button type="button" class="reset-btn" onclick="resetForm()" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;">New Computation</button>
+            <button type="button" class="reset-btn" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;">New Computation</button>
         </div>
     </div>
     <script>
@@ -397,7 +398,6 @@
         updateSteps(1);
         delete window.taxData;
     }
-    updateSteps(1);
     function calculateTax(regime, ageGroup, isResident, grossNormal, deductions, stcg111A, ltcg112A, ltcg112, specialIncome, agriIncome) {
         let stdDeduction = regime === 'old' ? 50000 : 75000;
         let normalDeductions = regime === 'old' ? deductions : 0;
@@ -494,7 +494,7 @@
             if (income > prevMax) {
                 let amount = Math.min(income, slab.max) - prevMax;
                 tax += amount * slab.rate;
-                slabs.push(`${slab.rate * 100}% on ₹${(prevMax / 100000).toFixed(1)}L - ₹${(slab.max / 100000).toFixed(1)}L`);
+                slabs.push(`${slab.rate * 100}% on Rs. ${(prevMax / 100000).toFixed(1)}L - Rs. ${(slab.max / 100000).toFixed(1)}L`);
             }
             prevMax = slab.max;
             if (income <= slab.max) break;
@@ -514,7 +514,7 @@
         const thresholds = [5000000, 10000000, 20000000, 50000000];
         for (let threshold of thresholds) {
             if (income > threshold) {
-                let taxAtThreshold = calculateTaxAtThreshold(threshold, regime, taxBeforeSurcharge / (income - threshold + taxBeforeSurcharge) * (income - threshold));
+                let taxAtThreshold = calculateTaxAtThreshold(threshold, regime, taxBeforeSurcharge / (income - threshold + taxBeforeSurcharge) * (income - threshold)); // approximate
                 let surchargeAtThreshold = calculateSurcharge(taxAtThreshold, threshold, regime);
                 let totalAtThreshold = taxAtThreshold + surchargeAtThreshold;
                 let excess = (taxBeforeSurcharge + surcharge) - totalAtThreshold;
@@ -526,9 +526,31 @@
         return relief;
     }
     function calculateTaxAtThreshold(threshold, regime, proportion) {
+        // Simplified, assume same proportion
         return proportion;
     }
     document.addEventListener('DOMContentLoaded', function() {
+        updateSteps(1);
+        document.querySelector('.close-calculator').addEventListener('click', closeCalculator);
+        document.querySelector('.reset-btn').addEventListener('click', resetForm);
+        document.querySelector('.download-btns .download-btn:nth-child(1)').addEventListener('click', downloadPDF);
+        document.querySelector('.download-btns .download-btn:nth-child(2)').addEventListener('click', downloadExcel);
+        document.querySelectorAll('.form-step .btn-group').forEach(group => {
+            const buttons = group.querySelectorAll('button[type="button"]');
+            const currentStepEl = group.closest('.form-step');
+            const currentStep = parseInt(currentStepEl.dataset.step);
+            if (buttons.length === 1) {
+                // Step 1: only next
+                buttons[0].addEventListener('click', () => nextStep(2));
+            } else {
+                // Previous
+                buttons[0].addEventListener('click', () => prevStep(currentStep - 1));
+                // Next, if not generate
+                if (buttons[1].id !== 'generateBtn') {
+                    buttons[1].addEventListener('click', () => nextStep(currentStep + 1));
+                }
+            }
+        });
         document.getElementById('generateBtn').addEventListener('click', function(e) {
             e.preventDefault();
             const userName = document.getElementById('userName').value.trim() || 'User';
@@ -642,37 +664,23 @@
                 oldSlabs: oldResult.slabs,
                 newSlabs: newResult.slabs
             };
-            document.getElementById('resultsTable').innerHTML = `
-                <tr><td>Gross Normal Earnings</td><td>${formatINR(grossNormal)}</td><td>${formatINR(grossNormal)}</td></tr>
-                <tr><td>Exemptions & Deductions</td><td>-${formatINR(oldRegimeDeductions)}</td><td>Not Allowed</td></tr>
-                <tr><td>Standard Deduction</td><td>-${formatINR(oldResult.stdDeduction)}</td><td>-${formatINR(newResult.stdDeduction)}</td></tr>
-                <tr><td style="font-weight:bold">Taxable Normal Income</td><td>${formatINR(window.taxData.oldTaxableNormal)}</td><td>${formatINR(window.taxData.newTaxableNormal)}</td></tr>
-                <tr><td>Tax on Normal Before Rebate</td><td>${formatINR(oldResult.preRebateTax)}</td><td>${formatINR(newResult.preRebateTax)}</td></tr>
-                <tr><td>87A Rebate</td><td>-${formatINR(oldResult.rebateAmount)}</td><td>-${formatINR(newResult.rebateAmount)}</td></tr>
-                <tr><td>Tax on Normal After Rebate</td><td>${formatINR(oldResult.normalTax)}</td><td>${formatINR(newResult.normalTax)}</td></tr>
-                <tr><td>STCG Tax (u/s 111A)</td><td>${formatINR(oldResult.stcgTax)}</td><td>${formatINR(newResult.stcgTax)}</td></tr>
-                <tr><td>LTCG Tax (u/s 112A)</td><td>${formatINR(oldResult.ltcg112ATax)}</td><td>${formatINR(newResult.ltcg112ATax)}</td></tr>
-                <tr><td>LTCG Tax (u/s 112)</td><td>${formatINR(oldResult.ltcg112Tax)}</td><td>${formatINR(newResult.ltcg112Tax)}</td></tr>
-                <tr><td>Special Income Tax</td><td>${formatINR(oldResult.specialTax)}</td><td>${formatINR(newResult.specialTax)}</td></tr>
-                <tr><td>Surcharge</td><td>${formatINR(oldResult.surcharge)}</td><td>${formatINR(newResult.surcharge)}</td></tr>
-                <tr><td>Marginal Relief</td><td>-${formatINR(oldResult.marginalRelief)}</td><td>-${formatINR(newResult.marginalRelief)}</td></tr>
-                <tr><td>Tax Before Cess</td><td>${formatINR(oldResult.taxBeforeCess)}</td><td>${formatINR(newResult.taxBeforeCess)}</td></tr>
-                <tr><td>4% Cess</td><td>${formatINR(oldResult.cess)}</td><td>${formatINR(newResult.cess)}</td></tr>
-                <tr><td>Final Tax Liability</td><td style="font-size:20px">${formatINR(oldResult.tax)}</td><td style="font-size:20px">${formatINR(newResult.tax)}</td></tr>
-                <tr><td>Taxes Already Paid</td><td>-${formatINR(prepaidTax)}</td><td>-${formatINR(prepaidTax)}</td></tr>
-                <tr><td>Net Payable/Refund</td><td style="font-size:20px; color:${oldNetPayable < 0 ? '#28a745' : '#dc3545'}">${formatINR(oldNetPayable)}</td><td style="font-size:20px; color:${newNetPayable < 0 ? '#28a745' : '#dc3545'}">${formatINR(newNetPayable)}</td></tr>
-                <tr><td>Recommendation</td><td colspan="2" style="text-align:center; color:green; font-weight:bold;">
-                    ${regimeAdvantage === 0 ? "Equal" : `Save Rs.${formatINR(savings)} with ${recommendedRegime} Regime`}
-                </td></tr>
+            document.getElementById('summaryResults').innerHTML = `
+                <h3>Final Tax Payable</h3>
+                <table style="margin: auto; border: 1px solid #444; background: #222;">
+                    <tr><th>Regime</th><th>Tax Payable</th></tr>
+                    <tr><td>Traditional</td><td>${formatINR(oldResult.tax)}</td></tr>
+                    <tr><td>New</td><td>${formatINR(newResult.tax)}</td></tr>
+                </table>
+                <p style="text-align:center; color:#4a90e2; font-size:18px; margin-top:25px; font-weight:600;">
+                    For complete and detailed computation, please download the PDF.
+                </p>
             `;
-            if (stcg111A > 0 || ltcg112A > 0 || ltcg112 > 0 || specialIncome > 0) {
-                document.getElementById('resultsTable').innerHTML += `<tr><td colspan="3" style="color:#ff6b6b; text-align:center;">Note: Rebate not applicable on special rate incomes.</td></tr>`;
-            }
             document.getElementById('results').style.display = 'block';
             updateSteps(5);
         });
     });
     function downloadPDF() {
+let rendered = false; // ← Yeh line add karo (sirf yeh chahiye)
         if (typeof window.taxData === 'undefined') {
             alert('Please calculate tax first.');
             return;
@@ -680,11 +688,10 @@
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
         const g = window.taxData;
-     
+   
         // Header
         doc.setFillColor(0, 51, 102);
         doc.rect(0, 0, 210, 40, 'F');
- 
         const logo = new Image();
         logo.src = 'logo.png';
         let logoLoaded = false;
@@ -701,6 +708,8 @@
             if (!logoLoaded) renderContent();
         }, 1000);
         function renderContent() {
+if (rendered) return; // ← Double call rokne ke liye
+rendered = true;      // ← Ek baar chalne ke baad flag set
             const xOffset = logoLoaded ? 45 : 10;
             doc.setTextColor(255, 255, 255);
             doc.setFont('helvetica', 'bold');
@@ -713,13 +722,14 @@
             doc.text('WhatsApp: +91 98765 43210', xOffset + 60, 34);
             // Main content
             doc.setTextColor(0);
-            let y = 50;
+            let y = 45;
             doc.setFontSize(14);
             doc.setTextColor(0, 51, 102);
             doc.text(`Hello ${g.userName}! Here is your Detailed Tax Computation`, 15, y);
             y += 12;
             const recommended = g.recommendedRegime;
             const advantage = g.savings;
+            const recommendedNet = recommended === 'New' ? g.newNetPayable : g.oldNetPayable;
             const tableData = [
                 ['Component', 'Traditional Regime (Rs.)', 'New Regime (Rs.)'],
                 ['Income Heads'],
@@ -766,17 +776,19 @@
                 [''],
                 ['Payments'],
                 ['Taxes Already Paid (TDS + Advance + Self)', formatINR(g.prepaidTax), formatINR(g.prepaidTax)],
-                ['Net Payable / (Refund)', formatINR(g.oldNetPayable), formatINR(g.newNetPayable)],
+                ['Net Tax Payable (if positive)', formatINR(Math.max(0, g.oldNetPayable)), formatINR(Math.max(0, g.newNetPayable))],
+                ['Refund Amount (if negative)', formatINR(Math.max(0, -g.oldNetPayable)), formatINR(Math.max(0, -g.newNetPayable))],
                 [''],
-                ['Recommendation', recommended, `Savings: Rs.${formatINR(advantage)}`]
+                ['Recommendation', recommended, `Savings: Rs. ${formatINR(advantage)}`]
             ];
             doc.autoTable({
                 startY: y,
                 head: [tableData[0]],
                 body: tableData.slice(1),
                 theme: 'grid',
+                rowPageBreak: 'avoid',
                 styles: {
-                    fontSize: 8,
+                    fontSize: 7,
                     cellPadding: 3,
                     overflow: 'linebreak',
                     halign: 'left',
@@ -794,7 +806,7 @@
                 },
                 margin: { left: 12, right: 12, top: y },
                 didParseCell: function(data) {
-                    if (data.row.raw && (data.row.raw[0] === 'Net Tax Liability' || data.row.raw[0] === 'Net Payable / (Refund)' || data.row.raw[0] === 'Recommendation')) {
+                    if (data.row.raw && (data.row.raw[0] === 'Net Tax Liability' || data.row.raw[0] === 'Net Tax Payable (if positive)' || data.row.raw[0] === 'Refund Amount (if negative)' || data.row.raw[0] === 'Recommendation')) {
                         data.cell.styles.fontStyle = 'bold';
                         data.cell.styles.fontSize = 9;
                     } else if (data.row.raw && ['Income Heads', 'Deductions', 'Tax Computation', 'Payments'].includes(data.row.raw[0])) {
@@ -805,6 +817,7 @@
                 }
             });
             y = doc.lastAutoTable.finalY + 12;
+            // Bottom section with proper margins
             if (y > 250) {
                 doc.addPage();
                 y = 20;
@@ -821,25 +834,24 @@
             let tip1 = "";
             let tip2 = "";
             let tip3 = "";
-            const minTax = Math.min(g.oldTax, g.newTax);
             const category = g.userCategory;
-            if (minTax === 0) {
-                summaryLine = "Great! Your tax is ₹0 this year.";
-                tip1 = `Stay tax-free next year with smart planning.`;
-            } else if (minTax < 50000) {
-                summaryLine = `Your tax is low at Rs.${formatINR(minTax)} – Well done!`;
-                tip1 = `Optimize further to keep it under ₹25,000.`;
-            } else if (minTax < 200000) {
-                summaryLine = `You're paying Rs.${formatINR(minTax)} tax – Save more!`;
-                tip1 = `Invest ₹1.5 Lakh in eligible options to reduce it by 30%.`;
+            if (recommendedNet <= 0) {
+                summaryLine = "Great! You get a refund or zero tax this year.";
+                tip1 = "Stay tax-free next year with smart planning.";
+            } else if (recommendedNet < 50000) {
+                summaryLine = `Your net payable is low at Rs. ${formatINR(recommendedNet)} – Well done!`;
+                tip1 = "Optimize further to keep it under Rs. 25,000.";
+            } else if (recommendedNet < 200000) {
+                summaryLine = `You're paying Rs. ${formatINR(recommendedNet)} net – Save more!`;
+                tip1 = "Invest Rs. 1.5 Lakh in eligible options to reduce it by 30%.";
             } else {
-                summaryLine = `High tax of Rs.${formatINR(minTax)} – Time to act!`;
-                tip1 = `Switch regimes or claim deductions to save ₹50,000+.`;
+                summaryLine = `High net of Rs. ${formatINR(recommendedNet)} – Time to act!`;
+                tip1 = "Switch regimes or claim deductions to save Rs. 50,000+.";
             }
             if (recommended === 'Traditional') {
-                tip2 = `Traditional saves you Rs.${formatINR(advantage)} – Maximize 80C/80D.`;
+                tip2 = `Traditional saves you Rs. ${formatINR(advantage)} – Maximize 80C/80D.`;
             } else {
-                tip2 = `New Regime saves you Rs.${formatINR(advantage)} – Consider NPS.`;
+                tip2 = `New Regime saves you Rs. ${formatINR(advantage)} – Consider NPS.`;
             }
             if (category === "salaried") {
                 tip3 = "Salaried: Focus on HRA, Home Loan, and NPS deductions.";
@@ -908,7 +920,8 @@
             ["4% Cess", g.oldCess, g.newCess],
             ["Final Tax Liability", g.oldTax, g.newTax],
             ["Taxes Paid", g.prepaidTax, g.prepaidTax],
-            ["Net Payable/Refund", g.oldNetPayable, g.newNetPayable],
+            ["Net Tax Payable (if positive)", Math.max(0, g.oldNetPayable), Math.max(0, g.newNetPayable)],
+            ["Refund Amount (if negative)", Math.max(0, -g.oldNetPayable), Math.max(0, -g.newNetPayable)],
             [],
             [
                 "Recommended Regime",
