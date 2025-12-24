@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       .logo { display: flex; align-items: center; gap: 10px; }
 
-      .nav-links { display: flex; gap: 20px; align-items: center; }
+      .nav-links { display: flex; gap: 15px; align-items: center; }
 
       .nav-links a { 
         color: #fff; 
