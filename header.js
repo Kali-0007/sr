@@ -1,6 +1,11 @@
-// header.js
+// header.js  ← Yeh file bilkul replace kar do isse
 
-document.write(`
+// Yeh function sirf ek baar chalega aur header ko page ke sabse top pe daal dega
+(function() {
+    // Agar header pehle se exist na kare to hi daalo (duplicate avoid karne ke liye)
+    if (document.querySelector('header')) return;
+
+    const headerContent = `
 <header>
   <div class="logo">
     <img src="logo.png" alt="TaxEasePro - Professional Tax Consultant Logo" style="height: 40px;">
@@ -30,20 +35,24 @@ document.write(`
 </div>
 
 <div class="sticky-bar">
-  <a href="https://wa.me/919876543210" class="sticky-btn" style="color: #25D366;">
+  <a href="https://wa.me/91XXXXXXXXXX" class="sticky-btn" style="color: #25D366;">
     <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
   </a>
-  <a href="tel:+919876543210" class="sticky-btn">
+  <a href="tel:+91XXXXXXXXXX" class="sticky-btn">
     <i class="fas fa-phone-alt"></i><span>Call Now</span>
   </a>
   <a href="contact.html" class="sticky-btn" style="color: var(--primary);">
     <i class="fas fa-envelope"></i><span>Enquiry</span>
   </a>
 </div>
+    `;
 
-<script>
-  function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('active');
-  }
-</script>
-`);
+    // Page ke sabse shuru mein insert karo
+    document.body.insertAdjacentHTML('afterbegin', headerContent);
+})();
+
+// Toggle function - yeh global rahega
+window.toggleMenu = function() {
+    const menu = document.getElementById('mobileMenu');
+    if (menu) menu.classList.toggle('active');
+};
