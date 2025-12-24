@@ -1,7 +1,6 @@
-// header.js - Common Header for all pages
+// header.js
 
 document.write(`
-<!-- ================= COMMON HEADER ================= -->
 <header>
   <div class="logo">
     <img src="logo.png" alt="TaxEasePro - Professional Tax Consultant Logo" style="height: 40px;">
@@ -20,7 +19,6 @@ document.write(`
   <i class="fas fa-bars mobile-btn" onclick="toggleMenu()" aria-label="Open Menu"></i>
 </header>
 
-<!-- Mobile Slide-in Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Home</a>
   <a href="about.html">About</a>
@@ -31,21 +29,21 @@ document.write(`
   <a href="signup.html" style="color: var(--success);">Create Account</a>
 </div>
 
-<!-- Mobile Sticky Bottom Action Bar -->
 <div class="sticky-bar">
-  <a href="https://wa.me/91XXXXXXXXXX" class="sticky-btn" style="color: #25D366;">
+  <a href="https://wa.me/919876543210" class="sticky-btn" style="color: #25D366;">
     <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
   </a>
-  <a href="tel:+9191XXXXXXXXXX" class="sticky-btn">
+  <a href="tel:+919876543210" class="sticky-btn">
     <i class="fas fa-phone-alt"></i><span>Call Now</span>
   </a>
   <a href="contact.html" class="sticky-btn" style="color: var(--primary);">
     <i class="fas fa-envelope"></i><span>Enquiry</span>
   </a>
 </div>
-`);
 
-// Mobile menu toggle function
-function toggleMenu() {
-  document.getElementById('mobileMenu').classList.toggle('active');
-}
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('active');
+  }
+</script>
+`);
