@@ -342,13 +342,44 @@
 
     // Blogs
     async function loadLatestBlogs() {
-        const ul = document.getElementById('latestBlogs');
-        ul.innerHTML = `
-            <li><a href="blogs.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>Latest Tax Tips</strong><small style="color: #aaa;">Dec 2025 Tax</small><br><small>Explore new slabs...</small></a></li>
-            <li><a href="blogs.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>GST Updates</strong><small style="color: #aaa;">Dec 2025 GST</small><br><small>New thresholds explained...</small></a></li>
-        `;
+    const ul = document.getElementById('latestBlogs');
+    ul.innerHTML = '<li style="color:#aaa;">Loading latest blogs...</li>'; // Loading dikhane ke liye
+
+    try {
+        const response = await fetch('./blogs.json');
+        if (!response.ok) {
+            throw new Error('blogs.json not found');
+        }
+        const blogs = await response.json();
+
+        // Sort by date (newest first) aur sirf 3 latest le lo
+        const latest = blogs
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 3);
+
+        ul.innerHTML = ''; // Clear kar do
+        if (latest.length === 0) {
+            ul.innerHTML = '<li style="color:#aaa;">No blogs available</li>';
+            return;
+        }
+
+        latest.forEach(blog => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <a href="blog-detail.html?id=${blog.id || blog.slug}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <strong>${blog.title}</strong>
+                    <small style="color: #aaa; display: block;">${new Date(blog.date).toLocaleDateString('en-IN')}</small>
+                    <small>${blog.excerpt || 'Read more...'}</small>
+                </a>
+            `;
+            ul.appendChild(li);
+        });
+    } catch (err) {
+        console.error('Error loading blogs:', err);
+        ul.innerHTML = '<li style="color:#ff6b6b;">Could not load blogs. Check console.</li>';
     }
-    loadLatestBlogs();
+}
+loadLatestBlogs();
 
     // Mobile Init
     function initMobile() {
