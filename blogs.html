@@ -230,7 +230,8 @@
  
 </head>
 <body>
-<script src="header.js"></script>
+<!-- Header include -->
+  <div id="header-placeholder"></div>
   <section class="hero">
     <h1>Tax Insights & Guides</h1>
     <p>Simple, expert, and up-to-date articles on Indian taxation, tax saving strategies, and smart financial planning.</p>
@@ -361,6 +362,14 @@
     }
 
     loadBlogs();
+  </script>
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').outerHTML = data;
+      })
+      .catch(err => console.error('Header load failed:', err));
   </script>
 <script src="footer.js"></script>
 
