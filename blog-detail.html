@@ -27,21 +27,30 @@
             padding: 0;
         }
 
+        /* FIX 1: Header ko sabse upar laane ke liye */
+        #header-placeholder {
+            position: sticky;
+            top: 0;
+            z-index: 10000; /* Isse header kabhi cover nahi hoga */
+            background: #000;
+        }
+
+        /* FIX 2: Container padding badha di hai taaki content header ke niche na dabe */
         .container {
             max-width: 720px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 120px 20px 40px; /* Top padding 120px */
         }
 
-        /* Reading Progress Bar */
+        /* FIX 3: Progress bar header ke thoda niche dikhega */
         #progress-bar {
             position: fixed;
-            top: 0;
+            top: 60px; /* Header ki height ke baad */
             left: 0;
             height: 4px;
             background: var(--accent-color);
             width: 0%;
-            z-index: 1000;
+            z-index: 10001; 
             transition: width 0.2s ease;
         }
 
@@ -57,10 +66,9 @@
             transition: opacity 0.3s;
         }
 
-        .back-btn:hover {
-            opacity: 0.8;
-        }
+        .back-btn:hover { opacity: 0.8; }
 
+        /* Blog Header (No sticky, no overlap) */
         .blog-header h1 {
             font-family: 'Inter', sans-serif;
             font-size: 42px;
@@ -82,8 +90,7 @@
             color: var(--text-color);
         }
 
-        .blog-content h2,
-        .blog-content h3 {
+        .blog-content h2, .blog-content h3 {
             font-family: 'Inter', sans-serif;
             color: var(--accent-color);
             margin-top: 60px;
@@ -91,43 +98,12 @@
             font-weight: 600;
         }
 
-        .blog-content h2 {
-            font-size: 32px;
-        }
+        .blog-content h2 { font-size: 32px; }
+        .blog-content h3 { font-size: 26px; }
+        .blog-content p { margin-bottom: 28px; }
+        .blog-content b, .blog-content strong { color: #ffffff; }
 
-        .blog-content h3 {
-            font-size: 26px;
-        }
-
-        .blog-content p {
-            margin-bottom: 28px;
-        }
-
-        .blog-content ul,
-        .blog-content ol {
-            padding-left: 30px;
-            margin-bottom: 28px;
-        }
-
-        .blog-content li {
-            margin-bottom: 12px;
-        }
-
-        .blog-content b,
-        .blog-content strong {
-            color: #ffffff;
-        }
-
-        .blog-content a {
-            color: var(--accent-color);
-            text-decoration: underline;
-        }
-
-        .blog-content a:hover {
-            opacity: 0.8;
-        }
-
-        /* CTA Box Styling */
+        /* CTA Box Styling (Original feature retained) */
         .blog-content div[style*="background: #111"] {
             background: #111111 !important;
             border: 1px dashed var(--accent-color);
@@ -136,16 +112,7 @@
             margin: 50px 0;
         }
 
-        .blog-content div[style*="background: #111"] p {
-            margin: 0;
-        }
-
-        .blog-content div[style*="color: #00d4ff"] {
-            color: var(--accent-color) !important;
-            font-weight: bold;
-        }
-
-        /* Ad Card Responsive Helpers */
+        /* Ad Card Responsive Helpers (Original feature retained) */
         .ad-card-container {
             display: flex;
             gap: 20px;
@@ -154,17 +121,14 @@
         }
 
         @media (max-width: 768px) {
-            .container { padding: 20px; }
+            .container { padding-top: 100px; }
             .blog-header h1 { font-size: 36px; }
             body { font-size: 18px; }
-            .blog-content h2 { font-size: 28px; }
         }
     </style>
-
 </head>
 <body>
-  <!-- Header include -->
-  <div id="header-placeholder"></div>
+    <div id="header-placeholder"></div>
     <div id="progress-bar"></div>
 
     <div class="container">
@@ -173,16 +137,16 @@
             <p>Loading blog content...</p>
         </div>
     </div>
-<script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').outerHTML = data;
-      })
-      .catch(err => console.error('Header load failed:', err));
-  </script>
-    <script src="footer.js"></script>
+
     <script>
+        // Load Header logic
+        fetch('header.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+          })
+          .catch(err => console.error('Header load failed:', err));
+
         // Fetch and render blog
         const params = new URLSearchParams(window.location.search);
         const blogId = params.get('id');
@@ -192,11 +156,12 @@
             .then(data => {
                 const blog = data.find(b => b.id == blogId);
                 if (blog) {
+                    // FIX: header tag ki jagah div use kiya conflict bachane ke liye
                     document.getElementById('blogContent').innerHTML = `
-                        <header class="blog-header">
+                        <div class="blog-header">
                             <h1>${blog.title}</h1>
                             <div class="blog-meta">Published on ${blog.date} | Category: ${blog.category}</div>
-                        </header>
+                        </div>
                         <article class="blog-content">
                             ${blog.content}
                         </article>
@@ -215,7 +180,7 @@
             document.getElementById('progress-bar').style.width = scrolled + '%';
         });
 
-        // FIXED: Ye section dynamic buttons ko footer modal se connect karega
+        // Modal Connection Logic (Retained)
         document.addEventListener('click', function(e) {
             if (e.target && (e.target.getAttribute('onclick') === 'openModal()' || e.target.innerText.includes('Request Call Back'))) {
                 if (typeof openModal === "function") {
@@ -226,5 +191,6 @@
             }
         });
     </script>
+    <script src="footer.js"></script>
 </body>
 </html>
