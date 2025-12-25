@@ -476,7 +476,7 @@
                 </tbody>
             </table>
             <div class="download-btns">
-                <button class="action-btn" onclick="openEmailModal()" style="background: #25d366;">
+                <button class="action-btn" onclick="openModal()" style="background: #25d366;">
     <i class="fas fa-envelope"></i> Get Detailed Report on Email
 </button>
                 <button class="download-btn"><i class="fas fa-file-excel"></i> Download as Excel</button>
@@ -683,7 +683,7 @@
         document.querySelector('.close-calculator').addEventListener('click', closeCalculator);
         document.querySelector('.reset-btn').addEventListener('click', resetForm);
         
-        document.querySelector('.download-btns .download-btn:nth-child(2)').addEventListener('click', downloadExcel);
+        
         document.getElementById('sendReportBtn').addEventListener('click', sendReport);
         document.getElementById('cancelBtn').addEventListener('click', closeModal);
         document.querySelectorAll('.form-step .btn-group').forEach(group => {
