@@ -1192,12 +1192,18 @@ const response = await fetch(SCRIPT_URL, {
 alert('Success! Your detailed tax report has been sent to your email.');
 closeModal();
 
-            if (response.ok) {
-                alert('Your detailed tax report has been sent to your email successfully!');
-                closeModal();
-            } else {
-                throw new Error('Failed to send report');
-            }
+          // fetch ke turant baad ye likhein
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(payload)
+        });
+
+        // no-cors mode mein response.ok hamesha false hota hai, 
+        // isliye hum bina check kiye success alert dikhayenge.
+        alert('Success! Your detailed tax report has been sent to your email.');
+        closeModal();
         } catch (error) {
             alert('Error sending report: ' + error.message + '. Please try again.');
         } finally {
