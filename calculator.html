@@ -1176,12 +1176,12 @@ logo.src = 'logo.png';
             const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweSlwjNFj6klb-XnrxdU0z48vHyAVq6zMysVNnQjKDeyXx8vfU1wt2V4wv3C5a_fjL/exec'; // Replace with your actual Google Apps Script Web App URL
 
             const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload)
-            });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'text/plain'  // <-- Ye change kar do
+    },
+    body: JSON.stringify(payload)
+});
 
             if (response.ok) {
                 alert('Your detailed tax report has been sent to your email successfully!');
