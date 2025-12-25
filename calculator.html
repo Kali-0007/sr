@@ -501,12 +501,21 @@
             <div class="loading" id="loadingSpinner">
                 <div class="spinner"></div>
                 Sending...
-            </div>
+           </div>
             <div class="modal-buttons">
                 <button class="btn-send" id="sendReportBtn">Send Report</button>
-                <button class="btn-cancel" id="cancelBtn">Cancel</button>
+                <button class="btn-cancel" id="cancelBtn" onclick="closeModal()">Cancel</button>
             </div>
-        </div>
+
+            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd; text-align: left;">
+                <p style="font-size: 11px; color: #666; line-height: 1.5; margin: 0;">
+                    🔒 <b>Privacy Note:</b> We value your privacy. Your financial data is encrypted and used only to generate this report. We never share your details with third parties.
+                </p>
+                <p style="font-size: 10px; color: #999; margin-top: 5px; font-style: italic;">
+                    *This report is a system-generated estimation. Please consult a CA for official tax filing.
+                </p>
+            </div>
+            </div>
     </div>
 
     <script>
