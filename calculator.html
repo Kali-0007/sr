@@ -161,6 +161,127 @@
             background: #dc3545;
             transform: scale(1.1);
         }
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: #222;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            font-family: 'Inter', sans-serif;
+        }
+        .modal-header {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .modal-input-group {
+            margin-bottom: 16px;
+        }
+        .modal-input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ccc;
+            font-weight: 600;
+        }
+        .modal-input-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #333;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .modal-input-group input:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+        .modal-input-group input::placeholder {
+            color: #888;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .btn-send {
+            background: #4a90e2;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-send:hover:not(:disabled) {
+            background: #357abd;
+        }
+        .btn-send:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        .btn-cancel {
+            background: #555;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-cancel:hover {
+            background: #666;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 16px;
+            color: #4a90e2;
+            font-weight: 600;
+        }
+        .spinner {
+            border: 2px solid #444;
+            border-top: 2px solid #4a90e2;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -355,12 +476,37 @@
                 </tbody>
             </table>
             <div class="download-btns">
-                <button class="download-btn"><i class="fas fa-file-pdf"></i> Download as PDF</button>
+                <button class="download-btn"><i class="fas fa-envelope"></i> Get Detailed Report on Email</button>
                 <button class="download-btn"><i class="fas fa-file-excel"></i> Download as Excel</button>
             </div>
             <button type="button" class="reset-btn" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;">New Computation</button>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="emailModal">
+        <div class="modal">
+            <div class="modal-header">Receive Your Tax Report</div>
+            <div class="modal-input-group">
+                <label>Full Name</label>
+                <input type="text" id="modalFullName" placeholder="Enter your full name" required>
+            </div>
+            <div class="modal-input-group">
+                <label>Email Address</label>
+                <input type="email" id="modalEmail" placeholder="Enter your email" required>
+                <div class="error" id="emailError">Please enter a valid email address.</div>
+            </div>
+            <div class="loading" id="loadingSpinner">
+                <div class="spinner"></div>
+                Sending...
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-send" id="sendReportBtn">Send Report</button>
+                <button class="btn-cancel" id="cancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script>
     function formatNumber(input) {
         let value = input.value.replace(/,/g, '');
@@ -390,8 +536,8 @@
     function nextStep(step) { updateSteps(step); }
     function prevStep(step) { updateSteps(step); }
     function closeCalculator() {
-    resetForm();                     // optional
-    window.location.href = "index.html";  
+    resetForm(); // optional
+    window.location.href = "index.html";
 }
     function resetForm() {
         document.getElementById('taxForm').reset();
@@ -534,8 +680,10 @@
         updateSteps(1);
         document.querySelector('.close-calculator').addEventListener('click', closeCalculator);
         document.querySelector('.reset-btn').addEventListener('click', resetForm);
-        document.querySelector('.download-btns .download-btn:nth-child(1)').addEventListener('click', downloadPDF);
+        document.querySelector('.download-btns .download-btn:nth-child(1)').addEventListener('click', openModal);
         document.querySelector('.download-btns .download-btn:nth-child(2)').addEventListener('click', downloadExcel);
+        document.getElementById('sendReportBtn').addEventListener('click', sendReport);
+        document.getElementById('cancelBtn').addEventListener('click', closeModal);
         document.querySelectorAll('.form-step .btn-group').forEach(group => {
             const buttons = group.querySelectorAll('button[type="button"]');
             const currentStepEl = group.closest('.form-step');
@@ -673,228 +821,371 @@
                     <tr><td>New</td><td>${formatINR(newResult.tax)}</td></tr>
                 </table>
                 <p style="text-align:center; color:#4a90e2; font-size:18px; margin-top:25px; font-weight:600;">
-                    For complete and detailed computation, please download the PDF.
+                    For complete and detailed computation, please get the report on email.
                 </p>
             `;
             document.getElementById('results').style.display = 'block';
             updateSteps(5);
         });
     });
-    function downloadPDF() {
-let rendered = false; // ← Yeh line add karo (sirf yeh chahiye)
+
+    function openModal() {
         if (typeof window.taxData === 'undefined') {
             alert('Please calculate tax first.');
             return;
         }
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
-        const g = window.taxData;
-   
-        // Header
-        doc.setFillColor(0, 51, 102);
-        doc.rect(0, 0, 210, 40, 'F');
-        const logo = new Image();
-        logo.src = 'logo.png';
-        let logoLoaded = false;
-        logo.onload = function () {
-            doc.addImage(logo, 'PNG', 10, 5, 25, 25);
-            logoLoaded = true;
-            renderContent();
-        };
-        logo.onerror = function () {
-            logoLoaded = false;
-            renderContent();
-        };
-        setTimeout(() => {
-            if (!logoLoaded) renderContent();
-        }, 1000);
-        function renderContent() {
-if (rendered) return; // ← Double call rokne ke liye
-rendered = true;      // ← Ek baar chalne ke baad flag set
-            const xOffset = logoLoaded ? 45 : 10;
-            doc.setTextColor(255, 255, 255);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(20);
-            doc.text('TaxEasePro', xOffset, 18);
-            doc.setFontSize(11);
-            doc.text('Advanced Tax Computation Report (FY 2025-26)', xOffset, 26);
-            doc.setFontSize(9);
-            doc.text('Email: support@taxeasepro.com', xOffset, 34);
-            doc.text('WhatsApp: +91 98765 43210', xOffset + 60, 34);
-            // Main content
-            doc.setTextColor(0);
-            let y = 45;
-            doc.setFontSize(14);
-            doc.setTextColor(0, 51, 102);
-            doc.text(`Hello ${g.userName}! Here is your Detailed Tax Computation`, 15, y);
-            y += 12;
-            const recommended = g.recommendedRegime;
-            const advantage = g.savings;
-            const recommendedNet = recommended === 'New' ? g.newNetPayable : g.oldNetPayable;
-            const tableData = [
-                ['Component', 'Traditional Regime (Rs.)', 'New Regime (Rs.)'],
-                ['Income Heads'],
-                ['Basic Salary', formatINR(g.basicSalary), formatINR(g.basicSalary)],
-                ['Business Income', formatINR(g.businessIncome), formatINR(g.businessIncome)],
-                ['Other Income', formatINR(g.otherIncome), formatINR(g.otherIncome)],
-                ['Gross Rental Income', formatINR(g.rentalIncome), formatINR(g.rentalIncome)],
-                ['Less: Municipal Taxes', formatINR(g.municipalTaxes), formatINR(g.municipalTaxes)],
-                ['Less: 30% Std Ded on Rental', formatINR(0.3 * (g.rentalIncome - g.municipalTaxes)), formatINR(0.3 * (g.rentalIncome - g.municipalTaxes))],
-                ['Less: Interest Let Out', formatINR(g.homeLoanLetOut), formatINR(g.homeLoanLetOut)],
-                ['Net Rental Income', formatINR(g.netRentalLetOut), formatINR(g.netRentalLetOut)],
-                ['Less: Self Occupied Interest', formatINR(g.homeLoanSelf), formatINR(g.homeLoanSelf)],
-                ['STCG u/s 111A', formatINR(g.stcg111A), formatINR(g.stcg111A)],
-                ['LTCG u/s 112A', formatINR(g.ltcg112A), formatINR(g.ltcg112A)],
-                ['LTCG u/s 112', formatINR(g.ltcg112), formatINR(g.ltcg112)],
-                ['Special Rate Income', formatINR(g.specialIncome), formatINR(g.specialIncome)],
-                ['Agricultural Income (Exempt)', formatINR(g.agriIncome), formatINR(g.agriIncome)],
-                ['Gross Total Income', formatINR(g.grossNormal + g.stcg111A + g.ltcg112A + g.ltcg112 + g.specialIncome + g.agriIncome), formatINR(g.grossNormal + g.stcg111A + g.ltcg112A + g.ltcg112 + g.specialIncome + g.agriIncome)],
-                [''],
-                ['Deductions'],
-                ['HRA Relief', formatINR(g.hraExemption), '0'],
-                ['Additional Exemptions', formatINR(g.otherExemptions), '0'],
-                ['Section 80C Investments', formatINR(g.section80C), '0'],
-                ['Section 80D Insurance', formatINR(g.section80D), '0'],
-                ['Other Deductions (80G, 80E, 80TTA, etc.)', formatINR(g.section80G + g.section80E + g.section80TTA + g.furtherDeductions), '0'],
-                ['Total Deductions (excl. Std. Ded.)', formatINR(g.deductions), '0'],
-                ['Less: Standard Deduction', formatINR(g.oldStd), formatINR(g.newStd)],
-                [''],
-                ['Taxable Normal Income', formatINR(g.oldTaxableNormal), formatINR(g.newTaxableNormal)],
-                [''],
-                ['Tax Computation'],
-                ['Tax on Normal at Slabs', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
-                ['Less: Section 87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
-                ['Tax on Normal After Rebate', formatINR(g.oldNormalTax), formatINR(g.newNormalTax)],
-                ['STCG Tax (u/s 111A @20%)', formatINR(g.oldStcgTax), formatINR(g.newStcgTax)],
-                ['LTCG Tax (u/s 112A @12.5% >1.25L)', formatINR(g.oldLtcg112ATax), formatINR(g.newLtcg112ATax)],
-                ['LTCG Tax (u/s 112 @12.5%)', formatINR(g.oldLtcg112Tax), formatINR(g.newLtcg112Tax)],
-                ['Special Income Tax (@30%)', formatINR(g.oldSpecialTax), formatINR(g.newSpecialTax)],
-                ['Add: Surcharge', formatINR(g.oldSurcharge), formatINR(g.newSurcharge)],
-                ['Less: Marginal Relief', formatINR(g.oldMarginalRelief), formatINR(g.newMarginalRelief)],
-                ['Tax Before Cess', formatINR(g.oldTaxBeforeCess), formatINR(g.newTaxBeforeCess)],
-                ['Add: 4% Health & Education Cess', formatINR(g.oldCess), formatINR(g.newCess)],
-                ['Net Tax Liability', formatINR(g.oldTax), formatINR(g.newTax)],
-                [''],
-                ['Payments'],
-                ['Taxes Already Paid (TDS + Advance + Self)', formatINR(g.prepaidTax), formatINR(g.prepaidTax)],
-                ['Net Tax Payable (if positive)', formatINR(Math.max(0, g.oldNetPayable)), formatINR(Math.max(0, g.newNetPayable))],
-                ['Refund Amount (if negative)', formatINR(Math.max(0, -g.oldNetPayable)), formatINR(Math.max(0, -g.newNetPayable))],
-                [''],
-                ['Recommendation', recommended, `Savings: Rs. ${formatINR(advantage)}`]
-            ];
-            doc.autoTable({
-                startY: y,
-                head: [tableData[0]],
-                body: tableData.slice(1),
-                theme: 'grid',
-                rowPageBreak: 'avoid',
-                styles: {
-                    fontSize: 7,
-                    cellPadding: 3,
-                    overflow: 'linebreak',
-                    halign: 'left',
-                    valign: 'middle'
-                },
-                headStyles: {
-                    fillColor: [0, 51, 102],
-                    textColor: [255,255,255],
-                    fontSize: 9
-                },
-                columnStyles: {
-                    0: { cellWidth: 52 },
-                    1: { cellWidth: 68 },
-                    2: { cellWidth: 68 }
-                },
-                margin: { left: 12, right: 12, top: y },
-                didParseCell: function(data) {
-                    if (data.row.raw && (data.row.raw[0] === 'Net Tax Liability' || data.row.raw[0] === 'Net Tax Payable (if positive)' || data.row.raw[0] === 'Refund Amount (if negative)' || data.row.raw[0] === 'Recommendation')) {
-                        data.cell.styles.fontStyle = 'bold';
-                        data.cell.styles.fontSize = 9;
-                    } else if (data.row.raw && ['Income Heads', 'Deductions', 'Tax Computation', 'Payments'].includes(data.row.raw[0])) {
-                        data.cell.styles.fillColor = [200, 200, 200];
-                        data.cell.styles.textColor = [0, 0, 0];
-                        data.cell.styles.fontStyle = 'bold';
+        document.getElementById('modalFullName').value = window.taxData.userName;
+        document.getElementById('emailModal').classList.add('active');
+        document.getElementById('emailError').style.display = 'none';
+    }
+
+    function closeModal() {
+        document.getElementById('emailModal').classList.remove('active');
+        document.getElementById('sendReportBtn').disabled = false;
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('modalFullName').value = '';
+        document.getElementById('modalEmail').value = '';
+    }
+
+    async function generatePDFBase64() {
+        return new Promise((resolve, reject) => {
+            if (typeof window.taxData === 'undefined') {
+                reject('No tax data available');
+                return;
+            }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const g = window.taxData;
+            let rendered = false;
+            // Logo Logic (Optional - Skip if file not found)
+            let logoLoaded = false;
+            try {
+                const logo = new Image();
+                logo.src = 'logo.png';
+                logo.onload = function () { logoLoaded = true; renderContent(); };
+                logo.onerror = function () { logoLoaded = false; renderContent(); };
+                setTimeout(() => { if (!logoLoaded) renderContent(); }, 1000);
+            } catch (e) {
+                logoLoaded = false;
+                renderContent();
+            }
+            function renderContent() {
+                if (rendered) return;
+                rendered = true;
+                // --- HEADER SECTION (0-45mm) ---
+                doc.setFillColor(0, 51, 102);
+                doc.rect(0, 0, 210, 45, 'F');
+                // Top Center Title
+                doc.setTextColor(192, 192, 192);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text('Income Tax Computation (FY 2025-26)', 105, 8, { align: 'center' });
+                // Brand Name "TaxEasePro" with Shadow/Shiny effect
+                const brandX = logoLoaded ? 45 : 15;
+                doc.setFontSize(36);
+                doc.setTextColor(218, 165, 32); // Darker gold for shadow
+                doc.text('TaxEasePro', brandX + 0.5, 20.5);
+                doc.setTextColor(255, 215, 0); // Gold
+                doc.text('TaxEasePro', brandX, 20);
+                // Tagline
+                doc.setTextColor(255, 255, 255);
+                doc.setFont('helvetica', 'italic');
+                doc.setFontSize(14);
+                doc.text('Pro Tax, Zero Stress', brandX, 28);
+                // Contacts in Header
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.text('support@taxeasepro.com | wa.me/+919876543210', brandX, 36);
+                doc.setDrawColor(255, 255, 255);
+                doc.setLineWidth(0.1);
+                doc.line(brandX, 37, brandX + 37, 37); // Underline email
+                doc.line(brandX + 43, 37, brandX + 78, 37); // Underline WhatsApp
+                if (logoLoaded) doc.addImage(logo, 'PNG', 10, 10, 25, 25);
+                // Greeting
+                let y = 52;
+                doc.setTextColor(0);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(13);
+                doc.text(`Hello ${g.userName}! Here is your Detailed Tax Computation`, 10, y);
+                // --- TABLE DATA (DO NOT MODIFY STRUCTURE) ---
+                const recommended = g.recommendedRegime;
+                const advantage = g.savings;
+                const tableData = [
+                    ['Component', 'Traditional Regime (Rs.)', 'New Regime (Rs.)'],
+                    ['Income Heads'],
+                    ['Basic Salary', formatINR(g.basicSalary), formatINR(g.basicSalary)],
+                    ['Business Income', formatINR(g.businessIncome), formatINR(g.businessIncome)],
+                    ['Other Income', formatINR(g.otherIncome), formatINR(g.otherIncome)],
+                    ['Gross Rental Income', formatINR(g.rentalIncome), formatINR(g.rentalIncome)],
+                    ['Less: Municipal Taxes', formatINR(g.municipalTaxes), formatINR(g.municipalTaxes)],
+                    ['Less: 30% Std Ded on Rental', formatINR(0.3 * (g.rentalIncome - g.municipalTaxes)), formatINR(0.3 * (g.rentalIncome - g.municipalTaxes))],
+                    ['Less: Interest Let Out', formatINR(g.homeLoanLetOut), formatINR(g.homeLoanLetOut)],
+                    ['Net Rental Income', formatINR(g.netRentalLetOut), formatINR(g.netRentalLetOut)],
+                    ['Less: Self Occupied Interest', formatINR(g.homeLoanSelf), formatINR(g.homeLoanSelf)],
+                    ['STCG u/s 111A', formatINR(g.stcg111A), formatINR(g.stcg111A)],
+                    ['LTCG u/s 112A', formatINR(g.ltcg112A), formatINR(g.ltcg112A)],
+                    ['LTCG u/s 112', formatINR(g.ltcg112), formatINR(g.ltcg112)],
+                    ['Special Rate Income', formatINR(g.specialIncome), formatINR(g.specialIncome)],
+                    ['Agricultural Income (Exempt)', formatINR(g.agriIncome), formatINR(g.agriIncome)],
+                    ['Gross Total Income', formatINR(g.grossNormal + g.stcg111A + g.ltcg112A + g.ltcg112 + g.specialIncome + g.agriIncome), formatINR(g.grossNormal + g.stcg111A + g.ltcg112A + g.ltcg112 + g.specialIncome + g.agriIncome)],
+                    [''],
+                    ['Deductions'],
+                    ['HRA Relief', formatINR(g.hraExemption), '0'],
+                    ['Additional Exemptions', formatINR(g.otherExemptions), '0'],
+                    ['Section 80C Investments', formatINR(g.section80C), '0'],
+                    ['Section 80D Insurance', formatINR(g.section80D), '0'],
+                    ['Other Deductions (80G, 80E, 80TTA, etc.)', formatINR(g.section80G + g.section80E + g.section80TTA + g.furtherDeductions), '0'],
+                    ['Total Deductions (excl. Std. Ded.)', formatINR(g.deductions), '0'],
+                    ['Less: Standard Deduction', formatINR(g.oldStd), formatINR(g.newStd)],
+                    [''],
+                    ['Taxable Normal Income', formatINR(g.oldTaxableNormal), formatINR(g.newTaxableNormal)],
+                    [''],
+                    ['Tax Computation'],
+                    ['Tax on Normal at Slabs', formatINR(g.oldPreRebate), formatINR(g.newPreRebate)],
+                    ['Less: Section 87A Rebate', formatINR(g.oldRebate), formatINR(g.newRebate)],
+                    ['Tax on Normal After Rebate', formatINR(g.oldNormalTax), formatINR(g.newNormalTax)],
+                    ['STCG Tax (u/s 111A @20%)', formatINR(g.oldStcgTax), formatINR(g.newStcgTax)],
+                    ['LTCG Tax (u/s 112A @12.5% >1.25L)', formatINR(g.oldLtcg112ATax), formatINR(g.newLtcg112ATax)],
+                    ['LTCG Tax (u/s 112 @12.5%)', formatINR(g.oldLtcg112Tax), formatINR(g.newLtcg112Tax)],
+                    ['Special Income Tax (@30%)', formatINR(g.oldSpecialTax), formatINR(g.newSpecialTax)],
+                    ['Add: Surcharge', formatINR(g.oldSurcharge), formatINR(g.newSurcharge)],
+                    ['Less: Marginal Relief', formatINR(g.oldMarginalRelief), formatINR(g.newMarginalRelief)],
+                    ['Tax Before Cess', formatINR(g.oldTaxBeforeCess), formatINR(g.newTaxBeforeCess)],
+                    ['Add: 4% Health & Education Cess', formatINR(g.oldCess), formatINR(g.newCess)],
+                    ['Net Tax Liability', formatINR(g.oldTax), formatINR(g.newTax)],
+                    [''],
+                    ['Payments'],
+                    ['Taxes Already Paid (TDS + Advance + Self)', formatINR(g.prepaidTax), formatINR(g.prepaidTax)],
+                    ['Net Tax Payable (if positive)', formatINR(Math.max(0, g.oldNetPayable)), formatINR(Math.max(0, g.newNetPayable))],
+                    ['Refund Amount (if negative)', formatINR(Math.max(0, -g.oldNetPayable)), formatINR(Math.max(0, -g.newNetPayable))],
+                    [''],
+                    ['Recommendation', recommended, `Savings: Rs. ${formatINR(advantage)}`]
+                ];
+                doc.autoTable({
+                    startY: 60,
+                    head: [['Component', 'Traditional Regime (Rs.)', 'New Regime (Rs.)']],
+                    body: tableData.slice(1),
+                    theme: 'grid',
+                    styles: { fontSize: 9, cellPadding: 4, lineWidth: 0.2, lineColor: [160, 160, 160], font: 'helvetica' },
+                    headStyles: { fillColor: [0, 51, 102], textColor: 255, fontStyle: 'bold', fontSize: 10 },
+                    columnStyles: { 0: { cellWidth: 100 }, 1: { halign: 'right' }, 2: { halign: 'right' } },
+                    margin: { left: 10, right: 10 },
+                    didParseCell: function (data) {
+                        const rowText = data.row.raw[0];
+                        const sections = ['Income Heads', 'Deductions', 'Tax Computation', 'Payments'];
+                        if (sections.includes(rowText)) {
+                            data.cell.styles.fillColor = [230, 230, 230];
+                            data.cell.styles.fontStyle = 'bold';
+                        }
+                        if (data.section === 'body' && data.row.index % 2 === 0 && !sections.includes(rowText) && rowText !== '') {
+                            data.cell.styles.fillColor = [245, 247, 250];
+                        }
+                        if (rowText === 'Recommendation') {
+                            data.cell.styles.fillColor = [220, 252, 231];
+                            data.cell.styles.fontStyle = 'bold';
+                            if (data.column.index === 2) {
+                                data.cell.styles.fontSize = 10;
+                            }
+                        }
+                        // Numeric styling
+                        if (data.column.index > 0 && data.section === 'body') {
+                            const cleanVal = data.cell.text[0].replace(/[^0-9.-]/g, '');
+                            if (parseFloat(cleanVal) > 0) data.cell.styles.fontStyle = 'bold';
+                        }
+                    },
+                    hooks: {
+                        willDrawCell: function (data) {
+                            if (data.row.raw[0] === 'Recommendation' && data.cursor.y > 240) {
+                                doc.addPage();
+                                data.cursor.y = 20;
+                            }
+                        }
                     }
+                });
+                // --- TAX SAVING TIPS ---
+                y = doc.lastAutoTable.finalY + 8;
+                if (y > 240) { doc.addPage(); y = 20; }
+                doc.setFillColor(200, 255, 200);
+                doc.setDrawColor(0, 128, 0);
+                doc.setLineWidth(0.6);
+                doc.rect(10, y, 190, 40, 'FD');
+               
+                doc.setTextColor(0);
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Your Personalized Tax Saving Tips', 15, y + 6);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                doc.text('• Great! You get a refund or zero tax this year.', 15, y + 14);
+                doc.text('• Stay tax-free next year with smart planning.', 15, y + 20);
+                doc.text(`• New Regime saves you Rs. ${formatINR(advantage)} – Consider NPS.`, 15, y + 26);
+                doc.text('• Business: Use Presumptive Taxation (44AD) + GST optimization.', 15, y + 32);
+                // --- PREMIUM SERVICES (Force New Page logic) ---
+                y += 48;
+                if (y > 180) { doc.addPage(); y = 20; }
+               
+                // Header: Dark Purple Background
+                doc.setFillColor(48, 25, 52);
+                doc.rect(10, y, 190, 14, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Our Premium Services', 105, y + 9, { align: 'center' });
+                const services = [
+                    { t: 'ITR Filing + TDS Refund', d: '• Seamless filing with maximum refund' },
+                    { t: 'GST Return + Compliance', d: '• Hassle-free monthly/quarterly filings' },
+                    { t: 'Tax Saving Planning', d: '• Personalized strategies to save more' },
+                    { t: 'Notice/Scrutiny Handling', d: '• Expert support during assessments' }
+                ];
+                let sy = y + 18;
+                services.forEach((s, i) => {
+                    let sx = (i % 2 === 0) ? 10 : 108;
+                    let rowY = sy + (Math.floor(i / 2) * 32); // Adjusted gap for better layout
+                   
+                    // Shadow
+                    doc.setFillColor(230, 230, 230);
+                    doc.rect(sx + 0.6, rowY + 0.6, 92, 30, 'F');
+                   
+                    // Main Card: Dark Purple Background
+                    doc.setFillColor(48, 25, 52);
+                    doc.setDrawColor(218, 165, 32); // Gold Border
+                    doc.setLineWidth(0.5);
+                    doc.rect(sx, rowY, 92, 30, 'FD');
+                   
+                    // Title: Bright Gold
+                    doc.setTextColor(255, 215, 0);
+                    doc.setFontSize(11);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(s.t, sx + 5, rowY + 8);
+                   
+                    // Underline: Silver
+                    doc.setDrawColor(192, 192, 192);
+                    doc.setLineWidth(0.2);
+                    doc.line(sx + 5, rowY + 10, sx + 45, rowY + 10);
+                   
+                    // Description: Light Silver/White (High contrast on purple)
+                    doc.setTextColor(220, 220, 220);
+                    doc.setFontSize(8.5);
+                    doc.setFont('helvetica', 'italic');
+                    doc.text(s.d, sx + 5, rowY + 18);
+                   
+                    // Learn More Button: Gold Background with Purple Text
+                    doc.setFillColor(218, 165, 32);
+                    doc.rect(sx + 68, rowY + 23, 20, 5, 'F');
+                    doc.setTextColor(48, 25, 52);
+                    doc.setFontSize(7);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('Learn More', sx + 78, rowY + 26.5, { align: 'center' });
+                });
+                // --- FOOTER SECTION (Page Control + Clickable Contact Cards) ---
+                const totalPages = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= totalPages; i++) {
+                    doc.setPage(i);
+                   
+                    if (i === totalPages) {
+                        const footerY = 265;
+                        const cardW = 46;
+                        const cardH = 15;
+                        const contacts = [
+                            { label: 'EMAIL US', val: 'support@taxeasepro.com', link: 'mailto:support@taxeasepro.com' },
+                            { label: 'WHATSAPP', val: '+91 98765 43210', link: 'https://wa.me/919876543210' },
+                            { label: 'CALL SUPPORT', val: '+91 98765 43210', link: 'tel:+919876543210' },
+                            { label: 'VISIT WEBSITE', val: 'www.taxeasepro.com', link: 'https://www.taxeasepro.com' }
+                        ];
+                        contacts.forEach((c, idx) => {
+                            const cx = 8 + (idx * 49);
+                            // Card Shadow
+                            doc.setFillColor(235, 235, 235);
+                            doc.rect(cx + 0.5, footerY + 0.5, cardW, cardH, 'F');
+                            // Main Card Body: Dark Purple
+                            doc.setFillColor(48, 25, 52);
+                            doc.setDrawColor(218, 165, 32);
+                            doc.setLineWidth(0.4);
+                            doc.rect(cx, footerY, cardW, cardH, 'FD');
+                            // Label: Silver Text
+                            doc.setTextColor(220, 220, 220);
+                            doc.setFontSize(7);
+                            doc.setFont('helvetica', 'bold');
+                            doc.text(c.label, cx + (cardW / 2), footerY + 5, { align: 'center' });
+                            // Value: Bright Gold
+                            doc.setTextColor(255, 215, 0);
+                            doc.setFontSize(7);
+                            doc.text(c.val, cx + (cardW / 2), footerY + 10, { align: 'center' });
+                            // Clickable Area
+                            doc.link(cx, footerY, cardW, cardH, { url: c.link });
+                        });
+                    }
+                    // Disclaimer & Page Numbers
+                    doc.setTextColor(100, 100, 100);
+                    doc.setFontSize(6.5);
+                    doc.setFont('helvetica', 'italic');
+                    doc.text("Disclaimer: This is a system-generated report for reference. Please consult a CA for official filing.", 105, 284, { align: 'center' });
+                   
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(150, 150, 150);
+                    doc.text("Page " + i + " of " + totalPages, 195, 289, { align: 'right' });
                 }
+                const base64 = doc.output('datauristring').split(',')[1];
+                resolve(base64);
+            }
+        });
+    }
+
+    async function sendReport() {
+        const fullName = document.getElementById('modalFullName').value.trim();
+        const email = document.getElementById('modalEmail').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!fullName) {
+            alert('Please enter your full name.');
+            return;
+        }
+        if (!email || !emailRegex.test(email)) {
+            document.getElementById('emailError').style.display = 'block';
+            return;
+        }
+        document.getElementById('emailError').style.display = 'none';
+
+        const sendBtn = document.getElementById('sendReportBtn');
+        const loading = document.getElementById('loadingSpinner');
+        sendBtn.disabled = true;
+        loading.style.display = 'block';
+
+        try {
+            const pdfBase64 = await generatePDFBase64();
+            const payload = {
+                userName: fullName,
+                email: email,
+                category: window.taxData.userCategory,
+                grossIncome: window.taxData.grossNormal,
+                savings: window.taxData.savings,
+                pdfBase64: pdfBase64
+            };
+
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweSlwjNFj6klb-XnrxdU0z48vHyAVq6zMysVNnQjKDeyXx8vfU1wt2V4wv3C5a_fjL/exec'; // Replace with your actual Google Apps Script Web App URL
+
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
             });
-            y = doc.lastAutoTable.finalY + 12;
-            // Bottom section with proper margins
-            if (y > 250) {
-                doc.addPage();
-                y = 20;
-            }
-            doc.setFillColor(240, 240, 240);
-            doc.rect(5, y - 3, 200, 270 - y + 5, 'F');
-            doc.setFontSize(12);
-            doc.setTextColor(40, 167, 69);
-            doc.text("Your Personalized Tax Saving Tips", 105, y, { align: 'center' });
-            y += 10;
-            doc.setFontSize(10);
-            doc.setTextColor(0);
-            let summaryLine = "";
-            let tip1 = "";
-            let tip2 = "";
-            let tip3 = "";
-            const category = g.userCategory;
-            if (recommendedNet <= 0) {
-                summaryLine = "Great! You get a refund or zero tax this year.";
-                tip1 = "Stay tax-free next year with smart planning.";
-            } else if (recommendedNet < 50000) {
-                summaryLine = `Your net payable is low at Rs. ${formatINR(recommendedNet)} – Well done!`;
-                tip1 = "Optimize further to keep it under Rs. 25,000.";
-            } else if (recommendedNet < 200000) {
-                summaryLine = `You're paying Rs. ${formatINR(recommendedNet)} net – Save more!`;
-                tip1 = "Invest Rs. 1.5 Lakh in eligible options to reduce it by 30%.";
+
+            if (response.ok) {
+                alert('Your detailed tax report has been sent to your email successfully!');
+                closeModal();
             } else {
-                summaryLine = `High net of Rs. ${formatINR(recommendedNet)} – Time to act!`;
-                tip1 = "Switch regimes or claim deductions to save Rs. 50,000+.";
+                throw new Error('Failed to send report');
             }
-            if (recommended === 'Traditional') {
-                tip2 = `Traditional saves you Rs. ${formatINR(advantage)} – Maximize 80C/80D.`;
-            } else {
-                tip2 = `New Regime saves you Rs. ${formatINR(advantage)} – Consider NPS.`;
-            }
-            if (category === "salaried") {
-                tip3 = "Salaried: Focus on HRA, Home Loan, and NPS deductions.";
-            } else if (category === "business") {
-                tip3 = "Business: Use Presumptive Taxation (44AD) + GST optimization.";
-            } else if (category === "freelancer") {
-                tip3 = "Freelancer: Claim 44ADA + manage TDS/GST threshold.";
-            } else if (category === "investor") {
-                tip3 = "Investor: Reinvest Capital Gains under 54/54F.";
-            } else {
-                tip3 = "Tailored advice available – Book a call!";
-            }
-            doc.text(summaryLine, 12, y);
-            y += 8;
-            doc.text("• " + tip1, 12, y); y += 7;
-            doc.text("• " + tip2, 12, y); y += 7;
-            doc.text("• " + tip3, 12, y); y += 10;
-            doc.setFontSize(9);
-            doc.text("Our Services:", 12, y);
-            y += 7;
-            doc.text("• ITR Filing + TDS Refund", 18, y); y += 6;
-            doc.text("• GST Return + Compliance", 18, y); y += 6;
-            doc.text("• Tax Saving Planning", 18, y); y += 6;
-            doc.text("• Notice/Scrutiny Handling", 18, y); y += 12;
-            doc.setTextColor(0);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(11);
-            doc.text("WhatsApp: wa.me/919876543210", 105, y, { align: 'center' });
-            y += 7;
-            doc.text("Call: +91 98765 43210", 105, y, { align: 'center' });
-            y += 7;
-            doc.text("www.taxeasepro.com", 105, y, { align: 'center' });
-            y += 12;
-            doc.setFontSize(9);
-            doc.setTextColor(100);
-            doc.text("Share this report with friends & family!", 105, y, { align: 'center' });
-            y += 8;
-            doc.setTextColor(120);
-            doc.text("System-generated report. For Individuals only. Special incomes approximate. Consult qualified CA for complex cases/Losses/Foreign income.", 105, y, { align: 'center' });
-            doc.save(`TaxEasePro_Tax_Report_${g.userName}_FY_2025-26.pdf`);
+        } catch (error) {
+            alert('Error sending report: ' + error.message + '. Please try again.');
+        } finally {
+            sendBtn.disabled = false;
+            loading.style.display = 'none';
         }
     }
+
     function downloadExcel() {
         if (!window.taxData) {
             alert('Please generate computation first');
@@ -938,6 +1229,5 @@ rendered = true;      // ← Ek baar chalne ke baad flag set
         XLSX.writeFile(wb, "TaxEasePro_Income_Tax_Computation_FY_2025_26.xlsx");
     }
     </script>
-    <script src="footer.js"></script>
 </body>
 </html>
