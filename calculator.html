@@ -861,7 +861,9 @@
             let logoLoaded = false;
 let logo;  // <-- Ye line add kar do (bas itni si)
             try {
-                const logo = new Image();
+                logo = new Image();
+logo.crossOrigin = "anonymous";  // Optional but good
+logo.src = 'logo.png';
                 logo.src = 'logo.png';
                 logo.onload = function () { logoLoaded = true; renderContent(); };
                 logo.onerror = function () {
