@@ -859,12 +859,21 @@
             let rendered = false;
             // Logo Logic (Optional - Skip if file not found)
             let logoLoaded = false;
+let logo;  // <-- Ye line add kar do (bas itni si)
             try {
                 const logo = new Image();
                 logo.src = 'logo.png';
                 logo.onload = function () { logoLoaded = true; renderContent(); };
-                logo.onerror = function () { logoLoaded = false; renderContent(); };
-                setTimeout(() => { if (!logoLoaded) renderContent(); }, 1000);
+                logo.onerror = function () {
+    logoLoaded = false;
+    renderContent();
+};
+                setTimeout(() => {
+    if (!rendered) {
+        logoLoaded = false;
+        renderContent();
+    }
+}, 1500);
             } catch (e) {
                 logoLoaded = false;
                 renderContent();
