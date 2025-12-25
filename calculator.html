@@ -479,7 +479,7 @@
                 <button class="action-btn" onclick="openModal()" style="background: #25d366;">
     <i class="fas fa-envelope"></i> Get Detailed Report on Email
 </button>
-                <button class="download-btn"><i class="fas fa-file-excel"></i> Download as Excel</button>
+               
             </div>
             <button type="button" class="reset-btn" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;">New Computation</button>
         </div>
@@ -1221,49 +1221,7 @@ closeModal();
         }
     }
 
-    function downloadExcel() {
-        if (!window.taxData) {
-            alert('Please generate computation first');
-            return;
-        }
-        const g = window.taxData;
-        const wsData = [
-            ["ADVANCED INCOME TAX COMPUTATION – FY 2025-26 (AY 2026-27)"],
-            [],
-            ["Particulars", "Traditional Regime (Rs.)", "New Regime (Rs.)"],
-            ["Gross Normal Income", g.grossNormal, g.grossNormal],
-            ["Less: Deductions", g.deductions, 0],
-            ["Taxable Normal Income", g.oldTaxableNormal, g.newTaxableNormal],
-            ["Tax on Normal Before Rebate", g.oldPreRebate, g.newPreRebate],
-            ["Less: 87A Rebate", g.oldRebate, g.newRebate],
-            ["Tax on Normal After Rebate", g.oldNormalTax, g.newNormalTax],
-            ["STCG Tax u/s 111A", g.oldStcgTax, g.newStcgTax],
-            ["LTCG Tax u/s 112A", g.oldLtcg112ATax, g.newLtcg112ATax],
-            ["LTCG Tax u/s 112", g.oldLtcg112Tax, g.newLtcg112Tax],
-            ["Special Income Tax", g.oldSpecialTax, g.newSpecialTax],
-            ["Surcharge", g.oldSurcharge, g.newSurcharge],
-            ["Less: Marginal Relief", g.oldMarginalRelief, g.newMarginalRelief],
-            ["Tax Before Cess", g.oldTaxBeforeCess, g.newTaxBeforeCess],
-            ["4% Cess", g.oldCess, g.newCess],
-            ["Final Tax Liability", g.oldTax, g.newTax],
-            ["Taxes Paid", g.prepaidTax, g.prepaidTax],
-            ["Net Tax Payable (if positive)", Math.max(0, g.oldNetPayable), Math.max(0, g.newNetPayable)],
-            ["Refund Amount (if negative)", Math.max(0, -g.oldNetPayable), Math.max(0, -g.newNetPayable)],
-            [],
-            [
-                "Recommended Regime",
-                g.oldNetPayable > g.newNetPayable ? "New Regime" : "Traditional Regime",
-                ""
-            ],
-            [],
-            ["Generated on", g.timestamp]
-        ];
-        const ws = XLSX.utils.aoa_to_sheet(wsData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Tax Computation");
-        XLSX.writeFile(wb, "TaxEasePro_Income_Tax_Computation_FY_2025_26.xlsx");
-    }
-    </script>
+   </script>
     <div id="emailModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
     <div style="background:#111; padding:30px; border-radius:15px; border:1px solid #333; width:90%; max-width:400px; text-align:center;">
         <h3 style="color:#fff;">Enter Email Details</h3>
