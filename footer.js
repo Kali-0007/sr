@@ -239,9 +239,9 @@ document.write(`
   </div>
 </footer>
 
-<div id="callbackModal" class="modal-overlay">
+<div id="ftr_callbackModal" class="modal-overlay">
   <div class="callback-box">
-    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <span class="close-modal" onclick="ftr_closeModal()">&times;</span>
     <h3>Request a Call Back</h3>
     <form action="https://formspree.io/f/xqezdlrb" method="POST" id="ftr_leadForm">
       <input type="text" name="name" placeholder="Full Name" required>
@@ -257,7 +257,7 @@ document.write(`
     document.getElementById('ftr_callbackModal').style.display = 'flex';
   }
 
-  function closeModal() {
+  function ftr_closeModal() {
     document.getElementById('ftr_callbackModal').style.display = 'none';
   }
 
@@ -275,7 +275,7 @@ document.write(`
         if (response.ok) {
           alert("Thank you! Our expert will call you shortly.");
           form.reset();
-          closeModal();
+          ftr_closeModal();
         } else {
           alert("Something went wrong. Please try again.");
         }
