@@ -261,20 +261,20 @@ document.write(`
     document.getElementById('ftr_callbackModal').style.display = 'none';
   }
 
-  const form = document.getElementById('ftr_leadForm');
-  if (form) {
-    form.onsubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
+  const ftr_form = document.getElementById('ftr_leadForm');
+if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
+  ftr_form.onsubmit = async (e) => { // Yahan bhi 'ftr_form'
+    e.preventDefault();
+    try {
+      const response = await fetch(ftr_form.action, { // Yahan bhi 'ftr_form'
+        method: 'POST',
+        body: new FormData(ftr_form), // Yahan bhi 'ftr_form'
+        headers: { 'Accept': 'application/json' }
+      });
 
         if (response.ok) {
           alert("Thank you! Our expert will call you shortly.");
-          form.reset();
+          ftr_form.reset();
           ftr_closeModal();
         } else {
           alert("Something went wrong. Please try again.");
