@@ -228,7 +228,7 @@ document.write(`
         <i class="fab fa-whatsapp"></i> Chat on WhatsApp
       </a>
       <a href="mailto:taxeasepro@zohomail.in"><i class="fas fa-envelope"></i> taxeasepro@zohomail.in</a>
-      <button onclick="openModal()" class="callback-footer-btn">
+      <button onclick="ftr_openModal()" class="callback-footer-btn">
         Request Call Back
       </button>
     </div>
@@ -243,7 +243,7 @@ document.write(`
   <div class="callback-box">
     <span class="close-modal" onclick="closeModal()">&times;</span>
     <h3>Request a Call Back</h3>
-    <form action="https://formspree.io/f/xqezdlrb" method="POST" id="leadForm">
+    <form action="https://formspree.io/f/xqezdlrb" method="POST" id="ftr_leadForm">
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="tel" name="phone" placeholder="Mobile Number" required>
       <textarea name="reason" placeholder="How can we help? (e.g. ITR, GST, Notice)" rows="4" required></textarea>
@@ -253,15 +253,15 @@ document.write(`
 </div>
 
 <script>
-  function openModal() {
-    document.getElementById('callbackModal').style.display = 'flex';
+  function ftr_openModal() {
+    document.getElementById('ftr_callbackModal').style.display = 'flex';
   }
 
   function closeModal() {
-    document.getElementById('callbackModal').style.display = 'none';
+    document.getElementById('ftr_callbackModal').style.display = 'none';
   }
 
-  const form = document.getElementById('leadForm');
+  const form = document.getElementById('ftr_leadForm');
   if (form) {
     form.onsubmit = async (e) => {
       e.preventDefault();
