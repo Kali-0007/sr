@@ -115,6 +115,14 @@
       <a href="signup.html" class="btn-signup">SignUp</a>
     </nav>
     <i class="fas fa-bars mobile-toggle" onclick="toggleMenu()"></i>
+    <div id="mobileMenu" style="display: none; position: fixed; top: 65px; left: 0; width: 100%; background: #111; padding: 20px; border-bottom: 1px solid #222; z-index: 999;">
+        <div style="display: flex; flex-direction: column; gap: 15px; text-align: center;">
+            <a href="index.html" style="color:#fff; text-decoration:none;">Home</a>
+            <a href="about.html" style="color:var(--primary); text-decoration:none;">About Us</a>
+            <a href="services.html" style="color:#fff; text-decoration:none;">Services</a>
+            <a href="contact.html" style="color:#fff; text-decoration:none;">Contact Us</a>
+        </div>
+    </div>
   </header>
 
   <main class="about-main">
@@ -210,19 +218,27 @@
   </main>
 
   <script src="footer.js"></script>
-  <script>
-    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
-    function toggleFAQs() {
-      var moreFaqs = document.getElementById("more-faqs");
-      var btn = document.getElementById("view-more-btn");
-      if (moreFaqs.style.display === "none") {
-        moreFaqs.style.display = "block";
-        btn.innerHTML = "View Less";
-      } else {
-        moreFaqs.style.display = "none";
-        btn.innerHTML = "View More FAQs";
-      }
+ <script>
+    function toggleMenu() {
+        var x = document.getElementById("mobileMenu");
+        if (x.style.display === "none" || x.style.display === "") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
-  </script>
+
+    function toggleFAQs() {
+        var moreFaqs = document.getElementById("more-faqs");
+        var btn = document.getElementById("view-more-btn");
+        if (moreFaqs.style.display === "none") {
+            moreFaqs.style.display = "block";
+            btn.innerHTML = "View Less";
+        } else {
+            moreFaqs.style.display = "none";
+            btn.innerHTML = "View More FAQs";
+        }
+    }
+</script>
 </body>
 </html>
