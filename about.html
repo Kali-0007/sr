@@ -214,10 +214,13 @@
     </div>
   </main>
   <script src="footer.js"></script>
-  <script>
-  // 1. Header load logic
-  fetch('header.html')
-    .then(response => response.text())
+ <script>
+  // 1. Header load logic (Ismein ./ lagaya hai taaki GitHub 404 na de)
+  fetch('./header.html')
+    .then(response => {
+      if (!response.ok) throw new Error('Header not found');
+      return response.text();
+    })
     .then(data => {
       document.getElementById('header-placeholder').innerHTML = data;
       
@@ -228,26 +231,21 @@
           link.classList.add('active-link');
         }
       });
-    });
+    })
+    .catch(err => console.log("Header load error:", err));
 
-  // 2. MOBILE MENU FIX (Force Display Logic)
-  // Hum document par click listen kar rahe hain taaki dynamically loaded button bhi chale
+  // 2. NAYA TOGGLE HISSA (Ise yahan add karein)
+  // Isse purana 'toggleMenu' function hatane ki zaroorat nahi, ye automatically kaam karega
   document.addEventListener('click', function (e) {
-    // Check agar click hamburger icon par hua hai
-    if (e.target.closest('#mobileToggle') || e.target.closest('.mobile-toggle')) {
+    if (e.target.closest('#mobileToggle') || e.target.closest('.mobile-btn')) {
       const menu = document.getElementById("mobileMenu");
       if (menu) {
-        // Agar menu chhupa hai toh dikhao, warna chhupao
-        if (menu.style.display === "none" || menu.style.display === "") {
-          menu.style.display = "block";
-        } else {
-          menu.style.display = "none";
-        }
+        menu.classList.toggle('active');
       }
     }
   });
 
-  // 3. FAQ Toggle
+  // 3. FAQ Toggle (Baki ka purana code waisa hi rehne dein)
   function toggleFAQs() {
     const moreFaqs = document.getElementById("more-faqs");
     const btn = document.getElementById("view-more-btn");
@@ -260,7 +258,6 @@
     }
   }
 
-  // FAQ Button listener
   document.addEventListener("DOMContentLoaded", function() {
     const faqBtn = document.getElementById("view-more-btn");
     if (faqBtn) { faqBtn.addEventListener("click", toggleFAQs); }
