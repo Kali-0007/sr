@@ -116,12 +116,12 @@
         font-family: 'Segoe UI', sans-serif;
     }
 
-    .mobile-menu.active { display: flex !important; }
-
-    @media (max-width: 950px) {
-        .nav-links { display: none; }
-        .mobile-btn { display: block; }
-    }
+   .mobile-menu.active { 
+    display: flex !important; 
+    height: auto; /* Poori screen nahi gheraga */
+    max-height: 80vh; /* Max 80% screen tak jayega */
+    overflow-y: auto; /* Agar menu bada ho toh scroll ho jaye */
+}
 </style>
 
 <header>
