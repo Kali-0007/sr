@@ -16,68 +16,9 @@
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; font-size: 16px; }
     
-    header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 0px 5%; /* 10px ko 0 kar diya */
-    background: #111; 
-    position: fixed; 
-    top: 0; 
-    width: 100%; 
-    z-index: 1000; 
-    border-bottom: 1px solid #222; 
-    height: 80px; /* Header ki fixed height di taaki logo set rahe */
-}
-   .logo { 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    height: 100%; /* Header ki poori height use karega */
-}
-    .logo img { 
-    height: 75px; /* Size badha diya */
-    width: auto; 
-    object-fit: contain;
-    display: block;
-}
-    .logo span { word-break: break-word; }
-    .nav-links { display: flex; align-items: center; gap: 20px; }
-    .nav-links a { color: #fff; text-decoration: none; font-size: 14px; transition: 0.3s; pointer-events: auto; }
-    
-    .btn-signup, .btn-login { 
-      background: linear-gradient(135deg, var(--primary), var(--secondary)); 
-      color: white !important; 
-      padding: clamp(8px 18px, 2vw 5vw, 10px 25px); 
-      border-radius: 20px; 
-      font-weight: 600; 
-      min-height: 48px; 
-      min-width: 120px; 
-      display: inline-flex; 
-      align-items: center; 
-      justify-content: center; 
-      cursor: pointer; 
-      text-decoration: none; 
-      touch-action: manipulation;
-    }
-    
-    .mobile-toggle { 
-      display: none; 
-      font-size: 28px; 
-      color: var(--primary); 
-      cursor: pointer; 
-      padding: 12px; 
-      min-height: 48px; 
-      min-width: 48px; 
-      align-items: center; 
-      justify-content: center; 
-      pointer-events: auto; 
-      touch-action: manipulation;
-    }
-    
     .about-main { 
         min-height: 100vh; 
-        margin-top: 70px; 
+        margin-top: 90px; 
         /* PERFORMANCE FIX 2: Simple gradient */
         background: #050505; 
         background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%); 
@@ -169,12 +110,10 @@
       .cta-integration > div { flex-direction: column; gap: 10px; align-items: center; }
       .main-btn, .btn-signup, .btn-login { width: 100%; max-width: 280px; }
       .faq-item h4 { font-size: clamp(15px, 4vw, 16px); }
-      #mobileMenu { top: 55px; padding: 15px; }
+      
     }
     @media (max-width: 480px) {
-      header { padding: 8px 2%; }
-      .logo span:first-of-type { font-size: 18px !important; }
-      .logo span:last-of-type { font-size: 10px !important; }
+     
       .about-main { padding: 30px 5px; }
       .glass { padding: 25px 15px; }
       .expertise-grid { gap: 10px; }
@@ -185,43 +124,13 @@
       .experience-badge { padding: 6px 15px; font-size: 13px; }
       p, .expert-card p, .process-step p, .refund-highlight p, .faq-item p { font-size: clamp(14px, 4vw, 15px); }
       .expert-card { padding: 20px 15px; }
-      .mobile-toggle { font-size: 28px; padding: 12px; }
+      
       #view-more-btn { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-  <img src="logo.png" alt="TaxEasePro Logo" style="height: 100%; width: auto; display: block;">
-  
-  <div style="display: flex; flex-direction: column; line-height: 1.1;">
-    <span style="font-size: 22px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
-    <span style="font-size: 11px; color: #777; letter-spacing: 0.5px;">Pro Tax, Zero Stress</span>
-  </div>
-</div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html" style="color: var(--primary);">About Us</a>
-      <a href="services.html">Services</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="contact.html">Contact Us</a>
-      <a href="login.html" class="btn-login">Login</a>
-      <a href="signup.html" class="btn-signup">SignUp</a>
-    </nav>
-    <i class="fas fa-bars mobile-toggle" id="mobileToggle"></i>
-    <div id="mobileMenu">
-      <div style="display: flex; flex-direction: column; gap: 15px; text-align: center;">
-        <a href="index.html" style="color:#fff; text-decoration:none;">Home</a>
-        <a href="about.html" style="color:var(--primary); text-decoration:none;">About Us</a>
-        <a href="services.html" style="color:#fff; text-decoration:none;">Services</a>
-        <a href="blogs.html" style="color:#fff; text-decoration:none;">Blogs</a>
-        <a href="contact.html" style="color:#fff; text-decoration:none;">Contact Us</a>
-        <a href="login.html" style="color:#fff; text-decoration:none; padding: 12px; border: 1px solid var(--primary); border-radius: 20px; background: transparent;">Login</a>
-        <a href="signup.html" style="color:#fff; text-decoration:none; padding: 12px; background: var(--primary); border-radius: 20px;">SignUp</a>
-      </div>
-    </div>
-  </header>
+  <div id="header-placeholder"></div>
   <main class="about-main">
     <div class="container">
       <div class="glass">
@@ -306,39 +215,50 @@
   </main>
   <script src="footer.js"></script>
   <script>
-    function toggleMenu() {
-      const menu = document.getElementById("mobileMenu");
-      if (menu.style.display === "none" || menu.style.display === "") {
-        menu.style.display = "block";
-      } else {
-        menu.style.display = "none";
-      }
-    }
+  // 1. Header load karne ka function
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
 
-    function toggleFAQs() {
-      const moreFaqs = document.getElementById("more-faqs");
-      const btn = document.getElementById("view-more-btn");
-      if (moreFaqs.style.display === "none") {
-        moreFaqs.style.display = "block";
-        btn.innerHTML = "View Less";
-      } else {
-        moreFaqs.style.display = "none";
-        btn.innerHTML = "View More FAQs";
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const toggleIcon = document.getElementById("mobileToggle");
-      const faqBtn = document.getElementById("view-more-btn");
-
-      if (toggleIcon) {
-        toggleIcon.addEventListener("click", toggleMenu);
-      }
-
-      if (faqBtn) {
-        faqBtn.addEventListener("click", toggleFAQs);
-      }
+      // Active link ko blue karne ka logic
+      const currentUrl = window.location.pathname.split("/").pop() || "index.html";
+      document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
+        if (link.getAttribute('href') === currentUrl) {
+          link.classList.add('active-link');
+        }
+      });
     });
-  </script>
+
+  // 2. Mobile Menu Toggle (Ye sabhi pages ke liye common rahega)
+  function toggleMenu() {
+    const menu = document.getElementById("mobileMenu");
+    if (menu) {
+      menu.classList.toggle('active');
+    }
+  }
+
+  // 3. About Page FAQ Toggle (Ye sirf About page ke kaam aayega)
+  function toggleFAQs() {
+    const moreFaqs = document.getElementById("more-faqs");
+    const btn = document.getElementById("view-more-btn");
+    
+    if (moreFaqs.style.display === "none" || moreFaqs.style.display === "") {
+      moreFaqs.style.display = "block";
+      btn.innerHTML = "View Less";
+    } else {
+      moreFaqs.style.display = "none";
+      btn.innerHTML = "View More FAQs";
+    }
+  }
+
+  // FAQ Button listener (Jab page load ho tab active ho jaye)
+  document.addEventListener("DOMContentLoaded", function() {
+    const faqBtn = document.getElementById("view-more-btn");
+    if (faqBtn) {
+      faqBtn.addEventListener("click", toggleFAQs);
+    }
+  });
+</script>
 </body>
 </html>
