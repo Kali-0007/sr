@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
-  
   <title>About Us - TaxEasePro | Two Decades of Financial Expertise</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root { --primary: #667eea; --secondary: #764ba2; --success: #00ff9d; --dark: #0a0a0f; }
     
-    /* Fix: Add background color to HTML to prevent transparency issues */
+    /* PERFORMANCE FIX 1: Solid background for root */
     html { background-color: #000; }
     
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -37,10 +36,8 @@
       justify-content: center; 
       cursor: pointer; 
       text-decoration: none; 
-      /* Fix: CSS handling for touch instead of JS */
       touch-action: manipulation;
     }
-    .btn-signup:hover, .btn-login:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(102,126,234,0.3); }
     
     .mobile-toggle { 
       display: none; 
@@ -53,28 +50,40 @@
       align-items: center; 
       justify-content: center; 
       pointer-events: auto; 
-      /* Fix: Touch optimization */
       touch-action: manipulation;
     }
     
-    .about-main { min-height: 100vh; margin-top: 70px; background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%); padding: clamp(40px 10px, 5vw, 60px 20px); display: flex; justify-content: center; }
+    .about-main { 
+        min-height: 100vh; 
+        margin-top: 70px; 
+        /* PERFORMANCE FIX 2: Simple gradient */
+        background: #050505; 
+        background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%); 
+        padding: clamp(40px 10px, 5vw, 60px 20px); 
+        display: flex; 
+        justify-content: center; 
+    }
+    
     .container { max-width: 1000px; width: 90%; }
     
+    /* PERFORMANCE FIX 3: THE MAIN FIX */
     .glass { 
-      background: rgba(20, 20, 30, 0.9); /* Fallback for older phones */
+      /* Mobile ke liye Solid Dark Background (No Blur = No Freeze) */
+      background: #0f0f12; 
       border-radius: 24px; 
       padding: clamp(25px 15px, 5vw 8vw, 50px 40px); 
       border: 1px solid rgba(255,255,255,0.1); 
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+      box-shadow: none; /* Shadow mobile par heavy hoti hai */
       overflow: hidden; 
     }
     
-    /* Only apply heavy blur if device supports it well */
-    @supports (backdrop-filter: blur(15px)) {
+    /* Sirf Powerful PCs/Laptops par Blur dikhega */
+    @media (min-width: 1025px) {
         .glass {
             background: rgba(255,255,255,0.03); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
         }
     }
 
@@ -85,8 +94,20 @@
     .refund-highlight h3 { color: var(--success); margin-bottom: 10px; font-size: 20px; }
     
     .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 45px; }
-    .expert-card { background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; text-decoration: none; display: block; touch-action: manipulation; }
-    .expert-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(102, 126, 234, 0.05); }
+    
+    .expert-card { 
+        background: #111; /* Solid color for cards */
+        padding: 30px; 
+        border-radius: 20px; 
+        border: 1px solid rgba(255,255,255,0.05); 
+        transition: transform 0.3s; /* Only animate transform */
+        text-decoration: none; 
+        display: block; 
+        touch-action: manipulation; 
+        will-change: transform;
+    }
+    
+    .expert-card:hover { transform: translateY(-5px); border-color: var(--primary); }
     .expert-card i { color: var(--primary); font-size: 28px; margin-bottom: 20px; }
     .expert-card h4 { color: #fff; margin-bottom: 12px; font-size: 18px; }
     .expert-card p { font-size: 14px; color: #aaa; }
@@ -96,37 +117,24 @@
     .process-step { display: flex; gap: 20px; margin-bottom: 40px; align-items: flex-start; }
     .step-num { background: var(--primary); min-width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
     
-    .faq-item { background: rgba(255,255,255,0.02); padding: clamp(15px, 3vw, 20px); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+    .faq-item { background: #111; padding: clamp(15px, 3vw, 20px); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
     .faq-item h4 { font-size: clamp(15px, 3.5vw, 17px); margin-bottom: 8px; color: var(--primary); display: flex; align-items: flex-start; gap: 10px; }
     .faq-item p { font-size: clamp(14px, 4vw, 16px); color: #ccc; padding-left: clamp(25px, 6vw, 30px); line-height: 1.7; }
     
-    .cta-integration { margin-top: 60px; padding: clamp(25px 15px, 4vw 6vw, 40px); border-radius: 20px; text-align: center; background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05)); border: 1px dashed rgba(102,126,234,0.3); }
+    .cta-integration { margin-top: 60px; padding: clamp(25px 15px, 4vw 6vw, 40px); border-radius: 20px; text-align: center; background: #161616; border: 1px dashed rgba(102,126,234,0.3); }
     .cta-integration > div { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
     
     .main-btn { 
-      background: var(--primary); color: #fff; padding: clamp(10px 25px, 2vw 5vw, 14px 35px); border-radius: 30px; text-decoration: none; font-weight: 700; margin-top: 15px; transition: 0.3s; cursor: pointer; border: none; min-height: 48px; min-width: 120px; display: inline-flex; align-items: center; justify-content: center; pointer-events: auto; 
-      touch-action: manipulation;
+      background: var(--primary); color: #fff; padding: clamp(10px 25px, 2vw 5vw, 14px 35px); border-radius: 30px; text-decoration: none; font-weight: 700; margin-top: 15px; transition: 0.3s; cursor: pointer; border: none; min-height: 48px; min-width: 120px; display: inline-flex; align-items: center; justify-content: center; pointer-events: auto; touch-action: manipulation;
     }
-    .main-btn:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(102,126,234,0.3); }
     
     p, .expert-card p, .process-step p, .refund-highlight p { word-break: break-word; hyphens: auto; line-height: 1.7; }
     #mobileMenu { display: none; position: fixed; top: 65px; left: 0; width: 100%; background: #111; padding: 20px; border-bottom: 1px solid #222; z-index: 999; touch-action: manipulation; }
     
-    @media (min-width: 1201px) { 
-      .about-main { padding: 60px 20px; } 
-      .glass { padding: 50px 40px; } 
-    }
-    @media (max-width: 1200px) { 
-      .expertise-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } 
-    }
-    @media (max-width: 1024px) { 
-      .glass { padding: 40px 30px; } 
-      .about-main { padding: 50px 15px; } 
-    }
-    @media (max-width: 900px) { 
-      .nav-links { display: none; } 
-      .mobile-toggle { display: flex; } 
-    }
+    @media (min-width: 1201px) { .about-main { padding: 60px 20px; } .glass { padding: 50px 40px; } }
+    @media (max-width: 1200px) { .expertise-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+    @media (max-width: 1024px) { .glass { padding: 40px 30px; } .about-main { padding: 50px 15px; } }
+    @media (max-width: 900px) { .nav-links { display: none; } .mobile-toggle { display: flex; } }
     @media (max-width: 768px) {
       header { padding: 8px 3%; }
       .about-main { padding: 40px 10px; }
@@ -139,7 +147,6 @@
       .cta-integration > div { flex-direction: column; gap: 10px; align-items: center; }
       .main-btn, .btn-signup, .btn-login { width: 100%; max-width: 280px; }
       .faq-item h4 { font-size: clamp(15px, 4vw, 16px); }
-      h1 { line-height: 1.3; }
       #mobileMenu { top: 55px; padding: 15px; }
     }
     @media (max-width: 480px) {
@@ -164,8 +171,7 @@
 <body>
   <header>
     <div class="logo">
-      <img src="logo.png" alt="TaxEasePro Logo">
-      <div style="display: flex; flex-direction: column;">
+      <img src="logo.png" alt="TaxEasePro Logo" style="display:none;"> <div style="display: flex; flex-direction: column;">
         <span style="font-size: 20px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
         <span style="font-size: 11px; color: #777;">Pro Tax, Zero Stress</span>
       </div>
@@ -274,7 +280,6 @@
   </main>
   <script src="footer.js"></script>
   <script>
-    // FIX: Simplified JS without touchstart interference
     function toggleMenu() {
       const menu = document.getElementById("mobileMenu");
       if (menu.style.display === "none" || menu.style.display === "") {
@@ -300,8 +305,6 @@
       const toggleIcon = document.getElementById("mobileToggle");
       const faqBtn = document.getElementById("view-more-btn");
 
-      // FIXED: Only use click listeners. 
-      // The CSS 'touch-action: manipulation' handles the responsiveness.
       if (toggleIcon) {
         toggleIcon.addEventListener("click", toggleMenu);
       }
