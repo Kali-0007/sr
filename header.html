@@ -1,148 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaxEasePro | Blogs</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --primary: #007bff; 
-            --success: #28a745;
-            --dark: #121212;
-            --white: #ffffff;
-        }
+<style>
+    :root {
+        --primary: #007bff; /* Pure Blue */
+        --success: #28a745;
+        --dark: #111;
+        --white: #ffffff;
+    }
 
-        body { 
-            margin: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #000;
-            color: white;
-        }
+    header {
+        height: 85px; /* Thoda bada header logo ke liye */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 5%;
+        background-color: var(--dark);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 1px solid #222;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-        /* --- Header Styles --- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            background-color: var(--dark);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid #222;
-        }
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        height: 100%;
+    }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
+    .logo img {
+        height: 75px; /* Logo full height */
+        width: auto;
+        object-fit: contain;
+    }
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
+    .logo-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: 0.3s;
-        }
+    .brand-name {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--primary);
+    }
 
-        /* Hover & Active Effect */
-        .nav-links a:hover, 
-        .nav-links a.active-link {
-            color: var(--primary) !important;
-        }
+    .tagline {
+        font-size: 11px;
+        color: #777;
+        letter-spacing: 0.5px;
+    }
 
-        /* Auth Buttons */
-        .btn-login {
-            border: 1px solid var(--primary);
-            padding: 6px 18px;
-            border-radius: 20px;
-        }
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
 
-        .btn-signup {
-            background: var(--primary);
-            padding: 7px 20px;
-            border-radius: 20px;
-        }
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 500;
+        transition: 0.3s;
+    }
 
-        .mobile-btn {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: white;
-        }
+    /* Active Link aur Hover Effect */
+    .nav-links a:hover, 
+    .nav-links a.active-link,
+    .mobile-menu a.active-link {
+        color: var(--primary) !important;
+    }
 
-        /* --- Mobile Menu --- */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            background: #1a1a1a;
-            flex-direction: column;
-            padding: 20px;
-            z-index: 999;
-            box-sizing: border-box;
-        }
+    .btn-login {
+        border: 1px solid var(--primary);
+        padding: 7px 20px;
+        border-radius: 25px;
+    }
 
-        .mobile-menu a {
-            color: white;
-            padding: 15px 0;
-            text-decoration: none;
-            border-bottom: 1px solid #333;
-        }
-        
-        .mobile-menu a.active-link {
-            color: var(--primary);
-        }
+    .btn-signup {
+        background: var(--primary);
+        padding: 8px 22px;
+        border-radius: 25px;
+        color: white !important;
+    }
 
-        .mobile-menu.active { display: flex; }
+    .mobile-btn {
+        display: none;
+        font-size: 26px;
+        cursor: pointer;
+        color: white;
+    }
 
-        /* --- Sticky Bottom Bar --- */
-        .sticky-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #111;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            border-top: 1px solid #333;
-            z-index: 1000;
-        }
+    /* Mobile Menu Style */
+    .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 85px;
+        left: 0;
+        width: 100%;
+        background: #1a1a1a;
+        flex-direction: column;
+        padding: 20px;
+        z-index: 999;
+        box-sizing: border-box;
+        border-bottom: 2px solid var(--primary);
+    }
 
-        .sticky-btn {
-            text-decoration: none;
-            font-size: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #bbb;
-            gap: 5px;
-        }
+    .mobile-menu a {
+        color: white;
+        padding: 15px 0;
+        text-decoration: none;
+        border-bottom: 1px solid #333;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-        @media (max-width: 900px) {
-            .nav-links { display: none; }
-            .mobile-btn { display: block; }
-        }
-    </style>
-</head>
-<body>
+    .mobile-menu.active { display: flex; }
+
+    @media (max-width: 950px) {
+        .nav-links { display: none; }
+        .mobile-btn { display: block; }
+    }
+</style>
 
 <header>
   <a href="index.html" class="logo">
-    <img src="logo.png" alt="TaxEasePro" style="height: 35px;">
-    <span style="font-size: 20px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
+    <img src="logo.png" alt="TaxEasePro">
+    <div class="logo-text">
+        <span class="brand-name">TaxEasePro</span>
+        <span class="tagline">Pro Tax, Zero Stress</span>
+    </div>
   </a>
 
   <nav class="nav-links">
@@ -164,40 +152,12 @@
   <a href="services.html">Services</a>
   <a href="blogs.html">Blogs</a>
   <a href="contact.html">Contact</a>
-  <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
-  <a href="login.html" style="color:var(--primary);">Login to Portal</a>
-  <a href="signup.html" style="color:var(--success);">Create Account</a>
-</div>
-
-<div class="sticky-bar">
-  <a href="https://wa.me/919876543210" class="sticky-btn" style="color:#25D366;">
-    <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
-  </a>
-  <a href="tel:+919876543210" class="sticky-btn">
-    <i class="fas fa-phone-alt"></i><span>Call Now</span>
-  </a>
-  <a href="contact.html" class="sticky-btn" style="color:var(--primary);">
-    <i class="fas fa-envelope"></i><span>Enquiry</span>
-  </a>
+  <a href="login.html" style="color:var(--primary);">Login</a>
+  <a href="signup.html" style="color:var(--success);">Signup</a>
 </div>
 
 <script>
-  function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('active');
-  }
-
-  // Automatic Active Link Highlighter
-  const currentUrl = window.location.pathname.split("/").pop(); 
-  const allLinks = document.querySelectorAll('.nav-links a, .mobile-menu a');
-
-  allLinks.forEach(link => {
-      const linkHref = link.getAttribute('href');
-      // Agar current page blogs.html hai, toh Blogs link highlight hoga
-      if (linkHref === currentUrl || (currentUrl === "" && linkHref === "index.html")) {
-          link.classList.add('active-link');
-      }
-  });
+    function toggleMenu() {
+        document.getElementById('mobileMenu').classList.toggle('active');
+    }
 </script>
-
-</body>
-</html>
