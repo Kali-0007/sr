@@ -18,7 +18,7 @@
     
     .about-main { 
         min-height: 100vh; 
-        margin-top: 70px; 
+        margin-top: 60px; 
         /* PERFORMANCE FIX 2: Simple gradient */
         background: #050505; 
         background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%); 
@@ -94,16 +94,18 @@
     p, .expert-card p, .process-step p, .refund-highlight p { word-break: break-word; hyphens: auto; line-height: 1.7; }
     #mobileMenu { 
     display: none; 
-    flex-direction: column; 
     position: fixed; 
-    top: 85px; /* Header ke niche se shuru */
-    left: 0; 
-    width: 100%; 
-    height: auto; 
-    background: #111; /* Ye hona bahut zaroori hai */
+    top: 85px; 
+    right: 0;           /* Right side se chipka rahega */
+    width: 70%;         /* Screen ka lagbhag 1/3rd ya thoda zyada (mobile ke liye 70% best hai) */
+    max-width: 300px;   /* Bade phones par 300px se zyada nahi jayega */
+    height: calc(100vh - 85px); /* Header ke niche poori height */
+    background: #111; 
     z-index: 1000; 
-    border-bottom: 2px solid var(--primary);
-    padding: 10px 0;
+    flex-direction: column;
+    padding: 20px;
+    border-left: 2px solid var(--primary); /* Right side se aane ka look dene ke liye */
+    box-shadow: -10px 0 20px rgba(0,0,0,0.5); /* Depth ke liye shadow */
 }
     
     @media (min-width: 1201px) { .about-main { padding: 60px 20px; } .glass { padding: 50px 40px; } }
