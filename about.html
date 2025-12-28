@@ -18,7 +18,7 @@
     
     .about-main { 
         min-height: 100vh; 
-        margin-top: 90px; 
+        margin-top: 70px; 
         /* PERFORMANCE FIX 2: Simple gradient */
         background: #050505; 
         background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%); 
@@ -92,7 +92,19 @@
     }
     
     p, .expert-card p, .process-step p, .refund-highlight p { word-break: break-word; hyphens: auto; line-height: 1.7; }
-    #mobileMenu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 1000; }
+    #mobileMenu { 
+    display: none; 
+    flex-direction: column; 
+    position: fixed; 
+    top: 85px; /* Header ke niche se shuru */
+    left: 0; 
+    width: 100%; 
+    height: auto; 
+    background: #111; /* Ye hona bahut zaroori hai */
+    z-index: 1000; 
+    border-bottom: 2px solid var(--primary);
+    padding: 10px 0;
+}
     
     @media (min-width: 1201px) { .about-main { padding: 60px 20px; } .glass { padding: 50px 40px; } }
     @media (max-width: 1200px) { .expertise-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
@@ -114,6 +126,8 @@
     #header-placeholder {
         min-height: 85px;
     }
+  #mobileMenu.active { display: flex !important; flex-direction: column; }
+}
 }
 
 
