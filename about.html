@@ -96,16 +96,17 @@
     display: none; 
     position: fixed; 
     top: 85px; 
-    right: 0;           /* Right side se chipka rahega */
-    width: 70%;         /* Screen ka lagbhag 1/3rd ya thoda zyada (mobile ke liye 70% best hai) */
-    max-width: 300px;   /* Bade phones par 300px se zyada nahi jayega */
-    height: calc(100vh - 85px); /* Header ke niche poori height */
+    left: auto !important; /* Left side ko zabardasti band kiya */
+    right: 0 !important;    /* Right side se chipka diya */
+    width: 70%;         
+    max-width: 300px;   
+    height: calc(100vh - 85px); 
     background: #111; 
     z-index: 1000; 
     flex-direction: column;
     padding: 20px;
-    border-left: 2px solid var(--primary); /* Right side se aane ka look dene ke liye */
-    box-shadow: -10px 0 20px rgba(0,0,0,0.5); /* Depth ke liye shadow */
+    border-left: 2px solid var(--primary); 
+    box-shadow: -10px 0 20px rgba(0,0,0,0.5); 
 }
     
     @media (min-width: 1201px) { .about-main { padding: 60px 20px; } .glass { padding: 50px 40px; } }
@@ -115,23 +116,27 @@
     
 
 @media (max-width: 950px) {
-    /* Mobile par desktop links ko gayab karne ke liye */
+    /* Desktop links gayab */
     .nav-links { 
         display: none !important; 
     } 
-    /* Mobile par hamburger icon ko dikhane ke liye */
+    /* Hamburger icon dikhega */
     .mobile-btn { 
         display: block !important; 
         cursor: pointer;
     }
-    /* Header load hone se pehle content overlap na ho */
+    /* Header gap fix */
     #header-placeholder {
         min-height: 85px;
     }
-  #mobileMenu.active { display: flex !important; flex-direction: column; }
+    /* Right Side Menu Fix */
+    #mobileMenu.active { 
+        display: flex !important; 
+        flex-direction: column;
+        left: auto !important;
+        right: 0 !important;
+    }
 }
-}
-
 
     @media (max-width: 768px) {
       header { padding: 8px 3%; }
