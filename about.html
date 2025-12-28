@@ -215,13 +215,13 @@
   </main>
   <script src="footer.js"></script>
   <script>
-  // 1. Header load karne ka function
+  // 1. Header load logic
   fetch('header.html')
     .then(response => response.text())
     .then(data => {
       document.getElementById('header-placeholder').innerHTML = data;
-
-      // Active link ko blue karne ka logic
+      
+      // Active link logic
       const currentUrl = window.location.pathname.split("/").pop() || "index.html";
       document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
         if (link.getAttribute('href') === currentUrl) {
@@ -230,19 +230,27 @@
       });
     });
 
-  // 2. Mobile Menu Toggle (Ye sabhi pages ke liye common rahega)
-  function toggleMenu() {
-    const menu = document.getElementById("mobileMenu");
-    if (menu) {
-      menu.classList.toggle('active');
+  // 2. MOBILE MENU FIX (Force Display Logic)
+  // Hum document par click listen kar rahe hain taaki dynamically loaded button bhi chale
+  document.addEventListener('click', function (e) {
+    // Check agar click hamburger icon par hua hai
+    if (e.target.closest('#mobileToggle') || e.target.closest('.mobile-toggle')) {
+      const menu = document.getElementById("mobileMenu");
+      if (menu) {
+        // Agar menu chhupa hai toh dikhao, warna chhupao
+        if (menu.style.display === "none" || menu.style.display === "") {
+          menu.style.display = "block";
+        } else {
+          menu.style.display = "none";
+        }
+      }
     }
-  }
+  });
 
-  // 3. About Page FAQ Toggle (Ye sirf About page ke kaam aayega)
+  // 3. FAQ Toggle
   function toggleFAQs() {
     const moreFaqs = document.getElementById("more-faqs");
     const btn = document.getElementById("view-more-btn");
-    
     if (moreFaqs.style.display === "none" || moreFaqs.style.display === "") {
       moreFaqs.style.display = "block";
       btn.innerHTML = "View Less";
@@ -252,12 +260,10 @@
     }
   }
 
-  // FAQ Button listener (Jab page load ho tab active ho jaye)
+  // FAQ Button listener
   document.addEventListener("DOMContentLoaded", function() {
     const faqBtn = document.getElementById("view-more-btn");
-    if (faqBtn) {
-      faqBtn.addEventListener("click", toggleFAQs);
-    }
+    if (faqBtn) { faqBtn.addEventListener("click", toggleFAQs); }
   });
 </script>
 </body>
