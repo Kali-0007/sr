@@ -235,15 +235,29 @@
     .catch(err => console.log("Header load error:", err));
 
   // 2. NAYA TOGGLE HISSA (Ise yahan add karein)
-  // Isse purana 'toggleMenu' function hatane ki zaroorat nahi, ye automatically kaam karega
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('#mobileToggle') || e.target.closest('.mobile-btn')) {
-      const menu = document.getElementById("mobileMenu");
-      if (menu) {
-        menu.classList.toggle('active');
+ // MOBILE MENU FIX (Open/Close Logic)
+document.addEventListener('click', function (e) {
+  const menu = document.getElementById("mobileMenu");
+  const toggleBtn = e.target.closest('#mobileToggle') || e.target.closest('.mobile-btn');
+
+  if (menu) {
+    // 1. Agar toggle button par click hua toh kholo ya band karo
+    if (toggleBtn) {
+      menu.classList.toggle('active');
+    } 
+    // 2. Agar menu khula hai aur user ne menu ke bahar ya kisi link par click kiya
+    else if (menu.classList.contains('active')) {
+      // Check karein ki click menu ke andar hua hai ya bahar
+      if (!menu.contains(e.target)) {
+        menu.classList.remove('active');
+      }
+      // Agar kisi link par click kiya toh bhi menu band ho jaye
+      if (e.target.tagName === 'A') {
+        menu.classList.remove('active');
       }
     }
-  });
+  }
+});
 
   // 3. FAQ Toggle (Baki ka purana code waisa hi rehne dein)
   function toggleFAQs() {
