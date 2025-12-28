@@ -98,6 +98,25 @@
     @media (max-width: 1200px) { .expertise-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
     @media (max-width: 1024px) { .glass { padding: 40px 30px; } .about-main { padding: 50px 15px; } }
     @media (max-width: 900px) { .nav-links { display: none; } .mobile-toggle { display: flex; } }
+    
+
+@media (max-width: 950px) {
+    /* Mobile par desktop links ko gayab karne ke liye */
+    .nav-links { 
+        display: none !important; 
+    } 
+    /* Mobile par hamburger icon ko dikhane ke liye */
+    .mobile-btn { 
+        display: block !important; 
+        cursor: pointer;
+    }
+    /* Header load hone se pehle content overlap na ho */
+    #header-placeholder {
+        min-height: 85px;
+    }
+}
+
+
     @media (max-width: 768px) {
       header { padding: 8px 3%; }
       .about-main { padding: 40px 10px; }
