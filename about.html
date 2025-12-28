@@ -16,9 +16,30 @@
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; font-size: 16px; }
     
-    header { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; background: #111; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; }
-    .logo { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .logo img { max-width: 60px; height: auto; }
+    header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0px 5%; /* 10px ko 0 kar diya */
+    background: #111; 
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    z-index: 1000; 
+    border-bottom: 1px solid #222; 
+    height: 80px; /* Header ki fixed height di taaki logo set rahe */
+}
+   .logo { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    height: 100%; /* Header ki poori height use karega */
+}
+    .logo img { 
+    height: 70px; /* 60px se badha kar 70px kiya */
+    width: auto; 
+    object-fit: contain;
+}
     .logo span { word-break: break-word; }
     .nav-links { display: flex; align-items: center; gap: 20px; }
     .nav-links a { color: #fff; text-decoration: none; font-size: 14px; transition: 0.3s; pointer-events: auto; }
