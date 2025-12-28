@@ -116,7 +116,7 @@
         font-family: 'Segoe UI', sans-serif;
     }
 
-    .mobile-menu.active { display: flex; }
+    .mobile-menu.active { display: flex !important; }
 
     @media (max-width: 950px) {
         .nav-links { display: none; }
@@ -143,7 +143,7 @@
     <a href="signup.html" class="btn-signup">Signup</a>
   </nav>
 
-  <i class="fas fa-bars mobile-btn" onclick="toggleMenu()"></i>
+  <i class="fas fa-bars mobile-btn" id="mobileToggle"></i>
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
