@@ -16,17 +16,43 @@
     .logo span { word-break: break-word; }
     .nav-links { display: flex; align-items: center; gap: 20px; }
     .nav-links a { color: #fff; text-decoration: none; font-size: 14px; transition: 0.3s; pointer-events: auto; }
-    .btn-signup, .btn-login { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white !important; padding: clamp(8px 18px, 2vw 5vw, 10px 25px); border-radius: 20px; font-weight: 600; min-height: 48px; min-width: 120px; display: inline-flex; align-items: center; justify-content: center; touch-action: manipulation; cursor: pointer; text-decoration: none; }
+    .btn-signup, .btn-login { 
+      background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+      color: white !important; 
+      padding: clamp(8px 18px, 2vw 5vw, 10px 25px); 
+      border-radius: 20px; 
+      font-weight: 600; 
+      min-height: 48px; 
+      min-width: 120px; 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+      touch-action: manipulation; 
+      cursor: pointer; 
+      text-decoration: none; 
+    }
     .btn-signup:hover, .btn-login:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(102,126,234,0.3); }
-    .mobile-toggle { display: none; font-size: 24px; color: var(--primary); cursor: pointer; transition: 0.3s ease; padding: 10px; min-height: 48px; min-width: 48px; display: inline-flex; align-items: center; justify-content: center; touch-action: manipulation; pointer-events: auto; }
+    .mobile-toggle { 
+      display: none; 
+      font-size: 28px; 
+      color: var(--primary); 
+      cursor: pointer; 
+      padding: 12px; 
+      min-height: 48px; 
+      min-width: 48px; 
+      align-items: center; 
+      justify-content: center; 
+      touch-action: manipulation; 
+      pointer-events: auto; 
+    }
     .about-main { min-height: 100vh; margin-top: clamp(50px, 10vh, 70px); background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%); padding: clamp(40px 10px, 5vw, 60px 20px); display: flex; justify-content: center; }
-    .container { max-width: 1000px; width: 90%; max-width: 100%; }
+    .container { max-width: 1000px; width: 90%; }
     .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border-radius: 24px; padding: clamp(25px 15px, 5vw 8vw, 50px 40px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden; }
     .experience-badge { display: inline-block; background: rgba(102, 126, 234, 0.15); color: var(--primary); padding: 8px 20px; border-radius: 50px; font-weight: 700; font-size: 14px; margin-bottom: 25px; border: 1px solid rgba(102, 126, 234, 0.3); max-width: 100%; }
     h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.2; margin-bottom: 25px; background: linear-gradient(135deg, #fff 30%, var(--primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
     .refund-highlight { background: rgba(0, 255, 157, 0.03); border-left: 4px solid var(--success); padding: 25px; margin: 35px 0; border-radius: 0 15px 15px 0; }
     .refund-highlight h3 { color: var(--success); margin-bottom: 10px; font-size: 20px; }
-    .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1px)); gap: 25px; margin-top: 45px; }
+    .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 45px; }
     .expert-card { background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; text-decoration: none; display: block; touch-action: manipulation; }
     .expert-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(102, 126, 234, 0.05); }
     .expert-card i { color: var(--primary); font-size: 28px; margin-bottom: 20px; }
@@ -39,15 +65,28 @@
     .faq-item h4 { font-size: clamp(15px, 3.5vw, 17px); margin-bottom: 8px; color: var(--primary); display: flex; align-items: flex-start; gap: 10px; }
     .faq-item p { font-size: clamp(14px, 4vw, 16px); color: #ccc; padding-left: clamp(25px, 6vw, 30px); line-height: 1.7; }
     .cta-integration { margin-top: 60px; padding: clamp(25px 15px, 4vw 6vw, 40px); border-radius: 20px; text-align: center; background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05)); border: 1px dashed rgba(102,126,234,0.3); }
-    .cta-integration > div { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; flex-direction: row; }
-    .main-btn { display: inline-block; background: var(--primary); color: #fff; padding: clamp(10px 25px, 2vw 5vw, 14px 35px); border-radius: 30px; text-decoration: none; font-weight: 700; margin-top: 15px; transition: 0.3s; cursor: pointer; border: none; min-height: 48px; min-width: 120px; display: inline-flex; align-items: center; justify-content: center; touch-action: manipulation; pointer-events: auto; }
+    .cta-integration > div { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+    .main-btn { 
+      background: var(--primary); color: #fff; padding: clamp(10px 25px, 2vw 5vw, 14px 35px); border-radius: 30px; text-decoration: none; font-weight: 700; margin-top: 15px; transition: 0.3s; cursor: pointer; border: none; min-height: 48px; min-width: 120px; display: inline-flex; align-items: center; justify-content: center; touch-action: manipulation; pointer-events: auto; 
+    }
     .main-btn:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(102,126,234,0.3); }
     p, .expert-card p, .process-step p, .refund-highlight p { word-break: break-word; hyphens: auto; line-height: 1.7; }
     #mobileMenu { display: none; position: fixed; top: 65px; left: 0; width: 100%; background: #111; padding: 20px; border-bottom: 1px solid #222; z-index: 999; touch-action: manipulation; }
-    @media (min-width: 1201px) { .about-main { padding: 60px 20px; } .glass { padding: 50px 40px; } }
-    @media (max-width: 1200px) { .expertise-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
-    @media (max-width: 1024px) { .glass { padding: 40px 30px; } .about-main { padding: 50px 15px; } }
-    @media (max-width: 900px) { .nav-links { display: none; } .mobile-toggle { display: inline-flex; } }
+    @media (min-width: 1201px) { 
+      .about-main { padding: 60px 20px; } 
+      .glass { padding: 50px 40px; } 
+    }
+    @media (max-width: 1200px) { 
+      .expertise-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } 
+    }
+    @media (max-width: 1024px) { 
+      .glass { padding: 40px 30px; } 
+      .about-main { padding: 50px 15px; } 
+    }
+    @media (max-width: 900px) { 
+      .nav-links { display: none; } 
+      .mobile-toggle { display: flex; } 
+    }
     @media (max-width: 768px) {
       header { padding: 8px 3%; }
       .about-main { padding: 40px 10px; }
@@ -77,8 +116,7 @@
       .experience-badge { padding: 6px 15px; font-size: 13px; }
       p, .expert-card p, .process-step p, .refund-highlight p, .faq-item p { font-size: clamp(14px, 4vw, 15px); }
       .expert-card { padding: 20px 15px; }
-      .nav-links a, .btn-signup, .btn-login { font-size: 16px; padding: 12px 20px; }
-      .mobile-toggle { font-size: 28px; padding: 12px; } /* Larger touch area */
+      .mobile-toggle { font-size: 28px; padding: 12px; }
       #view-more-btn { width: 100%; }
     }
   </style>
@@ -100,15 +138,15 @@
       <a href="login.html" class="btn-login">Login</a>
       <a href="signup.html" class="btn-signup">SignUp</a>
     </nav>
-    <i class="fas fa-bars mobile-toggle" onclick="toggleMenu()"></i>
+    <i class="fas fa-bars mobile-toggle" id="mobileToggle"></i>
     <div id="mobileMenu">
       <div style="display: flex; flex-direction: column; gap: 15px; text-align: center;">
         <a href="index.html" style="color:#fff; text-decoration:none;">Home</a>
         <a href="about.html" style="color:var(--primary); text-decoration:none;">About Us</a>
         <a href="services.html" style="color:#fff; text-decoration:none;">Services</a>
         <a href="contact.html" style="color:#fff; text-decoration:none;">Contact Us</a>
-        <a href="login.html" style="color:#fff; text-decoration:none; padding: 10px; border: 1px solid var(--primary); border-radius: 20px; background: transparent;">Login</a>
-        <a href="signup.html" style="color:#fff; text-decoration:none; padding: 10px; background: var(--primary); border-radius: 20px;">SignUp</a>
+        <a href="login.html" style="color:#fff; text-decoration:none; padding: 12px; border: 1px solid var(--primary); border-radius: 20px; background: transparent;">Login</a>
+        <a href="signup.html" style="color:#fff; text-decoration:none; padding: 12px; background: var(--primary); border-radius: 20px;">SignUp</a>
       </div>
     </div>
   </header>
@@ -177,7 +215,7 @@
             <div class="faq-item"><h4><i class="fas fa-question-circle"></i> Why should I choose TaxEasePro over local CAs?</h4><p>We offer two decades of legacy expertise combined with modern speed and affordability. You get premium service at a fraction of the cost without compromising on accuracy.</p></div>
           </div>
           <div style="text-align: center; margin-top: 20px;">
-            <button id="view-more-btn" onclick="toggleFAQs()" class="main-btn" style="background: transparent; border: 1px solid var(--primary);">View More FAQs</button>
+            <button id="view-more-btn" class="main-btn" style="background: transparent; border: 1px solid var(--primary);">View More FAQs</button>
           </div>
         </div>
         <div class="cta-integration">
@@ -197,16 +235,17 @@
   <script src="footer.js"></script>
   <script>
     function toggleMenu() {
-      var x = document.getElementById("mobileMenu");
-      if (x.style.display === "none" || x.style.display === "") {
-        x.style.display = "block";
+      const menu = document.getElementById("mobileMenu");
+      if (menu.style.display === "none" || menu.style.display === "") {
+        menu.style.display = "block";
       } else {
-        x.style.display = "none";
+        menu.style.display = "none";
       }
     }
+
     function toggleFAQs() {
-      var moreFaqs = document.getElementById("more-faqs");
-      var btn = document.getElementById("view-more-btn");
+      const moreFaqs = document.getElementById("more-faqs");
+      const btn = document.getElementById("view-more-btn");
       if (moreFaqs.style.display === "none") {
         moreFaqs.style.display = "block";
         btn.innerHTML = "View Less";
@@ -215,15 +254,26 @@
         btn.innerHTML = "View More FAQs";
       }
     }
-    // Mobile touch enhancement: Add event listeners for better compatibility
-    document.addEventListener('DOMContentLoaded', function() {
-      const toggleIcon = document.querySelector('.mobile-toggle');
-      const faqBtn = document.getElementById('view-more-btn');
+
+    // Enhanced touch support
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggleIcon = document.getElementById("mobileToggle");
+      const faqBtn = document.getElementById("view-more-btn");
+
       if (toggleIcon) {
-        toggleIcon.addEventListener('touchstart', toggleMenu, { passive: true });
+        toggleIcon.addEventListener("click", toggleMenu);
+        toggleIcon.addEventListener("touchstart", function (e) {
+          e.preventDefault();
+          toggleMenu();
+        }, { passive: false });
       }
+
       if (faqBtn) {
-        faqBtn.addEventListener('touchstart', toggleFAQs, { passive: true });
+        faqBtn.addEventListener("click", toggleFAQs);
+        faqBtn.addEventListener("touchstart", function (e) {
+          e.preventDefault();
+          toggleFAQs();
+        }, { passive: false });
       }
     });
   </script>
