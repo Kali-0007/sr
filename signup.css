@@ -1,99 +1,67 @@
-/* Signup Form Styling */
-.signup-section {
-  background: #0d0d0d; /* Match existing website dark theme */
-  color: #fff;
-  padding: 60px 20px;
-  min-height: calc(100vh - 140px); /* Adjust for header/footer */
+/* Signup Form Essential Styling */
+
+/* Chrome, Safari, Edge, Opera ke liye arrow hide karne ke liye (Optional) */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.signup-container {
-  max-width: 1000px;
-  margin: auto;
-  background: #1a1a1a;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+/* Form Validation Styles */
+input:invalid:not(:placeholder-shown) {
+    border-color: #ff6b6b;
 }
 
-.signup-container h2 {
-  text-align: center;
-  margin-bottom: 30px;
+/* Captcha alignment for mobile */
+.g-recaptcha {
+    transform: scale(0.9);
+    transform-origin: 0 0;
+    margin-bottom: 15px;
 }
 
-.signup-container form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+@media (max-width: 480px) {
+    .g-recaptcha {
+        transform: scale(0.75);
+        transform-origin: 0 0;
+    }
 }
 
-.signup-container .row {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 20px;
+/* Send OTP Button Styling */
+#sendOtpBtn {
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 80px;
 }
 
-.signup-container .column {
-  flex: 1;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
+#sendOtpBtn:hover {
+    background: #555 !important;
 }
 
-.signup-container label {
-  margin-bottom: 5px;
-  font-weight: 600;
+#sendOtpBtn:disabled {
+    background: #222 !important;
+    color: #777;
+    cursor: not-allowed;
 }
 
-.signup-container input, 
-.signup-container select, 
-.signup-container button {
-  margin-bottom: 15px;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-  font-size: 1rem;
+/* Success & Error Message Boxes */
+.error-msg {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: -5px;
+    margin-bottom: 10px;
 }
 
-.signup-container input, 
-.signup-container select {
-  background: #2a2a2a;
-  color: #fff;
+.success-msg {
+    color: #00ff9d;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 8px;
+    margin-top: 10px;
 }
 
-.signup-container button {
-  background: #00d4ff;
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.signup-container button:hover {
-  background: #00b3e6;
-}
-
-.captcha-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.success-box {
-  display: none;
-  text-align: center;
-  padding: 15px;
-  margin-top: 20px;
-  background: #00d4ff;
-  color: #000;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .signup-container .row {
-    flex-direction: column;
-  }
-}
+/* Strength Meter colors */
+.strength-weak { color: #ff6b6b; }
+.strength-medium { color: #ffd93d; }
+.strength-strong { color: #00ff9d; }
