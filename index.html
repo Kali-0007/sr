@@ -13,6 +13,61 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>const MYWA = '919876543210';</script>
     <script>const MYUPI = 'taxgstpro@oksbi';</script>
+    <style>
+    /* 1. Header Look & Feel */
+    header {
+        background: rgba(17, 17, 17, 0.95) !important;
+        backdrop-filter: blur(10px);
+        height: 70px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding: 0 5% !important; /* Proper side spacing */
+    }
+
+    /* 2. Nav Links Spacing & Font */
+    #desktopNav {
+        gap: 25px !important; /* Links ke beech ki sahi doori */
+    }
+
+    #desktopNav a {
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.3px;
+        color: rgba(255,255,255,0.8) !important;
+        transition: all 0.3s ease;
+    }
+
+    #desktopNav a:hover {
+        color: #fff !important;
+    }
+
+    /* 3. Highlighting (Login/Signup Buttons) */
+    .btn-highlight {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        padding: 8px 22px !important; /* Signup page wala button size */
+        border-radius: 50px !important; /* Pill shape */
+        color: #fff !important;
+        box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+    }
+
+    .btn-highlight:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+    }
+
+    /* 4. Mobile Menu Width (40%) */
+    @media (max-width: 950px) {
+        #mobileMenu {
+            width: 40% !important;
+            background: #111 !important;
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        #mobileMenu ul li a {
+            padding: 18px 25px !important; /* Mobile links spacing */
+            font-size: 15px !important;
+        }
+    }
+</style>
 </head>
 <body style="margin: 0; padding: 0; background: #000; overflow-x: hidden;">
 
