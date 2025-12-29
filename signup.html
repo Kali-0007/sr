@@ -116,26 +116,41 @@
         width: 100%;
     }
 
-    /* --- Mobile Screen Fix: Yahan se replace karein --- */
+ 
+    /* --- Mobile Screen Fix: Stack Layout (One below another) --- */
     @media (max-width: 768px) {
         .signup-content {
-            padding: 80px 10px 20px; /* Side ki jagah kam ki taaki form bada dikhe */
+            padding: 80px 10px 20px; 
         }
 
         .glass-card {
-            width: 95% !important; /* Form ki width badha di */
-            padding: 25px 15px;    /* Card ke andar ki spacing kam ki */
+            width: 95% !important;
+            padding: 20px 15px;
             max-width: 100%;
         }
 
+        /* Yahan humne grid ko single column (Stack) bana diya */
         .form-grid { 
-            grid-template-columns: 1fr; 
-            gap: 12px; 
+            display: flex !important;
+            flex-direction: column !important; /* Saari fields ek ke niche ek aayengi */
+            gap: 0; /* Extra gap hataya kyunki inputs mein margin pehle se hai */
+        }
+
+        /* Har input container ab poori width lega */
+        .form-grid > div {
+            width: 100% !important;
         }
 
         .btn-submit {
-            grid-column: span 1;
             width: 100%;
+            margin-top: 25px;
+        }
+
+        /* reCAPTCHA mobile par center karne ke liye */
+        .g-recaptcha {
+            transform: scale(0.85);
+            transform-origin: center;
+            margin: 15px 0;
         }
     }
 
