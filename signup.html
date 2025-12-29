@@ -23,7 +23,7 @@
         width: 100%;
     }
 
-    /* --- HEADER FIXES --- */
+    /* --- HEADER & NAVIGATION --- */
     #header-placeholder {
         width: 100%;
         position: fixed;
@@ -32,58 +32,62 @@
         background: #111;
     }
 
-    /* Desktop View: Links hamesha dikhenge */
+    /* Desktop par links dikhao, mobile menu hide karo */
     .nav-links {
         display: flex !important;
         gap: 20px;
     }
 
     .mobile-btn {
-        display: none; /* Desktop par hamburger chhupa rahega */
+        display: none !important; /* Desktop par hamburger nahi dikhega */
     }
 
-    /* Mobile Menu Settings (Default: hidden) */
+    /* Mobile Menu: Desktop par ise screen se poora gayab rakho */
     #mobileMenu {
-        position: fixed;
-        top: 0;
-        right: -100%; /* Shuruat mein screen se poora bahar */
-        width: 40% !important;
-        height: 100vh;
-        background: #111;
-        display: flex;
-        flex-direction: column;
-        padding-top: 80px;
-        z-index: 9999;
-        transition: 0.3s ease-in-out;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+        display: none; /* Desktop par bilkul hide */
     }
 
-    #mobileMenu.active {
-        right: 0 !important; /* Click karne par andar aayega */
-    }
-
-    #mobileMenu a {
-        padding: 15px 20px;
-        font-size: 14px;
-        border-bottom: 1px solid #222;
-        width: 100%;
-        box-sizing: border-box;
-        color: white;
-        text-decoration: none;
-    }
-
-    /* --- MOBILE RESPONSIVE LOGIC --- */
+    /* --- MOBILE RESPONSIVE (Upto 950px) --- */
     @media (max-width: 950px) {
         .nav-links {
-            display: none !important; /* Mobile pe desktop links gayab */
+            display: none !important; /* Mobile pe desktop links chhupao */
         }
 
         .mobile-btn {
-            display: block !important; /* Mobile pe hamburger dikhega */
+            display: block !important; /* Hamburger dikhao */
+        }
+
+        #mobileMenu {
+            display: flex; /* Mobile pe display enable karo */
+            position: fixed;
+            top: 0;
+            right: -100%; /* Screen ke bahar rakho */
+            width: 40% !important;
+            height: 100vh;
+            background: #111;
+            flex-direction: column;
+            padding-top: 80px;
+            z-index: 9999;
+            transition: 0.3s ease-in-out;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        #mobileMenu.active {
+            right: 0 !important; /* Slide in on click */
+        }
+
+        #mobileMenu a {
+            padding: 15px 20px;
+            font-size: 14px;
+            border-bottom: 1px solid #222;
+            width: 100%;
+            box-sizing: border-box;
+            color: white;
+            text-decoration: none;
         }
     }
 
-    /* --- LAYOUT FIXES --- */
+    /* --- FORM LAYOUT --- */
     .signup-content {
         background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
         padding: 120px 15px 40px; 
@@ -115,6 +119,9 @@
     @media (max-width: 768px) {
         .form-grid { 
             grid-template-columns: 1fr; 
+        }
+        .signup-content {
+            padding-top: 100px;
         }
     }
 
