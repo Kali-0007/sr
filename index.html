@@ -21,6 +21,8 @@
         --dark: #111;
         --white: #ffffff;
     }
+
+    /* --- NEW HEADER STYLES START --- */
     header {
         height: 85px;
         display: flex;
@@ -33,9 +35,6 @@
         z-index: 1000;
         border-bottom: 1px solid #222;
         font-family: 'Segoe UI', sans-serif;
-        background: rgba(17, 17, 17, 0.95) !important;
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     .logo {
         display: flex;
@@ -124,8 +123,15 @@
         max-height: 80vh;
         overflow-y: auto;
     }
+    /* --- NEW HEADER STYLES END --- */
+
     /* Mobile toggles - Left sidebar, Right nav + conditional close */
     @media (max-width: 768px) {
+        /* CRITICAL RULE: Hide desktop nav on mobile */
+        #desktopNav, .nav-links {
+            display: none !important;
+        }
+        
         .sidebar-toggle-left {
             display: block;
             font-size: 26px;
@@ -149,7 +155,7 @@
             z-index: 1001;
         }
         .sidebar-toggle-right {
-            display: none;
+            /* Handled by JS inline style but class kept for safety */
             font-size: 26px;
             cursor: pointer;
             color: white;
@@ -158,9 +164,6 @@
             padding: 5px;
             margin-right: -5px;
             z-index: 1001;
-        }
-        .nav-links {
-            display: none !important;
         }
         .sidebar {
             transition: transform 0.3s ease;
@@ -180,6 +183,7 @@
             display: none !important;
         }
     }
+
     /* Global styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; }
@@ -195,8 +199,7 @@
     .client-info { color: #667eea; font-weight: 600; margin-top: 15px; }
     .btn-highlight { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none; transition: transform 0.3s; }
     .btn-highlight:hover { transform: scale(1.05); }
-    nav a { color: #fff; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; }
-    nav a:hover { color: #667eea; }
+    
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     .sidebar a:hover { color: #667eea; background: none; }
@@ -206,6 +209,7 @@
     #mobileMenu.open { transform: translateX(0) !important; }
     .sidebar.open { transform: translateX(0) !important; }
     body.panel-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; }
+    
     @media (max-width: 768px) {
         .main-layout { flex-direction: column; }
         .sidebar { position: fixed !important; top: 85px; left: 0; width: 80%; max-width: 300px; height: calc(100vh - 85px); z-index: 1002; transform: translateX(-100%); border-right: none; border-top: 1px solid rgba(255,255,255,0.1); overflow-y: auto !important; pointer-events: auto; }
@@ -239,7 +243,6 @@
 </head>
 <body style="margin: 0; padding: 0; background: #000; overflow-x: hidden;">
 
-<!-- Header - Exact from header.html with mobile toggles -->
 <header>
   <i class="fas fa-bars sidebar-toggle-left" id="sidebarToggle" onclick="toggleSidebar()"></i>
   <a href="index.html" class="logo">
@@ -249,20 +252,19 @@
         <span class="tagline">Pro Tax, Zero Stress</span>
     </div>
   </a>
-  <nav class="nav-links">
+  <nav class="nav-links" id="desktopNav">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="services.html">Services</a>
     <a href="blogs.html">Blogs</a>
     <a href="contact.html">Contact</a>
-    <a href="login.html" class="btn-login btn-highlight">Login</a>
-    <a href="signup.html" class="btn-signup btn-highlight">Signup</a>
+    <a href="login.html" class="btn-login">Login</a>
+    <a href="signup.html" class="btn-signup">Signup</a>
   </nav>
   <i class="fas fa-bars nav-toggle-right" id="navToggle" onclick="toggleMobileMenu()"></i>
-  <i class="fas fa-times sidebar-toggle-right" id="sidebarClose" onclick="toggleSidebar()"></i>
+  <i class="fas fa-times sidebar-toggle-right" id="sidebarClose" onclick="toggleSidebar()" style="display:none;"></i>
 </header>
 
-<!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Home</a>
   <a href="about.html">About</a>
@@ -273,7 +275,6 @@
   <a href="signup.html" style="color:var(--success);">Signup</a>
 </div>
 
-<!-- Main Layout -->
 <div class="main-layout" style="min-height: calc(100vh - 85px); margin-top: 85px; display: flex;">
     <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; position: sticky; top: 0; height: calc(100vh - 85px); max-height: 100vh; pointer-events: auto;">
         <div class="sidebar-section" style="margin-bottom: 30px;">
@@ -484,6 +485,7 @@
         if (body.classList.contains('panel-open')) {
             if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !document.getElementById('sidebarToggle').contains(e.target) && !document.getElementById('sidebarClose').contains(e.target)) {
                 toggleSidebar();
+          
             }
             if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !document.getElementById('navToggle').contains(e.target)) {
                 toggleMobileMenu();
@@ -531,10 +533,12 @@
                 const li = document.createElement('li');
                 li.innerHTML = `
                     <a href="blog-detail.html?id=${blog.id || blog.slug}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            
                         <strong>${blog.title}</strong>
                         <small style="color: #aaa; display: block;">${new Date(blog.date).toLocaleDateString('en-IN')}</small>
                         <small>${blog.excerpt || 'Read more...'}</small>
                     </a>
+            
                 `;
                 ul.appendChild(li);
             });
@@ -546,7 +550,8 @@
     loadLatestBlogs();
     function initMobile() {
         const isMobile = window.innerWidth <= 768;
-        document.getElementById('sidebarToggle').style.display = isMobile ? 'block' : 'none';
+        document.getElementById('sidebarToggle').style.display = isMobile ?
+        'block' : 'none';
         document.getElementById('navToggle').style.display = isMobile ? 'block' : 'none';
         document.getElementById('sidebarClose').classList.remove('sidebar-open');
         document.getElementById('navToggle').classList.remove('sidebar-open');
@@ -556,7 +561,8 @@
         document.body.style.overflow = '';
         document.getElementById('sidebar').style.position = isMobile ? 'fixed' : 'sticky';
         document.getElementById('sidebar').style.top = isMobile ? '85px' : '0';
-        document.getElementById('sidebar').style.left = isMobile ? '0' : '';
+        document.getElementById('sidebar').style.left = isMobile ?
+        '0' : '';
         document.getElementById('sidebar').style.height = isMobile ? 'calc(100vh - 85px)' : 'calc(100vh - 85px)';
         document.getElementById('sidebar').style.maxHeight = '100vh';
         document.getElementById('sidebar').style.overflowY = 'auto';
