@@ -32,14 +32,60 @@
     /* Header Integration */
     #header-placeholder { min-height: 70px; position: sticky; top: 0; z-index: 10000; }
     
+    /* MOBILE MENU FULL STYLING (RESTORED) */
     @media (max-width: 950px) {
-        #mobileMenu {
-            display: none; position: fixed; top: 70px; right: 0; 
-            width: 280px; height: calc(100vh - 70px); 
-            background: #111; z-index: 10001; flex-direction: column; 
-            padding: 30px; border-left: 1px solid #333;
+        /* Desktop links ko hide karo */
+        .nav-links { 
+            display: none !important; 
         }
-        #mobileMenu.active { display: flex !important; }
+
+        /* Mobile Menu Container - Right Side placement */
+        #mobileMenu {
+            display: none; 
+            position: fixed; 
+            top: 0;           /* Top se start */
+            right: 0;         /* Right side mein place */
+            width: 40%;       /* Width adjust: 70% screen cover karega */
+            max-width: 300px; /* Zyada bada na ho */
+            height: 100vh;    /* Puri screen ki height */
+            background: #0a0a0f; 
+            z-index: 10001; 
+            flex-direction: column; 
+            padding: 80px 30px 30px; /* Top padding toggle button ke liye */
+            border-left: 1px solid #333;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+            transition: 0.3s ease-in-out;
+        }
+
+        /* Jab 'active' class add ho tab menu dikhe */
+        #mobileMenu.active { 
+            display: flex !important; 
+            animation: slideIn 0.3s forwards;
+        }
+
+        /* Menu ke links ki styling */
+        #mobileMenu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 15px 0;
+            border-bottom: 1px solid #222;
+            width: 100%;
+        }
+
+        /* Slide-in Animation */
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Burger Button ko mobile par dikhao */
+        .mobile-btn {
+            display: block !important;
+            position: relative;
+            z-index: 10002; /* Menu ke bhi upar rahe */
+        }
     }
 
     /* Sticky Action Bar (Original) */
