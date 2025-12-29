@@ -41,21 +41,26 @@
 
         /* Mobile Menu Container - Right Side placement */
         #mobileMenu {
-            display: none; 
-            position: fixed; 
-            top: 0;           /* Top se start */
-            right: 0;         /* Right side mein place */
-            width: 40%;       /* Width adjust: 70% screen cover karega */
-            max-width: 300px; /* Zyada bada na ho */
-            height: 100vh;    /* Puri screen ki height */
-            background: #0a0a0f; 
-            z-index: 10001; 
-            flex-direction: column; 
-            padding: 80px 30px 30px; /* Top padding toggle button ke liye */
-            border-left: 1px solid #333;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
-            transition: 0.3s ease-in-out;
-        }
+    display: none; 
+    position: fixed; 
+    top: 0;
+    left: auto !important;
+    right: 0 !important;
+    
+    /* Percentage Width Fix */
+    width: 40%;            /* Screen ka 40% hissa cover karega */
+    max-width: 320px;      /* Par badi screen par 320px se zyada nahi hoga */
+    
+    height: 100vh; 
+    background: #0a0a0f; 
+    z-index: 10001; 
+    flex-direction: column; 
+    padding: 80px 25px; 
+    border-left: 1px solid #333;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+    transform: translateX(100%); 
+    transition: transform 0.3s ease-in-out;
+}
 
         /* Jab 'active' class add ho tab menu dikhe */
         #mobileMenu.active { 
