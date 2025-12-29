@@ -30,6 +30,7 @@
 
     /* Hero */
     .hero {
+      margin-top: 20px;
       max-width: 1200px;
       margin: 0 auto;
       padding: 80px 20px 80px;
@@ -198,7 +199,31 @@
       font-size: 20px;
       color: var(--meta-color);
     }
+/* Header styling fixes for Blogs.html */
+#header-placeholder { min-height: 80px; }
 
+@media (max-width: 950px) {
+    .nav-links { display: none !important; }
+    .mobile-btn { display: block !important; cursor: pointer; }
+    
+    /* Right Side Drawer Menu */
+    #mobileMenu {
+        display: none;
+        position: fixed;
+        top: 80px;
+        right: 0 !important;
+        left: auto !important;
+        width: 60%;
+        max-width: 300px;
+        height: calc(100vh - 80px);
+        background: #111;
+        z-index: 1000;
+        flex-direction: column;
+        padding: 20px;
+        border-left: 2px solid var(--accent-color);
+    }
+    #mobileMenu.active { display: flex !important; }
+}
     /* Mobile - Stack Sidebar Below */
     @media (max-width: 992px) {
       .main-layout {
@@ -364,12 +389,36 @@
     loadBlogs();
   </script>
   <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').outerHTML = data;
-      })
-      .catch(err => console.error('Header load failed:', err));
+   // Header Load & Toggle Logic
+fetch('./header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+    
+    // Active Link Highlight
+    const currentUrl = window.location.pathname.split("/").pop() || "index.html";
+    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
+      if (link.getAttribute('href') === currentUrl) {
+        link.style.color = "var(--accent-color)";
+      }
+    });
+  });
+
+// Mobile Menu Click Handler
+document.addEventListener('click', function (e) {
+  const menu = document.getElementById("mobileMenu");
+  const toggleBtn = e.target.closest('#mobileToggle') || e.target.closest('.mobile-btn');
+
+  if (menu) {
+    if (toggleBtn) {
+      menu.classList.toggle('active');
+    } else if (menu.classList.contains('active')) {
+      if (!menu.contains(e.target) || e.target.tagName === 'A') {
+        menu.classList.remove('active');
+      }
+    }
+  }
+});
   </script>
 <script src="footer.js"></script>
 
