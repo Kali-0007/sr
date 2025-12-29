@@ -77,28 +77,37 @@
 
     /* --- MOBILE RESPONSIVE --- */
     @media (max-width: 950px) {
-        .nav-links { 
-            display: none !important; /* Mobile pe desktop links chhupenge */
-        }
-        
-        .mobile-btn { 
-            display: block !important; /* Hamburger button dikhega */
-        }
-
-        .form-grid { 
-            grid-template-columns: 1fr; /* Form ek line mein aayega */
-        }
-
-        .signup-content {
-            padding-top: 100px;
-        }
-
-        /* Jo left hissa kat raha tha uska fix */
-        .glass-card {
-            margin: 0; 
-            width: 100%;
-        }
+    /* Mobile Menu Container Fix */
+    #mobileMenu {
+        width: 40% !important;        /* Poori screen nahi, sirf 40% */
+        right: -40%;                  /* Shuruat mein screen se 40% bahar rahega */
+        left: auto;                   /* Left se alignment hatao */
+        transition: 0.3s ease;        /* Smooth sliding effect */
+        background: #111;             /* Dark background */
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        padding-top: 60px;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
     }
+
+    /* Jab menu "active" class payega tabhi andar aayega */
+    #mobileMenu.active {
+        right: 0 !important;          /* 40% width ke saath screen ke andar */
+    }
+
+    /* Links ki styling (Clean Look) */
+    #mobileMenu a {
+        padding: 15px 20px;
+        font-size: 14px;
+        border-bottom: 1px solid #222;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
 
     input, select {
         width: 100%; padding: 12px; margin: 8px 0;
