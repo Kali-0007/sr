@@ -411,36 +411,59 @@
   <script src="footer.js"></script>
 
   <script>
-    // Load Header and handle Mobile Menu
+    // 1. Header Load Karne Ka Logic
     fetch('./header.html')
       .then(res => res.text())
       .then(data => {
         document.getElementById('header-placeholder').innerHTML = data;
-        // Keep active page color
-        document.querySelectorAll('.nav-links a').forEach(link => {
-          if(link.getAttribute('href') === 'services.html') link.style.color = 'var(--primary)';
+        
+        // Active page ko highlight karne ke liye
+        const links = document.querySelectorAll('.nav-links a');
+        links.forEach(link => {
+          if(link.getAttribute('href') === 'services.html') {
+            link.style.color = 'var(--primary)';
+          }
         });
       });
 
-    // Integrated Menu Toggle
-    function toggleMenu() { 
-        const menu = document.getElementById('mobileMenu');
-        if(menu) menu.classList.toggle('active'); 
+    // 2. MOBILE MENU TOGGLE (Fix for Dynamic Header)
+    // Hum 'document' par click listen kar rahe hain taaki header load hone ke baad bhi button kaam kare
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById("mobileMenu");
+      // Check kar rahe hain ki kya user ne burger icon ya toggle button par click kiya hai
+      const isToggleBtn = e.target.closest('.mobile-btn') || e.target.id === 'mobileToggle';
+      
+      if (isToggleBtn) {
+        menu.classList.toggle('active');
+      } 
+      // Agar menu khula hai aur bahar click kiya toh band ho jaye
+      else if (menu && menu.classList.contains('active')) {
+        if (!menu.contains(e.target)) {
+          menu.classList.remove('active');
+        }
+      }
+    });
+
+    // 3. Baki Saare Original Functions
+    function toggle(id) {
+        const el = document.getElementById(id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 
-    // Modal and Content Toggle
-    function closeModal() { document.getElementById('bookingModal').style.display = 'none'; }
-    function toggle(id) {
-      const el = document.getElementById(id);
-      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-    }
     function openBooking(title, price) {
-      document.getElementById('m_title').innerText = title;
-      document.getElementById('m_price').innerText = 'Payable: ₹' + price;
-      document.getElementById('h_title').value = title;
-      document.getElementById('bookingModal').style.display = 'flex';
+        document.getElementById('m_title').innerText = title;
+        document.getElementById('m_price').innerText = 'Payable: ₹' + price;
+        document.getElementById('h_title').value = title;
+        document.getElementById('bookingModal').style.display = 'flex';
     }
-    window.onclick = function(e) { if(e.target == document.getElementById('bookingModal')) closeModal(); }
-  </script>
+
+    function closeModal() { 
+        document.getElementById('bookingModal').style.display = 'none'; 
+    }
+
+    window.onclick = function(e) { 
+        if(e.target == document.getElementById('bookingModal')) closeModal(); 
+    }
+</script>
 </body>
 </html>
