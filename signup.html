@@ -33,71 +33,43 @@
     }
 
     /* Desktop Links show karega */
+    /* Desktop Links: Jab screen badi ho tabhi dikhen */
+.nav-links {
+    display: flex !important;
+    gap: 20px;
+}
+
+/* Mobile Menu: By default chhupa rahe aur 40% width ghere */
+#mobileMenu {
+    position: fixed;
+    top: 0;
+    right: -40%; /* Screen ke bahar */
+    width: 40% !important;
+    height: 100vh;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    padding-top: 80px;
+    z-index: 9999;
+    transition: 0.3s ease-in-out;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+}
+
+/* Mobile par Desktop links gayab hon aur Hamburger active ho */
+@media (max-width: 950px) {
     .nav-links {
-        display: flex !important;
-        gap: 20px;
+        display: none !important; /* Ye zaroori hai taaki links bahar na dikhen */
     }
 
-    /* Mobile Menu Toggle Button (Hamesha dikhna chahiye mobile pe) */
     .mobile-btn {
-        display: none;
-        cursor: pointer;
-        font-size: 24px;
-        color: white;
+        display: block !important; /* Hamburger dikhega */
     }
+}
 
-    /* --- LAYOUT FIXES --- */
-    .signup-content {
-        background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
-        padding: 120px 15px 40px; /* Top padding badha di taaki header ke niche na dabe */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        box-sizing: border-box;
-    }
-
-    .glass-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        padding: 30px;
-        width: 100%;
-        max-width: 800px;
-        box-sizing: border-box;
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        width: 100%;
-    }
-
-    /* --- MOBILE RESPONSIVE --- */
-    @media (max-width: 950px) {
-    /* Mobile Menu Container Fix */
-    #mobileMenu {
-        width: 40% !important;        /* Poori screen nahi, sirf 40% */
-        right: -40%;                  /* Shuruat mein screen se 40% bahar rahega */
-        left: auto;                   /* Left se alignment hatao */
-        transition: 0.3s ease;        /* Smooth sliding effect */
-        background: #111;             /* Dark background */
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        z-index: 99999;
-        display: flex;
-        flex-direction: column;
-        padding-top: 60px;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
-    }
-
-    /* Jab menu "active" class payega tabhi andar aayega */
-    #mobileMenu.active {
-        right: 0 !important;          /* 40% width ke saath screen ke andar */
-    }
+/* Jab Toggle click ho tab menu andar aaye */
+#mobileMenu.active {
+    right: 0 !important;
+}
 
     /* Links ki styling (Clean Look) */
     #mobileMenu a {
