@@ -7,7 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Styling - Same as before */
+        :root { --primary: #667eea; --secondary: #764ba2; }
+
         body {
             margin: 0; padding: 0; 
             background: #000; 
@@ -18,10 +19,28 @@
             min-height: 100vh;
         }
 
+        /* Header placeholder style */
+        #header-placeholder { min-height: 85px; }
+
+        /* COMMON HEADER FIXES - Sab pages par same hona chahiye */
+        @media (max-width: 950px) {
+            .nav-links { display: none !important; }
+            .mobile-btn { display: block !important; cursor: pointer; }
+            #mobileMenu {
+                display: none; position: fixed; top: 85px;
+                right: 0 !important; left: auto !important;
+                width: 70%; max-width: 300px;
+                height: calc(100vh - 85px); background: #111;
+                z-index: 1000; flex-direction: column; padding: 20px;
+                border-left: 2px solid var(--primary);
+            }
+            #mobileMenu.active { display: flex !important; }
+        }
+
         .contact-content {
             flex: 1;
             background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
-            padding: 140px 20px 80px; 
+            padding: 40px 20px 80px; /* Padding kam ki kyunki header margin handling placeholder se hogi */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -50,7 +69,7 @@
             outline: none; transition: 0.3s;
         }
 
-        input:focus, textarea:focus { border-color: #667eea; background: rgba(0,0,0,0.6); }
+        input:focus, textarea:focus { border-color: var(--primary); background: rgba(0,0,0,0.6); }
 
         .btn-submit {
             width: 100%; padding: 18px; margin-top: 20px;
@@ -63,17 +82,11 @@
 
         .btn-submit:disabled { background: #444; cursor: not-allowed; transform: none; }
 
-        /* Success Message Styling */
         #successMessage {
-            display: none;
-            background: rgba(0, 255, 157, 0.1);
-            border: 1px solid #00ff9d;
-            color: #00ff9d;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 600;
+            display: none; background: rgba(0, 255, 157, 0.1);
+            border: 1px solid #00ff9d; color: #00ff9d;
+            padding: 20px; border-radius: 12px; text-align: center;
+            margin-bottom: 20px; font-weight: 600;
         }
 
         @media (max-width: 480px) { .glass-card { padding: 30px 20px; } }
@@ -81,23 +94,7 @@
 </head>
 <body>
 
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;">
-    <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-        <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto;">
-        <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
-            <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
-        </div>
-    </div>
-    <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px;">
-        <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500;">Home</a>
-        <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500;">About Us</a>
-        <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500;">Services</a>
-        <a href="contact.html" style="color: #fff; text-decoration: none; font-weight: 500;">Contact Us</a>
-        <a href="login.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Login</a>
-        <a href="signup.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Signup</a>
-    </nav>
-</header>
+<div id="header-placeholder"></div>
 
 <main class="contact-content">
     <div class="glass-card">
@@ -125,6 +122,38 @@
 <script src="footer.js"></script>
 
 <script>
+    // 1. Header Load & Toggle Logic
+    fetch('./header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        
+        // Active Link Highlight
+        const currentUrl = window.location.pathname.split("/").pop() || "index.html";
+        document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
+          if (link.getAttribute('href') === currentUrl) {
+            link.style.color = "#667eea";
+          }
+        });
+      });
+
+    // Mobile Menu Click Handler
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById("mobileMenu");
+      const toggleBtn = e.target.closest('#mobileToggle') || e.target.closest('.mobile-btn');
+
+      if (menu) {
+        if (toggleBtn) {
+          menu.classList.toggle('active');
+        } else if (menu.classList.contains('active')) {
+          if (!menu.contains(e.target) || e.target.tagName === 'A') {
+            menu.classList.remove('active');
+          }
+        }
+      }
+    });
+
+    // 2. Form Submission Logic
     const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
     const successMsg = document.getElementById('successMessage');
@@ -132,8 +161,6 @@
 
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        // UI Feedback
         submitBtn.disabled = true;
         submitBtn.innerHTML = "Sending... <i class='fas fa-spinner fa-spin'></i>";
 
@@ -142,13 +169,10 @@
         fetch("https://formsubmit.co/ajax/sr.ravindra@zohomail.in", {
             method: "POST",
             body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: { 'Accept': 'application/json' }
         })
         .then(response => response.json())
         .then(data => {
-            // Hide form and show success message
             formContainer.style.display = 'none';
             successMsg.style.display = 'block';
         })
