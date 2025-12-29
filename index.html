@@ -75,7 +75,7 @@
         font-weight: 500;
         transition: 0.3s;
     }
-    /* Active Link aur Hover Effect */
+    /* Active Link aur Hover Effect - Exact from header.html */
     .nav-links a:hover,
     .nav-links a.active-link,
     .mobile-menu a.active-link {
@@ -98,7 +98,7 @@
         cursor: pointer;
         color: white;
     }
-    /* Mobile Menu Style */
+    /* Mobile Menu Style - Adjusted for header.html style */
     .mobile-menu {
         display: none;
         position: fixed;
@@ -125,7 +125,7 @@
     max-height: 80vh; /* Max 80% screen tak jayega */
     overflow-y: auto; /* Agar menu bada ho toh scroll ho jaye */
 }
-    /* 2. Nav Links Spacing & Font */
+    /* Existing Styles Preserved - Nav Links Spacing & Font */
     .nav-links {
         gap: 25px !important; /* Links ke beech ki sahi doori */
     }
@@ -139,19 +139,21 @@
     .nav-links a:hover {
         color: #fff !important;
     }
-    /* 3. Highlighting (Login/Signup Buttons) */
-    .btn-highlight {
+    /* 3. Highlighting (Login/Signup Buttons) - Merged with header.html */
+    .btn-login.btn-highlight,
+    .btn-signup.btn-highlight {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         padding: 8px 22px !important; /* Signup page wala button size */
         border-radius: 50px !important; /* Pill shape */
         color: #fff !important;
         box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+        border: none;
     }
     .btn-highlight:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(102,126,234,0.4);
     }
-    /* 4. Mobile Menu Width (40%) */
+    /* 4. Mobile Menu Width (40%) - Existing */
     @media (max-width: 950px) {
         #mobileMenu {
             width: 40% !important;
@@ -164,53 +166,47 @@
             font-size: 15px !important;
         }
     }
-    /* NEW: Mobile Sidebar Toggle Buttons (Add this CSS ONLY for integration) */
+    /* NEW: Mobile Sidebar Toggle Buttons - Fixed for both sides */
     @media (max-width: 768px) {
-        .sidebar-toggle-left {
-            display: block !important;
-            font-size: 26px;
-            cursor: pointer;
-            color: white;
-            margin-right: auto; /* Extreme left */
-            z-index: 1001;
-            background: none;
-            border: none;
-            padding: 5px;
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
+        .sidebar-toggle-left,
         .sidebar-toggle-right {
             display: block !important;
             font-size: 26px;
             cursor: pointer;
             color: white;
-            margin-left: auto; /* Extreme right */
-            z-index: 1001;
             background: none;
             border: none;
             padding: 5px;
             border-radius: 4px;
             transition: background 0.3s;
+            z-index: 1001;
+        }
+        .sidebar-toggle-left {
+            margin-right: auto; /* Extreme left */
+            margin-left: -5px;
+        }
+        .sidebar-toggle-right {
+            margin-left: auto; /* Extreme right */
+            margin-right: -5px;
+            display: none; /* Hidden by default, show on open */
         }
         .nav-links {
-            display: none; /* Hide desktop nav on mobile, use mobile-menu instead */
+            display: none; /* Hide desktop nav on mobile */
         }
-        /* Assume sidebar has class .sidebar or #sidebar – DO NOT CHANGE EXISTING SIDEBAR CSS */
-        .sidebar { /* Only add if needed for toggle visibility */
-            transition: transform 0.3s ease; /* Smooth open/close if not existing */
-        }
-        .sidebar.open {
-            transform: translateX(0); /* Adjust based on existing sidebar logic */
-        }
-        .sidebar.closed {
-            transform: translateX(-100%); /* Hidden on mobile */
+        .mobile-btn {
+            display: block !important; /* Show mobile nav toggle */
         }
     }
     @media (min-width: 769px) {
-        .sidebar-toggle-left, .sidebar-toggle-right {
+        .sidebar-toggle-left, 
+        .sidebar-toggle-right {
             display: none !important; /* Hide on desktop */
         }
+        .mobile-btn {
+            display: none !important;
+        }
     }
+    /* Existing Global Styles - Untouched */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -233,20 +229,20 @@
     .sidebar-section h3 { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
     details summary::-webkit-details-marker { display: none; }
     /* Mobile Menu Styles */
-    mobileMenu a:hover { background: rgba(102,126,234,0.1); }
-    mobileMenu.open { transform: translateX(0) !important; }
+    #mobileMenu a:hover { background: rgba(102,126,234,0.1); }
+    #mobileMenu.open { transform: translateX(0) !important; }
     /* Sidebar Styles */
     .sidebar.open { transform: translateX(0) !important; }
     /* Backdrop and Scroll Lock */
     body.panel-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; }
-    /* Mobile Responsiveness */
+    /* Mobile Responsiveness - Updated tops/heights for 85px header */
     @media (max-width: 768px) {
         .main-layout { flex-direction: column; }
         .sidebar { position: fixed !important; top: 85px; left: 0; width: 80%; max-width: 300px; height: calc(100vh - 85px); z-index: 1002; transform: translateX(-100%); border-right: none; border-top: 1px solid rgba(255,255,255,0.1); overflow-y: auto !important; pointer-events: auto; }
         .content { order: 1; margin-left: 0; padding: 0 20px 20px !important; margin-top: 0 !important; }
         #desktopNav { display: none !important; }
         #sidebarToggle { display: block !important; }
-        #mobileMenuToggle { display: block !important; }
+        #mobileToggle { display: block !important; }
         h1 { font-size: 28px !important; line-height: 1.2; }
         .hero { padding: 0 0 20px 0 !important; min-height: auto !important; }
         .btn-big { padding: 12px 24px; font-size: 14px; flex: 1; min-width: 120px; }
@@ -260,8 +256,8 @@
         #mobileMenu { top: 85px !important; }
     }
     @media (max-width: 480px) {
-        header { padding: 8px 10px; }
-        .logo span:first-child { font-size: 18px; }
+        header { padding: 0 2%; } /* Adjusted for small screens */
+        .brand-name { font-size: 18px; }
         .cards { gap: 10px; }
         .sidebar { width: 85% !important; }
         .btn-big { min-width: 100px; padding: 10px 20px; }
@@ -277,8 +273,12 @@
 </style>
 </head>
 <body style="margin: 0; padding: 0; background: #000; overflow-x: hidden;">
+<!-- Updated Header - Exact from header.html, with toggles integrated -->
 <header>
-  <i class="fas fa-bars sidebar-toggle-left" id="sidebarToggle" onclick="toggleSidebar()" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-left: -5px;" title="Sidebar"></i> <!-- Existing left toggle for sidebar on mobile -->
+  <!-- Left Sidebar Toggle (extreme left on mobile) -->
+  <i class="fas fa-bars sidebar-toggle-left" id="sidebarToggle" onclick="toggleSidebar()" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-left: -5px;" title="Toggle Sidebar"></i>
+   
+  <!-- Center Logo -->
   <a href="index.html" class="logo">
     <img src="logo.png" alt="TaxEasePro">
     <div class="logo-text">
@@ -286,6 +286,8 @@
         <span class="tagline">Pro Tax, Zero Stress</span>
     </div>
   </a>
+   
+  <!-- Right Desktop Nav / Mobile Menu Toggle (extreme right on mobile) -->
   <nav class="nav-links" id="desktopNav">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -295,24 +297,25 @@
     <a href="login.html" class="btn-login btn-highlight">Login</a>
     <a href="signup.html" class="btn-signup btn-highlight">Signup</a>
   </nav>
-  <i class="fas fa-bars mobile-btn" id="mobileToggle" onclick="toggleMobileMenu()" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-right: -5px;" title="Menu"></i> <!-- Existing mobile nav toggle -->
-  <i class="fas fa-times sidebar-toggle-right" id="sidebarToggleRight" onclick="toggleSidebar()" style="display:none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-left: -5px;" title="Close Sidebar"></i> <!-- NEW: Right close button, show when sidebar open -->
+  <i class="fas fa-bars mobile-btn" id="mobileToggle" onclick="toggleMobileMenu()" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-right: -5px;" title="Toggle Menu"></i>
+  <!-- Right Close Toggle for Sidebar (shows when open on mobile) -->
+  <i class="fas fa-times sidebar-toggle-right" id="sidebarToggleRight" onclick="toggleSidebar()" style="display:none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-right: -5px;" title="Close Sidebar"></i>
 </header>
-<!-- Mobile Main Menu (Slide-in) - Preserved existing, but adjusted top to 85px -->
-<div id="mobileMenu" style="display: none; position: fixed; top: 85px; right: 0; width: 80%; max-width: 300px; height: calc(100vh - 85px); background: #111; z-index: 1001; padding: 10px 0; box-shadow: -2px 0 10px rgba(0,0,0,0.3); transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto;">
+<!-- Mobile Main Menu (Slide-in) - Updated top to 85px, class to mobile-menu for consistency -->
+<div id="mobileMenu" class="mobile-menu" style="display: none; position: fixed; top: 85px; right: 0; width: 80%; max-width: 300px; height: calc(100vh - 85px); background: #111; z-index: 1001; padding: 10px 0; box-shadow: -2px 0 10px rgba(0,0,0,0.3); transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto;">
     <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0;">
-        <li><a href="index.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Home</a></li>
-        <li><a href="about.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">About</a></li>
-        <li><a href="services.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Services</a></li>
-        <li><a href="blogs.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Blogs</a></li>
-        <li><a href="contact.html" style="display: block; color: #fff; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #333; transition: background 0.3s;">Contact</a></li>
-        <li><a href="login.html" style="display: block; color: var(--primary); text-decoration: none; padding: 15px 20px; background: rgba(102,126,234,0.1); transition: background 0.3s;">Login</a></li>
-        <li><a href="signup.html" style="display: block; color: var(--primary); text-decoration: none; padding: 15px 20px; background: rgba(102,126,234,0.1); transition: background 0.3s;">Signup</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.html" style="color:var(--primary);">Login</a></li>
+        <li><a href="signup.html" style="color:var(--success);">Signup</a></li>
     </ul>
 </div>
-<!-- Main Layout with Sidebar -->
+<!-- Main Layout with Sidebar - Fixed gap: margin-top 85px, heights updated -->
 <div class="main-layout" style="min-height: calc(100vh - 85px); margin-top: 85px; display: flex;">
-    <!-- Sidebar (Quick Nav only) -->
+    <!-- Sidebar (Quick Nav only) - Untouched, height fixed -->
     <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; position: sticky; top: 0; height: calc(100vh - 85px); max-height: 100vh; pointer-events: auto;">
         <!-- Quick Navigation -->
         <div class="sidebar-section" style="margin-bottom: 30px;">
@@ -373,7 +376,7 @@
             <input type="search" placeholder="Search site..." style="width: 100%; padding: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff;">
         </div>
     </aside>
-    <!-- Main Content - SEAMLESS DARK GRADIENT BACKGROUND -->
+    <!-- Main Content - Untouched -->
     <main class="content" style="flex: 1; background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%); padding: 0 20px 20px; overflow-y: auto; position: relative; z-index: 1; margin-top: 0;">
         <!-- Hero Section -->
         <section class="hero" style="padding: 0 20px 40px; background: transparent; overflow-y: auto; position: relative; z-index: 1; margin-top: 0;">
@@ -466,7 +469,7 @@
 </div>
 <!-- Footer (Fixed for alignment) -->
 <script src="footer.js"></script>
-<!-- Booking Modal -->
+<!-- Booking Modal - Untouched -->
 <div id="bookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px; overflow-y: auto;">
     <div style="background: #111; border-radius: 20px; max-width: 420px; margin: 40px auto; padding: 30px; color: white;">
         <h2 style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Complete Booking <span id="modalAmt"></span></h2>
@@ -482,7 +485,7 @@
     </div>
 </div>
 <script>
-    // Booking functions
+    // Booking functions - Untouched
     let amt = 0, service = '';
     function openBookingForm(amount, serviceName) {
         amt = amount; service = serviceName;
@@ -502,15 +505,16 @@
         document.getElementById('bookingModal').style.display = 'none';
         alert('Thank you! Payment link opened. details sent to us.');
     }
-    // Sidebar Toggle - Existing, with minor addition for right toggle visibility
+    // Sidebar Toggle - Existing + Right button logic
     const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarToggleRight = document.getElementById('sidebarToggleRight');
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
-    const sidebarToggleRight = document.getElementById('sidebarToggleRight');
     function toggleSidebar() {
         sidebar.classList.toggle('open');
         body.classList.toggle('panel-open');
-        if (sidebar.classList.contains('open')) {
+        const isOpen = sidebar.classList.contains('open');
+        if (isOpen) {
             body.style.overflow = 'hidden';
             if (sidebarToggleRight) sidebarToggleRight.style.display = 'block';
         } else {
@@ -519,11 +523,9 @@
         }
     }
     sidebarToggle.addEventListener('click', toggleSidebar);
-    if (sidebarToggleRight) {
-        sidebarToggleRight.addEventListener('click', toggleSidebar);
-    }
-    // Mobile Menu Toggle - Existing
-    const mobileMenuToggle = document.getElementById('mobileToggle'); // Updated ID
+    if (sidebarToggleRight) sidebarToggleRight.addEventListener('click', toggleSidebar);
+    // Mobile Menu Toggle - Existing, ID updated to mobileToggle
+    const mobileMenuToggle = document.getElementById('mobileToggle');
     const mobileMenu = document.getElementById('mobileMenu');
     function toggleMobileMenu() {
         mobileMenu.classList.toggle('open');
@@ -532,14 +534,11 @@
         else if (!sidebar.classList.contains('open')) body.style.overflow = '';
     }
     mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-    // Close panels on outside click
+    // Close panels on outside click - Updated for right toggle
     document.addEventListener('click', e => {
         if (body.classList.contains('panel-open')) {
-            if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !sidebarToggleRight.contains(e.target)) {
-                sidebar.classList.remove('open');
-                if (!mobileMenu.classList.contains('open')) body.classList.remove('panel-open');
-                body.style.overflow = '';
-                if (sidebarToggleRight) sidebarToggleRight.style.display = 'none';
+            if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && (sidebarToggleRight ? !sidebarToggleRight.contains(e.target) : true)) {
+                toggleSidebar(); // Use function to handle close
             }
             if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
                 mobileMenu.classList.remove('open');
@@ -548,17 +547,18 @@
             }
         }
     });
-    // Close on Escape key
+    // Close on Escape key - Updated
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && body.classList.contains('panel-open')) {
-            if (sidebar.classList.contains('open')) sidebar.classList.remove('open');
-            if (mobileMenu.classList.contains('open')) mobileMenu.classList.remove('open');
-            body.classList.remove('panel-open');
-            body.style.overflow = '';
-            if (sidebarToggleRight) sidebarToggleRight.style.display = 'none';
+            if (sidebar.classList.contains('open')) toggleSidebar();
+            if (mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                body.classList.remove('panel-open');
+                body.style.overflow = '';
+            }
         }
     });
-    // Close mobile menu on link click
+    // Close mobile menu on link click - Untouched
     mobileMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             mobileMenu.classList.remove('open');
@@ -566,7 +566,7 @@
             body.style.overflow = '';
         });
     });
-    // Animations
+    // Animations - Untouched
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -581,9 +581,9 @@
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
-    // Newsletter
+    // Newsletter - Untouched
     document.querySelector('.sidebar-section button').addEventListener('click', () => alert('Subscribed! Check your email for updates.'));
-    // Blogs
+    // Blogs - Untouched
     async function loadLatestBlogs() {
     const ul = document.getElementById('latestBlogs');
     ul.innerHTML = '<li style="color:#aaa;">Loading latest blogs...</li>'; // Loading dikhane ke liye
@@ -619,14 +619,12 @@
     }
 }
 loadLatestBlogs();
-    // Mobile Init - Updated for new IDs and heights
+    // Mobile Init - Updated for new IDs, heights, and right toggle
     function initMobile() {
         const isMobile = window.innerWidth <= 768;
         const desktopNav = document.getElementById('desktopNav');
-        const sidebarToggleEl = document.getElementById('sidebarToggle');
-        const mobileMenuToggleEl = document.getElementById('mobileToggle');
-        sidebarToggleEl.style.display = isMobile ? 'block' : 'none';
-        mobileMenuToggleEl.style.display = isMobile ? 'block' : 'none';
+        sidebarToggle.style.display = isMobile ? 'block' : 'none';
+        mobileMenuToggle.style.display = isMobile ? 'block' : 'none';
         if (desktopNav) desktopNav.style.display = isMobile ? 'none' : 'flex';
         sidebar.classList.remove('open');
         mobileMenu.classList.remove('open');
@@ -643,19 +641,9 @@ loadLatestBlogs();
     }
     initMobile();
     window.addEventListener('resize', initMobile);
-    // Add event listener for window resize to reset on desktop - Existing logic preserved
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            sidebar.classList.remove('open');
-            mobileMenu.classList.remove('open');
-            body.classList.remove('panel-open');
-            body.style.overflow = '';
-            if (sidebarToggleRight) sidebarToggleRight.style.display = 'none';
-        }
-    });
 </script>
 <script>
-  // 1. WhatsApp Configuration
+  // 1. WhatsApp Configuration - Untouched
   const MY_WHATSAPP_NUMBER = "919876543210"; // <--- Bhai yahan apna sahi number daal dena
   // 2. Chatbase Loader (Jo aapne code diya tha, wahi hai ye)
   (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="zmzAqRQn0pLJAK8M_Eg_Q";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
