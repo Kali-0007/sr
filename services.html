@@ -70,15 +70,21 @@
         }
 
         /* Menu ke links ki styling */
-        #mobileMenu a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 600;
-            padding: 15px 0;
-            border-bottom: 1px solid #222;
-            width: 100%;
-        }
+     
+#mobileMenu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;         /* Baaki pages ka common font size */
+    font-weight: 500;        /* Na zyada patla, na zyada bold */
+    padding: 15px 0;
+    border-bottom: 1px solid #222;
+    width: 100%;
+}
+
+/* Active Highlight - Sirf color change, style nahi */
+.active-link { 
+    color: var(--primary) !important; 
+}
 
         /* Slide-in Animation */
         @keyframes slideIn {
@@ -476,23 +482,35 @@
 
   <script>
     // 1. Header Load aur Auto-Highlight Logic
-    fetch('./header.html')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-        
-        // Pata karo kaunsa page khula hai
-        const currentPath = window.location.pathname.split("/").pop() || "index.html";
-        
-        // Desktop aur Mobile dono links ko pakdo
-        const allLinks = document.querySelectorAll('.nav-links a, #mobileMenu a');
+    // 1. Header Load aur Auto-Highlight (Sirf ise update karein)
+fetch('./header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+    
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+    const allLinks = document.querySelectorAll('.nav-links a, #mobileMenu a');
 
-        allLinks.forEach(link => {
-          if (link.getAttribute('href') === currentPath) {
-            link.classList.add('active-link'); // Yahan hum class add kar rahe hain
-          }
-        });
-      });
+    allLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active-link');
+      }
+    });
+  });
+
+// 2. Mobile Menu Toggle (Ise mat chhedna, ye pehle se sahi hai)
+document.addEventListener('click', function (e) {
+  const menu = document.getElementById("mobileMenu");
+  const isToggleBtn = e.target.closest('.mobile-btn') || e.target.id === 'mobileToggle';
+  
+  if (isToggleBtn) {
+    menu.classList.toggle('active');
+  } else if (menu && menu.classList.contains('active')) {
+    if (!menu.contains(e.target)) {
+      menu.classList.remove('active');
+    }
+  }
+});
 
     // 2. MOBILE MENU TOGGLE (Fix for Dynamic Header)
     // Hum 'document' par click listen kar rahe hain taaki header load hone ke baad bhi button kaam kare
