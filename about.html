@@ -17,15 +17,14 @@
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; font-size: 16px; }
     
     .about-main { 
-        min-height: 100vh; 
-        margin-top: 60px; 
-        /* PERFORMANCE FIX 2: Simple gradient */
-        background: #050505; 
-        background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%); 
-        padding: clamp(40px 10px, 5vw, 60px 20px); 
-        display: flex; 
-        justify-content: center; 
-    }
+    min-height: 100vh; 
+    margin-top: 0; /* 60px ko 0 kar diya */
+    background: #050505; 
+    background: radial-gradient(circle at 70% 20%, #1a1a2e 0%, #000 100%); 
+    padding: clamp(40px 10px, 5vw, 60px 20px); 
+    display: flex; 
+    justify-content: center; 
+}
     
     .container { max-width: 1000px; width: 90%; }
     
