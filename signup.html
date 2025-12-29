@@ -116,12 +116,26 @@
         width: 100%;
     }
 
+    /* --- Mobile Screen Fix: Yahan se replace karein --- */
     @media (max-width: 768px) {
+        .signup-content {
+            padding: 80px 10px 20px; /* Side ki jagah kam ki taaki form bada dikhe */
+        }
+
+        .glass-card {
+            width: 95% !important; /* Form ki width badha di */
+            padding: 25px 15px;    /* Card ke andar ki spacing kam ki */
+            max-width: 100%;
+        }
+
         .form-grid { 
             grid-template-columns: 1fr; 
+            gap: 12px; 
         }
-        .signup-content {
-            padding-top: 100px;
+
+        .btn-submit {
+            grid-column: span 1;
+            width: 100%;
         }
     }
 
@@ -242,6 +256,8 @@ body #mobileMenu {
             </div>
 
             <div>
+                <label>Pin Code</label>
+<input type="text" id="pincode" name="pincode" maxlength="6" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                 <label>Mobile Number</label>
                 <input type="tel" id="mobile" name="mobile" value="+91" required>
                 <label>Email Address</label>
