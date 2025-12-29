@@ -19,29 +19,44 @@
         background: #000; 
         font-family: 'Inter', sans-serif;
         color: white;
-        overflow-x: hidden; /* Screen se bahar jane se rokega */
+        overflow-x: hidden;
         width: 100%;
     }
 
-    /* Common Header Fixes */
+    /* --- HEADER FIXES (Very Important) --- */
     #header-placeholder {
         width: 100%;
-        position: relative;
-        z-index: 1000;
+        position: fixed; /* Header ko top par fix rakhega */
+        top: 0;
+        z-index: 10000;
+        background: #111;
     }
 
-    /* Signup Content Container */
+    /* Desktop Links show karega */
+    .nav-links {
+        display: flex !important;
+        gap: 20px;
+    }
+
+    /* Mobile Menu Toggle Button (Hamesha dikhna chahiye mobile pe) */
+    .mobile-btn {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: white;
+    }
+
+    /* --- LAYOUT FIXES --- */
     .signup-content {
         background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
-        padding: 80px 15px 40px; /* Top padding for header */
+        padding: 120px 15px 40px; /* Top padding badha di taaki header ke niche na dabe */
         display: flex;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         min-height: 100vh;
-        box-sizing: border-box; /* Width calculation fix */
+        box-sizing: border-box;
     }
 
-    /* Glassmorphism Card */
     .glass-card {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(15px);
@@ -60,26 +75,28 @@
         width: 100%;
     }
 
-    /* Mobile Menu Hide Fix (Jo links bahar dikh rahe hain) */
+    /* --- MOBILE RESPONSIVE --- */
     @media (max-width: 950px) {
-        .nav-links { display: none !important; } /* Desktop nav hide karega */
+        .nav-links { 
+            display: none !important; /* Mobile pe desktop links chhupenge */
+        }
         
+        .mobile-btn { 
+            display: block !important; /* Hamburger button dikhega */
+        }
+
         .form-grid { 
-            grid-template-columns: 1fr; /* Single column for mobile */
+            grid-template-columns: 1fr; /* Form ek line mein aayega */
         }
-        
+
         .signup-content {
-            padding-top: 100px; /* Mobile header space */
+            padding-top: 100px;
         }
 
+        /* Jo left hissa kat raha tha uska fix */
         .glass-card {
-            padding: 20px;
-            margin: 0 auto;
-        }
-
-        /* Mobile inputs width fix */
-        input, select {
-            font-size: 16px; /* Zoom prevent karega iOS pe */
+            margin: 0; 
+            width: 100%;
         }
     }
 
