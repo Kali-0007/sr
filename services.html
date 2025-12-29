@@ -132,6 +132,18 @@
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @media (max-width: 768px) { .sticky-bar { display: flex; } }
+    /* Active Page Highlight Rule */
+.active-link {
+    color: var(--primary) !important; /* Blue color ke liye */
+    font-weight: 700 !important;    /* Thoda bold dikhne ke liye */
+}
+
+/* Mobile menu ke andar ke links ke liye specific */
+#mobileMenu a.active-link {
+    border-left: 3px solid var(--primary); /* Mobile mein side mein ek line dikhegi */
+    padding-left: 15px !important;
+    background: rgba(102, 126, 234, 0.1); /* Halka sa background highlight */
+}
   </style>
 </head>
 <body>
@@ -463,17 +475,21 @@
   <script src="footer.js"></script>
 
   <script>
-    // 1. Header Load Karne Ka Logic
+    // 1. Header Load aur Auto-Highlight Logic
     fetch('./header.html')
       .then(res => res.text())
       .then(data => {
         document.getElementById('header-placeholder').innerHTML = data;
         
-        // Active page ko highlight karne ke liye
-        const links = document.querySelectorAll('.nav-links a');
-        links.forEach(link => {
-          if(link.getAttribute('href') === 'services.html') {
-            link.style.color = 'var(--primary)';
+        // Pata karo kaunsa page khula hai
+        const currentPath = window.location.pathname.split("/").pop() || "index.html";
+        
+        // Desktop aur Mobile dono links ko pakdo
+        const allLinks = document.querySelectorAll('.nav-links a, #mobileMenu a');
+
+        allLinks.forEach(link => {
+          if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active-link'); // Yahan hum class add kar rahe hain
           }
         });
       });
