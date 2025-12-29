@@ -22,7 +22,7 @@
         --white: #ffffff;
     }
 
-    /* --- NEW HEADER STYLES START --- */
+    /* --- HEADER STYLES --- */
     header {
         height: 85px;
         display: flex;
@@ -91,24 +91,25 @@
         border-radius: 25px;
         color: white !important;
     }
-    .mobile-btn {
-        display: none;
-        font-size: 26px;
-        cursor: pointer;
-        color: white;
-    }
+    
+    /* MOBILE MENU STYLES (UPDATED for Right Side Panel) */
     .mobile-menu {
         display: none;
         position: fixed;
         top: 85px;
-        left: 0;
-        width: 100%;
-        background: #1a1a1a;
+        right: 0;         /* Align to Right */
+        left: auto;       /* Reset Left */
+        width: 65%;       /* Reduced width (Approx 260-280px on standard phones) */
+        max-width: 300px; /* Cap width for tablets */
+        height: calc(100vh - 85px); /* Full remaining height */
+        background: #111;
         flex-direction: column;
         padding: 20px;
         z-index: 999;
         box-sizing: border-box;
-        border-bottom: 2px solid var(--primary);
+        border-left: 2px solid var(--primary); /* Left Border only */
+        box-shadow: -10px 0 30px rgba(0,0,0,0.8); /* Strong shadow for depth */
+        overflow-y: auto;
     }
     .mobile-menu a {
         color: white;
@@ -116,55 +117,48 @@
         text-decoration: none;
         border-bottom: 1px solid #333;
         font-family: 'Segoe UI', sans-serif;
+        text-align: right; /* Text aligned right inside the panel */
+        padding-right: 10px;
     }
     .mobile-menu.active {
         display: flex !important;
-        height: auto;
-        max-height: 80vh;
-        overflow-y: auto;
     }
-    /* --- NEW HEADER STYLES END --- */
 
-    /* Mobile toggles - Left sidebar, Right nav + conditional close */
+    /* Mobile Media Queries */
     @media (max-width: 768px) {
-        /* CRITICAL RULE: Hide desktop nav on mobile */
+        /* CRITICAL: Hide desktop nav to prevent extra row */
         #desktopNav, .nav-links {
             display: none !important;
         }
         
         .sidebar-toggle-left {
-            display: block;
+            display: block !important;
             font-size: 26px;
             cursor: pointer;
             color: white;
-            background: none;
-            border: none;
             padding: 5px;
             margin-left: -5px;
             z-index: 1001;
         }
         .nav-toggle-right {
-            display: block;
+            display: block !important;
             font-size: 26px;
             cursor: pointer;
             color: white;
-            background: none;
-            border: none;
             padding: 5px;
             margin-right: -5px;
             z-index: 1001;
         }
         .sidebar-toggle-right {
-            /* Handled by JS inline style but class kept for safety */
             font-size: 26px;
             cursor: pointer;
             color: white;
-            background: none;
-            border: none;
             padding: 5px;
             margin-right: -5px;
             z-index: 1001;
         }
+        
+        /* Sidebar styling for mobile */
         .sidebar {
             transition: transform 0.3s ease;
         }
@@ -208,7 +202,7 @@
     #mobileMenu a:hover { background: rgba(102,126,234,0.1); }
     #mobileMenu.open { transform: translateX(0) !important; }
     .sidebar.open { transform: translateX(0) !important; }
-    body.panel-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; }
+    body.panel-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 998; backdrop-filter: blur(2px); }
     
     @media (max-width: 768px) {
         .main-layout { flex-direction: column; }
@@ -452,7 +446,9 @@
     }
     function toggleMobileMenu() {
         document.getElementById('mobileMenu').classList.toggle('active');
+        // Add backdrop effect by toggling a class on body
         document.body.classList.toggle('panel-open');
+        
         if (document.getElementById('mobileMenu').classList.contains('active')) {
             document.body.style.overflow = 'hidden';
         } else if (!document.getElementById('sidebar').classList.contains('open')) {
@@ -478,20 +474,25 @@
             navToggle.classList.remove('sidebar-open');
         }
     }
+    
+    // Updated Click Listener for Both Panels
     document.addEventListener('click', e => {
         const sidebar = document.getElementById('sidebar');
         const mobileMenu = document.getElementById('mobileMenu');
         const body = document.body;
+        
         if (body.classList.contains('panel-open')) {
+            // Close Sidebar if clicked outside
             if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !document.getElementById('sidebarToggle').contains(e.target) && !document.getElementById('sidebarClose').contains(e.target)) {
                 toggleSidebar();
-          
             }
+            // Close Right Menu if clicked outside
             if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !document.getElementById('navToggle').contains(e.target)) {
                 toggleMobileMenu();
             }
         }
     });
+
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && document.body.classList.contains('panel-open')) {
             if (document.getElementById('sidebar').classList.contains('open')) toggleSidebar();
@@ -533,12 +534,10 @@
                 const li = document.createElement('li');
                 li.innerHTML = `
                     <a href="blog-detail.html?id=${blog.id || blog.slug}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
-            
                         <strong>${blog.title}</strong>
                         <small style="color: #aaa; display: block;">${new Date(blog.date).toLocaleDateString('en-IN')}</small>
                         <small>${blog.excerpt || 'Read more...'}</small>
                     </a>
-            
                 `;
                 ul.appendChild(li);
             });
