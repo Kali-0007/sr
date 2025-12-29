@@ -7,7 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Exact Background and Base Styling from Home */
+        :root { --primary: #667eea; --accent: #00d4ff; }
+        
         body {
             margin: 0; padding: 0; 
             background: #000; 
@@ -18,14 +19,28 @@
             min-height: 100vh;
         }
 
-        /* Glassmorphism for Login Card */
+        /* Common Header & Mobile Menu CSS */
+        #header-placeholder { min-height: 80px; }
+
+        @media (max-width: 950px) {
+            .nav-links { display: none !important; }
+            .mobile-btn { display: block !important; cursor: pointer; }
+            #mobileMenu {
+                display: none; position: fixed; top: 80px;
+                right: 0 !important; left: auto !important;
+                width: 70%; max-width: 300px;
+                height: calc(100vh - 80px); background: #111;
+                z-index: 10000; flex-direction: column; padding: 20px;
+                border-left: 2px solid var(--primary);
+            }
+            #mobileMenu.active { display: flex !important; }
+        }
+
         .login-content {
             flex: 1;
             background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
-            padding: 120px 20px 60px; /* Offset for fixed header */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 40px 20px 60px;
+            display: flex; justify-content: center; align-items: center;
         }
 
         .glass-card {
@@ -33,9 +48,7 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
+            padding: 40px; width: 100%; max-width: 400px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: center;
         }
@@ -44,15 +57,14 @@
             width: 100%; padding: 14px; margin: 12px 0;
             border-radius: 12px; border: none;
             background: #222; color: #fff;
-            box-sizing: border-box;
-            font-size: 16px;
+            box-sizing: border-box; font-size: 16px;
         }
 
         .btn-submit {
             width: 100%; padding: 16px; margin-top: 20px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white; border: none; border-radius: 50px;
-            font-weight: 600; cursor: pointer; transition: transform 0.3s;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
             font-size: 16px;
         }
 
@@ -64,51 +76,28 @@
             transition: color 0.3s;
         }
 
+        .divider { display: flex; align-items: center; margin: 20px 0; color: #aaa; }
+        .divider hr { flex: 1; border: 0.5px solid rgba(255,255,255,0.1); }
+        .divider span { padding: 0 10px; font-size: 12px; font-weight: 600; }
+
         .message { margin-top: 15px; font-size: 14px; font-weight: 600; }
         .success { color: #00ff9d; }
         .error { color: #ff6b6b; }
 
-        /* Recovery Modals */
         .modal {
-            display: none; position: fixed; z-index: 10001; left: 0; top: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.95);
+            display: none; position: fixed; z-index: 20000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.9);
         }
         .modal-content {
-            background: #111; border-radius: 20px; max-width: 400px;
+            background: #111; border-radius: 20px; max-width: 350px;
             margin: 100px auto; padding: 30px; border: 1px solid #333;
         }
     </style>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-<style>
-    /* Divider style for "OR" */
-    .divider {
-        display: flex; align-items: center; margin: 20px 0; color: #aaa;
-    }
-    .divider hr { flex: 1; border: 0.5px solid rgba(255,255,255,0.1); }
-    .divider span { padding: 0 10px; font-size: 12px; font-weight: 600; }
-</style>
 </head>
 <body>
 
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;">
-    <button id="sidebarToggle" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px;"><i class="fas fa-list"></i></button>
-    <div class="logo" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
-        <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto;">
-        <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
-            <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
-        </div>
-    </div>
-    <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; white-space: nowrap;">
-        <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500;">Home</a>
-        <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500;">About Us</a>
-        <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500;">Services</a>
-        <a href="contact.html" style="color: #fff; text-decoration: none; font-weight: 500;">Contact Us</a>
-        <a href="login.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Login</a>
-        <a href="signup.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Signup</a>
-    </nav>
-</header>
+<div id="header-placeholder"></div>
 
 <main class="login-content">
     <div class="glass-card">
@@ -119,9 +108,8 @@
              data-client_id="550754215798-ud6hkuvag4ee6dp8jqkro1ob8i8f0g3b.apps.googleusercontent.com"
              data-callback="handleCredentialResponse">
         </div>
-
         <div style="display: flex; justify-content: center; margin-bottom: 5px;">
-            <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_blue" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
+            <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_blue" data-text="signin_with" data-size="large"></div>
         </div>
 
         <div class="divider">
@@ -146,7 +134,6 @@
         </form>
     </div>
 </main>
-<script src="footer.js"></script>
 
 <div id="usernameModal" class="modal">
     <div class="modal-content">
@@ -176,10 +163,40 @@
     </div>
 </div>
 
+<script src="footer.js"></script>
+
 <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec"; 
 
-    // Helper function to decode Google Token (Isi ki kami thi)
+    // 1. Header Load & Mobile Menu Toggle
+    fetch('./header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        
+        const currentUrl = window.location.pathname.split("/").pop() || "index.html";
+        document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
+          if (link.getAttribute('href') === currentUrl) {
+            link.style.color = "#667eea";
+          }
+        });
+      });
+
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById("mobileMenu");
+      const toggleBtn = e.target.closest('#mobileToggle') || e.target.closest('.mobile-btn');
+      if (menu) {
+        if (toggleBtn) {
+          menu.classList.toggle('active');
+        } else if (menu.classList.contains('active')) {
+          if (!menu.contains(e.target) || e.target.tagName === 'A') {
+            menu.classList.remove('active');
+          }
+        }
+      }
+    });
+
+    // 2. Google Login & Auth Logic
     function parseJwt(token) {
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -189,16 +206,11 @@
         return JSON.parse(jsonPayload);
     }
 
-    // Google Login Handler
     function handleCredentialResponse(response) {
         const responsePayload = parseJwt(response.credential);
-        
         fetch(API_URL, {
             method: "POST",
-            body: JSON.stringify({
-                action: "google-login",
-                userData: responsePayload
-            })
+            body: JSON.stringify({ action: "google-login", userData: responsePayload })
         })
         .then(res => res.json())
         .then(res => {
@@ -210,18 +222,14 @@
             } else {
                 document.getElementById('message').innerHTML = '<span class="error">' + res.message + '</span>';
             }
-        })
-        .catch(err => {
-            document.getElementById('message').innerHTML = '<span class="error">Connection Error!</span>';
         });
     }
 
-    // Manual Login Form
+    // Manual Login
     document.getElementById('loginForm').onsubmit = function(e) {
         e.preventDefault();
         const id = document.getElementById('identifier').value;
         const pass = document.getElementById('password').value;
-        
         fetch(API_URL, {
             method: "POST",
             body: JSON.stringify({ action: "login", email: id, password: pass })
@@ -238,31 +246,21 @@
         });
     };
 
-    // Modal & Recovery Logic
+    // Modal Logic
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function handleForgotUsername() {
         const email = document.getElementById('forgotUserEmail').value;
-        fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "forget-username", email: email })
-        })
-        .then(res => res.json())
-        .then(res => {
-            document.getElementById('forgotUserMsg').innerText = res.message;
-        });
+        fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "forget-username", email: email }) })
+        .then(res => res.json()).then(res => { document.getElementById('forgotUserMsg').innerText = res.message; });
     }
 
     function handleSendResetOTP() {
         const email = document.getElementById('resetEmail').value;
         const user = document.getElementById('resetUser').value;
-        fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "send-otp", email: email, username: user })
-        })
-        .then(res => res.json())
-        .then(res => {
+        fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "send-otp", email: email, username: user }) })
+        .then(res => res.json()).then(res => {
             if(res.status === "success") {
                 document.getElementById('step1').style.display = 'none';
                 document.getElementById('step2').style.display = 'block';
@@ -276,13 +274,8 @@
         const user = document.getElementById('resetUser').value;
         const otp = document.getElementById('resetOTP').value;
         const pass = document.getElementById('newPassword').value;
-        
-        fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "reset-password", email: email, username: user, otp: otp, newPassword: pass })
-        })
-        .then(res => res.json())
-        .then(res => {
+        fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "reset-password", email: email, username: user, otp: otp, newPassword: pass }) })
+        .then(res => res.json()).then(res => {
             document.getElementById('forgotPassMsg').innerText = res.message;
             if(res.status === "success") setTimeout(() => location.reload(), 2000);
         });
