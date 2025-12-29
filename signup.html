@@ -143,6 +143,39 @@
     @media (max-width: 768px) {
         .btn-submit { grid-column: span 1; }
     }
+        /* Sirf Signup page par Header ke behavior ko kabu karne ke liye */
+
+/* 1. Desktop par mobile menu ko zabardasti chhupao */
+body #mobileMenu {
+    display: none !important;
+    left: auto !important;
+    right: -100% !important;
+    transform: none !important;
+    visibility: hidden !important;
+}
+
+/* 2. Mobile (950px se niche) par hi menu ko active karo */
+@media (max-width: 950px) {
+    body #mobileMenu {
+        display: flex !important;
+        visibility: visible !important;
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: auto !important;
+        width: 40% !important; /* Aapki demand ke hisaab se 40% */
+        height: 100vh !important;
+        background: #111 !important;
+        /* Slide animation ke liye transform */
+        transform: translateX(100%) !important; 
+        transition: transform 0.3s ease-in-out !important;
+    }
+
+    /* Jab hamburger click ho aur 'active' class aaye */
+    body #mobileMenu.active {
+        transform: translateX(0) !important;
+    }
+}
 </style>
 </head>
 <body>
