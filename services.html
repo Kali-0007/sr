@@ -29,23 +29,20 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.5; overflow-x: hidden; padding-bottom: 60px; }
 
-    /* Header */
-    header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 5%; background: #111; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222;
-    }
-    .logo { display: flex; align-items: center; gap: 10px; }
-    .nav-links { display: flex; gap: 20px; align-items: center; }
-    .nav-links a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; }
-    .mobile-btn { display: none; font-size: 24px; color: var(--primary); cursor: pointer; }
+    /* Header Integration */
+    #header-placeholder { min-height: 70px; position: sticky; top: 0; z-index: 10000; }
     
-    .mobile-menu {
-      position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: #111;
-      padding: 80px 30px; display: flex; flex-direction: column; gap: 20px; transition: 0.4s; z-index: 999; border-left: 1px solid #333;
+    @media (max-width: 950px) {
+        #mobileMenu {
+            display: none; position: fixed; top: 70px; right: 0; 
+            width: 280px; height: calc(100vh - 70px); 
+            background: #111; z-index: 10001; flex-direction: column; 
+            padding: 30px; border-left: 1px solid #333;
+        }
+        #mobileMenu.active { display: flex !important; }
     }
-    .mobile-menu.active { right: 0; }
 
-    /* Sticky Action Bar (Mobile Only) */
+    /* Sticky Action Bar (Original) */
     .sticky-bar {
       position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #111;
       display: none; justify-content: space-around; align-items: center; z-index: 2000; border-top: 1px solid #333;
@@ -53,11 +50,10 @@
     .sticky-btn { flex: 1; text-align: center; color: #fff; text-decoration: none; font-size: 12px; font-weight: 600; padding: 10px; display: flex; flex-direction: column; gap: 4px; }
     .sticky-btn i { font-size: 18px; }
 
-    /* Content Styling */
-    .wrapper { padding: 100px 5% 40px; background: radial-gradient(circle at top right, #1a1a2e, #000); min-height: 100vh; }
+    /* Content Styling (Original) */
+    .wrapper { padding: 40px 5% 40px; background: radial-gradient(circle at top right, #1a1a2e, #000); min-height: 100vh; }
     .cat-title { margin: 30px 0 15px; padding-left: 12px; border-left: 4px solid var(--primary); font-size: 20px; color: #fff; text-transform: uppercase; }
 
-    /* Compact Grid Layout */
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
     .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; transition: 0.3s; height: fit-content; }
     .card:hover { border-color: var(--primary); background: rgba(255,255,255,0.08); }
@@ -69,7 +65,6 @@
 
     .know-more { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 4px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 600; margin-bottom: 10px; }
     
-    /* Expandable Details */
     .details { display: none; padding: 10px 0; border-top: 1px solid #333; margin-top: 8px; animation: fadeIn 0.3s; }
     .details ul { list-style: none; }
     .details li { font-size: 12px; color: #ccc; margin-bottom: 8px; display: flex; gap: 8px; line-height: 1.4; }
@@ -77,51 +72,19 @@
 
     .opt-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 10px; border-radius: 8px; width: 100%; font-weight: 700; cursor: pointer; font-size: 13px; }
 
-    /* Modal */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; }
+    /* Modal Styling */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 20000; align-items: center; justify-content: center; }
     .modal-content { background: #111; width: 90%; max-width: 400px; padding: 25px; border-radius: 15px; border: 1px solid #333; position: relative; }
     .modal-content input { width: 100%; padding: 10px; margin-bottom: 10px; background: #222; border: 1px solid #333; color: #fff; border-radius: 8px; }
     .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #666; }
 
-    /* Footer Restore */
-    footer { padding: 30px 10px; background: #000; color: #666; border-top: 1px solid #333; margin-top: 50px; text-align: center; font-size: 13px;}
-    footer a { color: #888; text-decoration: none; margin: 0 10px; }
-    
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @media (max-width: 768px) { 
-      .nav-links { display: none; } 
-      .mobile-btn { display: block; } 
-      .sticky-bar { display: flex; }
-    }
+    @media (max-width: 768px) { .sticky-bar { display: flex; } }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="TaxEasePro - Professional Tax Consultant Logo" style="height: 40px;">
-      <span style="font-size: 18px; font-weight: 700; color: var(--primary);">TaxEasePro</span>
-    </div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html" style="color:var(--primary)">Services</a>
-      <a href="contact.html">Contact</a>
-      <a href="login.html" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; color: var(--primary);">Login</a>
-      <a href="signup.html" style="background:var(--primary); padding:6px 18px; border-radius:20px; color: #fff;">Signup</a>
-    </nav>
-    <i class="fas fa-bars mobile-btn" onclick="toggleMenu()" aria-label="Open Menu"></i>
-  </header>
-
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="contact.html">Contact</a>
-    <hr style="border: 0; border-top: 1px solid #333; margin: 10px 0;">
-    <a href="login.html" style="color: var(--primary);">Login to Portal</a>
-    <a href="signup.html" style="color: var(--success);">Create Account</a>
-  </div>
+  <div id="header-placeholder"></div>
 
   <div class="sticky-bar">
     <a href="https://wa.me/YOUR_NUMBER" class="sticky-btn" style="color: #25D366;">
@@ -433,7 +396,7 @@
   <div id="bookingModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
-      <h2 id="m_title">Service</h2>
+      <h2 id="m_title" style="color:#fff;">Service</h2>
       <p id="m_price" style="color:var(--success); font-weight:700; margin-bottom:15px;"></p>
       <form action="PLACEHOLDER_FOR_FORMSPREE_ID" method="POST">
         <input type="hidden" name="Service" id="h_title">
@@ -448,7 +411,24 @@
   <script src="footer.js"></script>
 
   <script>
-    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
+    // Load Header and handle Mobile Menu
+    fetch('./header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        // Keep active page color
+        document.querySelectorAll('.nav-links a').forEach(link => {
+          if(link.getAttribute('href') === 'services.html') link.style.color = 'var(--primary)';
+        });
+      });
+
+    // Integrated Menu Toggle
+    function toggleMenu() { 
+        const menu = document.getElementById('mobileMenu');
+        if(menu) menu.classList.toggle('active'); 
+    }
+
+    // Modal and Content Toggle
     function closeModal() { document.getElementById('bookingModal').style.display = 'none'; }
     function toggle(id) {
       const el = document.getElementById(id);
