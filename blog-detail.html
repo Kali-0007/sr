@@ -14,7 +14,6 @@
             --accent-color: #00d4ff;
             --meta-color: #888888;
             --border-color: #222222;
-            --progress-bg: #1a1a1a;
         }
 
         body {
@@ -23,35 +22,42 @@
             font-family: 'Georgia', serif;
             font-size: 20px;
             line-height: 1.8;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
         }
 
-        /* FIX 1: Header ko sabse upar laane ke liye */
-        #header-placeholder {
-            position: sticky;
-            top: 0;
-            z-index: 10000; /* Isse header kabhi cover nahi hoga */
-            background: #000;
+        /* Common Header & Mobile Menu Fixes */
+        #header-placeholder { min-height: 80px; }
+
+        @media (max-width: 950px) {
+            .nav-links { display: none !important; }
+            .mobile-btn { display: block !important; cursor: pointer; }
+            #mobileMenu {
+                display: none; position: fixed; top: 80px;
+                right: 0 !important; left: auto !important;
+                width: 70%; max-width: 300px;
+                height: calc(100vh - 80px); background: #111;
+                z-index: 1000; flex-direction: column; padding: 20px;
+                border-left: 2px solid var(--accent-color);
+            }
+            #mobileMenu.active { display: flex !important; }
         }
 
-        /* FIX 2: Container padding badha di hai taaki content header ke niche na dabe */
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 120px 20px 40px; /* Top padding 120px */
-        }
-
-        /* FIX 3: Progress bar header ke thoda niche dikhega */
+        /* Reading Progress Bar - Header ke niche */
         #progress-bar {
             position: fixed;
-            top: 60px; /* Header ki height ke baad */
+            top: 80px; /* Header height ke barabar */
             left: 0;
             height: 4px;
             background: var(--accent-color);
             width: 0%;
-            z-index: 10001; 
+            z-index: 1001; 
             transition: width 0.2s ease;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 20px 40px;
         }
 
         .back-btn {
@@ -63,12 +69,8 @@
             align-items: center;
             gap: 8px;
             margin-bottom: 40px;
-            transition: opacity 0.3s;
         }
 
-        .back-btn:hover { opacity: 0.8; }
-
-        /* Blog Header (No sticky, no overlap) */
         .blog-header h1 {
             font-family: 'Inter', sans-serif;
             font-size: 42px;
@@ -85,44 +87,14 @@
             margin-bottom: 60px;
         }
 
-        .blog-content {
-            font-size: 20px;
-            color: var(--text-color);
-        }
-
         .blog-content h2, .blog-content h3 {
             font-family: 'Inter', sans-serif;
             color: var(--accent-color);
-            margin-top: 60px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .blog-content h2 { font-size: 32px; }
-        .blog-content h3 { font-size: 26px; }
-        .blog-content p { margin-bottom: 28px; }
-        .blog-content b, .blog-content strong { color: #ffffff; }
-
-        /* CTA Box Styling (Original feature retained) */
-        .blog-content div[style*="background: #111"] {
-            background: #111111 !important;
-            border: 1px dashed var(--accent-color);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 50px 0;
-        }
-
-        /* Ad Card Responsive Helpers (Original feature retained) */
-        .ad-card-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin: 40px 0;
+            margin-top: 50px;
         }
 
         @media (max-width: 768px) {
-            .container { padding-top: 100px; }
-            .blog-header h1 { font-size: 36px; }
+            .blog-header h1 { font-size: 32px; }
             body { font-size: 18px; }
         }
     </style>
@@ -139,24 +111,34 @@
     </div>
 
     <script>
-        // Load Header logic
-        fetch('header.html')
-          .then(response => response.text())
+        // 1. Common Header Load & Mobile Toggle
+        fetch('./header.html')
+          .then(res => res.text())
           .then(data => {
             document.getElementById('header-placeholder').innerHTML = data;
-          })
-          .catch(err => console.error('Header load failed:', err));
+          });
 
-        // Fetch and render blog
+        document.addEventListener('click', function (e) {
+            const menu = document.getElementById("mobileMenu");
+            const toggleBtn = e.target.closest('#mobileToggle') || e.target.closest('.mobile-btn');
+            if (menu && toggleBtn) {
+                menu.classList.toggle('active');
+            } else if (menu && menu.classList.contains('active')) {
+                if (!menu.contains(e.target) || e.target.tagName === 'A') {
+                    menu.classList.remove('active');
+                }
+            }
+        });
+
+        // 2. Fetch Blog Content from JSON
         const params = new URLSearchParams(window.location.search);
         const blogId = params.get('id');
 
         fetch('blogs.json')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
                 const blog = data.find(b => b.id == blogId);
                 if (blog) {
-                    // FIX: header tag ki jagah div use kiya conflict bachane ke liye
                     document.getElementById('blogContent').innerHTML = `
                         <div class="blog-header">
                             <h1>${blog.title}</h1>
@@ -172,23 +154,12 @@
                 }
             });
 
-        // Reading Progress Bar
+        // 3. Progress Bar Logic
         window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const winScroll = document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById('progress-bar').style.width = scrolled + '%';
-        });
-
-        // Modal Connection Logic (Retained)
-        document.addEventListener('click', function(e) {
-            if (e.target && (e.target.getAttribute('onclick') === 'openModal()' || e.target.innerText.includes('Request Call Back'))) {
-                if (typeof openModal === "function") {
-                    openModal();
-                } else if (document.getElementById('callbackModal')) {
-                    document.getElementById('callbackModal').style.display = 'flex';
-                }
-            }
         });
     </script>
     <script src="footer.js"></script>
