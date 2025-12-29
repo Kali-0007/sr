@@ -9,19 +9,20 @@
     <meta property="og:title" content="TaxEasePro - Simplify Taxes | GST Starting 499">
     <meta name="og:description" content="Fastest ITR Filing for AY 2025-26, GST Registration in India. 5,000+ clients. CA-verified.">
     <meta property="og:image" content="logo.png">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>const MYWA = '919876543210';</script>
     <script>const MYUPI = 'taxgstpro@oksbi';</script>
     <style>
     :root {
-        --primary: #007bff; /* Pure Blue */
+        --primary: #007bff;
         --success: #28a745;
         --dark: #111;
         --white: #ffffff;
     }
     header {
-        height: 85px; /* Thoda bada header logo ke liye */
+        height: 85px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -44,7 +45,7 @@
         height: 100%;
     }
     .logo img {
-        height: 75px; /* Logo full height */
+        height: 75px;
         width: auto;
         object-fit: contain;
     }
@@ -75,7 +76,6 @@
         font-weight: 500;
         transition: 0.3s;
     }
-    /* Active Link aur Hover Effect - Exact from header.html */
     .nav-links a:hover,
     .nav-links a.active-link,
     .mobile-menu a.active-link {
@@ -98,7 +98,6 @@
         cursor: pointer;
         color: white;
     }
-    /* Mobile Menu Style - Adjusted for header.html style */
     .mobile-menu {
         display: none;
         position: fixed;
@@ -119,94 +118,69 @@
         border-bottom: 1px solid #333;
         font-family: 'Segoe UI', sans-serif;
     }
-   .mobile-menu.active {
-    display: flex !important;
-    height: auto; /* Poori screen nahi gheraga */
-    max-height: 80vh; /* Max 80% screen tak jayega */
-    overflow-y: auto; /* Agar menu bada ho toh scroll ho jaye */
-}
-    /* Existing Styles Preserved - Nav Links Spacing & Font */
-    .nav-links {
-        gap: 25px !important; /* Links ke beech ki sahi doori */
+    .mobile-menu.active {
+        display: flex !important;
+        height: auto;
+        max-height: 80vh;
+        overflow-y: auto;
     }
-    .nav-links a {
-        font-size: 14px !important;
-        font-weight: 500 !important;
-        letter-spacing: 0.3px;
-        color: rgba(255,255,255,0.8) !important;
-        transition: all 0.3s ease;
-    }
-    .nav-links a:hover {
-        color: #fff !important;
-    }
-    /* 3. Highlighting (Login/Signup Buttons) - Merged with header.html */
-    .btn-login.btn-highlight,
-    .btn-signup.btn-highlight {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        padding: 8px 22px !important; /* Signup page wala button size */
-        border-radius: 50px !important; /* Pill shape */
-        color: #fff !important;
-        box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-        border: none;
-    }
-    .btn-highlight:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102,126,234,0.4);
-    }
-    /* 4. Mobile Menu Width (40%) - Existing */
-    @media (max-width: 950px) {
-        #mobileMenu {
-            width: 40% !important;
-            background: #111 !important;
-            border-left: 1px solid rgba(255,255,255,0.1);
-        }
-       
-        #mobileMenu ul li a {
-            padding: 18px 25px !important; /* Mobile links spacing */
-            font-size: 15px !important;
-        }
-    }
-    /* NEW: Mobile Sidebar Toggle Buttons - Fixed for both sides */
+    /* Mobile toggles - Left sidebar, Right nav + conditional close */
     @media (max-width: 768px) {
-        .sidebar-toggle-left,
-        .sidebar-toggle-right {
-            display: block !important;
+        .sidebar-toggle-left {
+            display: block;
             font-size: 26px;
             cursor: pointer;
             color: white;
             background: none;
             border: none;
             padding: 5px;
-            border-radius: 4px;
-            transition: background 0.3s;
+            margin-left: -5px;
             z-index: 1001;
         }
-        .sidebar-toggle-left {
-            margin-right: auto; /* Extreme left */
-            margin-left: -5px;
+        .nav-toggle-right {
+            display: block;
+            font-size: 26px;
+            cursor: pointer;
+            color: white;
+            background: none;
+            border: none;
+            padding: 5px;
+            margin-right: -5px;
+            z-index: 1001;
         }
         .sidebar-toggle-right {
-            margin-left: auto; /* Extreme right */
+            display: none;
+            font-size: 26px;
+            cursor: pointer;
+            color: white;
+            background: none;
+            border: none;
+            padding: 5px;
             margin-right: -5px;
-            display: none; /* Hidden by default, show on open */
+            z-index: 1001;
         }
         .nav-links {
-            display: none; /* Hide desktop nav on mobile */
+            display: none !important;
         }
-        .mobile-btn {
-            display: block !important; /* Show mobile nav toggle */
+        .sidebar {
+            transition: transform 0.3s ease;
         }
-    }
-    @media (min-width: 769px) {
-        .sidebar-toggle-left, 
-        .sidebar-toggle-right {
-            display: none !important; /* Hide on desktop */
+        .sidebar.open {
+            transform: translateX(0);
         }
-        .mobile-btn {
+        .sidebar-toggle-right.sidebar-open {
+            display: block !important;
+        }
+        .nav-toggle-right.sidebar-open {
             display: none !important;
         }
     }
-    /* Existing Global Styles - Untouched */
+    @media (min-width: 769px) {
+        .sidebar-toggle-left, .nav-toggle-right, .sidebar-toggle-right {
+            display: none !important;
+        }
+    }
+    /* Global styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #000; color: #fff; line-height: 1.6; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -228,27 +202,19 @@
     .sidebar a:hover { color: #667eea; background: none; }
     .sidebar-section h3 { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
     details summary::-webkit-details-marker { display: none; }
-    /* Mobile Menu Styles */
     #mobileMenu a:hover { background: rgba(102,126,234,0.1); }
     #mobileMenu.open { transform: translateX(0) !important; }
-    /* Sidebar Styles */
     .sidebar.open { transform: translateX(0) !important; }
-    /* Backdrop and Scroll Lock */
     body.panel-open::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; }
-    /* Mobile Responsiveness - Updated tops/heights for 85px header */
     @media (max-width: 768px) {
         .main-layout { flex-direction: column; }
         .sidebar { position: fixed !important; top: 85px; left: 0; width: 80%; max-width: 300px; height: calc(100vh - 85px); z-index: 1002; transform: translateX(-100%); border-right: none; border-top: 1px solid rgba(255,255,255,0.1); overflow-y: auto !important; pointer-events: auto; }
         .content { order: 1; margin-left: 0; padding: 0 20px 20px !important; margin-top: 0 !important; }
-        #desktopNav { display: none !important; }
-        #sidebarToggle { display: block !important; }
-        #mobileToggle { display: block !important; }
         h1 { font-size: 28px !important; line-height: 1.2; }
         .hero { padding: 0 0 20px 0 !important; min-height: auto !important; }
         .btn-big { padding: 12px 24px; font-size: 14px; flex: 1; min-width: 120px; }
         .stats-bar { flex-direction: column; gap: 10px; font-size: 14px; }
         .cards, .testimonials-grid { grid-template-columns: 1fr; gap: 15px; }
-        /* Footer alignment */
         footer { padding: 15px 5px !important; }
         footer > div { justify-content: center !important; gap: 10px !important; font-size: 11px; }
         footer ul { text-align: center !important; padding: 0; }
@@ -256,7 +222,7 @@
         #mobileMenu { top: 85px !important; }
     }
     @media (max-width: 480px) {
-        header { padding: 0 2%; } /* Adjusted for small screens */
+        header { padding: 0 2%; }
         .brand-name { font-size: 18px; }
         .cards { gap: 10px; }
         .sidebar { width: 85% !important; }
@@ -266,19 +232,16 @@
         footer ul li { margin: 2px 0 !important; }
         footer { padding: 10px 5px !important; }
     }
-    /* Desktop Footer Fix - Equal height columns */
     @media (min-width: 769px) {
         footer > div > div { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; min-height: 120px; }
     }
-</style>
+    </style>
 </head>
 <body style="margin: 0; padding: 0; background: #000; overflow-x: hidden;">
-<!-- Updated Header - Exact from header.html, with toggles integrated -->
+
+<!-- Header - Exact from header.html with mobile toggles -->
 <header>
-  <!-- Left Sidebar Toggle (extreme left on mobile) -->
-  <i class="fas fa-bars sidebar-toggle-left" id="sidebarToggle" onclick="toggleSidebar()" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-left: -5px;" title="Toggle Sidebar"></i>
-   
-  <!-- Center Logo -->
+  <i class="fas fa-bars sidebar-toggle-left" id="sidebarToggle" onclick="toggleSidebar()"></i>
   <a href="index.html" class="logo">
     <img src="logo.png" alt="TaxEasePro">
     <div class="logo-text">
@@ -286,9 +249,7 @@
         <span class="tagline">Pro Tax, Zero Stress</span>
     </div>
   </a>
-   
-  <!-- Right Desktop Nav / Mobile Menu Toggle (extreme right on mobile) -->
-  <nav class="nav-links" id="desktopNav">
+  <nav class="nav-links">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="services.html">Services</a>
@@ -297,27 +258,24 @@
     <a href="login.html" class="btn-login btn-highlight">Login</a>
     <a href="signup.html" class="btn-signup btn-highlight">Signup</a>
   </nav>
-  <i class="fas fa-bars mobile-btn" id="mobileToggle" onclick="toggleMobileMenu()" style="display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-right: -5px;" title="Toggle Menu"></i>
-  <!-- Right Close Toggle for Sidebar (shows when open on mobile) -->
-  <i class="fas fa-times sidebar-toggle-right" id="sidebarToggleRight" onclick="toggleSidebar()" style="display:none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px; border-radius: 4px; transition: background 0.3s; margin-right: -5px;" title="Close Sidebar"></i>
+  <i class="fas fa-bars nav-toggle-right" id="navToggle" onclick="toggleMobileMenu()"></i>
+  <i class="fas fa-times sidebar-toggle-right" id="sidebarClose" onclick="toggleSidebar()"></i>
 </header>
-<!-- Mobile Main Menu (Slide-in) - Updated top to 85px, class to mobile-menu for consistency -->
-<div id="mobileMenu" class="mobile-menu" style="display: none; position: fixed; top: 85px; right: 0; width: 80%; max-width: 300px; height: calc(100vh - 85px); background: #111; z-index: 1001; padding: 10px 0; box-shadow: -2px 0 10px rgba(0,0,0,0.3); transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto;">
-    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0;">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="blogs.html">Blogs</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="login.html" style="color:var(--primary);">Login</a></li>
-        <li><a href="signup.html" style="color:var(--success);">Signup</a></li>
-    </ul>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="blogs.html">Blogs</a>
+  <a href="contact.html">Contact</a>
+  <a href="login.html" style="color:var(--primary);">Login</a>
+  <a href="signup.html" style="color:var(--success);">Signup</a>
 </div>
-<!-- Main Layout with Sidebar - Fixed gap: margin-top 85px, heights updated -->
+
+<!-- Main Layout -->
 <div class="main-layout" style="min-height: calc(100vh - 85px); margin-top: 85px; display: flex;">
-    <!-- Sidebar (Quick Nav only) - Untouched, height fixed -->
     <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; position: sticky; top: 0; height: calc(100vh - 85px); max-height: 100vh; pointer-events: auto;">
-        <!-- Quick Navigation -->
         <div class="sidebar-section" style="margin-bottom: 30px;">
             <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Quick Navigation</h3>
             <ul style="list-style: none; padding: 0;">
@@ -326,13 +284,11 @@
                 <li><a href="#quickFAQs" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.3s;">FAQs</a></li>
             </ul>
         </div>
-        <!-- Latest Blogs -->
         <div class="sidebar-section" style="margin-bottom: 30px;">
             <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Latest Blogs</h3>
             <ul id="latestBlogs" style="list-style: none; padding: 0;"></ul>
             <a href="blogs.html" style="color: #667eea; font-size: 14px; display: block; margin-top: 10px;">More Blogs</a>
         </div>
-        <!-- Support Contact -->
         <div class="sidebar-section" style="margin-bottom: 30px;">
             <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Support Contact</h3>
             <ul style="list-style: none; padding: 0;">
@@ -341,7 +297,6 @@
                 <li><a href="dashboard.html" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0;"><i class="fas fa-tasks" style="margin-right: 8px;"></i>Track Status</a></li>
             </ul>
         </div>
-        <!-- Latest Tax Updates -->
         <div class="sidebar-section" style="margin-bottom: 30px;">
             <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Latest Tax Updates</h3>
             <ul style="list-style: none; padding: 0;">
@@ -354,7 +309,6 @@
             <span><i class="fas fa-users" style="color: #667eea;"></i>5,000+ Clients</span>
             <span><i class="fas fa-star" style="color: #667eea;"></i>4.95 Rating</span>
         </div>
-        <!-- Quick FAQs -->
         <div class="sidebar-section" id="quickFAQs" style="margin-bottom: 30px;">
             <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Quick FAQs</h3>
             <details style="margin-bottom: 10px;"><summary style="color: #fff; cursor: pointer; font-weight: 500;">What is Income Tax?</summary><p style="color: #ddd; font-size: 14px; margin-top: 5px;">Direct tax on earnings at progressive rates.</p></details>
@@ -364,21 +318,17 @@
             <details><summary style="color: #fff; cursor: pointer; font-weight: 500;">Documents for ITR?</summary><p style="color: #ddd; font-size: 14px; margin-top: 5px;">Form-16, PAN, Aadhaar, bank statements.</p></details>
             <a href="faqs.html" style="color: #667eea; font-size: 14px;">More FAQs</a>
         </div>
-        <!-- Newsletter Signup -->
         <div class="sidebar-section" style="margin-bottom: 30px;">
             <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Newsletter Signup</h3>
             <input type="email" placeholder="Your Email" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff;">
             <button style="width: 100%; padding: 10px; background: #667eea; color: white; border: none; border-radius: 10px; cursor: pointer;">Subscribe</button>
         </div>
-        <!-- Search Bar -->
         <div class="sidebar-section">
             <h3 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">Search</h3>
             <input type="search" placeholder="Search site..." style="width: 100%; padding: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff;">
         </div>
     </aside>
-    <!-- Main Content - Untouched -->
     <main class="content" style="flex: 1; background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%); padding: 0 20px 20px; overflow-y: auto; position: relative; z-index: 1; margin-top: 0;">
-        <!-- Hero Section -->
         <section class="hero" style="padding: 0 20px 40px; background: transparent; overflow-y: auto; position: relative; z-index: 1; margin-top: 0;">
             <h1 style="font-size: 45px; margin-bottom: 20px; animation: fadeInUp 1s ease-out; white-space: normal; word-break: break-word;">Simplify Your Taxes <span style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Starting at just ₹499</span></h1>
             <p style="font-size: 20px; color: #ccc; margin: 20px 0; animation: fadeInUp 1s ease-out 0.2s both;">5,000+ clients | 100% online | CA-verified | Money-back guarantee</p>
@@ -393,7 +343,6 @@
                 <span><i class="fas fa-shield-alt" style="color: #667eea; margin-right: 8px;"></i>CA Verified</span>
             </div>
         </section>
-        <!-- Badges Section -->
         <div style="background: transparent; padding: 20px; text-align: center; overflow-x: auto; white-space: nowrap; margin-bottom: 20px;">
             <div style="display: inline-flex; gap: 20px; flex-wrap: nowrap;">
                 <span style="background: rgba(255,255,255,0.05); border-radius: 20px; padding: 10px 20px; border: 1px solid rgba(255,255,255,0.1); color: #ddd; font-size: 14px; white-space: nowrap; min-width: fit-content;"><i class="fas fa-rupee-sign" style="color: #667eea; margin-right: 8px;"></i>Lowest Prices 499</span>
@@ -402,7 +351,6 @@
                 <span style="background: rgba(255,255,255,0.05); border-radius: 20px; padding: 10px 20px; border: 1px solid rgba(255,255,255,0.1); color: #ddd; font-size: 14px; white-space: nowrap; min-width: fit-content;"><i class="fas fa-headset" style="color: #667eea; margin-right: 8px;"></i>24/7 Support WhatsApp</span>
             </div>
         </div>
-        <!-- Popular Services -->
         <section class="container" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; margin-bottom: 20px; background: transparent;">
             <h2 class="section-title" style="text-align: center; margin-bottom: 30px; font-size: 32px; color: white;">Most Popular Services</h2>
             <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
@@ -446,7 +394,6 @@
             </div>
             <p style="text-align: center; margin-top: 30px;"><a href="services.html" style="color: #667eea; font-size: 18px; text-decoration: none;">See all 17+ services</a></p>
         </section>
-        <!-- Testimonials -->
         <section style="padding: 0 20px 60px; background: transparent; margin-bottom: 20px;">
             <div class="container" style="max-width: 1200px; margin: 0 auto;">
                 <h2 class="section-title" style="text-align: center; color: white; margin-bottom: 20px; font-size: 32px;">What Our Clients Say</h2>
@@ -467,9 +414,7 @@
         </section>
     </main>
 </div>
-<!-- Footer (Fixed for alignment) -->
 <script src="footer.js"></script>
-<!-- Booking Modal - Untouched -->
 <div id="bookingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px; overflow-y: auto;">
     <div style="background: #111; border-radius: 20px; max-width: 420px; margin: 40px auto; padding: 30px; color: white;">
         <h2 style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Complete Booking <span id="modalAmt"></span></h2>
@@ -485,7 +430,6 @@
     </div>
 </div>
 <script>
-    // Booking functions - Untouched
     let amt = 0, service = '';
     function openBookingForm(amount, serviceName) {
         amt = amount; service = serviceName;
@@ -505,68 +449,56 @@
         document.getElementById('bookingModal').style.display = 'none';
         alert('Thank you! Payment link opened. details sent to us.');
     }
-    // Sidebar Toggle - Existing + Right button logic
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebarToggleRight = document.getElementById('sidebarToggleRight');
-    const sidebar = document.getElementById('sidebar');
-    const body = document.body;
+    function toggleMobileMenu() {
+        document.getElementById('mobileMenu').classList.toggle('active');
+        document.body.classList.toggle('panel-open');
+        if (document.getElementById('mobileMenu').classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else if (!document.getElementById('sidebar').classList.contains('open')) {
+            document.body.style.overflow = '';
+        }
+    }
     function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const closeBtn = document.getElementById('sidebarClose');
+        const navToggle = document.getElementById('navToggle');
         sidebar.classList.toggle('open');
-        body.classList.toggle('panel-open');
+        document.body.classList.toggle('panel-open');
         const isOpen = sidebar.classList.contains('open');
         if (isOpen) {
-            body.style.overflow = 'hidden';
-            if (sidebarToggleRight) sidebarToggleRight.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            closeBtn.classList.add('sidebar-open');
+            navToggle.classList.add('sidebar-open');
         } else {
-            if (!document.getElementById('mobileMenu').classList.contains('open')) body.style.overflow = '';
-            if (sidebarToggleRight) sidebarToggleRight.style.display = 'none';
+            if (!document.getElementById('mobileMenu').classList.contains('active')) {
+                document.body.style.overflow = '';
+            }
+            closeBtn.classList.remove('sidebar-open');
+            navToggle.classList.remove('sidebar-open');
         }
     }
-    sidebarToggle.addEventListener('click', toggleSidebar);
-    if (sidebarToggleRight) sidebarToggleRight.addEventListener('click', toggleSidebar);
-    // Mobile Menu Toggle - Existing, ID updated to mobileToggle
-    const mobileMenuToggle = document.getElementById('mobileToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    function toggleMobileMenu() {
-        mobileMenu.classList.toggle('open');
-        body.classList.toggle('panel-open');
-        if (mobileMenu.classList.contains('open')) body.style.overflow = 'hidden';
-        else if (!sidebar.classList.contains('open')) body.style.overflow = '';
-    }
-    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-    // Close panels on outside click - Updated for right toggle
     document.addEventListener('click', e => {
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const body = document.body;
         if (body.classList.contains('panel-open')) {
-            if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && (sidebarToggleRight ? !sidebarToggleRight.contains(e.target) : true)) {
-                toggleSidebar(); // Use function to handle close
+            if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !document.getElementById('sidebarToggle').contains(e.target) && !document.getElementById('sidebarClose').contains(e.target)) {
+                toggleSidebar();
             }
-            if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-                mobileMenu.classList.remove('open');
-                if (!sidebar.classList.contains('open')) body.classList.remove('panel-open');
-                body.style.overflow = '';
+            if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !document.getElementById('navToggle').contains(e.target)) {
+                toggleMobileMenu();
             }
         }
     });
-    // Close on Escape key - Updated
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && body.classList.contains('panel-open')) {
-            if (sidebar.classList.contains('open')) toggleSidebar();
-            if (mobileMenu.classList.contains('open')) {
-                mobileMenu.classList.remove('open');
-                body.classList.remove('panel-open');
-                body.style.overflow = '';
-            }
+        if (e.key === 'Escape' && document.body.classList.contains('panel-open')) {
+            if (document.getElementById('sidebar').classList.contains('open')) toggleSidebar();
+            if (document.getElementById('mobileMenu').classList.contains('active')) toggleMobileMenu();
         }
     });
-    // Close mobile menu on link click - Untouched
-    mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            body.classList.remove('panel-open');
-            body.style.overflow = '';
-        });
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', toggleMobileMenu);
     });
-    // Animations - Untouched
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -581,82 +513,67 @@
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
-    // Newsletter - Untouched
     document.querySelector('.sidebar-section button').addEventListener('click', () => alert('Subscribed! Check your email for updates.'));
-    // Blogs - Untouched
     async function loadLatestBlogs() {
-    const ul = document.getElementById('latestBlogs');
-    ul.innerHTML = '<li style="color:#aaa;">Loading latest blogs...</li>'; // Loading dikhane ke liye
-    try {
-        const response = await fetch('./blogs.json');
-        if (!response.ok) {
-            throw new Error('blogs.json not found');
+        const ul = document.getElementById('latestBlogs');
+        ul.innerHTML = '<li style="color:#aaa;">Loading latest blogs...</li>';
+        try {
+            const response = await fetch('./blogs.json');
+            if (!response.ok) throw new Error('blogs.json not found');
+            const blogs = await response.json();
+            const latest = blogs.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
+            ul.innerHTML = '';
+            if (latest.length === 0) {
+                ul.innerHTML = '<li style="color:#aaa;">No blogs available</li>';
+                return;
+            }
+            latest.forEach(blog => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <a href="blog-detail.html?id=${blog.id || blog.slug}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <strong>${blog.title}</strong>
+                        <small style="color: #aaa; display: block;">${new Date(blog.date).toLocaleDateString('en-IN')}</small>
+                        <small>${blog.excerpt || 'Read more...'}</small>
+                    </a>
+                `;
+                ul.appendChild(li);
+            });
+        } catch (err) {
+            console.error('Error loading blogs:', err);
+            ul.innerHTML = '<li style="color:#ff6b6b;">Could not load blogs. Check console.</li>';
         }
-        const blogs = await response.json();
-        // Sort by date (newest first) aur sirf 3 latest le lo
-        const latest = blogs
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 3);
-        ul.innerHTML = ''; // Clear kar do
-        if (latest.length === 0) {
-            ul.innerHTML = '<li style="color:#aaa;">No blogs available</li>';
-            return;
-        }
-        latest.forEach(blog => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <a href="blog-detail.html?id=${blog.id || blog.slug}" style="color: #ddd; text-decoration: none; display: block; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <strong>${blog.title}</strong>
-                    <small style="color: #aaa; display: block;">${new Date(blog.date).toLocaleDateString('en-IN')}</small>
-                    <small>${blog.excerpt || 'Read more...'}</small>
-                </a>
-            `;
-            ul.appendChild(li);
-        });
-    } catch (err) {
-        console.error('Error loading blogs:', err);
-        ul.innerHTML = '<li style="color:#ff6b6b;">Could not load blogs. Check console.</li>';
     }
-}
-loadLatestBlogs();
-    // Mobile Init - Updated for new IDs, heights, and right toggle
+    loadLatestBlogs();
     function initMobile() {
         const isMobile = window.innerWidth <= 768;
-        const desktopNav = document.getElementById('desktopNav');
-        sidebarToggle.style.display = isMobile ? 'block' : 'none';
-        mobileMenuToggle.style.display = isMobile ? 'block' : 'none';
-        if (desktopNav) desktopNav.style.display = isMobile ? 'none' : 'flex';
-        sidebar.classList.remove('open');
-        mobileMenu.classList.remove('open');
-        body.classList.remove('panel-open');
-        body.style.overflow = '';
-        sidebar.style.position = isMobile ? 'fixed' : 'sticky';
-        sidebar.style.top = isMobile ? '85px' : '0';
-        sidebar.style.left = isMobile ? '0' : '';
-        sidebar.style.height = isMobile ? 'calc(100vh - 85px)' : 'calc(100vh - 85px)';
-        sidebar.style.maxHeight = '100vh';
-        sidebar.style.overflowY = 'auto';
-        mobileMenu.style.display = isMobile ? 'block' : 'none'; // Ensure visible for transform
-        if (sidebarToggleRight) sidebarToggleRight.style.display = 'none';
+        document.getElementById('sidebarToggle').style.display = isMobile ? 'block' : 'none';
+        document.getElementById('navToggle').style.display = isMobile ? 'block' : 'none';
+        document.getElementById('sidebarClose').classList.remove('sidebar-open');
+        document.getElementById('navToggle').classList.remove('sidebar-open');
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('mobileMenu').classList.remove('active');
+        document.body.classList.remove('panel-open');
+        document.body.style.overflow = '';
+        document.getElementById('sidebar').style.position = isMobile ? 'fixed' : 'sticky';
+        document.getElementById('sidebar').style.top = isMobile ? '85px' : '0';
+        document.getElementById('sidebar').style.left = isMobile ? '0' : '';
+        document.getElementById('sidebar').style.height = isMobile ? 'calc(100vh - 85px)' : 'calc(100vh - 85px)';
+        document.getElementById('sidebar').style.maxHeight = '100vh';
+        document.getElementById('sidebar').style.overflowY = 'auto';
+        document.getElementById('mobileMenu').style.display = isMobile ? 'block' : 'none';
     }
     initMobile();
     window.addEventListener('resize', initMobile);
 </script>
 <script>
-  // 1. WhatsApp Configuration - Untouched
-  const MY_WHATSAPP_NUMBER = "919876543210"; // <--- Bhai yahan apna sahi number daal dena
-  // 2. Chatbase Loader (Jo aapne code diya tha, wahi hai ye)
+  const MY_WHATSAPP_NUMBER = "919876543210";
   (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="zmzAqRQn0pLJAK8M_Eg_Q";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-  // 3. Smart Action Function (Mobile vs Desktop)
   function handleServiceClick(serviceName) {
     const isMobile = /iPhone|Android|iPad|iPod/i.test(navigator.userAgent);
-   
     if (isMobile) {
-      // Mobile hai toh seedha WhatsApp par message bhej do
       const msg = `Hi TaxEasePro, I need expert help with *${serviceName}*.`;
       window.open(`https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     } else {
-      // Desktop hai toh Chatbot kholo
       if (window.chatbase) {
         window.chatbase("open");
       }
