@@ -2,55 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup - TaxEasePro | Create Your Account</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
     <style>
-        /* Exact Background and Base Styling from Home */
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --dark-bg: #0a0a0f;
+        }
+
         body {
             margin: 0; padding: 0; 
             background: #000; 
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            color: white;
+        }
+
+        /* Common Header Placeholder Height Fix */
+        #header-placeholder {
+            min-height: 70px;
         }
 
         /* Glassmorphism for Signup Form */
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 30px;
-            margin-bottom: 30px;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
         }
 
         .signup-content {
-            flex: 1;
             background: linear-gradient(135deg, #0a0a0f 0%, #111 30%, #1a1a2e 60%, #16213e 100%);
-            padding: 120px 20px 40px; /* Offset for fixed header */
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 70px);
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            max-width: 800px;
             width: 100%;
         }
 
+        /* Mobile Responsive Fix */
         @media (max-width: 768px) {
-            .form-grid { grid-template-columns: 1fr; }
+            .form-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .glass-card {
+                padding: 20px;
+            }
+            .signup-content {
+                padding-top: 20px;
+            }
         }
 
         input, select {
             width: 100%; padding: 12px; margin: 8px 0;
-            border-radius: 10px; border: none;
-            background: rgba(255,255,255,0.1); color: #fff;
+            border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05); color: #fff;
             box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
         }
 
         label { color: #aaa; font-size: 13px; margin-top: 10px; display: block; }
@@ -58,41 +86,31 @@
         .btn-submit {
             grid-column: span 2;
             padding: 16px; margin-top: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white; border: none; border-radius: 50px;
-            font-weight: 600; cursor: pointer; transition: transform 0.3s;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
+            width: 100%;
         }
-        @media (max-width: 768px) { .btn-submit { grid-column: span 1; } }
 
-        .error-msg { color: #ff6b6b; font-size: 12px; }
-        .success-msg { color: #00ff9d; font-size: 12px; }
-        #otpSection { display: none; background: rgba(102,126,234,0.1); padding: 15px; border-radius: 10px; margin: 10px 0; }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) { 
+            .btn-submit { grid-column: span 1; } 
+        }
+
+        .active-link { color: var(--primary) !important; }
     </style>
 </head>
 <body>
 
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #111; box-shadow: 0 1px 5px rgba(0,0,0,0.3); position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;">
-    <button id="sidebarToggle" style="display: none; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 5px;" title="Sidebar"><i class="fas fa-list"></i></button>
-    <div class="logo" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
-        <img src="logo.png" alt="TaxEasePro" style="height: 50px; width: auto;" loading="lazy">
-        <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 20px; font-weight: 700; color: #667eea;">TaxEasePro</span>
-            <span style="font-size: 12px; color: #aaa; font-weight: 400;">Pro Tax, Zero Stress</span>
-        </div>
-    </div>
-    <nav id="desktopNav" style="display: flex; align-items: center; gap: 15px; flex-wrap: nowrap; white-space: nowrap;">
-        <a href="index.html" style="color: #fff; text-decoration: none; font-weight: 500;">Home</a>
-        <a href="about.html" style="color: #fff; text-decoration: none; font-weight: 500;">About Us</a>
-        <a href="services.html" style="color: #fff; text-decoration: none; font-weight: 500;">Services</a>
-        <a href="contact.html" style="color: #fff; text-decoration: none; font-weight: 500;">Contact Us</a>
-        <a href="login.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Login</a>
-        <a href="signup.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none;">Signup</a>
-    </nav>
-</header>
+<div id="header-placeholder"></div>
 
 <main class="signup-content">
     <div class="glass-card">
-        <h2 style="text-align: center; margin-bottom: 25px; color: #fff;">Create Your Account</h2>
+        <h2 style="text-align: center; margin-bottom: 25px; color: #fff; font-weight: 700;">Create Your Account</h2>
         <form id="signupForm" class="form-grid">
             <div>
                 <label>First Name</label>
@@ -106,12 +124,45 @@
                     <option value="female">Female</option>
                 </select>
                 <label>State / UT</label>
-                <select id="state" name="state" required>
-                    <option value="">Select State</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                    <option value="Maharashtra">Maharashtra</option>
-                    </select>
+<select id="state" name="state" required>
+    <option value="">Select State / UT</option>
+    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+    <option value="Andhra Pradesh">Andhra Pradesh</option>
+    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+    <option value="Assam">Assam</option>
+    <option value="Bihar">Bihar</option>
+    <option value="Chandigarh">Chandigarh</option>
+    <option value="Chhattisgarh">Chhattisgarh</option>
+    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+    <option value="Delhi">Delhi</option>
+    <option value="Goa">Goa</option>
+    <option value="Gujarat">Gujarat</option>
+    <option value="Haryana">Haryana</option>
+    <option value="Himachal Pradesh">Himachal Pradesh</option>
+    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+    <option value="Jharkhand">Jharkhand</option>
+    <option value="Karnataka">Karnataka</option>
+    <option value="Kerala">Kerala</option>
+    <option value="Ladakh">Ladakh</option>
+    <option value="Lakshadweep">Lakshadweep</option>
+    <option value="Madhya Pradesh">Madhya Pradesh</option>
+    <option value="Maharashtra">Maharashtra</option>
+    <option value="Manipur">Manipur</option>
+    <option value="Meghalaya">Meghalaya</option>
+    <option value="Mizoram">Mizoram</option>
+    <option value="Nagaland">Nagaland</option>
+    <option value="Odisha">Odisha</option>
+    <option value="Puducherry">Puducherry</option>
+    <option value="Punjab">Punjab</option>
+    <option value="Rajasthan">Rajasthan</option>
+    <option value="Sikkim">Sikkim</option>
+    <option value="Tamil Nadu">Tamil Nadu</option>
+    <option value="Telangana">Telangana</option>
+    <option value="Tripura">Tripura</option>
+    <option value="Uttar Pradesh">Uttar Pradesh</option>
+    <option value="Uttarakhand">Uttarakhand</option>
+    <option value="West Bengal">West Bengal</option>
+</select>
                 <label>City</label>
                 <input type="text" id="city" name="city" required>
             </div>
@@ -120,10 +171,12 @@
                 <label>Mobile Number</label>
                 <input type="tel" id="mobile" name="mobile" value="+91" required>
                 <label>Email Address</label>
-                <input type="email" id="email" name="email" required>
-                <button type="button" id="sendOtpBtn" style="background:#444; color:white; border:none; padding:5px 10px; border-radius:5px; font-size:11px; cursor:pointer;">Send OTP</button>
+                <div style="display: flex; gap: 5px;">
+                    <input type="email" id="email" name="email" required>
+                    <button type="button" id="sendOtpBtn" style="background:#444; color:white; border:none; padding:0 10px; height: 42px; margin-top: 8px; border-radius:8px; font-size:11px; cursor:pointer;">Send OTP</button>
+                </div>
 
-                <div id="otpSection">
+                <div id="otpSection" style="display: none;">
                     <label>Enter OTP</label>
                     <input type="text" id="otp" name="otp" maxlength="6">
                 </div>
@@ -136,15 +189,45 @@
             </div>
 
             <div style="grid-column: span 2; display: flex; flex-direction: column; align-items: center; margin-top: 15px;">
-                <div class="g-recaptcha" data-sitekey="6Ld9Xi0sAAAAALhQHTWFqNGrFooMSAkwE813uE6L"></div>
+                <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_KEY"></div>
                 <button type="submit" class="btn-submit">Register Now</button>
-                <p style="margin-top: 15px; font-size: 14px; color: #aaa;">Already have an account? <a href="login.html" style="color: #667eea;">Login</a></p>
+                <p style="margin-top: 15px; font-size: 14px; color: #aaa;">Already have an account? <a href="login.html" style="color: var(--primary); text-decoration: none;">Login</a></p>
             </div>
         </form>
     </div>
 </main>
 
-<script src="footer.js"></script>
+<script>
+    // 1. Header Load aur Auto-Highlight (Common Logic)
+    fetch('./header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        
+        const currentPath = window.location.pathname.split("/").pop() || "index.html";
+        const allLinks = document.querySelectorAll('.nav-links a, #mobileMenu a');
+
+        allLinks.forEach(link => {
+          if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active-link');
+          }
+        });
+      });
+
+    // 2. Mobile Menu Toggle Logic
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById("mobileMenu");
+      const isToggleBtn = e.target.closest('.mobile-btn') || e.target.id === 'mobileToggle';
+      
+      if (isToggleBtn) {
+        menu.classList.toggle('active');
+      } else if (menu && menu.classList.contains('active')) {
+        if (!menu.contains(e.target)) {
+          menu.classList.remove('active');
+        }
+      }
+    });
+</script>
 
 <script src="signup.js"></script>
 </body>
