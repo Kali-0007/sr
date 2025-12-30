@@ -23,19 +23,23 @@
     }
 
     /* --- NEW HEADER STYLES START --- */
-    header {
-        height: 85px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 5%;
-        background-color: var(--dark);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        border-bottom: 1px solid #222;
-        font-family: 'Segoe UI', sans-serif;
-    }
+    .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 85px;
+    right: 0;
+    width: 40%; /* 100% se hata kar 40% kar dein */
+    min-width: 250px; /* Chote screens par text na katre isliye min-width zaruri hai */
+    height: calc(100vh - 85px);
+    background: #111;
+    flex-direction: column;
+    padding: 20px;
+    z-index: 999;
+    box-sizing: border-box;
+    border-left: 2px solid var(--primary);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+    overflow-y: auto;
+}
     .logo {
         display: flex;
         align-items: center;
@@ -127,10 +131,11 @@
 
     /* Mobile toggles - Left sidebar, Right nav + conditional close */
     @media (max-width: 768px) {
-        /* CRITICAL RULE: Hide desktop nav on mobile */
-        #desktopNav, .nav-links {
-            display: none !important;
-        }
+    #desktopNav, .nav-links {
+        display: none !important;
+        position: absolute !important; /* Ye line add karni hai */
+    }
+}
         
         .sidebar-toggle-left {
             display: block;
