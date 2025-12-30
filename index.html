@@ -143,16 +143,12 @@ header {
     /* Mobile toggles - Left sidebar, Right nav + conditional close */
     /* --- STRICT MOBILE FIX --- */
 @media (max-width: 768px) {
-    /* 1. Desktop links ko puri tarah chhupana */
-    #desktopNav, .nav-links {
-        display: none !important; /* !important lagana bahut zaruri hai */
-        visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-        position: absolute !important;
+    /* 1. Desktop links को पूरी तरह छुपाना */
+    .desktop-nav {
+        display: none !important;
     }
 
-    /* 2. Header ko sahi se align karna taaki logo beech mein aur icons side mein rahein */
+    /* 2. Header को सही से align करना */
     header {
         display: flex !important;
         justify-content: space-between !important;
@@ -163,58 +159,67 @@ header {
         box-sizing: border-box;
     }
 
-    /* 3. Logo ka size mobile ke hisaab se sahi karna */
+    /* 3. Logo का size सही करना */
     .logo img {
         height: 50px !important;
     }
-}
-        
-        .sidebar-toggle-left {
-            display: block;
-            font-size: 26px;
-            cursor: pointer;
-            color: white;
-            background: none;
-            border: none;
-            padding: 5px;
-            margin-left: -5px;
-            z-index: 1001;
-        }
-        .nav-toggle-right {
-            display: block;
-            font-size: 26px;
-            cursor: pointer;
-            color: white;
-            background: none;
-            border: none;
-            padding: 5px;
-            margin-right: -5px;
-            z-index: 1001;
-        }
-        .sidebar-toggle-right {
-            /* Handled by JS inline style but class kept for safety */
-            font-size: 26px;
-            cursor: pointer;
-            color: white;
-            background: none;
-            border: none;
-            padding: 5px;
-            margin-right: -5px;
-            z-index: 1001;
-        }
-        .sidebar {
-            transition: transform 0.3s ease;
-        }
-        .sidebar.open {
-            transform: translateX(0);
-        }
-        .sidebar-toggle-right.sidebar-open {
-            display: block !important;
-        }
-        .nav-toggle-right.sidebar-open {
-            display: none !important;
-        }
+
+    /* 4. Mobile Icons की settings */
+    .sidebar-toggle-left {
+        display: block;
+        font-size: 26px;
+        cursor: pointer;
+        color: white;
+        background: none;
+        border: none;
+        padding: 5px;
+        margin-left: -5px;
+        z-index: 1001;
     }
+
+    .nav-toggle-right {
+        display: block;
+        font-size: 26px;
+        cursor: pointer;
+        color: white;
+        background: none;
+        border: none;
+        padding: 5px;
+        margin-right: -5px;
+        z-index: 1001;
+    }
+
+    .sidebar-toggle-right {
+        font-size: 26px;
+        cursor: pointer;
+        color: white;
+        background: none;
+        border: none;
+        padding: 5px;
+        margin-right: -5px;
+        z-index: 1001;
+    }
+
+    .sidebar {
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-toggle-right.sidebar-open {
+        display: block !important;
+    }
+
+    .nav-toggle-right.sidebar-open {
+        display: none !important;
+    }
+    
+    .main-layout { 
+        flex-direction: column; 
+    }
+}
     @media (min-width: 769px) {
         .sidebar-toggle-left, .nav-toggle-right, .sidebar-toggle-right {
             display: none !important;
