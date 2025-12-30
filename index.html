@@ -141,13 +141,33 @@ header {
     /* --- NEW HEADER STYLES END --- */
 
     /* Mobile toggles - Left sidebar, Right nav + conditional close */
-    @media (max-width: 768px) {
+    /* --- STRICT MOBILE FIX --- */
+@media (max-width: 768px) {
+    /* 1. Desktop links ko puri tarah chhupana */
     #desktopNav, .nav-links {
-        display: none !important;
-        position: absolute !important;
+        display: none !important; /* !important lagana bahut zaruri hai */
         visibility: hidden !important;
-        opacity: 0;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
     }
+
+    /* 2. Header ko sahi se align karna taaki logo beech mein aur icons side mein rahein */
+    header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 10px 15px !important;
+        height: 80px !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 3. Logo ka size mobile ke hisaab se sahi karna */
+    .logo img {
+        height: 50px !important;
+    }
+}
         
         .sidebar-toggle-left {
             display: block;
