@@ -144,10 +144,10 @@ header {
     @media (max-width: 768px) {
     #desktopNav, .nav-links {
         display: none !important;
-        position: absolute !important; /* Isse ye logo ke niche nahi aayenge */
-        visibility: hidden;
+        position: absolute !important;
+        visibility: hidden !important;
+        opacity: 0;
     }
-}
         
         .sidebar-toggle-left {
             display: block;
@@ -244,17 +244,17 @@ header {
         #mobileMenu { top: 85px !important; }
     }
     @media (max-width: 480px) {
-        header { padding: 0 2%; }
-        .brand-name { font-size: 18px; }
-        .cards { gap: 10px; }
-        .sidebar { width: 85% !important; }
-        .btn-big { min-width: 100px; padding: 10px 20px; }
-        h1 { font-size: 24px !important; }
-        footer > div { gap: 5px !important; font-size: 10px; }
-        footer ul li { margin: 2px 0 !important; }
-        footer { padding: 10px 5px !important; }
-        flex-wrap: nowrap !important;
-    }
+    header { padding: 0 2%; }
+    .brand-name { font-size: 18px; }
+    .cards { gap: 10px; }
+    .sidebar { width: 85% !important; }
+    .btn-big { min-width: 100px; padding: 10px 20px; }
+    h1 { font-size: 24px !important; }
+    footer > div { gap: 5px !important; font-size: 10px; }
+    footer ul li { margin: 2px 0 !important; }
+    footer { padding: 10px 5px !important; }
+    .stats-bar { flex-wrap: nowrap !important; } 
+}
     @media (min-width: 769px) {
         footer > div > div { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; min-height: 120px; }
     }
