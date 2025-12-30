@@ -141,85 +141,93 @@ header {
     /* --- NEW HEADER STYLES END --- */
 
     /* Mobile toggles - Left sidebar, Right nav + conditional close */
-    /* --- STRICT MOBILE FIX --- */
-@media (max-width: 768px) {
-    /* 1. Desktop links ko puri tarah chhupana */
-    #desktopNav, .nav-links {
-        display: none !important; /* !important lagana bahut zaruri hai */
-        visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-        position: absolute !important;
-    }
-
-    /* 2. Header ko sahi se align karna taaki logo beech mein aur icons side mein rahein */
-    header {
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        padding: 10px 15px !important;
-        height: 80px !important;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    /* 3. Logo ka size mobile ke hisaab se sahi karna */
-    .logo img {
-        height: 50px !important;
-    }
-}
-        
-        .sidebar-toggle-left {
-            display: block;
-            font-size: 26px;
-            cursor: pointer;
-            color: white;
-            background: none;
-            border: none;
-            padding: 5px;
-            margin-left: -5px;
-            z-index: 1001;
-        }
-        .nav-toggle-right {
-            display: block;
-            font-size: 26px;
-            cursor: pointer;
-            color: white;
-            background: none;
-            border: none;
-            padding: 5px;
-            margin-right: -5px;
-            z-index: 1001;
-        }
-        .sidebar-toggle-right {
-            /* Handled by JS inline style but class kept for safety */
-            font-size: 26px;
-            cursor: pointer;
-            color: white;
-            background: none;
-            border: none;
-            padding: 5px;
-            margin-right: -5px;
-            z-index: 1001;
-        }
-        .sidebar {
-            transition: transform 0.3s ease;
-        }
-        .sidebar.open {
-            transform: translateX(0);
-        }
-        .sidebar-toggle-right.sidebar-open {
-            display: block !important;
-        }
-        .nav-toggle-right.sidebar-open {
+    /* --- FINAL REPAIRED MOBILE CSS --- */
+    @media (max-width: 768px) {
+        /* 1. Desktop Nav ko gayab karna */
+        #desktopNav, .nav-links {
             display: none !important;
         }
+
+        /* 2. Header alignment fix */
+        header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            height: 80px !important;
+            padding: 0 15px !important;
+        }
+
+        /* 3. Icons ko sahi jagah lana */
+        .sidebar-toggle-left, .nav-toggle-right {
+            display: block !important;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            z-index: 1001;
+        }
+
+        /* 4. Logo ko center/adjust karna */
+        .logo img {
+            height: 45px !important;
+        }
+
+        /* 5. Mobile Menu (Jo bikhar raha tha) */
+        .mobile-menu {
+            display: none; /* Default hidden */
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: #1a1a1a;
+            flex-direction: column;
+            padding: 10px 20px;
+            z-index: 999;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* Jab toggle ho tabhi dikhe */
+        .mobile-menu.active {
+            display: flex !important;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 12px 0;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid #333;
+        }
+
+        /* 6. Sidebar fix for mobile */
+        .sidebar {
+            position: fixed !important;
+            top: 80px !important;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 80px);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1002;
+        }
+
+        .sidebar.open {
+            transform: translateX(0) !important;
+        }
+
+        .main-layout {
+            flex-direction: column;
+        }
     }
+
     @media (min-width: 769px) {
         .sidebar-toggle-left, .nav-toggle-right, .sidebar-toggle-right {
             display: none !important;
         }
+        .mobile-menu {
+            display: none !important;
+        }
     }
+  
 
     /* Global styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
