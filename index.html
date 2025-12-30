@@ -21,7 +21,18 @@
         --dark: #111;
         --white: #ffffff;
     }
-
+/* Ye code har screen (Laptop/Desktop) ke liye header ko set karega */
+header {
+    display: flex; /* Items ko line mein laata hai */
+    justify-content: space-between; /* Logo Left mein aur Links Right mein fek deta hai */
+    align-items: center; /* Upar-neeche se beech mein rakhta hai */
+    padding: 15px 5%; /* Thoda breathing space */
+    background: #000;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
     /* --- NEW HEADER STYLES START --- */
     .mobile-menu {
     display: none;
