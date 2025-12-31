@@ -207,13 +207,27 @@ header {
     }
 
     @media (min-width: 769px) {
-        .sidebar-toggle-left, .nav-toggle-right, .sidebar-toggle-right {
-            display: none !important;
-        }
-        .mobile-menu {
-            display: none !important;
-        }
+    /* डेस्कटॉप पर हैमबर्गर आइकन्स को force hide करो */
+    .sidebar-toggle-left,
+    .nav-toggle-right,
+    .sidebar-toggle-right,
+    #sidebarToggle,
+    #navToggle,
+    #sidebarClose {
+        display: none !important;
     }
+
+    /* मोबाइल मेनू भी hide */
+    .mobile-menu,
+    #mobileMenu {
+        display: none !important;
+    }
+
+    #desktopNav,
+    .nav-links {
+        display: flex !important;
+    }
+}
   
 
     /* Global styles */
