@@ -121,20 +121,30 @@ header {
         font-family: 'Segoe UI', sans-serif;
     }
     .mobile-menu.active {
-        display: flex !important;
-        height: auto;
-        max-height: 80vh;
-        overflow-y: auto;
+    display: flex !important;
+    animation: slideInRight 0.3s ease-out forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
     }
+    to {
+        transform: translateX(0);
+    }
+}
     /* --- NEW HEADER STYLES END --- */
 
     /* Mobile toggles - Left sidebar, Right nav + conditional close */
     /* --- FINAL REPAIRED MOBILE CSS --- */
     @media (max-width: 768px) {
-        /* 1. Desktop Nav ko gayab karna */
-        #desktopNav, .nav-links {
-            display: none !important;
-        }
+    .mobile-menu {
+        display: none !important;
+    }
+    .mobile-menu.active {
+        display: flex !important;
+    }
+}
 
         /* 2. Header alignment fix */
         header {
