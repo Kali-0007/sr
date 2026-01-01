@@ -162,6 +162,19 @@
             document.getElementById('progress-bar').style.width = scrolled + '%';
         });
     </script>
+    <script>
+
+if (typeof ftr_openModal !== 'function') {
+  function ftr_openModal() {
+    const modal = document.getElementById('ftr_callbackModal');
+    if (modal) {
+      modal.style.display = 'flex';
+    } else {
+      alert("Modal loading... Please try again in a moment.");
+    }
+  }
+}
+</script>
     <script src="footer.js"></script>
 </body>
 </html>
