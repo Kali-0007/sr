@@ -1,5 +1,20 @@
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
+// --- NEW: Helper to get security fingerprint ---
+async function getSecurityData() {
+    let ip = "Unknown";
+    try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        ip = data.ip;
+    } catch (e) { console.error("IP fetch failed"); }
 
+    return {
+        ip: ip,
+        userAgent: navigator.userAgent,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        screenRes: window.screen.width + "x" + window.screen.height
+    };
+}
 let emailForOtp = null;
 
 // Page load
@@ -135,72 +150,81 @@ if(sendOtpBtn) {
 
 // Submit Form
 const signupForm = document.getElementById('signupForm');
+// --- UPDATED: Submit Form with 18 Columns Security ---
 if(signupForm) {
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-
+        const messageDiv = document.getElementById('message');
+        
+        // Basic Validations
         const mobile = document.getElementById('mobile').value;
-        if (!/^\+91[0-9]{10}$/.test(mobile)) {
-            return alert('Enter valid 10-digit mobile number');
-        }
+        if (!/^\+91[0-9]{10}$/.test(mobile)) return alert('Enter valid 10-digit mobile number');
 
         const password = document.getElementById('password').value;
-        if (checkPasswordStrength(password) !== 'strong') {
-            return alert('Password must be strong');
-        }
+        if (checkPasswordStrength(password) !== 'strong') return alert('Password must be strong');
 
         const otp = document.getElementById('otp').value.trim();
-        if (!otp || otp.length !== 6) {
-            return alert('Enter 6-digit OTP');
-        }
+        if (!otp || otp.length !== 6) return alert('Enter 6-digit OTP');
 
         if (!emailForOtp) return alert("Send OTP first");
 
-        const verifyData = new URLSearchParams({ action: "verify-otp", email: emailForOtp, otp });
-        const verifyRes = await fetch(WEB_APP_URL, { method: "POST", body: verifyData });
-        const verifyResult = await verifyRes.json();
-        
-        if (verifyResult.status !== "success") {
-            return alert('Incorrect or expired OTP');
-        }
-
-        const recaptcha = grecaptcha.getResponse();
-        if (!recaptcha) return alert("Please complete reCAPTCHA");
-
-        const userData = {
-            firstName: document.getElementById('firstName').value.trim(),
-            surname: document.getElementById('surname').value.trim(),
-            gender: document.getElementById('gender').value,
-            state: document.getElementById('state').value,
-            city: document.getElementById('city').value.trim(),
-            mobile,
-            email: emailForOtp,
-            username: document.getElementById('username').value.trim(),
-            password
-        };
-
-        const saveData = new URLSearchParams({
-            action: "save-user",
-            userData: JSON.stringify(userData),
-            'g-recaptcha-response': recaptcha
-        });
+        // UI Feedback
+        messageDiv.innerHTML = '<span style="color: #667eea;">Verifying security and creating account...</span>';
 
         try {
+            // Step 1: OTP Verification
+            const verifyData = new URLSearchParams({ action: "verify-otp", email: emailForOtp, otp });
+            const verifyRes = await fetch(WEB_APP_URL, { method: "POST", body: verifyData });
+            const verifyResult = await verifyRes.json();
+            
+            if (verifyResult.status !== "success") {
+                messageDiv.innerHTML = '<span style="color: #ff6b6b;">Incorrect or expired OTP</span>';
+                return;
+            }
+
+            // Step 2: Get Security Fingerprint (IP, Browser, etc.)
+            const security = await getSecurityData();
+
+            // Step 3: reCAPTCHA
+            const recaptcha = grecaptcha.getResponse();
+            if (!recaptcha) {
+                messageDiv.innerHTML = '<span style="color: #ff6b6b;">Please complete reCAPTCHA</span>';
+                return;
+            }
+
+            // Step 4: Prepare Data
+            const userData = {
+                firstName: document.getElementById('firstName').value.trim(),
+                surname: document.getElementById('surname').value.trim(),
+                gender: document.getElementById('gender').value,
+                state: document.getElementById('state').value,
+                city: document.getElementById('city').value.trim(),
+                mobile,
+                email: emailForOtp,
+                username: document.getElementById('username').value.trim(),
+                password
+            };
+
+            const saveData = new URLSearchParams({
+                action: "save-user",
+                userData: JSON.stringify(userData),
+                securityData: JSON.stringify(security), // Bhej rahe hain IP, UserAgent, Timezone, ScreenRes
+                'g-recaptcha-response': recaptcha
+            });
+
+            // Step 5: Final Save to Sheets
             const saveRes = await fetch(WEB_APP_URL, { method: "POST", body: saveData });
             const saveResult = await saveRes.json();
 
             if (saveResult.status === "success") {
-                alert("Signup Successful!");
-                signupForm.reset();
-                grecaptcha.reset();
-                emailForOtp = null;
-                document.getElementById('otpSection').style.display = 'none';
-                document.getElementById('mobile').value = '+91';
-                window.location.href = "login.html"; // Redirect to login
+                messageDiv.innerHTML = '<span style="color: #00ff9d;">Signup Successful! Redirecting...</span>';
+                setTimeout(() => { window.location.href = "login.html"; }, 2000);
             } else {
-                alert("Signup failed: " + saveResult.message);
+                messageDiv.innerHTML = '<span style="color: #ff6b6b;">' + saveResult.message + '</span>';
                 grecaptcha.reset();
             }
-        } catch(err) { alert("Error saving data"); }
+        } catch(err) { 
+            messageDiv.innerHTML = '<span style="color: #ff6b6b;">Connection error. Try again.</span>';
+        }
     });
 }
