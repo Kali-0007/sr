@@ -280,25 +280,43 @@ async function handleCredentialResponse(response) {
         messageDiv.innerHTML = '<span class="error">Connection failed. Please try again.</span>';
     }
 }
-    // Manual Login
-    document.getElementById('loginForm').onsubmit = function(e) {
+    // Manual Login - (Updated with Security/IP tracking)
+    document.getElementById('loginForm').onsubmit = async function(e) { 
         e.preventDefault();
         const id = document.getElementById('identifier').value;
         const pass = document.getElementById('password').value;
-        fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "login", email: id, password: pass })
-        })
-        .then(res => res.json())
-        .then(res => {
+        const messageDiv = document.getElementById('message');
+
+        messageDiv.innerHTML = '<span style="color: #667eea;">Logging in...</span>';
+
+        try {
+            // 1. IP aur device ki jankari nikalna
+            const security = await getSecurityData(); 
+
+            // 2. Data bhejte waqt 'securityData' ko bhi add karna
+            const response = await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ 
+                    action: "login", 
+                    email: id, 
+                    password: pass,
+                    securityData: JSON.stringify(security) // Ye line logs ke liye zaroori hai
+                })
+            });
+
+            const res = await response.json();
+
             if(res.status === "success") {
                 localStorage.setItem('userToken', res.token);
                 localStorage.setItem('username', res.username);
                 window.location.href = "dashboard.html";
             } else {
-                document.getElementById('message').innerHTML = '<span class="error">' + res.message + '</span>';
+                messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
             }
-        });
+        } catch (err) {
+            console.error("Login Error:", err);
+            messageDiv.innerHTML = '<span class="error">Connection error. Please try again.</span>';
+        }
     };
 
     // Modal Logic
