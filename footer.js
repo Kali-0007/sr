@@ -227,7 +227,7 @@ document.write(`
       <a href="faqs.html">FAQ</a>
       <a href="blogs.html">Blogs</a>
       <a href="privacy-policy.html">Privacy Policy</a>
-    </div>
+      <a href="terms-of-service.html">Terms of Service</a> </div>
     <div class="footer-col">
       <h4>Get in Touch</h4>
       <a href="https://wa.me/919876543210?text=Hi%20TaxEasePro,%20I%20need%20expert%20consultation." target="_blank" class="whatsapp-link">
