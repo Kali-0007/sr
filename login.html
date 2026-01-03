@@ -205,28 +205,48 @@
         }).join(''));
         return JSON.parse(jsonPayload);
     }
+// --- NEW: Helper to get security fingerprint ---
+async function getSecurityData() {
+    let ip = "Unknown";
+    try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        ip = data.ip;
+    } catch (e) { console.error("IP fetch failed"); }
 
-    async function handleCredentialResponse(response) {
+    return {
+        ip: ip,
+        userAgent: navigator.userAgent,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        screenRes: window.screen.width + "x" + window.screen.height
+    };
+}
+    // --- Updated: Google Login Handler (Ab ye 18 Columns wala data bhejega) ---
+async function handleCredentialResponse(response) {
     const responsePayload = parseJwt(response.credential);
     const messageDiv = document.getElementById('message');
     
-    // UI par feedback dene ke liye
-    messageDiv.innerHTML = '<span style="color: #667eea;">Verifying and fetching IP...</span>';
+    messageDiv.innerHTML = '<span style="color: #667eea;">Gathering security data...</span>';
 
     try {
-        // Step 1: User ki IP address fetch karna
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipRes.json();
-        
-        // Step 2: IP address ko userData ke andar merge karna
-        responsePayload.ipAddress = ipData.ip;
+        // Step 1: Saari Security info ek saath nikaalo (IP, Browser, Timezone, Screen)
+        const security = await getSecurityData(); 
 
-        // Step 3: Backend (Apps Script) ko data bhejna
+        // Step 2: Sab kuch merge karo
+        const finalUserData = {
+            ...responsePayload,
+            ipAddress: security.ip,
+            userAgent: security.userAgent,
+            timezone: security.timezone,
+            screenRes: security.screenRes
+        };
+
+        // Step 3: Backend ko data bhejna
         const backendRes = await fetch(API_URL, {
             method: "POST",
             body: JSON.stringify({ 
                 action: "google-login", 
-                userData: responsePayload 
+                userData: finalUserData 
             })
         });
         
@@ -242,10 +262,9 @@
         }
     } catch (error) {
         console.error("Login Error:", error);
-        messageDiv.innerHTML = '<span class="error">Network error. Please try again.</span>';
+        messageDiv.innerHTML = '<span class="error">Connection failed. Please try again.</span>';
     }
 }
-
     // Manual Login
     document.getElementById('loginForm').onsubmit = function(e) {
         e.preventDefault();
