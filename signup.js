@@ -1,3 +1,4 @@
+let startTime = Date.now(); // Page khulte hi timer shuru
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
 // --- NEW: Helper to get security fingerprint ---
 async function getSecurityData() {
@@ -193,17 +194,19 @@ if(signupForm) {
             }
 
             // Step 4: Prepare Data
-            const userData = {
-                firstName: document.getElementById('firstName').value.trim(),
-                surname: document.getElementById('surname').value.trim(),
-                gender: document.getElementById('gender').value,
-                state: document.getElementById('state').value,
-                city: document.getElementById('city').value.trim(),
-                mobile,
-                email: emailForOtp,
-                username: document.getElementById('username').value.trim(),
-                password
-            };
+           
+const userData = {
+    firstName: document.getElementById('firstName').value.trim(),
+    surname: document.getElementById('surname').value.trim(),
+    gender: document.getElementById('gender').value,
+    state: document.getElementById('state').value,
+    city: document.getElementById('city').value.trim(),
+    pincode: document.getElementById('pincode').value.trim(), // <--- YE ZARURI HAI
+    mobile,
+    email: emailForOtp,
+    username: document.getElementById('username').value.trim(),
+    password
+};
 
             const saveData = new URLSearchParams({
                 action: "save-user",
