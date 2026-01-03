@@ -9,11 +9,15 @@ async function getSecurityData() {
         ip = data.ip;
     } catch (e) { console.error("IP fetch failed"); }
 
+ 
+    let timeInSeconds = Math.round((Date.now() - startTime) / 1000);
+
     return {
         ip: ip,
         userAgent: navigator.userAgent,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        screenRes: window.screen.width + "x" + window.screen.height
+        screenRes: window.screen.width + "x" + window.screen.height,
+        timeTaken: timeInSeconds + " seconds" 
     };
 }
 let emailForOtp = null;
