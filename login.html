@@ -236,12 +236,22 @@ async function getSecurityData() {
         screenRes: window.screen.width + "x" + window.screen.height
     };
 }
-    // --- Updated: Google Login Handler (Ab ye 18 Columns wala data bhejega) ---
+    // --- Updated: Google Login Handler ---
 async function handleCredentialResponse(response) {
+    // 1. First check consent
+    const consentCheckbox = document.getElementById('privacyConsent');
+    
+    if (!consentCheckbox || !consentCheckbox.checked) {
+        alert("Please tick the 'I agree to Privacy Policy' checkbox before signing in with Google.");
+        return; 
+    }
+
+    // 2. Agar tick hai, tabhi ye niche wala code chalega
     const responsePayload = parseJwt(response.credential);
     const messageDiv = document.getElementById('message');
     
     messageDiv.innerHTML = '<span style="color: #667eea;">Gathering security data...</span>';
+  
 
     try {
         // Step 1: Saari Security info ek saath nikaalo (IP, Browser, Timezone, Screen)
