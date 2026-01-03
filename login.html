@@ -206,24 +206,45 @@
         return JSON.parse(jsonPayload);
     }
 
-    function handleCredentialResponse(response) {
-        const responsePayload = parseJwt(response.credential);
-        fetch(API_URL, {
+    async function handleCredentialResponse(response) {
+    const responsePayload = parseJwt(response.credential);
+    const messageDiv = document.getElementById('message');
+    
+    // UI par feedback dene ke liye
+    messageDiv.innerHTML = '<span style="color: #667eea;">Verifying and fetching IP...</span>';
+
+    try {
+        // Step 1: User ki IP address fetch karna
+        const ipRes = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipRes.json();
+        
+        // Step 2: IP address ko userData ke andar merge karna
+        responsePayload.ipAddress = ipData.ip;
+
+        // Step 3: Backend (Apps Script) ko data bhejna
+        const backendRes = await fetch(API_URL, {
             method: "POST",
-            body: JSON.stringify({ action: "google-login", userData: responsePayload })
-        })
-        .then(res => res.json())
-        .then(res => {
-            if(res.status === "success") {
-                localStorage.setItem('userToken', res.token);
-                localStorage.setItem('username', res.username);
-                document.getElementById('message').innerHTML = '<span class="success">Welcome ' + res.name + '! Redirecting...</span>';
-                setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
-            } else {
-                document.getElementById('message').innerHTML = '<span class="error">' + res.message + '</span>';
-            }
+            body: JSON.stringify({ 
+                action: "google-login", 
+                userData: responsePayload 
+            })
         });
+        
+        const res = await backendRes.json();
+
+        if(res.status === "success") {
+            localStorage.setItem('userToken', res.token);
+            localStorage.setItem('username', res.username);
+            messageDiv.innerHTML = '<span class="success">Welcome ' + res.name + '! Redirecting...</span>';
+            setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
+        } else {
+            messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
+        }
+    } catch (error) {
+        console.error("Login Error:", error);
+        messageDiv.innerHTML = '<span class="error">Network error. Please try again.</span>';
     }
+}
 
     // Manual Login
     document.getElementById('loginForm').onsubmit = function(e) {
