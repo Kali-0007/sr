@@ -256,12 +256,13 @@ async function handleCredentialResponse(response) {
             screenRes: security.screenRes
         };
 
-        // Step 3: Backend ko data bhejna
+        // --- Step 3: Backend ko data bhejna (Is part ko update karein) ---
         const backendRes = await fetch(API_URL, {
             method: "POST",
             body: JSON.stringify({ 
                 action: "google-login", 
-                userData: finalUserData 
+                userData: finalUserData, // Isme user ki profile info hai
+                securityData: JSON.stringify(security) // <--- YE LINE ADD KARNI HAI (Logs ke liye)
             })
         });
         
