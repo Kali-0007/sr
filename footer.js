@@ -13,8 +13,9 @@ document.write(`
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
-    gap: 60px;
+    /* Is line ko badal kar 6 columns kar lijiye */
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1.5fr; 
+    gap: 30px;
   }
 
   .footer-col h4 {
@@ -176,8 +177,8 @@ document.write(`
 
   @media (max-width: 900px) {
     .footer-container {
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
     }
   }
 
@@ -221,7 +222,12 @@ document.write(`
       <a href="services.html">Private Limited Company</a>
       <a href="services.html">Digital Signature</a>
     </div>
-
+<div class="footer-col">
+      <h4>Resources</h4>
+      <a href="faqs.html">FAQ</a>
+      <a href="blogs.html">Blogs</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
     <div class="footer-col">
       <h4>Get in Touch</h4>
       <a href="https://wa.me/919876543210?text=Hi%20TaxEasePro,%20I%20need%20expert%20consultation." target="_blank" class="whatsapp-link">
