@@ -160,7 +160,12 @@ if(signupForm) {
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const messageDiv = document.getElementById('message');
-        
+        // --- Firstly: Checkbox ticking made required ---
+        const consentCheckbox = document.getElementById('privacyConsent');
+        if (!consentCheckbox || !consentCheckbox.checked) {
+            alert('Please accept the Privacy Policy to register.');
+            return; 
+        }
         // Basic Validations
         const mobile = document.getElementById('mobile').value;
         if (!/^\+91[0-9]{10}$/.test(mobile)) return alert('Enter valid 10-digit mobile number');
