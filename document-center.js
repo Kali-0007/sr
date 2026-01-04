@@ -73,57 +73,73 @@ const docCenter = {
         if (!token) return;
 
         try {
-            // Yahan bhi naya variable 'DOC_HUB_API' use kiya hai
             const response = await fetch(`${DOC_HUB_API}?action=get-doc-hub&token=${encodeURIComponent(token)}`);
             const data = await response.json();
 
             if (data.status === 'success') {
-                this.renderTables(data.userFiles || [], data.adminFiles || []);
+                // Search ke liye data save kar rahe hain
+                this.allUserFiles = data.userFiles || [];
+                this.allAdminFiles = data.adminFiles || [];
+                
+                this.renderTables(this.allUserFiles, this.allAdminFiles);
+                this.setupSearch(); // Search activate karne ke liye
             }
         } catch (err) {
             console.error("Doc Center Error:", err);
         }
     },
 
-   renderTables: function(userFiles, adminFiles) {
+    setupSearch: function() {
+        const searchInput = document.getElementById('docSearchInput');
+        if (!searchInput) return;
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            
+            const filteredUser = this.allUserFiles.filter(f => 
+                f.name.toLowerCase().includes(term) || f.date.toLowerCase().includes(term)
+            );
+            
+            const filteredAdmin = this.allAdminFiles.filter(f => 
+                f.name.toLowerCase().includes(term) || f.date.toLowerCase().includes(term)
+            );
+
+            this.renderTables(filteredUser, filteredAdmin);
+        });
+    },
+
+    renderTables: function(userFiles, adminFiles) {
         const uBody = document.getElementById('userUploadsBody');
         const aBody = document.getElementById('adminIssuedBody');
 
-        uBody.innerHTML = userFiles.length ? userFiles.map(f => {
-            // Status ko clean karna (Spelling aur Space ka tension khatam)
+        // Newest on top
+        const displayUser = [...userFiles].reverse();
+        const displayAdmin = [...adminFiles].reverse();
+
+        uBody.innerHTML = displayUser.length ? displayUser.map(f => {
             const statusText = (f.status || 'Pending').trim();
             const statusKey = statusText.toLowerCase();
-            
-            let statusColor = '#ffa500'; // Default: Orange (Pending)
-            
-            if(statusKey === 'verified' || statusKey === 'success') {
-                statusColor = '#00ff88'; // Green
-            } else if(statusKey === 'rejected' || statusKey === 'failed') {
-                statusColor = '#ff4444'; // Red
-            } else if(statusKey === 'in progress') {
-                statusColor = '#00d4ff'; // Blue
-            }
+            let statusColor = '#ffa500';
+            if(statusKey === 'verified' || statusKey === 'success') statusColor = '#00ff88';
+            if(statusKey === 'rejected' || statusKey === 'failed') statusColor = '#ff4444';
+            if(statusKey === 'in progress') statusColor = '#00d4ff';
 
             return `
                 <tr style="border-bottom: 1px solid #222;">
-                    <td style="padding:10px;">${f.name}</td>
-                    <td style="padding:10px;">${f.date}</td>
-                    <td style="padding:10px;">
-                        <span style="color:${statusColor}; font-weight:bold; border:1px solid ${statusColor}; padding:2px 10px; border-radius:15px; font-size:11px; text-transform: uppercase;">
+                    <td style="padding:12px; font-size:13px;">${f.name}</td>
+                    <td style="padding:12px; font-size:13px; color:#888;">${f.date}</td>
+                    <td style="padding:12px;">
+                        <span style="color:${statusColor}; font-weight:bold; border:1px solid ${statusColor}; padding:2px 10px; border-radius:15px; font-size:10px; text-transform: uppercase;">
                             ${statusText}
                         </span>
                     </td>
-                </tr>
-            `;
-        }).join('') : '<tr><td colspan="3" style="text-align:center; padding:10px;">No uploads found.</td></tr>';
+                </tr>`;
+        }).join('') : '<tr><td colspan="3" style="text-align:center; padding:20px; color:#666;">No matching files.</td></tr>';
 
-        // Admin Table (Download list)
-        aBody.innerHTML = adminFiles.length ? adminFiles.map(f => `
+        aBody.innerHTML = displayAdmin.length ? displayAdmin.map(f => `
             <tr style="border-bottom: 1px solid #222;">
-                <td style="padding:10px;">${f.name}</td>
-                <td style="padding:10px;">${f.date}</td>
-                <td style="padding:10px;"><a href="${f.url}" target="_blank" style="color:#00ff88; text-decoration:none; font-weight:bold; border: 1px solid #00ff88; padding: 2px 8px; border-radius: 4px; font-size: 11px;">DOWNLOAD</a></td>
-            </tr>
-        `).join('') : '<tr><td colspan="3" style="text-align:center; padding:10px;">No reports yet.</td></tr>';
+                <td style="padding:12px; font-size:13px;">${f.name}</td>
+                <td style="padding:12px; font-size:13px; color:#888;">${f.date}</td>
+                <td style="padding:12px;"><a href="${f.url}" target="_blank" style="color:#00ff88; text-decoration:none; font-weight:bold; border: 1px solid #00ff88; padding: 2px 8px; border-radius: 4px; font-size: 10px;">DOWNLOAD</a></td>
+            </tr>`).join('') : '<tr><td colspan="3" style="text-align:center; padding:20px; color:#666;">No matching reports.</td></tr>';
     }
-}
