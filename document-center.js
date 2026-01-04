@@ -8,39 +8,55 @@ const DOC_HUB_API = 'https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtU
 const docCenter = {
     getTemplate: function() {
         return `
-            <h2 class="section-title">Document Center</h2>
-            <div style="display: grid; gap: 20px;">
-                <div class="stat-card" style="background: #1a1a1a; border: 1px solid #333; padding: 20px; border-radius: 10px;">
-                    <h3 style="color: #00d4ff; margin-bottom:15px;">📤 My Uploaded Documents</h3>
-                    <table style="width:100%; border-collapse: collapse; color: #eee;">
-                        <thead>
-                            <tr style="text-align:left; border-bottom: 2px solid #333;">
-                                <th style="padding:10px;">File Name</th>
-                                <th style="padding:10px;">Date</th>
-                                <th style="padding:10px;">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="userUploadsBody">
-                            <tr><td colspan="3" style="text-align:center; padding:20px;">Scanning files...</td></tr>
-                        </tbody>
-                    </table>
+            <div class="doc-hub-header" style="margin-bottom: 20px;">
+                <h2 class="section-title">Document Center</h2>
+                <div class="search-container" style="margin-top: 15px; position: relative;">
+                    <input type="text" id="docSearchInput" placeholder="🔍 Search documents by name or date (e.g. 2024)..." 
+                        style="width: 100%; padding: 12px 15px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: white; outline: none;">
+                </div>
+            </div>
+
+            <div class="doc-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                
+                <div class="stat-card" style="background: #1a1a1a; border: 1px solid #333; padding: 20px; border-radius: 12px; display: flex; flex-direction: column;">
+                    <h3 style="color: #00d4ff; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;">
+                        <span>📤 My Uploads</span>
+                        <span style="font-size:10px; background:#333; padding:2px 8px; border-radius:10px; color:#aaa;">Newest First</span>
+                    </h3>
+                    <div style="max-height: 450px; overflow-y: auto; scrollbar-width: thin; padding-right: 5px;">
+                        <table style="width:100%; border-collapse: collapse; color: #eee;">
+                            <thead style="position: sticky; top: 0; background: #1a1a1a; z-index: 10;">
+                                <tr style="text-align:left; border-bottom: 2px solid #333;">
+                                    <th style="padding:12px; font-size:13px;">File Name</th>
+                                    <th style="padding:12px; font-size:13px;">Date</th>
+                                    <th style="padding:12px; font-size:13px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userUploadsBody">
+                                <tr><td colspan="3" style="text-align:center; padding:20px; color:#666;">Scanning files...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div class="stat-card" style="background: #1a1a1a; border: 1px solid #333; padding: 20px; border-radius: 10px;">
-                    <h3 style="color: #00ff88; margin-bottom:15px;">📜 Documents Issued by Admin</h3>
-                    <table style="width:100%; border-collapse: collapse; color: #eee;">
-                        <thead>
-                            <tr style="text-align:left; border-bottom: 2px solid #333;">
-                                <th style="padding:10px;">Report Name</th>
-                                <th style="padding:10px;">Date</th>
-                                <th style="padding:10px;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminIssuedBody">
-                            <tr><td colspan="3" style="text-align:center; padding:20px;">Checking reports...</td></tr>
-                        </tbody>
-                    </table>
+                <div class="stat-card" style="background: #1a1a1a; border: 1px solid #333; padding: 20px; border-radius: 12px; display: flex; flex-direction: column;">
+                    <h3 style="color: #00ff88; margin-bottom:15px;">📜 Issued Reports</h3>
+                    <div style="max-height: 450px; overflow-y: auto; scrollbar-width: thin; padding-right: 5px;">
+                        <table style="width:100%; border-collapse: collapse; color: #eee;">
+                            <thead style="position: sticky; top: 0; background: #1a1a1a; z-index: 10;">
+                                <tr style="text-align:left; border-bottom: 2px solid #333;">
+                                    <th style="padding:12px; font-size:13px;">Report Name</th>
+                                    <th style="padding:12px; font-size:13px;">Date</th>
+                                    <th style="padding:12px; font-size:13px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminIssuedBody">
+                                <tr><td colspan="3" style="text-align:center; padding:20px; color:#666;">Checking reports...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         `;
     },
