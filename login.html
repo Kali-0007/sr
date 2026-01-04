@@ -289,13 +289,16 @@ async function handleCredentialResponse(response) {
             messageDiv.innerHTML = '<span class="success">Welcome ' + res.name + '! Redirecting...</span>';
             setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
         } else {
-            // Google login mein bhi status check handle karein
-            if (res.message === "ACCOUNT_SUSPENDED" || res.message === "ACCOUNT_BLOCKED") {
-                alert("This Google account is " + (res.message === "ACCOUNT_SUSPENDED" ? "Suspended" : "Blocked") + " on TaxEasePro.");
-                messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
-            } else {
-                messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
+            let userMsg = res.message;
+            
+            if (res.message === "ACCOUNT_SUSPENDED") {
+                userMsg = "Your account has been permanently SUSPENDED due to policy violations. Contact support for details.";
+            } else if (res.message === "ACCOUNT_BLOCKED") {
+                userMsg = "Your account has been temporarily blocked due to policy violations. Please contact taxeasepro@zohomail.in to reactivate.";
             }
+
+            alert(userMsg);
+            messageDiv.innerHTML = `<span class="error">${userMsg}</span>`;
         }
     // Manual Login - (Updated with Security/IP tracking)
     document.getElementById('loginForm').onsubmit = async function(e) { 
