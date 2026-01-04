@@ -69,24 +69,44 @@ const docCenter = {
         }
     },
 
-    renderTables: function(userFiles, adminFiles) {
+   renderTables: function(userFiles, adminFiles) {
         const uBody = document.getElementById('userUploadsBody');
         const aBody = document.getElementById('adminIssuedBody');
 
-        uBody.innerHTML = userFiles.length ? userFiles.map(f => `
-            <tr style="border-bottom: 1px solid #222;">
-                <td style="padding:10px;">${f.name}</td>
-                <td style="padding:10px;">${f.date}</td>
-                <td style="padding:10px;"><span style="color:#ffa500;">${f.status}</span></td>
-            </tr>
-        `).join('') : '<tr><td colspan="3" style="text-align:center; padding:10px;">No uploads found.</td></tr>';
+        uBody.innerHTML = userFiles.length ? userFiles.map(f => {
+            // Status ko clean karna (Spelling aur Space ka tension khatam)
+            const statusText = (f.status || 'Pending').trim();
+            const statusKey = statusText.toLowerCase();
+            
+            let statusColor = '#ffa500'; // Default: Orange (Pending)
+            
+            if(statusKey === 'verified' || statusKey === 'success') {
+                statusColor = '#00ff88'; // Green
+            } else if(statusKey === 'rejected' || statusKey === 'failed') {
+                statusColor = '#ff4444'; // Red
+            } else if(statusKey === 'in progress') {
+                statusColor = '#00d4ff'; // Blue
+            }
 
+            return `
+                <tr style="border-bottom: 1px solid #222;">
+                    <td style="padding:10px;">${f.name}</td>
+                    <td style="padding:10px;">${f.date}</td>
+                    <td style="padding:10px;">
+                        <span style="color:${statusColor}; font-weight:bold; border:1px solid ${statusColor}; padding:2px 10px; border-radius:15px; font-size:11px; text-transform: uppercase;">
+                            ${statusText}
+                        </span>
+                    </td>
+                </tr>
+            `;
+        }).join('') : '<tr><td colspan="3" style="text-align:center; padding:10px;">No uploads found.</td></tr>';
+
+        // Admin Table (Download list)
         aBody.innerHTML = adminFiles.length ? adminFiles.map(f => `
             <tr style="border-bottom: 1px solid #222;">
                 <td style="padding:10px;">${f.name}</td>
                 <td style="padding:10px;">${f.date}</td>
-                <td style="padding:10px;"><a href="${f.url}" target="_blank" style="color:#00ff88; text-decoration:none; font-weight:bold;">Download</a></td>
+                <td style="padding:10px;"><a href="${f.url}" target="_blank" style="color:#00ff88; text-decoration:none; font-weight:bold; border: 1px solid #00ff88; padding: 2px 8px; border-radius: 4px; font-size: 11px;">DOWNLOAD</a></td>
             </tr>
         `).join('') : '<tr><td colspan="3" style="text-align:center; padding:10px;">No reports yet.</td></tr>';
     }
-};
