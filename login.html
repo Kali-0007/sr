@@ -242,42 +242,26 @@ async function getSecurityData() {
     };
 }
     // --- Updated: Google Login Handler ---
+// --- 1. Google Login Handler ---
 async function handleCredentialResponse(response) {
-    // 1. First check consent
     const consentCheckbox = document.getElementById('privacyConsent');
-    
     if (!consentCheckbox || !consentCheckbox.checked) {
-        alert("Please tick the 'I agree to Privacy Policy' checkbox before signing in with Google.");
+        alert("Please tick the 'I agree to Privacy Policy' checkbox.");
         return; 
     }
 
-    // 2. Agar tick hai, tabhi ye niche wala code chalega
     const responsePayload = parseJwt(response.credential);
     const messageDiv = document.getElementById('message');
-    
     messageDiv.innerHTML = '<span style="color: #667eea;">Gathering security data...</span>';
-  
 
     try {
-        // Step 1: Saari Security info ek saath nikaalo (IP, Browser, Timezone, Screen)
         const security = await getSecurityData(); 
-
-        // Step 2: Sab kuch merge karo
-        const finalUserData = {
-            ...responsePayload,
-            ipAddress: security.ip,
-            userAgent: security.userAgent,
-            timezone: security.timezone,
-            screenRes: security.screenRes
-        };
-
-        // --- Step 3: Backend ko data bhejna (Is part ko update karein) ---
         const backendRes = await fetch(API_URL, {
             method: "POST",
             body: JSON.stringify({ 
                 action: "google-login", 
-                userData: finalUserData, // Isme user ki profile info hai
-                securityData: JSON.stringify(security) // <--- YE LINE ADD KARNI HAI (Logs ke liye)
+                userData: { ...responsePayload, ...security },
+                securityData: JSON.stringify(security)
             })
         });
         
@@ -290,64 +274,62 @@ async function handleCredentialResponse(response) {
             setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
         } else {
             let userMsg = res.message;
-            
             if (res.message === "ACCOUNT_SUSPENDED") {
-                userMsg = "Your account has been permanently SUSPENDED due to policy violations. Contact support for details.";
+                userMsg = "Account Suspended: Contact support@taxeasepro.in";
             } else if (res.message === "ACCOUNT_BLOCKED") {
-                userMsg = "Your account has been temporarily blocked due to policy violations. Please contact taxeasepro@zohomail.in to reactivate.";
+                userMsg = "Account Blocked: Contact support@taxeasepro.in";
             }
-
             alert(userMsg);
             messageDiv.innerHTML = `<span class="error">${userMsg}</span>`;
         }
-    // Manual Login - (Updated with Security/IP tracking)
-    document.getElementById('loginForm').onsubmit = async function(e) { 
-        e.preventDefault();
-        const id = document.getElementById('identifier').value;
-        const pass = document.getElementById('password').value;
-        const messageDiv = document.getElementById('message');
+    } catch (error) {
+        console.error("Login Error:", error);
+        messageDiv.innerHTML = '<span class="error">Connection failed. Please try again.</span>';
+    }
+} // <--- HandleCredentialResponse ends here
 
-        messageDiv.innerHTML = '<span style="color: #667eea;">Logging in...</span>';
+// --- 2. Manual Login Handler ---
+document.getElementById('loginForm').onsubmit = async function(e) { 
+    e.preventDefault();
+    const id = document.getElementById('identifier').value;
+    const pass = document.getElementById('password').value;
+    const messageDiv = document.getElementById('message');
 
-        try {
-            // 1. IP aur device ki jankari nikalna
-            const security = await getSecurityData(); 
+    messageDiv.innerHTML = '<span style="color: #667eea;">Logging in...</span>';
 
-            // 2. Data bhejte waqt 'securityData' ko bhi add karna
-            const response = await fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify({ 
-                    action: "login", 
-                    email: id, 
-                    password: pass,
-                    securityData: JSON.stringify(security) // Ye line logs ke liye zaroori hai
-                })
-            });
+    try {
+        const security = await getSecurityData(); 
+        const response = await fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({ 
+                action: "login", 
+                email: id, 
+                password: pass,
+                securityData: JSON.stringify(security)
+            })
+        });
 
-            const res = await response.json();
+        const res = await response.json();
 
-            if(res.status === "success") {
-                localStorage.setItem('userToken', res.token);
-                localStorage.setItem('username', res.username);
-                window.location.href = "dashboard.html";
-            } else {
-                if (res.message === "ACCOUNT_SUSPENDED") {
-                    const msg = "Your account has been permanently SUSPENDED due to policy violations. Contact support for details.";
-                    messageDiv.innerHTML = `<span class="error">${msg}</span>`;
-                    alert(msg);
-                } else if (res.message === "ACCOUNT_BLOCKED") {
-                    const msg = "Your account has been temporarily blocked due to policy violations. Please contact taxeasepro@zohomail.in to reactivate.";
-                    messageDiv.innerHTML = `<span class="error">${msg}</span>`;
-                    alert(msg);
-                } else {
-                    messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
-                }
+        if(res.status === "success") {
+            localStorage.setItem('userToken', res.token);
+            localStorage.setItem('username', res.username);
+            window.location.href = "dashboard.html";
+        } else {
+            let msg = res.message;
+            if (res.message === "ACCOUNT_SUSPENDED") {
+                msg = "Your account is suspended. Contact supprt";
+            } else if (res.message === "ACCOUNT_BLOCKED") {
+                msg = "Your account is blocked. Contact support";
             }
-        } catch (err) {
-            console.error("Login Error:", err);
-            messageDiv.innerHTML = '<span class="error">Connection error. Please try again.</span>';
+            messageDiv.innerHTML = `<span class="error">${msg}</span>`;
+            alert(msg);
         }
-    };
+    } catch (err) {
+        console.error("Login Error:", err);
+        messageDiv.innerHTML = '<span class="error">Connection error. Please try again.</span>';
+    }
+}; // <--- Manual login ends here
 
     // Modal Logic
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
