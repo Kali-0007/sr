@@ -1,24 +1,27 @@
 /**
- * TaxEasePro - Document Center (Modular Logic)
+ * TaxEasePro - Document Center (Fixed Logic)
  */
 
-// document-center.js ki sabse pehli line mein ye jodein
 const API_URL = 'https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec';
 
 const docCenter = {
-    // 1. HTML Structure jo dashboard mein jayega
+    // 1. HTML Structure
     getTemplate: function() {
         return `
             <h2 class="section-title">Document Center</h2>
             
             <div style="display: grid; gap: 30px;">
-                <div class="stat-card" style="background: var(--panel-bg); border: 1px solid var(--border);">
+                <div class="stat-card" style="background: var(--panel-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px;">
                     <h3 style="color: var(--secondary); margin-bottom:15px; display:flex; align-items:center; gap:10px;">
                         <span>📤</span> My Uploaded Documents
                     </h3>
-                    <table class="doc-table">
+                    <table class="doc-table" style="width:100%; border-collapse: collapse;">
                         <thead>
-                            <tr><th>File Name</th><th>Date</th><th>Status</th></tr>
+                            <tr style="text-align:left; border-bottom: 1px solid var(--border);">
+                                <th style="padding:10px;">File Name</th>
+                                <th style="padding:10px;">Date</th>
+                                <th style="padding:10px;">Status</th>
+                            </tr>
                         </thead>
                         <tbody id="userUploadsBody">
                             <tr><td colspan="3" style="text-align:center; padding:20px;">Scanning your folder...</td></tr>
@@ -26,16 +29,20 @@ const docCenter = {
                     </table>
                 </div>
 
-                <div class="stat-card" style="background: var(--panel-bg); border: 1px solid var(--border);">
+                <div class="stat-card" style="background: var(--panel-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px;">
                     <h3 style="color: var(--primary); margin-bottom:15px; display:flex; align-items:center; gap:10px;">
                         <span>📜</span> Documents Issued by Admin
                     </h3>
-                    <table class="doc-table">
+                    <table class="doc-table" style="width:100%; border-collapse: collapse;">
                         <thead>
-                            <tr><th>Report Name</th><th>Date</th><th>Action</th></tr>
+                            <tr style="text-align:left; border-bottom: 1px solid var(--border);">
+                                <th style="padding:10px;">Report Name</th>
+                                <th style="padding:10px;">Date</th>
+                                <th style="padding:10px;">Action</th>
+                            </tr>
                         </thead>
                         <tbody id="adminIssuedBody">
-                            <tr><td colspan="3" style="text-align:center; padding:20px;">Checking for new reports...</td></tr>
+                            <tr><td colspan="3" style="text-align:center; padding:20px;">Checking for reports...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -43,33 +50,31 @@ const docCenter = {
         `;
     },
 
-    // 2. Dashboard mein content load karna
+    // 2. Initialization
     init: async function() {
-        const container = document.getElementById('docHubContainer');
+        // Hum direct 'returns' tab ke andar content daal rahe hain
+        const container = document.getElementById('returns');
         if (!container) return;
 
-        // HTML Inject karna
         container.innerHTML = this.getTemplate();
-        
-        // Data fetch karna
-        this.loadFiles();
+        await this.loadFiles();
     },
 
-    // 3. Backend (Apps Script) se data lana
+    // 3. Backend Fetch
     loadFiles: async function() {
         const token = localStorage.getItem('userToken');
         if (!token) return;
 
         try {
-            // API_URL wahi hai jo aapne upload-handler.js mein di hai
             const response = await fetch(`${API_URL}?action=get-doc-hub&token=${encodeURIComponent(token)}`);
             const data = await response.json();
 
             if (data.status === 'success') {
-                this.renderTables(data.userFiles, data.adminFiles);
+                this.renderTables(data.userFiles || [], data.adminFiles || []);
             }
         } catch (err) {
             console.error("Doc Center Error:", err);
+            document.getElementById('userUploadsBody').innerHTML = '<tr><td colspan="3">Error loading files.</td></tr>';
         }
     },
 
@@ -77,22 +82,20 @@ const docCenter = {
         const uBody = document.getElementById('userUploadsBody');
         const aBody = document.getElementById('adminIssuedBody');
 
-        // User Table Render
         uBody.innerHTML = userFiles.length ? userFiles.map(f => `
-            <tr>
-                <td>${f.name}</td>
-                <td>${f.date}</td>
-                <td><span class="status-badge ${f.status.toLowerCase()}">${f.status}</span></td>
+            <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding:10px;">${f.name}</td>
+                <td style="padding:10px;">${f.date}</td>
+                <td style="padding:10px;"><span class="status-badge ${f.status ? f.status.toLowerCase() : 'pending'}">${f.status || 'Pending'}</span></td>
             </tr>
-        `).join('') : '<tr><td colspan="3" style="text-align:center;">No files uploaded yet.</td></tr>';
+        `).join('') : '<tr><td colspan="3" style="text-align:center; padding:10px;">No files uploaded yet.</td></tr>';
 
-        // Admin Table Render
         aBody.innerHTML = adminFiles.length ? adminFiles.map(f => `
-            <tr>
-                <td>${f.name}</td>
-                <td>${f.date}</td>
-                <td><a href="${f.url}" target="_blank" class="logout-btn-header" style="padding:5px 12px; font-size:12px;">Download</a></td>
+            <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding:10px;">${f.name}</td>
+                <td style="padding:10px;">${f.date}</td>
+                <td style="padding:10px;"><a href="${f.url}" target="_blank" class="logout-btn-header" style="padding:5px 12px; font-size:12px; text-decoration:none; display:inline-block;">Download</a></td>
             </tr>
-        `).join('') : '<tr><td colspan="3" style="text-align:center;">No reports issued yet.</td></tr>';
+        `).join('') : '<tr><td colspan="3" style="text-align:center; padding:10px;">No reports issued yet.</td></tr>';
     }
 };
