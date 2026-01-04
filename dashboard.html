@@ -438,7 +438,10 @@
       <div id="uploadProgressContainer"></div>
     </div>
 
-    <div id="returns" class="tab-content" style="display:none;"><h2 class="section-title">My Filed ITRs</h2><p>Your filed returns will appear here.</p></div>
+    <div id="returns" class="tab-content" style="display:none;">
+    <div id="docHubContainer">
+        </div>
+</div>
     <div id="services" class="tab-content" style="display:none;"><h2 class="section-title">Services</h2></div>
     <div id="payments" class="tab-content" style="display:none;"><h2 class="section-title">Payments</h2></div>
     <div id="support" class="tab-content" style="display:none;"><h2 class="section-title">Support</h2></div>
@@ -591,7 +594,7 @@ document.getElementById('logoutLink').onclick = (e) => { e.preventDefault(); log
 // Initial Execution
 loadProfile();
 </script>
-
+<script src="document-center.js"></script>
 <script src="upload-handler.js"></script>
 <script src="footer.js"></script>
 </body>
