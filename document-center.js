@@ -143,3 +143,4 @@ const docCenter = {
                 <td style="padding:12px;"><a href="${f.url}" target="_blank" style="color:#00ff88; text-decoration:none; font-weight:bold; border: 1px solid #00ff88; padding: 2px 8px; border-radius: 4px; font-size: 10px;">DOWNLOAD</a></td>
             </tr>`).join('') : '<tr><td colspan="3" style="text-align:center; padding:20px; color:#666;">No matching reports.</td></tr>';
     }
+}
