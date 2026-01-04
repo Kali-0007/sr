@@ -343,6 +343,11 @@ async function handleCredentialResponse(response) {
                     messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
                 }
             }
+        } catch (err) {
+            console.error("Login Error:", err);
+            messageDiv.innerHTML = '<span class="error">Connection error. Please try again.</span>';
+        }
+    };
 
     // Modal Logic
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
