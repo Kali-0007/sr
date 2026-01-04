@@ -19,9 +19,15 @@ const serviceHub = {
     },
 
     init: async function() {
-        const container = document.getElementById('returns'); // Main display area
-        if (!container) return;
-        container.innerHTML = this.getTemplate();
+    // 'returns' ki jagah 'dynamicServiceContent' use karein
+    const container = document.getElementById('dynamicServiceContent'); 
+    
+    if (!container) {
+        console.error("Container 'dynamicServiceContent' nahi mila!");
+        return;
+    }
+    
+    container.innerHTML = this.getTemplate();
 
         const token = localStorage.getItem('userToken');
         try {
