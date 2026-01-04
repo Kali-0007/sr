@@ -6,7 +6,6 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec';
 
 const docCenter = {
-    // ... baaki poora code waisa hi rahega
     // 1. HTML Structure jo dashboard mein jayega
     getTemplate: function() {
         return `
