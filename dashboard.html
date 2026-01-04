@@ -392,30 +392,10 @@
   <div class="main-content">
     
     <div id="home" class="tab-content">
-      <div class="progress-section">
-        <div class="progress-title">ITR Filing Status: <strong>Documents Uploaded</strong></div>
-        <div class="stepper">
-          <div class="step completed"><div class="step-circle">✓</div><div class="step-label">Upload</div></div>
-          <div class="step active"><div class="step-circle">2</div><div class="step-label">Review</div></div>
-          <div class="step"><div class="step-circle">3</div><div class="step-label">Payment</div></div>
-          <div class="step"><div class="step-circle">4</div><div class="step-label">File</div></div>
-          <div class="step"><div class="step-circle">5</div><div class="step-label">Download</div></div>
-        </div>
-      </div>
-
-      <div class="overview-grid">
-        <div class="stat-card"><h3>Pending Action</h3><div class="value">Upload Form 16</div><div class="sub-text">Due in 5 days</div></div>
-        <div class="stat-card" style="border-right-color: #00d4ff;"><h3>Tax Savings</h3><div class="value">₹12,000</div><div class="sub-text">Potential saving via 80C</div></div>
-        <div class="stat-card" style="border-right-color: #ff4757;"><h3>Next Deadline</h3><div class="value">31st July</div><div class="sub-text">ITR Last Date</div></div>
-      </div>
-
-      <h2 class="section-title">Our Services</h2>
-      <div class="services-grid">
-        <div class="service-card"><div class="service-title">Basic ITR</div><div class="service-price">₹499</div><button class="service-btn">Buy Now</button></div>
-        <div class="service-card" style="border: 1px solid var(--primary);"><div class="service-title">Premium</div><div class="service-price">₹999</div><button class="service-btn">Buy Now</button></div>
-        <div class="service-card"><div class="service-title">Expert</div><div class="service-price">₹1999</div><button class="service-btn">Buy Now</button></div>
-      </div>
+    <div id="dynamicServiceContent">
+        <p style="color: #666; padding: 20px;">Loading your personalized dashboard...</p>
     </div>
+</div>
 
     <div id="profile" class="tab-content" style="display:none;">
       <h2 class="section-title">My Profile</h2>
@@ -606,7 +586,7 @@ loadProfile();
 <script src="upload-handler.js"></script>
 
 <script src="document-center.js"></script>
-
+<script src="service-hub.js"></script>
 <script src="footer.js"></script>
 </body>
 </html>
