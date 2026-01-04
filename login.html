@@ -289,13 +289,14 @@ async function handleCredentialResponse(response) {
             messageDiv.innerHTML = '<span class="success">Welcome ' + res.name + '! Redirecting...</span>';
             setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
         } else {
-            messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
+            // Google login mein bhi status check handle karein
+            if (res.message === "ACCOUNT_SUSPENDED" || res.message === "ACCOUNT_BLOCKED") {
+                alert("This Google account is " + (res.message === "ACCOUNT_SUSPENDED" ? "Suspended" : "Blocked") + " on TaxEasePro.");
+                messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
+            } else {
+                messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
+            }
         }
-    } catch (error) {
-        console.error("Login Error:", error);
-        messageDiv.innerHTML = '<span class="error">Connection failed. Please try again.</span>';
-    }
-}
     // Manual Login - (Updated with Security/IP tracking)
     document.getElementById('loginForm').onsubmit = async function(e) { 
         e.preventDefault();
@@ -327,13 +328,17 @@ async function handleCredentialResponse(response) {
                 localStorage.setItem('username', res.username);
                 window.location.href = "dashboard.html";
             } else {
-                messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
+                // --- YE HISSA UPDATE KIYA HAI ---
+                if (res.message === "ACCOUNT_SUSPENDED") {
+                    messageDiv.innerHTML = '<span class="error">Account Suspended: Please contact support at taxeasepro@zohomail.in</span>';
+                    alert("Aapka account temporary suspend kiya gaya hai. Support se sampark karein.");
+                } else if (res.message === "ACCOUNT_BLOCKED") {
+                    messageDiv.innerHTML = '<span class="error">Access Denied: This account is permanently blocked.</span>';
+                    alert("Policy violation ki wajah se aapka account block kar diya gaya hai.");
+                } else {
+                    messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
+                }
             }
-        } catch (err) {
-            console.error("Login Error:", err);
-            messageDiv.innerHTML = '<span class="error">Connection error. Please try again.</span>';
-        }
-    };
 
     // Modal Logic
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
