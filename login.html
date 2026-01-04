@@ -328,13 +328,14 @@ async function handleCredentialResponse(response) {
                 localStorage.setItem('username', res.username);
                 window.location.href = "dashboard.html";
             } else {
-                // --- YE HISSA UPDATE KIYA HAI ---
                 if (res.message === "ACCOUNT_SUSPENDED") {
-                    messageDiv.innerHTML = '<span class="error">Account Suspended: Please contact support at taxeasepro@zohomail.in</span>';
-                    alert("Aapka account temporary suspend kiya gaya hai. Support se sampark karein.");
+                    const msg = "Your account has been permanently SUSPENDED due to policy violations. Contact support for details.";
+                    messageDiv.innerHTML = `<span class="error">${msg}</span>`;
+                    alert(msg);
                 } else if (res.message === "ACCOUNT_BLOCKED") {
-                    messageDiv.innerHTML = '<span class="error">Access Denied: This account is permanently blocked.</span>';
-                    alert("Policy violation ki wajah se aapka account block kar diya gaya hai.");
+                    const msg = "Your account has been temporarily blocked due to policy violations. Please contact taxeasepro@zohomail.in to reactivate.";
+                    messageDiv.innerHTML = `<span class="error">${msg}</span>`;
+                    alert(msg);
                 } else {
                     messageDiv.innerHTML = '<span class="error">' + res.message + '</span>';
                 }
