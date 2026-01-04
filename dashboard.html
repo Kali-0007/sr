@@ -487,7 +487,16 @@ tabs.forEach(tab => {
         tab.classList.add('active');
         tabContents.forEach(tc=>tc.style.display='none');
         const targetId = tab.dataset.tab;
-        if(document.getElementById(targetId)) document.getElementById(targetId).style.display='block';
+        
+        if(document.getElementById(targetId)) {
+            document.getElementById(targetId).style.display='block';
+        }
+
+        // --- here ---
+        if (targetId === 'returns') {
+            docCenter.init(); 
+        }
+        // ---------------------------
     });
 });
 
