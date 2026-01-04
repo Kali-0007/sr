@@ -110,3 +110,4 @@ const docCenter = {
             </tr>
         `).join('') : '<tr><td colspan="3" style="text-align:center; padding:10px;">No reports yet.</td></tr>';
     }
+}
