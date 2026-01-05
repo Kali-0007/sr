@@ -82,7 +82,33 @@ const serviceHub = {
                 </div>
             </div>`;
     },
+// Is function ko serviceHub object ke andar kahin bhi daal dein
+loadNotices: async function() {
+    const token = localStorage.getItem('userToken');
+    const ticker = document.getElementById('notificationTicker');
+    const tickerMsg = document.getElementById('tickerMessage');
+    const container = document.querySelector('.container');
 
+    if (!token || !ticker) return;
+
+    try {
+        const res = await fetch(`${this.API_URL}?action=get-notices&token=${encodeURIComponent(token)}`);
+        const data = await res.json();
+
+        if (data.status === 'success' && data.notices && data.notices.length > 0) {
+            // Saare messages ko jodein
+            const allMsgs = data.notices.map(n => n.message).join(' | +++ | ');
+            
+            tickerMsg.innerText = allMsgs;
+            ticker.style.display = 'block';
+            
+            // Dashboard ko 35px aur niche sarkaayein (70 header + 35 ticker = 105px)
+            container.style.marginTop = '105px';
+        }
+    } catch (e) {
+        console.error("Notice Load Error:", e);
+    }
+},
     renderActivity: function() {
         const activityList = document.getElementById('activityList');
         if (!activityList) return;
