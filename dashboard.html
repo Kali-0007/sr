@@ -582,9 +582,16 @@ document.getElementById('logoutLink').onclick = (e) => { e.preventDefault(); log
 
 // Initial Execution
 loadProfile();
-</script>
-<script src="upload-handler.js"></script>
 
+    // Ye function humne niche isliye move kiya hai taaki JS files pehle load ho jayein
+    window.onload = () => {
+        if (typeof serviceHub !== 'undefined') {
+            serviceHub.init();
+        }
+    };
+</script>
+
+<script src="upload-handler.js"></script>
 <script src="document-center.js"></script>
 <script src="service-hub.js"></script>
 <script src="footer.js"></script>
