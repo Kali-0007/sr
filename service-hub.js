@@ -4,6 +4,9 @@
 
 const serviceHub = {
     allServices: [],
+    
+    // FIX: URL ko yahan file ke andar hi define kar diya
+    API_URL: "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec",
 
     getTemplate: function() {
         return `
@@ -13,7 +16,7 @@ const serviceHub = {
             </div>
             
             <div id="servicesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
-                <div style="color: #666; padding: 20px;">Fetching your latest updates...</div>
+                <div id="loadingMessage" style="color: #666; padding: 20px;">Fetching your latest updates...</div>
             </div>
         `;
     },
@@ -24,12 +27,14 @@ const serviceHub = {
         
         container.innerHTML = this.getTemplate();
 
-        // CHANGE 1: userToken ko badal kar 'token' kar diya
         const token = localStorage.getItem('token'); 
 
         try {
+            // FIX: WEB_APP_URL ki jagah ab ye this.API_URL use karega
+            const response = await fetch(`${this.API_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
             
-           const response = await fetch(`${WEB_APP_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            
             const data = await response.json();
 
             if (data.status === 'success' && data.services && data.services.length > 0) {
@@ -45,21 +50,25 @@ const serviceHub = {
             }
         } catch (err) {
             console.error("Service Hub Error:", err);
+            document.getElementById('servicesGrid').innerHTML = `
+                <div style="color: #ff4444; padding: 20px;">
+                    Failed to load services. Please check your connection.
+                </div>`;
         }
     },
+
     renderCards: function() {
         const grid = document.getElementById('servicesGrid');
+        if (!grid) return;
         
         grid.innerHTML = this.allServices.map(service => {
-            // Status based Colors
-            let statusColor = '#ffa500'; // Orange (Pending)
-            const st = service.status.toLowerCase();
-            if(st.includes('progress')) statusColor = '#00d4ff'; // Blue
-            if(st.includes('filed') || st.includes('complete')) statusColor = '#00ff88'; // Green
-            if(st.includes('draft')) statusColor = '#bb86fc'; // Purple
+            let statusColor = '#ffa500'; 
+            const st = (service.status || '').toLowerCase();
+            if(st.includes('progress')) statusColor = '#00d4ff'; 
+            if(st.includes('filed') || st.includes('complete')) statusColor = '#00ff88'; 
+            if(st.includes('draft')) statusColor = '#bb86fc'; 
 
-            // Timeline Steps Logic
-            const stepsHtml = service.labels.map((label, index) => {
+            const stepsHtml = (service.labels || []).map((label, index) => {
                 const totalSteps = service.labels.length;
                 const stepThreshold = ((index + 1) / totalSteps) * 100;
                 const isCompleted = service.progress >= stepThreshold;
@@ -73,7 +82,7 @@ const serviceHub = {
             }).join('');
 
             return `
-                <div class="stat-card" style="background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 15px; transition: transform 0.3s; cursor: pointer;">
+                <div class="stat-card" style="background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 15px;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
                         <div>
                             <span style="background: ${statusColor}22; color: ${statusColor}; font-size: 10px; font-weight: bold; padding: 4px 12px; border-radius: 20px; border: 1px solid ${statusColor}44;">
