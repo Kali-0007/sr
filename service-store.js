@@ -1,96 +1,86 @@
 const serviceStore = {
     allServices: [],
-    apiUrl: WEB_APP_URL, // Aapke dashboard script se lega
 
+    // 1. Initial Load
     init: async function() {
-        const grid = document.getElementById('servicesGrid');
-        grid.innerHTML = '<p style="color: var(--primary);">Fetching services from server...</p>';
-
+        const grid = document.getElementById('services-grid');
+        grid.innerHTML = '<p style="color:white; padding:20px;">Loading real-time services...</p>';
+        
         try {
-            const res = await fetch(`${this.apiUrl}?action=get-available-services`);
+            const res = await fetch(`${WEB_APP_URL}?action=get-available-services`);
             const data = await res.json();
-
-            if (data.status === "success") {
-                this.allServices = data.services;
-                this.renderCategories();
-                this.renderCards("All");
-            } else {
-                grid.innerHTML = '<p style="color: #ff4757;">Failed to load services.</p>';
-            }
+            this.allServices = data;
+            this.renderCards('all');
         } catch (err) {
-            grid.innerHTML = '<p style="color: #ff4757;">Connection Error!</p>';
+            grid.innerHTML = '<p style="color:red;">Error loading services. Check Connection.</p>';
+            console.error(err);
         }
     },
 
-    renderCategories: function() {
-        const container = document.getElementById('categoryTabs');
-        const categories = ["All", ...new Set(this.allServices.map(s => s.category))];
-        
-        container.innerHTML = categories.map(cat => `
-            <button onclick="serviceStore.renderCards('${cat}')" class="service-btn" 
-                style="width: auto; padding: 5px 15px; font-size: 12px; background: #333; color: #fff;">
-                ${cat}
-            </button>
+    // 2. Rendering Cards (Yahan sequence ka dhyan rakha hai)
+    renderCards: function(category) {
+        const grid = document.getElementById('services-grid');
+        const filtered = category === 'all' 
+            ? this.allServices 
+            : this.allServices.filter(s => s.category === category);
+
+        if (filtered.length === 0) {
+            grid.innerHTML = '<p style="color:grey; padding:20px;">No services found in this category.</p>';
+            return;
+        }
+
+        grid.innerHTML = filtered.map(s => `
+            <div class="service-card">
+                <div style="font-size: 40px; margin-bottom: 15px;">${s.icon || '💼'}</div>
+                <div class="service-title">${s.name}</div>
+                <div class="service-price">
+                    <span style="text-decoration: line-through; color: #666; font-size: 14px;">₹${s.mPrice}</span>
+                    <span>₹${s.oPrice}</span>
+                </div>
+                <p style="font-size: 13px; color: #aaa; margin: 10px 0;">${s.desc}</p>
+                <div style="font-size: 12px; color: var(--secondary); margin-bottom: 15px;">⏱ ${s.time}</div>
+                <button class="service-btn" onclick="serviceStore.showDetails('${s.name}')">Get Started</button>
+            </div>
         `).join('');
     },
 
-    renderCards: function(category) {
-        const grid = document.getElementById('servicesGrid');
-        const filtered = category === "All" ? this.allServices : this.allServices.filter(s => s.category === category);
-
-        grid.innerHTML = filtered.map(s => {
-            // Discount Calculation
-            const mPrice = parseFloat(s.mPrice);
-            const oPrice = parseFloat(s.oPrice);
-            const discount = Math.round(((mPrice - oPrice) / mPrice) * 100);
-
-            return `
-                <div class="service-card" style="position: relative;">
-                    <div style="position: absolute; top: 10px; right: 10px; background: var(--primary); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">
-                        ${discount}% OFF
-                    </div>
-                    <div style="font-size: 40px; margin-bottom: 15px;">${s.icon || '📄'}</div>
-                    <div class="service-title">${s.name}</div>
-                    <p style="font-size: 12px; color: var(--text-grey); margin-bottom: 15px;">${s.desc}</p>
-                    <div class="service-price">
-                        <span style="font-size: 14px; text-decoration: line-through; color: #666; margin-right: 8px;">₹${s.mPrice}</span>
-                        ₹${s.oPrice}
-                    </div>
-                    <div style="font-size: 11px; color: var(--secondary); margin-bottom: 15px;">⏱ Delivery: ${s.time}</div>
-                    <button class="service-btn" style="background: var(--secondary);" onclick="serviceStore.showDetails('${s.name}')">Get Started</button>
-                </div>
-            `;
-        }).join('');
-    }
-    // Ye function details dikhayega
+    // 3. Popup Show Details (Comma ka dhyan rakha hai yahan)
     showDetails: function(serviceName) {
         const s = this.allServices.find(x => x.name === serviceName);
         if(!s) return;
 
-        // Documents ko list mein badalna
-        const docList = s.docs ? s.docs.split(',').map(d => `<li>✅ ${d.trim()}</li>`).join('') : '<li>No docs needed</li>';
+        const docList = s.docs ? s.docs.split(',').map(d => `<li>✅ ${d.trim()}</li>`).join('') : '<li>Contact for documents</li>';
 
         const modalHtml = `
-            <div id="serviceModal" class="modal" style="display:block;">
-                <div class="modal-content" style="max-width: 500px; border-top: 4px solid var(--primary);">
-                    <span onclick="document.getElementById('serviceModal').remove()" style="float:right; cursor:pointer; font-size:24px;">&times;</span>
+            <div id="serviceModal" class="modal" style="display:block; background: rgba(0,0,0,0.8);">
+                <div class="modal-content" style="max-width: 500px; margin: 50px auto; border-top: 4px solid var(--primary);">
+                    <span onclick="document.getElementById('serviceModal').remove()" style="float:right; cursor:pointer; font-size:28px; color:white;">&times;</span>
                     <h2 style="color:var(--primary);">${s.name}</h2>
-                    <p style="font-size:14px; color:#ccc;">${s.desc}</p>
+                    <p style="color:#ccc; font-size:14px;">${s.desc}</p>
                     
-                    <div style="background:#222; padding:15px; border-radius:10px; margin:15px 0;">
+                    <div style="background:#222; padding:15px; border-radius:10px; margin:20px 0;">
                         <h4 style="margin:0 0 10px 0; color:var(--secondary);">Required Documents:</h4>
-                        <ul style="list-style:none; padding:0; font-size:13px; color:#ddd;">
+                        <ul style="list-style:none; padding:0; font-size:13px; color:#ddd; line-height:1.8;">
                             ${docList}
                         </ul>
                     </div>
 
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div style="font-size:20px; font-weight:bold;">₹${s.oPrice}</div>
-                        <button class="service-btn" style="width:auto; padding:8px 20px;">Buy Now</button>
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #444; padding-top:15px;">
+                        <div>
+                            <div style="font-size:12px; color:grey;">Final Price:</div>
+                            <div style="font-size:22px; font-weight:bold; color:white;">₹${s.oPrice}</div>
+                        </div>
+                        <button class="service-btn" style="width:auto; padding:10px 25px;" onclick="serviceStore.placeOrder('${s.name}', '${s.oPrice}')">Buy Now</button>
                     </div>
                 </div>
             </div>
         `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
+    },
+
+    // 4. Order Placing
+    placeOrder: async function(serviceName, price) {
+        alert("Ordering: " + serviceName + " for ₹" + price + "\n(Backend integration coming next!)");
+        document.getElementById('serviceModal').remove();
     }
 };
