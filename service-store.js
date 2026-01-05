@@ -1,31 +1,36 @@
-
 const serviceStore = {
     allServices: [],
 
-    // 2. Initial Load
     init: async function() {
         const grid = document.getElementById('services-grid');
-        if (!grid) {
-            console.error("Error: HTML mein 'services-grid' ID nahi mili!");
-            return;
-        }
+        if (!grid) return;
         
         grid.innerHTML = '<p style="color:white; padding:20px;">Loading real-time services...</p>';
         
         try {
             const res = await fetch(`${WEB_APP_URL}?action=get-available-services`);
             const data = await res.json();
-            this.allServices = data;
-            this.renderCards('all');
+            
+            // FIX: Check kar rahe hain ki data sahi mein ek list (Array) hai ya nahi
+            if (data && Array.isArray(data)) {
+                this.allServices = data;
+                this.renderCards('all');
+            } else {
+                console.error("Data format galat hai:", data);
+                grid.innerHTML = '<p style="color:orange;">Sheet se sahi data nahi mila. Check Sheet Name.</p>';
+            }
         } catch (err) {
-            grid.innerHTML = '<p style="color:red;">Error loading services. Check Connection.</p>';
+            grid.innerHTML = '<p style="color:red;">Error loading services. Console check karein.</p>';
             console.error(err);
         }
     },
 
-    // 3. Rendering Cards
     renderCards: function(category) {
         const grid = document.getElementById('services-grid');
+        
+        // Safety check taaki map() error na de
+        if (!Array.isArray(this.allServices)) return;
+
         const filtered = category === 'all' 
             ? this.allServices 
             : this.allServices.filter(s => s.category === category);
@@ -45,12 +50,11 @@ const serviceStore = {
                 </div>
                 <p style="font-size: 13px; color: #aaa; margin: 10px 0;">${s.desc}</p>
                 <div style="font-size: 12px; color: var(--secondary); margin-bottom: 15px;">⏱ ${s.time}</div>
-                <button class="service-btn" onclick="serviceStore.showDetails('${s.name}')">Get Started</button>
+                <button class="service-btn" onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">Get Started</button>
             </div>
         `).join('');
     },
 
-    // 4. Popup Details
     showDetails: function(serviceName) {
         const s = this.allServices.find(x => x.name === serviceName);
         if(!s) return;
@@ -63,20 +67,18 @@ const serviceStore = {
                     <span onclick="document.getElementById('serviceModal').remove()" style="position:absolute; right:20px; top:10px; cursor:pointer; font-size:28px; color:white;">&times;</span>
                     <h2 style="color:var(--primary); margin-top:10px;">${s.name}</h2>
                     <p style="color:#ccc; font-size:14px; margin-bottom:20px;">${s.desc}</p>
-                    
                     <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:20px;">
                         <h4 style="margin:0 0 10px 0; color:var(--secondary);">Required Documents:</h4>
                         <ul style="list-style:none; padding:0; font-size:13px; color:#ddd; line-height:1.8;">
                             ${docList}
                         </ul>
                     </div>
-
                     <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #444; padding-top:15px;">
                         <div>
                             <div style="font-size:12px; color:grey;">Total Payable:</div>
                             <div style="font-size:24px; font-weight:bold; color:white;">₹${s.oPrice}</div>
                         </div>
-                        <button class="service-btn" style="width:auto; padding:12px 30px;" onclick="serviceStore.placeOrder('${s.name}', '${s.oPrice}')">Buy Now</button>
+                        <button class="service-btn" style="width:auto; padding:12px 30px;" onclick="serviceStore.placeOrder('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">Buy Now</button>
                     </div>
                 </div>
             </div>
@@ -84,14 +86,12 @@ const serviceStore = {
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
 
-    // 5. Order Logic
     placeOrder: async function(serviceName, price) {
-        alert("Success! Order placed for " + serviceName + ".\nPrice: ₹" + price);
+        alert("Success! Order placed for " + serviceName);
         document.getElementById('serviceModal').remove();
     }
 };
 
-// 6. AUTO-START: Page khulte hi call karega
 document.addEventListener('DOMContentLoaded', () => {
-    serviceStore.init();
+    if(typeof WEB_APP_URL !== 'undefined') serviceStore.init();
 });
