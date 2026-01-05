@@ -1,6 +1,3 @@
-/**
- * TaxEasePro - Service Hub (Dynamic Homepage)
- */
 
 const serviceHub = {
     allServices: [],
