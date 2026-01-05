@@ -127,7 +127,8 @@ const serviceStore = {
             btn.innerText = originalText;
             btn.disabled = false;
         }
-    };
+    }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     if(typeof WEB_APP_URL !== 'undefined') serviceStore.init();
