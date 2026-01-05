@@ -131,37 +131,45 @@ body {
     width: 250px;
     background: var(--panel-bg);
     border-right: 1px solid var(--border);
-    
-    /* FIX: Absolute aur Bottom 0 se sidebar footer ki boundary tak jayega */
     position: absolute; 
     top: 0;
     bottom: 0; 
     left: 0;
-    
     padding-top: 20px;
     z-index: 900;
     overflow-y: auto;
     transition: 0.3s;
-  }
+    /* Ek halki si shadow jo depth degi par "fancy" nahi lagegi */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  .sidebar a {
+.sidebar a {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 16px 25px;
-    color: var(--text-grey);
+    /* Humne naya slate-grey (var(--text-grey)) use kiya hai */
+    color: var(--text-grey); 
     text-decoration: none;
     font-weight: 500;
-    transition: 0.2s;
+    font-size: 14px; /* Professional size */
+    transition: all 0.3s ease;
     border-left: 3px solid transparent;
-  }
+}
 
-  .sidebar a:hover, .sidebar a.active {
-    background: rgba(0, 255, 157, 0.05);
+.sidebar a:hover, .sidebar a.active {
+    /* Pure black background ki jagah subtle glow */
+    background: linear-gradient(90deg, rgba(0, 255, 157, 0.08) 0%, transparent 100%);
     color: var(--primary);
     border-left: 3px solid var(--primary);
-  }
+}
 
+/* Icons ko thoda prominent karne ke liye */
+.sidebar a i {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
   /* --- 3. Main Content Area --- */
   .main-content {
     /* FIX: Sidebar absolute hai, isliye margin-left zaroori hai */
