@@ -28,7 +28,7 @@ const serviceHub = {
 
         try {
             // FIX: WEB_APP_URL ki jagah ab ye this.API_URL use karega
-            const response = await fetch(`${this.API_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
+          const response = await fetch(`${this.API_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
             
             if (!response.ok) throw new Error('Network response was not ok');
             
