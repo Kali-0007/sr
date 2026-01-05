@@ -29,7 +29,7 @@ const serviceHub = {
     
     container.innerHTML = this.getTemplate();
 
-        const token = localStorage.getItem('userToken');
+        const token = localStorage.getItem('token');
         try {
             // Action 'get-service-hub' call kar rahe hain
             const response = await fetch(`${DOC_HUB_API}?action=get-service-hub&token=${encodeURIComponent(token)}`);
