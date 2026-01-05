@@ -541,31 +541,32 @@ body {
 <body>
 
 <header>
-  <a href="#" class="logo">
-    <img src="logo.png" alt="TaxEasePro">
-    <span>TaxEase<em>Pro</em></span>
+  <a href="#" class="logo" style="text-decoration: none; display: flex; align-items: center; gap: 15px;">
+    <img src="logo.png" alt="TaxEasePro" style="height: 55px; width: auto; object-fit: contain;">
+    <span style="font-size: 26px; font-weight: 800; color: #ffffff; letter-spacing: -1px;">
+      TaxEasePro
+    </span>
   </a>
   
   <div class="search-bar">
-    <input type="text" placeholder="Search services, files or transactions...">
+    <input type="text" placeholder="Search for documents, services...">
   </div>
 
   <div class="header-right">
-    <button class="icon-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-grey)" stroke-width="2">
+    <button class="icon-btn" style="color: var(--text-grey); position: relative;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
       </svg>
-      <div class="badge"></div>
+      <div class="badge" style="background: var(--primary); box-shadow: 0 0 10px var(--primary);"></div>
     </button>
 
-    <div class="user-welcome">
-      Hi, <span id="firstNameDisplay">User</span>
+    <div class="user-welcome" style="background: rgba(255,255,255,0.05); padding: 8px 18px; border-radius: 12px; border: 1px solid var(--border);">
+      <span style="color: var(--text-grey); font-size: 12px;">Hi,</span> 
+      <span id="firstNameDisplay" style="color: #fff; font-weight: 700; margin-left: 5px;">User</span>
     </div>
 
-    <a href="#" id="logoutLink" class="logout-btn-header">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
+    <a href="#" id="logoutLink" class="logout-btn-header">Logout</a>
   </div>
 </header>
 <div id="notificationTicker" style="display:none; background: #ff475715; border-bottom: 1px solid #ff475733; height: 35px; overflow: hidden; position: fixed; top: 70px; width: 100%; z-index: 999; backdrop-filter: blur(5px);">
