@@ -136,7 +136,7 @@ loadNotices: async function() {
             }
 
             ticker.style.display = 'block';
-            if(container) container.style.marginTop = '105px';
+            if(container) container.style.marginTop = '115px';
         }
     } catch (e) {
         console.error("Notice Load Error:", e);
