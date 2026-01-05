@@ -15,8 +15,9 @@ const serviceHub = {
 
             if (data.status === 'success' && data.services) {
                 this.allServices = data.services;
-                this.renderStats(); // Naya function
-                this.renderCards();
+                this.renderStats();    // 1. Top boxes bharega
+                this.renderCards();    // 2. Middle cards dikhayega
+                this.renderActivity(); // 3. Bottom activity feed chalayega
             }
         } catch (err) {
             console.error("Service Hub Error:", err);
@@ -27,38 +28,21 @@ const serviceHub = {
         const statContainer = document.getElementById('statCardsContainer');
         if (!statContainer) return;
 
-        // Logic to find specific statuses
         const itr = this.allServices.find(s => s.serviceName.toLowerCase().includes('itr')) || {status: 'Not Opted', deadline: 'N/A'};
         const gst = this.allServices.find(s => s.serviceName.toLowerCase().includes('gst')) || {status: 'Not Opted', deadline: 'N/A'};
         
         statContainer.innerHTML = `
-            <div class="stat-card">
-                <h3>ITR Status (AY 26-27)</h3>
-                <div class="value">${itr.status}</div>
-                <div class="sub-text">Due: ${itr.deadline}</div>
-            </div>
-            <div class="stat-card" style="border-right-color: var(--secondary);">
-                <h3>GST Monthly</h3>
-                <div class="value">${gst.status}</div>
-                <div class="sub-text">Next: ${gst.deadline}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Active Services</h3>
-                <div class="value">${this.allServices.length}</div>
-                <div class="sub-text">Managed by TaxEase</div>
-            </div>
-            <div class="stat-card">
-                <h3>Documents</h3>
-                <div class="value" id="docCountStat">...</div>
-                <div class="sub-text">Safe in Cloud</div>
-            </div>
+            <div class="stat-card"><h3>ITR Status</h3><div class="value">${itr.status}</div><div class="sub-text">Due: ${itr.deadline}</div></div>
+            <div class="stat-card"><h3>GST Status</h3><div class="value">${gst.status}</div><div class="sub-text">Next: ${gst.deadline}</div></div>
+            <div class="stat-card"><h3>Total Services</h3><div class="value">${this.allServices.length}</div><div class="sub-text">Active Now</div></div>
+            <div class="stat-card"><h3>Storage</h3><div class="value">Cloud</div><div class="sub-text">Docs Secured</div></div>
         `;
     },
 
     renderCards: function() {
-        const grid = document.getElementById('servicesGrid');
-        // Card rendering logic remains the same as your working code
         const container = document.getElementById('dynamicServiceContent');
+        if (!container) return;
+
         container.innerHTML = `
             <div class="service-hub-header" style="margin-bottom: 20px; margin-top: 20px;">
                 <h2 style="font-size: 20px; color: #fff;">Service Trackers</h2>
@@ -74,7 +58,7 @@ const serviceHub = {
         const st = (service.status || '').toLowerCase();
         if(st.includes('progress')) statusColor = '#00d4ff'; 
         if(st.includes('filed') || st.includes('complete')) statusColor = '#00ff88'; 
-        
+
         return `
             <div class="stat-card" style="background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
@@ -93,12 +77,27 @@ const serviceHub = {
                     <div style="width: ${service.progress}%; height: 100%; background: ${statusColor}; transition: width 0.5s ease;"></div>
                 </div>
                 <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <div style="font-size: 10px; color: #666; text-transform: uppercase;">Next Due Date</div>
-                        <div style="font-size: 13px; color: #eee; font-weight: 500;">📅 ${service.deadline}</div>
-                    </div>
+                    <div><div style="font-size: 10px; color: #666; text-transform: uppercase;">Next Due Date</div><div style="font-size: 13px; color: #eee; font-weight: 500;">📅 ${service.deadline}</div></div>
                     <button class="service-btn" style="width:auto; padding: 6px 15px; font-size: 11px;">Details</button>
                 </div>
             </div>`;
+    },
+
+    renderActivity: function() {
+        const activityList = document.getElementById('activityList');
+        if (!activityList) return;
+
+        // Displaying last 3 service updates as activity
+        let activities = this.allServices.map(s => `
+            <div style="display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #222;">
+                <div style="color: var(--primary); font-size: 14px;">●</div>
+                <div>
+                    <div style="color: #eee; font-size: 13px;"><b>${s.serviceName}</b> is currently <b>${s.status}</b></div>
+                    <div style="color: #555; font-size: 11px;">Expected by: ${s.deadline}</div>
+                </div>
+            </div>
+        `).slice(0, 3);
+
+        activityList.innerHTML = activities.length > 0 ? activities.join('') : "No recent activity found.";
     }
 };
