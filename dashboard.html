@@ -877,29 +877,35 @@ async function loadProfile() {
     }
 }
 
-// 4. Save Profile Logic
+// 4. Save Profile Logic (Full Data Sync)
 document.getElementById('saveProfileBtn').onclick = async () => {
     const btn = document.getElementById('saveProfileBtn');
     const token = localStorage.getItem('userToken');
+    
+    // Yahan saare fields add karne hain jo aapne naye Modal mein dale hain
     const formData = new URLSearchParams({
         action: "update-profile",
         token: token,
         firstName: document.getElementById('editFirstName').value,
         surname: document.getElementById('editSurname').value,
         mobile: document.getElementById('editMobile').value,
-        city: document.getElementById('editCity').value
+        city: document.getElementById('editCity').value,
+        state: document.getElementById('editState').value,    // <--- Add kiya
+        country: document.getElementById('editCountry').value, // <--- Add kiya
+        pincode: document.getElementById('editPincode').value  // <--- Add kiya
     });
 
     try {
         btn.textContent = "Saving...";
         const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
         const data = await res.json();
+        
         btn.textContent = "Save Changes";
         if(data.status === "success") {
-            alert("Profile updated!");
+            alert("Profile updated successfully!");
             document.getElementById('editModal').style.display = 'none';
-          document.body.style.overflow = 'auto'; // Isse scroll wapas chalu ho jayega
-            loadProfile();
+            document.body.style.overflow = 'auto'; // Scroll fix
+            loadProfile(); // Dashboard refresh karega
         } else {
             alert("Error: " + data.message);
         }
