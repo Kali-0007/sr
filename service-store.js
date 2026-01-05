@@ -1,5 +1,3 @@
-// 1. Sabse pehle apni URL yahan paste karo
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec"; 
 
 const serviceStore = {
     allServices: [],
