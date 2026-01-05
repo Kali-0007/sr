@@ -541,24 +541,31 @@ body {
 <body>
 
 <header>
-  <div class="logo">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    TaxEasePro
-  </div>
+  <a href="#" class="logo">
+    <img src="logo.png" alt="TaxEasePro">
+    <span>TaxEase<em>Pro</em></span>
+  </a>
   
   <div class="search-bar">
-    <input type="text" placeholder="Search ITRs, Documents...">
+    <input type="text" placeholder="Search services, files or transactions...">
   </div>
 
   <div class="header-right">
     <button class="icon-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-grey)" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
       <div class="badge"></div>
     </button>
+
     <div class="user-welcome">
-      Welcome, <span id="firstNameDisplay">User</span>
+      Hi, <span id="firstNameDisplay">User</span>
     </div>
-    <a href="#" id="logoutLink" class="logout-btn-header">Logout</a>
+
+    <a href="#" id="logoutLink" class="logout-btn-header">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
   </div>
 </header>
 <div id="notificationTicker" style="display:none; background: #ff475715; border-bottom: 1px solid #ff475733; height: 35px; overflow: hidden; position: fixed; top: 70px; width: 100%; z-index: 999; backdrop-filter: blur(5px);">
