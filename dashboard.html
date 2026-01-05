@@ -377,7 +377,16 @@
     <a href="#" id="logoutLink" class="logout-btn-header">Logout</a>
   </div>
 </header>
-
+<div id="notificationTicker" style="display:none; background: #ff475715; border-bottom: 1px solid #ff475733; height: 35px; overflow: hidden; position: fixed; top: 70px; width: 100%; z-index: 999; backdrop-filter: blur(5px);">
+    <div style="display: flex; align-items: center; height: 100%;">
+        <div style="background: #ff4757; color: white; padding: 0 15px; font-size: 11px; font-weight: bold; height: 100%; display: flex; align-items: center; z-index: 2; white-space: nowrap; box-shadow: 5px 0 15px rgba(0,0,0,0.3);">
+            📢 ADMIN UPDATE
+        </div>
+        <marquee behavior="scroll" direction="left" id="tickerMessage" style="color: #ff4757; font-size: 13px; font-weight: 500; width: 100%; cursor: default;">
+            Connecting to server for latest announcements...
+        </marquee>
+    </div>
+</div>
 <div class="container">
   <div class="sidebar">
     <a href="#" class="active" data-tab="home"><span>📊</span> Dashboard</a>
