@@ -76,7 +76,7 @@ const serviceHub = {
                 
                 return `
                     <div style="flex: 1; position: relative; text-align: center;">
-                        <div style="height: 4px; background: ${isCompleted ? statusColor : '#333'}; border-radius: 2px; margin-bottom: 8px;"></div>
+                        <div style="height: 4px; width: 100%; background: ${isCompleted ? statusColor : '#333'}; border-radius: 2px; margin-bottom: 8px;"></div>
                         <span style="font-size: 9px; color: ${isCompleted ? '#eee' : '#555'}; text-transform: uppercase; display: block;">${label}</span>
                     </div>
                 `;
