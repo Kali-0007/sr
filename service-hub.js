@@ -69,19 +69,6 @@ const serviceHub = {
             if(st.includes('filed') || st.includes('complete')) statusColor = '#00ff88'; 
             if(st.includes('draft')) statusColor = '#bb86fc'; 
 
-            const stepsHtml = (service.labels || []).map((label, index) => {
-                const totalSteps = service.labels.length;
-                const stepThreshold = ((index + 1) / totalSteps) * 100;
-                const isCompleted = service.progress >= stepThreshold;
-                
-                return `
-                    <div style="flex: 1; position: relative; text-align: center;">
-                        <div style="height: 4px; width: 100%; background: ${isCompleted ? statusColor : '#333'}; border-radius: 2px; margin-bottom: 8px;"></div>
-                        <span style="font-size: 9px; color: ${isCompleted ? '#eee' : '#555'}; text-transform: uppercase; display: block;">${label}</span>
-                    </div>
-                `;
-            }).join('');
-
             return `
                 <div class="stat-card" style="background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 15px;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
@@ -97,8 +84,8 @@ const serviceHub = {
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 8px; margin: 25px 0;">
-                        ${stepsHtml}
+                    <div style="width: 100%; height: 6px; background: #333; border-radius: 10px; margin: 25px 0; overflow: hidden; position: relative;">
+                        <div style="width: ${service.progress}%; height: 100%; background: ${statusColor}; box-shadow: 0 0 10px ${statusColor}66; transition: width 0.5s ease;"></div>
                     </div>
 
                     <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
