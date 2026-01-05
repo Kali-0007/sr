@@ -1,8 +1,5 @@
-
 const serviceHub = {
     allServices: [],
-    
-    // FIX: URL ko yahan file ke andar hi define kar diya
     API_URL: "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec",
 
     getTemplate: function() {
@@ -11,7 +8,6 @@ const serviceHub = {
                 <h2 style="font-size: 24px; color: #fff; margin-bottom: 10px;">Dashboard Overview 👋</h2>
                 <p style="color: #888;">Track your active tax compliance and filing status in real-time.</p>
             </div>
-            
             <div id="servicesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
                 <div id="loadingMessage" style="color: #666; padding: 20px;">Fetching your latest updates...</div>
             </div>
@@ -24,15 +20,23 @@ const serviceHub = {
         
         container.innerHTML = this.getTemplate();
 
-        const token = localStorage.getItem('token'); 
+        // FIX: 'token' ko 'userToken' kiya kyunki login mein wahi naam use hua hai
+        const token = localStorage.getItem('userToken'); 
+        
+        if (!token) {
+            console.error("No token found in localStorage");
+            document.getElementById('servicesGrid').innerHTML = '<div style="color: #ff4444; padding: 20px;">Session Expired. Please Login again.</div>';
+            return;
+        }
 
         try {
-            // FIX: WEB_APP_URL ki jagah ab ye this.API_URL use karega
-          const response = await fetch(`${this.API_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
+            console.log("Fetching services for token:", token);
+            const response = await fetch(`${this.API_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
             
             if (!response.ok) throw new Error('Network response was not ok');
             
             const data = await response.json();
+            console.log("Backend Response:", data);
 
             if (data.status === 'success' && data.services && data.services.length > 0) {
                 this.allServices = data.services;
