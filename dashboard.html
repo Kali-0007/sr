@@ -34,86 +34,119 @@ body {
 }
 
   /* --- 1. Top Header Bar --- */
+  /* --- 1. Top Header Bar - Premium Update --- */
   header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
-    background: rgba(17, 17, 17, 0.95);
-    backdrop-filter: blur(10px);
+    padding: 0 40px;
+    background: rgba(22, 26, 39, 0.8); /* Midnight Blue Glass */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    height: 70px;
+    height: 75px;
     border-bottom: 1px solid var(--border);
     box-sizing: border-box;
   }
 
   header .logo {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--primary);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  header .logo img {
+    height: 35px; /* Adjust as per your logo.png */
+    width: auto;
+  }
+
+  header .logo span {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  header .logo span em {
+    font-style: normal;
+    color: var(--primary);
+  }
+
+  .search-bar {
+    position: relative;
+    margin-left: -50px; /* Centering fix */
+  }
+
+  .search-bar input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    padding: 10px 15px 10px 40px;
+    border-radius: 12px;
+    color: #fff;
+    width: 320px;
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+
+  .search-bar input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--secondary);
+    width: 380px;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+  }
+
+  .search-bar::before {
+    content: '🔍'; /* Aap yahan FontAwesome icon bhi laga sakte ho */
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: 0.5;
   }
 
   .header-right {
     display: flex;
     align-items: center;
-    gap: 25px;
-  }
-
-  .search-bar input {
-    background: #222;
-    border: 1px solid #444;
-    padding: 8px 15px;
-    border-radius: 20px;
-    color: #fff;
-    width: 250px;
-    outline: none;
+    gap: 20px;
   }
 
   .user-welcome {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-grey);
-  }
-  .user-welcome span {
-    color: #fff;
-    font-weight: 600;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 15px;
+    border-radius: 30px;
+    border: 1px solid var(--border);
   }
 
-  .icon-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 20px;
-    position: relative;
-  }
-  
-  .badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #ff4757;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+  .user-welcome span {
+    color: var(--primary);
+    font-weight: 700;
   }
 
   .logout-btn-header {
-    background: #ff475720;
-    color: #ff4757;
-    padding: 8px 16px;
-    border-radius: 6px;
+    background: transparent;
+    color: var(--text-grey);
+    padding: 8px 12px;
+    border-radius: 8px;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     transition: 0.3s;
+    border: 1px solid transparent;
   }
-  .logout-btn-header:hover { background: #ff4757; color: #fff; }
+
+  .logout-btn-header:hover { 
+    color: #ff4757; 
+    background: rgba(255, 71, 87, 0.1);
+    border-color: rgba(255, 71, 87, 0.2);
+  }
 
   /* --- 2. Sidebar & Container (Updated) --- */
  /* --- 2. Sidebar & Container (Overlap Fix) --- */
