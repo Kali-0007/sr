@@ -7,21 +7,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #00ff9d;
-    --secondary: #00d4ff;
-    --bg-dark: #0d0d0d;
-    --panel-bg: #1a1a1a;
-    --text-grey: #a1a1aa;
-    --border: #333;
-  }
+    /* Base Colors - Deep Blue-Charcoal Blend */
+    --bg-dark: #0f111a;       /* Pure black ki jagah ye midnight blue-ish charcoal hai */
+    --panel-bg: #161a27;      /* Cards ke liye halka sa light shade background se */
+    
+    /* Neon Accents - Green and Cyber Blue */
+    --primary: #00ff9d;       /* Neon Green (Vibrant) */
+    --secondary: #6366f1;     /* Indigo (Blend ke liye) */
+    --accent: #00d4ff;        /* Cyber Blue */
+    
+    /* Typography & Borders */
+    --text-main: #e2e8f0;     /* Soft white jo aankhon ko chubhega nahi */
+    --text-grey: #94a3b8;     /* Slate grey details ke liye */
+    --border: rgba(255, 255, 255, 0.08); /* Transparent borders (Premium feel) */
+}
 
-  body {
+body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background: var(--bg-dark);
-    color: #fff;
+    /* Is gradient se dashboard flat nahi lagega, ek halki chamak dikhegi corner mein */
+    background: radial-gradient(circle at top right, #1a1e2e, #0f111a);
+    background-attachment: fixed;
+    color: var(--text-main);
     overflow-x: hidden;
-  }
+    line-height: 1.6;
+}
 
   /* --- 1. Top Header Bar --- */
   header {
