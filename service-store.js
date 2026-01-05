@@ -87,10 +87,47 @@ const serviceStore = {
     },
 
     placeOrder: async function(serviceName, price) {
-        alert("Success! Order placed for " + serviceName);
-        document.getElementById('serviceModal').remove();
-    }
-};
+        // 1. Button ko disable karna taaki baar-baar click na ho
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        try {
+            // 2. User ka email nikalna (Login ke waqt save kiya tha)
+            const userEmail = localStorage.getItem('userEmail') || "Guest/Unknown";
+
+            // 3. Google Script ko data bhejna
+            // Hum URL mein action bhej rahe hain aur body mein order details
+            const res = await fetch(`${WEB_APP_URL}?action=place-order`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: userEmail,
+                    service: serviceName,
+                    amount: price
+                })
+            });
+
+            const result = await res.json();
+
+            if (result.status === "success") {
+                alert("🚀 Order Placed Successfully!\nEntry has been recorded in our sheet.");
+                document.getElementById('serviceModal').remove();
+            } else {
+                alert("Error: " + result.message);
+            }
+
+        } catch (err) {
+            console.error("Order error:", err);
+            // Agar "no-cors" ki wajah se error dikhaye par entry sheet mein aa jaye toh ye alert handle kar lega
+            alert("Order Request Sent! Please check the Orders sheet in a moment.");
+            document.getElementById('serviceModal').remove();
+        } finally {
+            // 4. Button wapas normal karna
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+    };
 
 document.addEventListener('DOMContentLoaded', () => {
     if(typeof WEB_APP_URL !== 'undefined') serviceStore.init();
