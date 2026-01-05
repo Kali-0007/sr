@@ -270,6 +270,7 @@ async function handleCredentialResponse(response) {
         if(res.status === "success") {
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
+            localStorage.setItem('userEmail', responsePayload.email);
             messageDiv.innerHTML = '<span class="success">Welcome ' + res.name + '! Redirecting...</span>';
             setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
         } else {
@@ -314,6 +315,7 @@ document.getElementById('loginForm').onsubmit = async function(e) {
         if(res.status === "success") {
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
+            localStorage.setItem('userEmail', res.email || id);
             window.location.href = "dashboard.html";
         } else {
             let msg = res.message;
