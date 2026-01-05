@@ -15,9 +15,13 @@ const serviceHub = {
 
             if (data.status === 'success' && data.services) {
                 this.allServices = data.services;
-                this.renderStats();    // 1. Top boxes bharega
-                this.renderCards();    // 2. Middle cards dikhayega
-                this.renderActivity(); // 3. Bottom activity feed chalayega
+                this.renderStats();    
+                this.renderCards();    
+                this.renderActivity(); 
+                
+                // --- YE WALI LINE ZAROOR ADD KAREIN ---
+                this.loadNotices(); 
+                // --------------------------------------
             }
         } catch (err) {
             console.error("Service Hub Error:", err);
