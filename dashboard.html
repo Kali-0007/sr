@@ -908,10 +908,38 @@ document.getElementById('saveProfileBtn').onclick = async () => {
     }
 };
 
-// 5. Modal Controls
-document.getElementById('editProfileBtn').onclick = () => document.getElementById('editModal').style.display = 'block';
-document.getElementById('closeModalBtn').onclick = () => document.getElementById('editModal').style.display = 'none';
-window.onclick = (e) => { if(e.target == document.getElementById('editModal')) document.getElementById('editModal').style.display = 'none'; };
+// --- 5. Modal Controls (Updated for New Layout) ---
+const editModal = document.getElementById('editModal');
+
+// Modal Open karna
+document.getElementById('editProfileBtn').onclick = () => {
+    editModal.style.display = 'block';
+    // Body scroll rokne ke liye (optional but premium feel)
+    document.body.style.overflow = 'hidden'; 
+};
+
+// Modal Close karne ke saare buttons (X icon aur Cancel button)
+const closeButtons = [
+    document.getElementById('closeModalBtn'), 
+    document.getElementById('closeModalBtnSecondary')
+];
+
+closeButtons.forEach(btn => {
+    if(btn) {
+        btn.onclick = () => {
+            editModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Scroll wapas on
+        };
+    }
+});
+
+// Background click par band karna
+window.onclick = (e) => { 
+    if(e.target == editModal) {
+        editModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+};
 
 // 6. Logout Logic
 const logout = () => { localStorage.clear(); window.location.href="index.html"; };
