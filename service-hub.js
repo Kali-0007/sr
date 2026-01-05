@@ -139,17 +139,36 @@ loadNotices: async function() {
         const activityList = document.getElementById('activityList');
         if (!activityList) return;
 
-        // Displaying last 3 service updates as activity
-        let activities = this.allServices.map(s => `
-            <div style="display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #222;">
-                <div style="color: var(--primary); font-size: 14px;">●</div>
-                <div>
-                    <div style="color: #eee; font-size: 13px;"><b>${s.serviceName}</b> is currently <b>${s.status}</b></div>
-                    <div style="color: #555; font-size: 11px;">Expected by: ${s.deadline}</div>
-                </div>
-            </div>
-        `).slice(0, 3);
+        // Displaying last 4 service updates for a richer look
+        let activities = this.allServices.map(s => {
+            // Logic to pick the right color based on status
+            let stColor = '#ffc107'; // Default: Pending (Yellow)
+            const st = (s.status || '').toLowerCase();
+            if(st.includes('progress')) stColor = 'var(--secondary)'; // In Progress (Indigo/Blue)
+            if(st.includes('filed') || st.includes('complete') || st.includes('success')) stColor = 'var(--primary)'; // Success (Neon Green)
 
-        activityList.innerHTML = activities.length > 0 ? activities.join('') : "No recent activity found.";
+            return `
+                <div style="display: flex; gap: 15px; margin-bottom: 18px; padding-bottom: 15px; border-bottom: 1px solid var(--border); align-items: center;">
+                    <div style="background: ${stColor}15; color: ${stColor}; width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 1px solid ${stColor}25;">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="color: var(--text-main); font-size: 14px; font-weight: 600;">${s.serviceName}</div>
+                            <span style="font-size: 10px; padding: 2px 8px; border-radius: 6px; background: ${stColor}10; color: ${stColor}; border: 1px solid ${stColor}30; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">
+                                ${s.status}
+                            </span>
+                        </div>
+                        <div style="color: var(--text-grey); font-size: 11px; margin-top: 5px; display: flex; align-items: center; gap: 5px;">
+                            <i class="far fa-clock"></i> Updated: ${s.deadline}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).slice(0, 4); // Humne 3 se badha kar 4 kar diya taaki box khali na lage
+
+        activityList.innerHTML = activities.length > 0 ? activities.join('') : 
+            `<div style="color: var(--text-grey); text-align: center; padding: 30px; font-size: 14px;">No active orders or activity yet.</div>`;
     }
 };
