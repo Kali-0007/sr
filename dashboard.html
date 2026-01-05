@@ -608,7 +608,18 @@ document.getElementById('logoutLink').onclick = (e) => { e.preventDefault(); log
 
 // Initial Execution
 loadProfile();
-
+// Ye function patti ko niche sarkaane mein help karega
+function showTicker(message) {
+    const ticker = document.getElementById('notificationTicker');
+    const tickerMsg = document.getElementById('tickerMessage');
+    const container = document.querySelector('.container');
+    
+    if (message) {
+        tickerMsg.innerText = message;
+        ticker.style.display = 'block';
+        container.style.marginTop = '105px'; // 70px (header) + 35px (ticker)
+    }
+}
     // Ye function humne niche isliye move kiya hai taaki JS files pehle load ho jayein
     window.onload = () => {
         if (typeof serviceHub !== 'undefined') {
