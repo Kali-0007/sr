@@ -100,14 +100,36 @@ loadNotices: async function() {
         const data = await res.json();
 
         if (data.status === 'success' && data.notices && data.notices.length > 0) {
-            // Saare messages ko jodein
-            const allMsgs = data.notices.map(n => n.message).join(' | +++ | ');
-            
+            // 1. Saare messages ko screen par jod kar dikhayenge
+            const allMsgs = data.notices.map(n => n.message).join('   |   ⭐   |   ');
             tickerMsg.innerText = allMsgs;
+
+            // 2. Latest notice ka type check karenge (Sheet ke Dropdown se jo aayega)
+            // Hum [0] isliye le rahe hain kyunki reverse() ki wajah se latest pehle hai
+            const latestType = (data.notices[0].type || 'Info').toLowerCase();
+
+            // 3. Rang badalne ka logic (Dynamic Colors)
+            if (latestType === 'urgent') {
+                ticker.style.background = '#ff4757'; // Bright Red
+                ticker.style.borderBottom = '2px solid #b33939';
+                tickerMsg.style.color = '#ffffff'; // White text for better contrast
+            } else if (latestType === 'warning') {
+                ticker.style.background = '#ffa502'; // Bright Orange
+                ticker.style.borderBottom = '2px solid #e17055';
+                tickerMsg.style.color = '#ffffff';
+            } else if (latestType === 'success') {
+                ticker.style.background = '#2ed573'; // Fresh Green
+                ticker.style.borderBottom = '2px solid #26af5a';
+                tickerMsg.style.color = '#ffffff';
+            } else {
+                // Default Blue (Info ke liye)
+                ticker.style.background = '#1e90ff'; 
+                ticker.style.borderBottom = '2px solid #0984e3';
+                tickerMsg.style.color = '#ffffff';
+            }
+
             ticker.style.display = 'block';
-            
-            // Dashboard ko 35px aur niche sarkaayein (70 header + 35 ticker = 105px)
-            container.style.marginTop = '105px';
+            if(container) container.style.marginTop = '105px';
         }
     } catch (e) {
         console.error("Notice Load Error:", e);
