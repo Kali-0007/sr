@@ -87,21 +87,19 @@ const serviceStore = {
     },
 
     placeOrder: async function(serviceName, price) {
-        // 1. Button ko disable karna taaki baar-baar click na ho
         const btn = event.target;
         const originalText = btn.innerText;
         btn.innerText = "Processing...";
         btn.disabled = true;
 
         try {
-            // 2. User ka email nikalna (Login ke waqt save kiya tha)
             const userEmail = localStorage.getItem('userEmail') || "Guest/Unknown";
 
-            // 3. Google Script ko data bhejna
-            // Hum URL mein action bhej rahe hain aur body mein order details
+            // FIX: Body ke andar bhi action: 'place-order' bhej rahe hain
             const res = await fetch(`${WEB_APP_URL}?action=place-order`, {
                 method: 'POST',
                 body: JSON.stringify({
+                    action: 'place-order', // <--- YE ZAROORI HAI
                     email: userEmail,
                     service: serviceName,
                     amount: price
@@ -111,7 +109,7 @@ const serviceStore = {
             const result = await res.json();
 
             if (result.status === "success") {
-                alert("🚀 Order Placed Successfully!\nEntry has been recorded in our sheet.");
+                alert("🚀 Order Placed Successfully!");
                 document.getElementById('serviceModal').remove();
             } else {
                 alert("Error: " + result.message);
@@ -119,11 +117,10 @@ const serviceStore = {
 
         } catch (err) {
             console.error("Order error:", err);
-            // Agar "no-cors" ki wajah se error dikhaye par entry sheet mein aa jaye toh ye alert handle kar lega
-            alert("Order Request Sent! Please check the Orders sheet in a moment.");
-            document.getElementById('serviceModal').remove();
+            // Agar CORS error aati hai par data sheet mein chala jata hai
+            alert("Order Request Sent! Please check the Orders sheet.");
+            if(document.getElementById('serviceModal')) document.getElementById('serviceModal').remove();
         } finally {
-            // 4. Button wapas normal karna
             btn.innerText = originalText;
             btn.disabled = false;
         }
