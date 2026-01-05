@@ -29,7 +29,7 @@ const serviceHub = {
 
         try {
             
-            const response = await fetch(`${SCRIPT_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
+           const response = await fetch(`${WEB_APP_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
             const data = await response.json();
 
             if (data.status === 'success' && data.services && data.services.length > 0) {
