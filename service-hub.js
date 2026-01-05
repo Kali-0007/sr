@@ -19,23 +19,20 @@ const serviceHub = {
     },
 
     init: async function() {
-    // 'returns' ki jagah 'dynamicServiceContent' use karein
-    const container = document.getElementById('dynamicServiceContent'); 
-    
-    if (!container) {
-        console.error("Container 'dynamicServiceContent' nahi mila!");
-        return;
-    }
-    
-    container.innerHTML = this.getTemplate();
+        const container = document.getElementById('dynamicServiceContent'); 
+        if (!container) return;
+        
+        container.innerHTML = this.getTemplate();
 
-        const token = localStorage.getItem('token');
+        // CHANGE 1: userToken ko badal kar 'token' kar diya
+        const token = localStorage.getItem('token'); 
+
         try {
-            // Action 'get-service-hub' call kar rahe hain
-            const response = await fetch(`${DOC_HUB_API}?action=get-service-hub&token=${encodeURIComponent(token)}`);
+            
+            const response = await fetch(`${SCRIPT_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
             const data = await response.json();
 
-            if (data.status === 'success' && data.services.length > 0) {
+            if (data.status === 'success' && data.services && data.services.length > 0) {
                 this.allServices = data.services;
                 this.renderCards();
             } else {
@@ -50,7 +47,6 @@ const serviceHub = {
             console.error("Service Hub Error:", err);
         }
     },
-
     renderCards: function() {
         const grid = document.getElementById('servicesGrid');
         
