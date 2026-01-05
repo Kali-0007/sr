@@ -181,14 +181,40 @@ body {
   }
 
   /* Progress Tracker */
-  .progress-section {
+  /* Progress Tracker - Premium Update */
+.progress-section {
     background: var(--panel-bg);
     padding: 25px;
-    border-radius: 12px;
+    border-radius: 16px; /* Thoda zyada round corners modern lagte hain */
     margin-bottom: 30px;
     border: 1px solid var(--border);
-  }
-  .progress-title { font-size: 14px; color: var(--text-grey); margin-bottom: 15px; }
+    
+    /* Subtle depth effect */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background mein ek bahut halka glow taaki "Flat" na lage */
+.progress-section::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 255, 157, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.progress-title { 
+    font-size: 13px; /* Thoda chota aur sophisticated */
+    text-transform: uppercase; /* Professional look */
+    letter-spacing: 1px; 
+    color: var(--text-grey); 
+    margin-bottom: 15px; 
+    font-weight: 600;
+}
   
   .stepper {
     display: flex;
