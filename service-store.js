@@ -57,9 +57,40 @@ const serviceStore = {
                         ₹${s.oPrice}
                     </div>
                     <div style="font-size: 11px; color: var(--secondary); margin-bottom: 15px;">⏱ Delivery: ${s.time}</div>
-                    <button class="service-btn">Buy Now</button>
+                    <button class="service-btn" style="background: var(--secondary);" onclick="serviceStore.showDetails('${s.name}')">Get Started</button>
                 </div>
             `;
         }).join('');
+    }
+    // Ye function details dikhayega
+    showDetails: function(serviceName) {
+        const s = this.allServices.find(x => x.name === serviceName);
+        if(!s) return;
+
+        // Documents ko list mein badalna
+        const docList = s.docs ? s.docs.split(',').map(d => `<li>✅ ${d.trim()}</li>`).join('') : '<li>No docs needed</li>';
+
+        const modalHtml = `
+            <div id="serviceModal" class="modal" style="display:block;">
+                <div class="modal-content" style="max-width: 500px; border-top: 4px solid var(--primary);">
+                    <span onclick="document.getElementById('serviceModal').remove()" style="float:right; cursor:pointer; font-size:24px;">&times;</span>
+                    <h2 style="color:var(--primary);">${s.name}</h2>
+                    <p style="font-size:14px; color:#ccc;">${s.desc}</p>
+                    
+                    <div style="background:#222; padding:15px; border-radius:10px; margin:15px 0;">
+                        <h4 style="margin:0 0 10px 0; color:var(--secondary);">Required Documents:</h4>
+                        <ul style="list-style:none; padding:0; font-size:13px; color:#ddd;">
+                            ${docList}
+                        </ul>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="font-size:20px; font-weight:bold;">₹${s.oPrice}</div>
+                        <button class="service-btn" style="width:auto; padding:8px 20px;">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
     }
 };
