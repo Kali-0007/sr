@@ -47,7 +47,7 @@ body {
     width: 100%;
     top: 0;
     z-index: 1000;
-    height: 75px;
+    height: 80px;
     border-bottom: 1px solid var(--border);
     box-sizing: border-box;
   }
@@ -60,9 +60,10 @@ body {
   }
 
   header .logo img {
-    height: 35px; /* Adjust as per your logo.png */
-    width: auto;
-  }
+    /* Logo ko responsive rakhega aur header ke bahar nahi jane dega */
+    max-height: 60px; 
+    transition: transform 0.3s ease;
+}
 
   header .logo span {
     font-size: 22px;
