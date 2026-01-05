@@ -112,8 +112,9 @@
     display: flex; 
     margin-top: 70px; 
     min-height: calc(100vh - 70px); 
-    position: relative; /* Sidebar ko iske borders ke andar lock karne ke liye */
-    align-items: stretch; /* Taaki sidebar aur content ki height barabar chale */
+    position: relative;
+    align-items: stretch;
+    transition: margin-top 0.4s ease; /* <--- Bas ye line add karni hai */
   }
 
   .sidebar {
