@@ -898,6 +898,7 @@ document.getElementById('saveProfileBtn').onclick = async () => {
         if(data.status === "success") {
             alert("Profile updated!");
             document.getElementById('editModal').style.display = 'none';
+          document.body.style.overflow = 'auto'; // Isse scroll wapas chalu ho jayega
             loadProfile();
         } else {
             alert("Error: " + data.message);
