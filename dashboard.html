@@ -906,8 +906,8 @@ async function loadProfile() {
         if(data.status === "success"){
             const p = data.profile;
             
-            // ==========================================
-            // 🔥 NEW ALERT LOGIC (NEON BOX & TICKER)
+            // 1. ==========================================
+            // 🔥 ALERT LOGIC (NEON BOX & TICKER)
             // ==========================================
             const userAlertBox = document.getElementById('userAlertContainer');
             const alertText = document.getElementById('alertMessageText');
@@ -915,25 +915,48 @@ async function loadProfile() {
             const tickerMsg = document.getElementById('tickerMessage');
 
             if (p.user_alert && p.user_alert.toString().trim() !== "") {
-                // 1. Show Neon Card
                 if(userAlertBox) userAlertBox.style.display = 'block';
                 if(alertText) alertText.textContent = p.user_alert;
-
-                // 2. Show Top Ticker & Adjust Layout
                 if(topTicker && tickerMsg) {
                     topTicker.style.display = 'block';
                     tickerMsg.textContent = p.user_alert;
-                    // Ticker aane se dashboard ko thoda niche shift karo taaki overlap na ho
                     document.querySelector('.container').style.marginTop = '115px';
                 }
             } else {
-                // Hide everything if no alert
                 if(userAlertBox) userAlertBox.style.display = 'none';
                 if(topTicker) {
                     topTicker.style.display = 'none';
                     document.querySelector('.container').style.marginTop = '70px';
                 }
             }
+
+            // 2. ==========================================
+            // 🔥 NEW: SUPPORT RESPONSE LOGIC (Query + Remark)
+            // ==========================================
+            // Check karein ki admin ka koi response aaya hai ya nahi
+            if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
+                if (typeof supportHub !== 'undefined' && supportHub.showResponse) {
+                    // Ye function aapke Query (Column Y) aur Response (Column X) ko card mein dikhayega
+                    supportHub.showResponse(p.last_query, p.support_response);
+                }
+            } else {
+                // Agar koi reply nahi hai, toh card ko chhupa do
+                const responseCard = document.getElementById('adminResponseCard');
+                if(responseCard) responseCard.style.display = 'none';
+            }
+
+            // 3. ==========================================
+            // UI PE DATA FILL KARNA (Name, Email etc.)
+            // ==========================================
+            if(document.getElementById('firstNameDisplay')) {
+                document.getElementById('firstNameDisplay').textContent = p.firstName || "User";
+            }
+            // ... baaki fields agar hain ...
+        }
+    } catch (err) {
+        console.error("Profile load error:", err);
+    }
+}
             // ==========================================
 
             // Header Name Update
