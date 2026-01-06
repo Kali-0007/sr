@@ -903,12 +903,10 @@ async function loadProfile() {
         const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
         const data = await res.json();
 
-        if(data.status === "success"){
+        if (data.status === "success") {
             const p = data.profile;
             
-            // 1. ==========================================
-            // 🔥 ALERT LOGIC (NEON BOX & TICKER)
-            // ==========================================
+            // 1. ALERT LOGIC
             const userAlertBox = document.getElementById('userAlertContainer');
             const alertText = document.getElementById('alertMessageText');
             const topTicker = document.getElementById('notificationTicker');
@@ -930,29 +928,22 @@ async function loadProfile() {
                 }
             }
 
-            // 2. ==========================================
-            // 🔥 NEW: SUPPORT RESPONSE LOGIC (Query + Remark)
-            // ==========================================
-            // Check karein ki admin ka koi response aaya hai ya nahi
+            // 2. SUPPORT RESPONSE LOGIC
             if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
                 if (typeof supportHub !== 'undefined' && supportHub.showResponse) {
-                    // Ye function aapke Query (Column Y) aur Response (Column X) ko card mein dikhayega
                     supportHub.showResponse(p.last_query, p.support_response);
                 }
             } else {
-                // Agar koi reply nahi hai, toh card ko chhupa do
                 const responseCard = document.getElementById('adminResponseCard');
                 if(responseCard) responseCard.style.display = 'none';
             }
 
-            // 3. ==========================================
-            // UI PE DATA FILL KARNA (Name, Email etc.)
-            // ==========================================
+            // 3. UI DATA FILL
             if(document.getElementById('firstNameDisplay')) {
                 document.getElementById('firstNameDisplay').textContent = p.firstName || "User";
             }
-            // ... baaki fields agar hain ...
-        }
+        } // <--- YE BRACKET MISSING THA (Closing for 'if status success')
+
     } catch (err) {
         console.error("Profile load error:", err);
     }
