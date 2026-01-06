@@ -17,27 +17,24 @@ const supportHub = {
     },
 
     // 2. Email Logic
-  openEmail: function() {
+openEmail: function() {
         const userName = document.getElementById('firstNameDisplay')?.textContent || "User";
+        const email = this.config.emailAddress;
         const subject = encodeURIComponent(`Priority Support Request: ${userName}`);
         const body = encodeURIComponent("Dear TaxEase Team,\n\nI need assistance with the following:\n\n[Describe your issue here]\n\nRegards,\n" + userName);
         
-        // 1. Mailto link try karega
-        const mailtoLink = `mailto:${this.config.emailAddress}?subject=${subject}&body=${body}`;
-        
-        // Ek chota sa check: Desktop par aksar mailto block ho jata hai
-        // Hum link open karenge, agar 2 second tak kuch nahi hua, toh alert dikhayenge
-        const start = Date.now();
-        window.location.href = mailtoLink;
+        // Check if user is on Mobile or Desktop
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        setTimeout(() => {
-            if (Date.now() - start < 2000) {
-                // Agar email app nahi khula, toh ye message aayega
-                alert(`Direct email app not found.\n\nPlease send your query to: ${this.config.emailAddress}\nSubject: ${decodeURIComponent(subject)}`);
-            }
-        }, 500);
+        if (isMobile) {
+            // Mobile par: Direct App khulega
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        } else {
+            // Desktop par: Gmail Website khulegi naye tab mein
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+            window.open(gmailUrl, '_blank');
+        }
     },
-
     // 3. Callback Logic (Triggering your existing footer modal)
     requestCallback: function() {
         // Footer.js mein function ka naam 'ftr_openModal' hai
