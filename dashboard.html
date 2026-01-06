@@ -893,9 +893,7 @@ tabs.forEach(tab => {
     });
 });
 
-// 3. Load Profile Function (Professional Alert Logic Included)
-// --- DASHBOARD CORE LOGIC START ---
-
+// 3. Load Profile Function (Fixed & Balanced)
 async function loadProfile() {
     const token = localStorage.getItem('userToken')?.trim();
     if (!token) return;
@@ -922,7 +920,6 @@ async function loadProfile() {
             const resCard = document.getElementById('adminResponseCard');
             const rText = document.getElementById('supportResponseText');
             const qDisp = document.getElementById('userQueryDisplay');
-
             if (p.support_response && p.support_response !== "—" && p.support_response.trim() !== "") {
                 if (resCard) resCard.style.display = 'block';
                 if (rText) rText.textContent = p.support_response;
@@ -931,29 +928,12 @@ async function loadProfile() {
                 if (resCard) resCard.style.display = 'none';
             }
 
-            // 3. Name Display
-            const nameDisp = document.getElementById('firstNameDisplay');
-            if (nameDisp) nameDisp.textContent = p.firstName || "User";
-        }
-    } catch (err) {
-        console.error("Load Profile Error:", err);
-    }
-}
-
-// Ye line function ke bahar honi chahiye taaki page load hote hi ye chale
-window.addEventListener('DOMContentLoaded', loadProfile);
-
-// --- DASHBOARD CORE LOGIC END ---
-            // ==========================================
-
-            // Header Name Update
+            // 3. Header & UI Toggle
             document.getElementById('firstNameDisplay').textContent = p.firstName || "User";
-            
-            // UI Toggle
             document.getElementById('profileLoading').style.display = 'none';
             document.getElementById('profileSection').style.display = 'block';
 
-            // Profile Grid Rendering
+            // 4. Profile Grid Rendering
             const grid = document.getElementById('profileGrid');
             grid.innerHTML = '';
             const fields = [
@@ -965,13 +945,13 @@ window.addEventListener('DOMContentLoaded', loadProfile);
                 ["Address", `${p.city || ""}, ${p.state || ""}, ${p.country || ""} - ${p.pincode || ""}`],
                 ["Member Since", p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-IN') : "N/A"]
             ];
-            fields.forEach(([label, value])=>{
-                const l = document.createElement('div'); l.className="info-label"; l.textContent=label+":";
-                const v = document.createElement('div'); v.className="info-value"; v.textContent=value;
+            fields.forEach(([label, value]) => {
+                const l = document.createElement('div'); l.className = "info-label"; l.textContent = label + ":";
+                const v = document.createElement('div'); v.className = "info-value"; v.textContent = value;
                 grid.appendChild(l); grid.appendChild(v);
             });
 
-            // Pre-fill Modal for Editing
+            // 5. Pre-fill Modal for Editing
             document.getElementById('editUsername').value = p.username || "";
             document.getElementById('editFirstName').value = p.firstName || "";
             document.getElementById('editSurname').value = p.surname || "";
@@ -981,8 +961,8 @@ window.addEventListener('DOMContentLoaded', loadProfile);
             document.getElementById('editState').value = p.state || "";
             document.getElementById('editCountry').value = p.country || "";
             document.getElementById('editPincode').value = p.pincode || "";
-      
-  } else {
+
+        } else {
             alert("Session expired! Please login again.");
             localStorage.clear();
             window.location.href = "login.html";
@@ -992,8 +972,10 @@ window.addEventListener('DOMContentLoaded', loadProfile);
     }
 }
 
-// Ye line sabse niche (Function ke bahar)
+// Ye line function ke bahar honi chahiye
 window.addEventListener('DOMContentLoaded', loadProfile);
+
+
 // 4. Save Profile Logic (Full Data Sync)
 document.getElementById('saveProfileBtn').onclick = async () => {
     const btn = document.getElementById('saveProfileBtn');
