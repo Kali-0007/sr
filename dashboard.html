@@ -895,59 +895,61 @@ tabs.forEach(tab => {
 
 // 3. Load Profile Function (Professional Alert Logic Included)
 async function loadProfile() {
-    const token = localStorage.getItem('userToken')?.trim();
-    if (!token) return;
- 
-    try {
-        const formData = new URLSearchParams({ action: "load-profile", token: token });
-        const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
-        const data = await res.json();
- 
-        if(data.status === "success"){
-            const p = data.profile;
-            
-            // ==========================================
-            // 🔥 NEW ALERT LOGIC (NEON BOX & TICKER)
-            // ==========================================
-            const userAlertBox = document.getElementById('userAlertContainer');
-            const alertText = document.getElementById('alertMessageText');
-            const topTicker = document.getElementById('notificationTicker');
-            const tickerMsg = document.getElementById('tickerMessage');
- 
-            if (p.user_alert && p.user_alert.toString().trim() !== "") {
-                // 1. Show Neon Card
-                if(userAlertBox) userAlertBox.style.display = 'block';
-                if(alertText) alertText.textContent = p.user_alert;
- 
-                // 2. Show Top Ticker & Adjust Layout
-                if(topTicker && tickerMsg) {
-                    topTicker.style.display = 'block';
-                    tickerMsg.textContent = p.user_alert;
-                    // Ticker aane se dashboard ko thoda niche shift karo taaki overlap na ho
-                    document.querySelector('.container').style.marginTop = '115px';
-                }
-            } else {
-                // Hide everything if no alert
-                if(userAlertBox) userAlertBox.style.display = 'none';
-                if(topTicker) {
-                    topTicker.style.display = 'none';
-                    document.querySelector('.container').style.marginTop = '70px';
-                }
-            }
-         try {
-    // --- Support Response Logic ---
-    if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
-        if (window.supportHub && typeof supportHub.showResponse === 'function') {
-            supportHub.showResponse(p.last_query, p.support_response);
+    const token = localStorage.getItem('userToken')?.trim();
+    if (!token) return;
+
+    try {
+        const formData = new URLSearchParams({ action: "load-profile", token: token });
+        const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
+        const data = await res.json();
+
+        if(data.status === "success"){
+            const p = data.profile;
+            
+            // --- ALERT LOGIC (Jo pehle se chal raha tha) ---
+            const userAlertBox = document.getElementById('userAlertContainer');
+            const alertText = document.getElementById('alertMessageText');
+            const topTicker = document.getElementById('notificationTicker');
+            const tickerMsg = document.getElementById('tickerMessage');
+
+            if (p.user_alert && p.user_alert.toString().trim() !== "") {
+                if(userAlertBox) userAlertBox.style.display = 'block';
+                if(alertText) alertText.textContent = p.user_alert;
+                if(topTicker && tickerMsg) {
+                    topTicker.style.display = 'block';
+                    tickerMsg.textContent = p.user_alert;
+                    document.querySelector('.container').style.marginTop = '115px';
+                }
+            } else {
+                if(userAlertBox) userAlertBox.style.display = 'none';
+                if(topTicker) {
+                    topTicker.style.display = 'none';
+                    document.querySelector('.container').style.marginTop = '70px';
+                }
+            }
+
+            // --- AAPKA SAHI CODE (Yahan Insert Kiya Hai) ---
+            try {
+                if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
+                    if (window.supportHub && typeof supportHub.showResponse === 'function') {
+                        supportHub.showResponse(p.last_query, p.support_response);
+                    }
+                } else {
+                    const resCard = document.getElementById('adminResponseCard');
+                    if (resCard) { resCard.style.display = 'none'; }
+                }
+            } catch (err) {
+                console.error("Support Logic Error:", err);
+            }
+
+            // UI Data (Name)
+            if(document.getElementById('firstNameDisplay')) {
+                document.getElementById('firstNameDisplay').textContent = p.firstName || "User";
+            }
         }
-    } else {
-        const resCard = document.getElementById('adminResponseCard');
-        if (resCard) {
-            resCard.style.display = 'none';
-        }
+    } catch (err) {
+        console.error("Profile load error:", err);
     }
-} catch (err) {
-    console.error(err);
 }
             // ==========================================
 
