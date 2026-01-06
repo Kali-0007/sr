@@ -930,26 +930,26 @@ async function loadProfile() {
 
             // --- AAPKA SAHI CODE (Yahan Insert Kiya Hai) ---
             try {
-                if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
-                    if (window.supportHub && typeof supportHub.showResponse === 'function') {
-                        supportHub.showResponse(p.last_query, p.support_response);
-                    }
-                } else {
-                    const resCard = document.getElementById('adminResponseCard');
-                    if (resCard) { resCard.style.display = 'none'; }
-                }
-            } catch (err) {
-                console.error("Support Logic Error:", err);
-            }
-
-            // UI Data (Name)
-            if(document.getElementById('firstNameDisplay')) {
-                document.getElementById('firstNameDisplay').textContent = p.firstName || "User";
-            }
+    // --- Support Response Logic ---
+    if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
+        if (window.supportHub && typeof supportHub.showResponse === 'function') {
+            supportHub.showResponse(p.last_query, p.support_response);
         }
-    } catch (err) {
-        console.error("Profile load error:", err);
+    } else {
+        const resCard = document.getElementById('adminResponseCard');
+        if (resCard) {
+            resCard.style.display = 'none';  // <-- Fixed yahan
+        }
     }
+
+    // UI Data (Name)
+    const firstNameDisplay = document.getElementById('firstNameDisplay');
+    if (firstNameDisplay) {
+        firstNameDisplay.textContent = p.firstName || "User";
+    }
+
+} catch (err) {
+    console.error("Profile load error:", err);
 }
             // ==========================================
 
