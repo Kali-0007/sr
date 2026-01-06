@@ -897,51 +897,63 @@ tabs.forEach(tab => {
 async function loadProfile() {
     const token = localStorage.getItem('userToken')?.trim();
     if (!token) return;
+
     try {
         const formData = new URLSearchParams({ action: "load-profile", token: token });
         const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
         const data = await res.json();
-        if (data.status === "success") {
+
+        if(data.status === "success"){
             const p = data.profile;
-            // 1. ALERT LOGIC
+            
+            // ==========================================
+            // 🔥 ALERT LOGIC (NEON BOX & TICKER)
+            // ==========================================
             const userAlertBox = document.getElementById('userAlertContainer');
             const alertText = document.getElementById('alertMessageText');
             const topTicker = document.getElementById('notificationTicker');
             const tickerMsg = document.getElementById('tickerMessage');
+
             if (p.user_alert && p.user_alert.toString().trim() !== "") {
-                if (userAlertBox) userAlertBox.style.display = 'block';
-                if (alertText) alertText.textContent = p.user_alert;
-                if (topTicker && tickerMsg) {
+                if(userAlertBox) userAlertBox.style.display = 'block';
+                if(alertText) alertText.textContent = p.user_alert;
+
+                if(topTicker && tickerMsg) {
                     topTicker.style.display = 'block';
                     tickerMsg.textContent = p.user_alert;
                     document.querySelector('.container').style.marginTop = '115px';
                 }
             } else {
-                if (userAlertBox) userAlertBox.style.display = 'none';
-                if (topTicker) {
+                if(userAlertBox) userAlertBox.style.display = 'none';
+                if(topTicker) {
                     topTicker.style.display = 'none';
                     document.querySelector('.container').style.marginTop = '70px';
                 }
             }
-            // 2. SUPPORT RESPONSE LOGIC
+
+            // ==========================================
+            // 🔥 SUPPORT RESPONSE LOGIC (Adding here)
+            // ==========================================
             if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
-                if (typeof supportHub !== 'undefined' && supportHub.showResponse) {
+                // Agar supportHub load ho chuka hai, toh response dikhao
+                if (window.supportHub && typeof supportHub.showResponse === 'function') {
                     supportHub.showResponse(p.last_query, p.support_response);
                 }
             } else {
-                const responseCard = document.getElementById('adminResponseCard');
-                if (responseCard) responseCard.style.display = 'none';
+                // Agar koi jawab nahi hai toh card chhupa rahein
+                const resCard = document.getElementById('adminResponseCard');
+                if(resCard) resCard.style.display = 'none';
             }
-            // 3. UI DATA FILL
+
+            // UI Data Fill (Aapka baaki ka dashboard logic)
             const nameDisp = document.getElementById('firstNameDisplay');
-            if (nameDisp) {
-                nameDisp.textContent = p.firstName || "User";
-            }
-        }
+            if(nameDisp) nameDisp.textContent = p.firstName || "User";
+
+        } // <--- Ye 'success' band hua
     } catch (err) {
         console.error("Profile load error:", err);
-    }
-}
+    } // <--- Ye 'try-catch' band hua
+} // <--- Ye 'function' band hua
             // ==========================================
 
             // Header Name Update
