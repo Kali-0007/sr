@@ -44,7 +44,7 @@ const supportHub = {
     },
 
     // 🔥 4. TICKETING LOGIC (YAHAN ADD KIYA HAI)
-    submitTicket: function() {
+   submitTicket: function() {
         const queryField = document.getElementById('userSupportQuery');
         const query = queryField.value.trim();
         const userName = document.getElementById('firstNameDisplay')?.textContent || "Unknown User";
@@ -61,31 +61,34 @@ const supportHub = {
         btn.innerText = "Submitting...";
         btn.disabled = true;
 
-        // Calling Google Apps Script Function
-        // Calling Google Apps Script Function (Using the standard doPost way)
-        google.script.run
-            .withSuccessHandler((response) => {
-                if(response.status === "success") {
-                    alert("Ticket Submitted! Hum jaldi aapko isi dashboard par jawab denge.");
-                    queryField.value = ""; 
-                } else {
-                    alert("Error: " + response.message);
-                }
-                btn.innerText = originalText;
-                btn.disabled = false;
+        // 🔥 APNA SCRIPT URL YAHAN DALO (Deployment wala)
+        const SCRIPT_URL = "APNA_G_SCRIPT_WEBAPP_URL_YAHAN_DALO";
+
+        // Fetch API use kar rahe hain taaki "google is not defined" error na aaye
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors", // Google Script bypass ke liye
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+                "action": "submit-support-ticket",
+                "name": userName,
+                "email": userEmail,
+                "query": query
             })
-            .withFailureHandler((err) => {
-                alert("Network Error: Ticket submit nahi ho paya.");
-                btn.innerText = originalText;
-                btn.disabled = false;
-            })
-            // YE LINE DEKHO: Hum action bhej rahe hain taaki doPost pehchan sake
-            .doPost({
-                action: "submit-support-ticket",
-                name: userName,
-                email: userEmail,
-                query: query
-            });
+        })
+        .then(() => {
+            // no-cors mode mein response read nahi hota par data chala jata hai
+            alert("Ticket Submitted! Hum jaldi aapko isi dashboard par jawab denge.");
+            queryField.value = ""; 
+            btn.innerText = originalText;
+            btn.disabled = false;
+        })
+        .catch((err) => {
+            console.error("Error:", err);
+            alert("Network Error: Ticket submit nahi ho paya. WhatsApp try karein.");
+            btn.innerText = originalText;
+            btn.disabled = false;
+        });
     },
 
     // 5. Admin Remark Logic
