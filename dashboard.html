@@ -656,6 +656,25 @@ header .logo:hover img {
   <div class="main-content">
     
     <div id="home" class="tab-content">
+      <div id="userAlertContainer" style="display: none; margin-bottom: 25px;">
+    <div style="background: rgba(255, 71, 87, 0.08); border: 1px solid #ff4757; border-radius: 16px; padding: 20px; box-shadow: 0 0 20px rgba(255, 71, 87, 0.15); position: relative; overflow: hidden; animation: pulse-alert 2s infinite;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="background: #ff4757; width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);">⚠️</div>
+            <div>
+                <h4 style="margin: 0; color: #ff4757; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; font-weight: 800;">Action Required</h4>
+                <p id="alertMessageText" style="margin: 5px 0 0 0; color: #fff; font-size: 15px; font-weight: 500;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes pulse-alert {
+    0% { box-shadow: 0 0 10px rgba(255, 71, 87, 0.1); }
+    50% { box-shadow: 0 0 25px rgba(255, 71, 87, 0.3); }
+    100% { box-shadow: 0 0 10px rgba(255, 71, 87, 0.1); }
+}
+</style>
     <div id="statCardsContainer" class="overview-grid">
         </div>
 
