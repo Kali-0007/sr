@@ -906,7 +906,7 @@ async function loadProfile() {
         if (data.status === "success") {
             const p = data.profile;
 
-            // 1. ALERT LOGIC (NEON BOX & TICKER)
+            // 1. ALERT LOGIC
             const userAlertBox = document.getElementById('userAlertContainer');
             const alertText = document.getElementById('alertMessageText');
             const topTicker = document.getElementById('notificationTicker');
@@ -915,7 +915,6 @@ async function loadProfile() {
             if (p.user_alert && p.user_alert.toString().trim() !== "") {
                 if (userAlertBox) userAlertBox.style.display = 'block';
                 if (alertText) alertText.textContent = p.user_alert;
-
                 if (topTicker && tickerMsg) {
                     topTicker.style.display = 'block';
                     tickerMsg.textContent = p.user_alert;
@@ -929,7 +928,7 @@ async function loadProfile() {
                 }
             }
 
-            // 2. SUPPORT RESPONSE LOGIC (Query + Remark)
+            // 2. SUPPORT RESPONSE LOGIC
             if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
                 if (typeof supportHub !== 'undefined' && supportHub.showResponse) {
                     supportHub.showResponse(p.last_query, p.support_response);
@@ -939,17 +938,16 @@ async function loadProfile() {
                 if (responseCard) responseCard.style.display = 'none';
             }
 
-            // 3. UI DATA FILL (Name, etc.)
-            if (document.getElementById('firstNameDisplay')) {
-                document.getElementById('firstNameDisplay').textContent = p.firstName || "User";
+            // 3. UI DATA FILL
+            const nameDisp = document.getElementById('firstNameDisplay');
+            if (nameDisp) {
+                nameDisp.textContent = p.firstName || "User";
             }
-
-        } // Closing for if(data.status === "success")
-
+        }
     } catch (err) {
         console.error("Profile load error:", err);
     }
-} // Closing for async function loadProfile()
+}
             // ==========================================
 
             // Header Name Update
