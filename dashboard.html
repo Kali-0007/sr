@@ -930,27 +930,32 @@ async function loadProfile() {
 
             // --- AAPKA SAHI CODE (Yahan Insert Kiya Hai) ---
             try {
-    // --- Support Response Logic ---
+    // --- Support Response Logic (REPLACE THIS SECTION) ---
+try {
+    const resCard = document.getElementById('adminResponseCard');
+    const qDisp = document.getElementById('userQueryDisplay');
+    const rText = document.getElementById('supportResponseText');
+
+    // Check if response exists and is not just a placeholder
     if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
+        
+        // 1. Direct UI Update (Error-proof)
+        if (resCard) resCard.style.display = 'block';
+        if (rText) rText.textContent = p.support_response;
+        if (qDisp) qDisp.textContent = p.last_query || "Your Recent Query";
+        
+        // 2. Optional: Trigger support-hub.js if it's loaded
         if (window.supportHub && typeof supportHub.showResponse === 'function') {
             supportHub.showResponse(p.last_query, p.support_response);
         }
     } else {
-        const resCard = document.getElementById('adminResponseCard');
-        if (resCard) {
-            resCard.style.display = 'none';  // <-- Fixed yahan
-        }
+        // Hide card if no response
+        if (resCard) resCard.style.display = 'none';
     }
-
-    // UI Data (Name)
-    const firstNameDisplay = document.getElementById('firstNameDisplay');
-    if (firstNameDisplay) {
-        firstNameDisplay.textContent = p.firstName || "User";
-    }
-
-} catch (err) {
-    console.error("Profile load error:", err);
+} catch (supportErr) {
+    console.error("Support card display error:", supportErr);
 }
+// --- End of Support Logic ---
             // ==========================================
 
             // Header Name Update
