@@ -62,19 +62,26 @@ const supportHub = {
         btn.disabled = true;
 
         // Calling Google Apps Script Function
+        // Calling Google Apps Script Function (Using the standard doPost way)
         google.script.run
             .withSuccessHandler((response) => {
-                alert("Ticket Submitted! Hum jaldi aapko isi dashboard par jawab denge.");
-                queryField.value = ""; 
+                if(response.status === "success") {
+                    alert("Ticket Submitted! Hum jaldi aapko isi dashboard par jawab denge.");
+                    queryField.value = ""; 
+                } else {
+                    alert("Error: " + response.message);
+                }
                 btn.innerText = originalText;
                 btn.disabled = false;
             })
             .withFailureHandler((err) => {
-                alert("Error: Ticket submit nahi ho paya. WhatsApp try karein.");
+                alert("Network Error: Ticket submit nahi ho paya.");
                 btn.innerText = originalText;
                 btn.disabled = false;
             })
-            .submitSupportTicket({
+            // YE LINE DEKHO: Hum action bhej rahe hain taaki doPost pehchan sake
+            .doPost({
+                action: "submit-support-ticket",
                 name: userName,
                 email: userEmail,
                 query: query
