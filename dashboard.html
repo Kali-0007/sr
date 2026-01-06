@@ -982,15 +982,19 @@ window.addEventListener('DOMContentLoaded', loadProfile);
             document.getElementById('editCountry').value = p.country || "";
             document.getElementById('editPincode').value = p.pincode || "";
 
+        // --- Yahan se (Line 980 ke aas-pass se) replace karo ---
         } else {
             alert("Session expired! Please login again.");
             localStorage.clear();
             window.location.href = "login.html";
         }
-    } catch(err){
-        console.error("Profile Load Error:", err);
+    } catch (err) {
+        console.error("Load Profile Error:", err);
     }
 }
+
+// Ye line sabse niche (Function ke bahar)
+window.addEventListener('DOMContentLoaded', loadProfile);
 // 4. Save Profile Logic (Full Data Sync)
 document.getElementById('saveProfileBtn').onclick = async () => {
     const btn = document.getElementById('saveProfileBtn');
