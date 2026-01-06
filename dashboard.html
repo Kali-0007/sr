@@ -898,11 +898,7 @@ tabs.forEach(tab => {
 
 async function loadProfile() {
     const token = localStorage.getItem('userToken')?.trim();
-    if (!token) {
-        console.error("No token found, redirecting...");
-        window.location.href = "login.html"; // Agar login na ho toh wapis bhej do
-        return;
-    }
+    if (!token) return;
 
     try {
         const formData = new URLSearchParams({ action: "load-profile", token: token });
@@ -912,25 +908,17 @@ async function loadProfile() {
         if (data.status === "success") {
             const p = data.profile;
 
-            // 1. Alert & Ticker (Top Bar)
+            // 1. Ticker & Alert
             const userAlertBox = document.getElementById('userAlertContainer');
             const alertText = document.getElementById('alertMessageText');
-            const topTicker = document.getElementById('notificationTicker');
-            const tickerMsg = document.getElementById('tickerMessage');
-
             if (p.user_alert && p.user_alert.trim() !== "") {
                 if (userAlertBox) userAlertBox.style.display = 'block';
                 if (alertText) alertText.textContent = p.user_alert;
-                if (topTicker && tickerMsg) {
-                    topTicker.style.display = 'block';
-                    tickerMsg.textContent = p.user_alert;
-                }
             } else {
                 if (userAlertBox) userAlertBox.style.display = 'none';
-                if (topTicker) topTicker.style.display = 'none';
             }
 
-            // 2. Support Response (Expert Remark Card)
+            // 2. Expert Remark Card
             const resCard = document.getElementById('adminResponseCard');
             const rText = document.getElementById('supportResponseText');
             const qDisp = document.getElementById('userQueryDisplay');
@@ -938,24 +926,21 @@ async function loadProfile() {
             if (p.support_response && p.support_response !== "—" && p.support_response.trim() !== "") {
                 if (resCard) resCard.style.display = 'block';
                 if (rText) rText.textContent = p.support_response;
-                if (qDisp) qDisp.textContent = p.last_query || "Your Recent Query";
+                if (qDisp) qDisp.textContent = p.last_query || "Recent Query";
             } else {
                 if (resCard) resCard.style.display = 'none';
             }
 
-            // 3. Profile Data (Name Display)
+            // 3. Name Display
             const nameDisp = document.getElementById('firstNameDisplay');
             if (nameDisp) nameDisp.textContent = p.firstName || "User";
-
-        } else {
-            console.error("Profile load failed:", data.message);
         }
     } catch (err) {
-        console.error("System Error during loadProfile:", err);
+        console.error("Load Profile Error:", err);
     }
 }
 
-// Page load hone par function call karna mat bhoolna
+// Ye line function ke bahar honi chahiye taaki page load hote hi ye chale
 window.addEventListener('DOMContentLoaded', loadProfile);
 
 // --- DASHBOARD CORE LOGIC END ---
