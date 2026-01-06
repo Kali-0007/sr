@@ -92,14 +92,17 @@ const supportHub = {
     },
 
     // 5. Admin Remark Logic
-    showResponse: function(msg) {
+    showResponse: function(userQuery, adminReply) {
         const card = document.getElementById('adminResponseCard');
-        const text = document.getElementById('supportResponseText');
-        if (msg && msg.trim() !== "" && msg !== "—") {
-            if(card) card.style.display = 'block';
-            if(text) text.textContent = msg;
+        const queryDisplay = document.getElementById('userQueryDisplay');
+        const replyDisplay = document.getElementById('adminResponseText');
+        
+        if (card && adminReply && adminReply.trim() !== "" && adminReply !== "—") {
+            queryDisplay.innerText = userQuery || "Recent Support Ticket"; 
+            replyDisplay.innerText = adminReply;
+            card.style.display = 'block';
         } else {
             if(card) card.style.display = 'none';
         }
-    }
+    },
 };
