@@ -17,11 +17,25 @@ const supportHub = {
     },
 
     // 2. Email Logic
-    openEmail: function() {
+  openEmail: function() {
         const userName = document.getElementById('firstNameDisplay')?.textContent || "User";
         const subject = encodeURIComponent(`Priority Support Request: ${userName}`);
         const body = encodeURIComponent("Dear TaxEase Team,\n\nI need assistance with the following:\n\n[Describe your issue here]\n\nRegards,\n" + userName);
-        window.location.href = `mailto:${this.config.emailAddress}?subject=${subject}&body=${body}`;
+        
+        // 1. Mailto link try karega
+        const mailtoLink = `mailto:${this.config.emailAddress}?subject=${subject}&body=${body}`;
+        
+        // Ek chota sa check: Desktop par aksar mailto block ho jata hai
+        // Hum link open karenge, agar 2 second tak kuch nahi hua, toh alert dikhayenge
+        const start = Date.now();
+        window.location.href = mailtoLink;
+
+        setTimeout(() => {
+            if (Date.now() - start < 2000) {
+                // Agar email app nahi khula, toh ye message aayega
+                alert(`Direct email app not found.\n\nPlease send your query to: ${this.config.emailAddress}\nSubject: ${decodeURIComponent(subject)}`);
+            }
+        }, 500);
     },
 
     // 3. Callback Logic (Triggering your existing footer modal)
