@@ -981,9 +981,9 @@ window.addEventListener('DOMContentLoaded', loadProfile);
             document.getElementById('editState').value = p.state || "";
             document.getElementById('editCountry').value = p.country || "";
             document.getElementById('editPincode').value = p.pincode || "";
-
-        // --- Yahan se (Line 980 ke aas-pass se) replace karo ---
-        } else {
+  }
+      
+        else {
             alert("Session expired! Please login again.");
             localStorage.clear();
             window.location.href = "login.html";
