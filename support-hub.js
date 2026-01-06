@@ -95,12 +95,15 @@ const supportHub = {
     showResponse: function(userQuery, adminReply) {
         const card = document.getElementById('adminResponseCard');
         const queryDisplay = document.getElementById('userQueryDisplay');
-        const replyDisplay = document.getElementById('adminResponseText');
+        
+        // Yahan galti thi: HTML mein ID 'supportResponseText' hai
+        const replyDisplay = document.getElementById('supportResponseText'); 
         
         if (card && adminReply && adminReply.trim() !== "" && adminReply !== "—") {
-            queryDisplay.innerText = userQuery || "Recent Support Ticket"; 
-            replyDisplay.innerText = adminReply;
+            if(queryDisplay) queryDisplay.innerText = userQuery || "Recent Support Ticket"; 
+            if(replyDisplay) replyDisplay.innerText = adminReply;
             card.style.display = 'block';
+            console.log("Support Card Displayed!"); // Testing ke liye
         } else {
             if(card) card.style.display = 'none';
         }
