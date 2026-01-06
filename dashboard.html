@@ -894,68 +894,71 @@ tabs.forEach(tab => {
 });
 
 // 3. Load Profile Function (Professional Alert Logic Included)
+// --- DASHBOARD CORE LOGIC START ---
+
 async function loadProfile() {
     const token = localStorage.getItem('userToken')?.trim();
-    if (!token) return;
+    if (!token) {
+        console.error("No token found, redirecting...");
+        window.location.href = "login.html"; // Agar login na ho toh wapis bhej do
+        return;
+    }
 
     try {
         const formData = new URLSearchParams({ action: "load-profile", token: token });
         const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
         const data = await res.json();
 
-        if(data.status === "success"){
+        if (data.status === "success") {
             const p = data.profile;
-            
-            // --- ALERT LOGIC (Jo pehle se chal raha tha) ---
+
+            // 1. Alert & Ticker (Top Bar)
             const userAlertBox = document.getElementById('userAlertContainer');
             const alertText = document.getElementById('alertMessageText');
             const topTicker = document.getElementById('notificationTicker');
             const tickerMsg = document.getElementById('tickerMessage');
 
-            if (p.user_alert && p.user_alert.toString().trim() !== "") {
-                if(userAlertBox) userAlertBox.style.display = 'block';
-                if(alertText) alertText.textContent = p.user_alert;
-                if(topTicker && tickerMsg) {
+            if (p.user_alert && p.user_alert.trim() !== "") {
+                if (userAlertBox) userAlertBox.style.display = 'block';
+                if (alertText) alertText.textContent = p.user_alert;
+                if (topTicker && tickerMsg) {
                     topTicker.style.display = 'block';
                     tickerMsg.textContent = p.user_alert;
-                    document.querySelector('.container').style.marginTop = '115px';
                 }
             } else {
-                if(userAlertBox) userAlertBox.style.display = 'none';
-                if(topTicker) {
-                    topTicker.style.display = 'none';
-                    document.querySelector('.container').style.marginTop = '70px';
-                }
+                if (userAlertBox) userAlertBox.style.display = 'none';
+                if (topTicker) topTicker.style.display = 'none';
             }
 
-            // --- AAPKA SAHI CODE (Yahan Insert Kiya Hai) ---
-            try {
-    // --- Support Response Logic (REPLACE THIS SECTION) ---
-try {
-    const resCard = document.getElementById('adminResponseCard');
-    const qDisp = document.getElementById('userQueryDisplay');
-    const rText = document.getElementById('supportResponseText');
+            // 2. Support Response (Expert Remark Card)
+            const resCard = document.getElementById('adminResponseCard');
+            const rText = document.getElementById('supportResponseText');
+            const qDisp = document.getElementById('userQueryDisplay');
 
-    // Check if response exists and is not just a placeholder
-    if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
-        
-        // 1. Direct UI Update (Error-proof)
-        if (resCard) resCard.style.display = 'block';
-        if (rText) rText.textContent = p.support_response;
-        if (qDisp) qDisp.textContent = p.last_query || "Your Recent Query";
-        
-        // 2. Optional: Trigger support-hub.js if it's loaded
-        if (window.supportHub && typeof supportHub.showResponse === 'function') {
-            supportHub.showResponse(p.last_query, p.support_response);
+            if (p.support_response && p.support_response !== "—" && p.support_response.trim() !== "") {
+                if (resCard) resCard.style.display = 'block';
+                if (rText) rText.textContent = p.support_response;
+                if (qDisp) qDisp.textContent = p.last_query || "Your Recent Query";
+            } else {
+                if (resCard) resCard.style.display = 'none';
+            }
+
+            // 3. Profile Data (Name Display)
+            const nameDisp = document.getElementById('firstNameDisplay');
+            if (nameDisp) nameDisp.textContent = p.firstName || "User";
+
+        } else {
+            console.error("Profile load failed:", data.message);
         }
-    } else {
-        // Hide card if no response
-        if (resCard) resCard.style.display = 'none';
+    } catch (err) {
+        console.error("System Error during loadProfile:", err);
     }
-} catch (supportErr) {
-    console.error("Support card display error:", supportErr);
 }
-// --- End of Support Logic ---
+
+// Page load hone par function call karna mat bhoolna
+window.addEventListener('DOMContentLoaded', loadProfile);
+
+// --- DASHBOARD CORE LOGIC END ---
             // ==========================================
 
             // Header Name Update
