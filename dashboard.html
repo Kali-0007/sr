@@ -733,8 +733,44 @@ header .logo:hover img {
 </div>
 </div>
     <div id="payments" class="tab-content" style="display:none;"><h2 class="section-title">Payments</h2></div>
-    <div id="support" class="tab-content" style="display:none;"><h2 class="section-title">Support</h2></div>
+    <div id="support" class="tab-content" style="display:none;">
+    <h2 class="section-title">Support Center</h2>
+    
+    <div class="support-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        
+        <div class="stat-card" style="text-align: center; border-top: 4px solid #25D366; background: rgba(37, 211, 102, 0.03);">
+            <div style="font-size: 35px; margin-bottom: 15px;">💬</div>
+            <h3 style="color: #fff; margin-bottom: 8px;">WhatsApp Chat</h3>
+            <p style="font-size: 13px; color: var(--text-grey); margin-bottom: 20px;">Direct chat with our tax experts for instant help.</p>
+            <button onclick="supportHub.openWhatsApp()" class="service-btn" style="background: #25D366; color: #fff; border:none;">Start Chat</button>
+        </div>
 
+        <div class="stat-card" style="text-align: center; border-top: 4px solid var(--secondary); background: rgba(99, 102, 241, 0.03);">
+            <div style="font-size: 35px; margin-bottom: 15px;">📧</div>
+            <h3 style="color: #fff; margin-bottom: 8px;">Write to Us</h3>
+            <p style="font-size: 13px; color: var(--text-grey); margin-bottom: 20px;">Send us your documents or detailed queries via email.</p>
+            <button onclick="supportHub.openEmail()" class="service-btn" style="background: var(--secondary); border:none;">Send Email</button>
+        </div>
+
+        <div class="stat-card" style="text-align: center; border-top: 4px solid var(--primary); background: rgba(0, 255, 157, 0.03);">
+            <div style="font-size: 35px; margin-bottom: 15px;">📞</div>
+            <h3 style="color: #fff; margin-bottom: 8px;">Request Callback</h3>
+            <p style="font-size: 13px; color: var(--text-grey); margin-bottom: 20px;">Busy? Just request a call, and we'll call you back.</p>
+            <button onclick="openCallbackModal()" class="service-btn" style="background: var(--primary); color: #000; border:none;">Call Me Back</button>
+        </div>
+
+    </div>
+
+    <div id="adminResponseCard" class="stat-card" style="margin-top: 25px; display: none; background: rgba(0, 212, 255, 0.05); border: 1px dashed var(--accent);">
+        <div style="display: flex; align-items: flex-start; gap: 15px;">
+            <div style="font-size: 20px;">🎙️</div>
+            <div>
+                <h4 style="color: var(--accent); margin: 0 0 5px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Latest Expert Remark (From Sheet)</h4>
+                <p id="supportResponseText" style="color: #fff; margin: 0; font-style: italic; font-size: 15px; line-height: 1.5;"></p>
+            </div>
+        </div>
+    </div>
+</div>
   </div>
 </div>
 
