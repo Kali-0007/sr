@@ -760,15 +760,27 @@ header .logo:hover img {
         </div>
     </div>
 
-    <div id="adminResponseCard" class="stat-card" style="margin-top: 25px; display: none; background: rgba(0, 212, 255, 0.05); border: 1px dashed var(--accent);">
-        <div style="display: flex; align-items: flex-start; gap: 15px;">
-            <div style="font-size: 20px;">🎙️</div>
-            <div>
-                <h4 style="color: var(--accent); margin: 0 0 5px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Latest Expert Remark</h4>
-                <p id="supportResponseText" style="color: #fff; margin: 0; font-style: italic; font-size: 15px; line-height: 1.5;"></p>
-            </div>
+    <div id="adminResponseCard" class="stat-card" style="margin-top: 25px; display: none; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 12px; padding: 20px;">
+    
+    <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+            <span style="font-size: 14px;">❓</span>
+            <h4 style="color: rgba(255,255,255,0.6); margin: 0; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;">Your Last Query</h4>
+        </div>
+        <p id="userQueryDisplay" style="color: #ccc; margin: 0; font-size: 14px; line-height: 1.4; font-style: italic;"></p>
+    </div>
+
+    <div style="display: flex; align-items: flex-start; gap: 15px;">
+        <div style="font-size: 20px; filter: drop-shadow(0 0 5px var(--accent));">🎙️</div>
+        <div style="width: 100%;">
+            <h4 style="color: var(--accent); margin: 0 0 8px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;">
+                Expert Remark
+                <span style="background: var(--accent); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold;">OFFICIAL</span>
+            </h4>
+            <p id="supportResponseText" style="color: #fff; margin: 0; font-size: 15px; line-height: 1.6; font-weight: 500;"></p>
         </div>
     </div>
+</div>
 
     <div class="stat-card" style="margin-top: 25px;">
         <h3 style="color: #fff; margin-bottom: 15px;">Submit a Query</h3>
