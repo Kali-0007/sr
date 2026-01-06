@@ -17,27 +17,24 @@ const supportHub = {
     },
 
     // 2. Email Logic
-openEmail: function() {
+    openEmail: function() {
         const userName = document.getElementById('firstNameDisplay')?.textContent || "User";
         const email = this.config.emailAddress;
         const subject = encodeURIComponent(`Priority Support Request: ${userName}`);
         const body = encodeURIComponent("Dear TaxEase Team,\n\nI need assistance with the following:\n\n[Describe your issue here]\n\nRegards,\n" + userName);
         
-        // Check if user is on Mobile or Desktop
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         if (isMobile) {
-            // Mobile par: Direct App khulega
             window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         } else {
-            // Desktop par: Gmail Website khulegi naye tab mein
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
             window.open(gmailUrl, '_blank');
         }
     },
-    // 3. Callback Logic (Triggering your existing footer modal)
+
+    // 3. Callback Logic
     requestCallback: function() {
-        // Footer.js mein function ka naam 'ftr_openModal' hai
         if (typeof ftr_openModal === "function") {
             ftr_openModal();
         } else {
@@ -46,7 +43,45 @@ openEmail: function() {
         }
     },
 
-    // 4. Admin Remark Logic (From Sheet Column X)
+    // 🔥 4. TICKETING LOGIC (YAHAN ADD KIYA HAI)
+    submitTicket: function() {
+        const queryField = document.getElementById('userSupportQuery');
+        const query = queryField.value.trim();
+        const userName = document.getElementById('firstNameDisplay')?.textContent || "Unknown User";
+        const userEmail = localStorage.getItem('userEmail') || "Guest"; 
+
+        if (!query) {
+            alert("Bhai, kuch toh likho! Khali ticket submit nahi hoga.");
+            return;
+        }
+
+        // Button reference to show loading
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "Submitting...";
+        btn.disabled = true;
+
+        // Calling Google Apps Script Function
+        google.script.run
+            .withSuccessHandler((response) => {
+                alert("Ticket Submitted! Hum jaldi aapko isi dashboard par jawab denge.");
+                queryField.value = ""; 
+                btn.innerText = originalText;
+                btn.disabled = false;
+            })
+            .withFailureHandler((err) => {
+                alert("Error: Ticket submit nahi ho paya. WhatsApp try karein.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            })
+            .submitSupportTicket({
+                name: userName,
+                email: userEmail,
+                query: query
+            });
+    },
+
+    // 5. Admin Remark Logic
     showResponse: function(msg) {
         const card = document.getElementById('adminResponseCard');
         const text = document.getElementById('supportResponseText');
