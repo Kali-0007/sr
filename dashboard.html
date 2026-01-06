@@ -897,21 +897,17 @@ tabs.forEach(tab => {
 async function loadProfile() {
     const token = localStorage.getItem('userToken')?.trim();
     if (!token) return;
-
     try {
         const formData = new URLSearchParams({ action: "load-profile", token: token });
         const res = await fetch(WEB_APP_URL, { method: "POST", body: formData });
         const data = await res.json();
-
         if (data.status === "success") {
             const p = data.profile;
-
             // 1. ALERT LOGIC
             const userAlertBox = document.getElementById('userAlertContainer');
             const alertText = document.getElementById('alertMessageText');
             const topTicker = document.getElementById('notificationTicker');
             const tickerMsg = document.getElementById('tickerMessage');
-
             if (p.user_alert && p.user_alert.toString().trim() !== "") {
                 if (userAlertBox) userAlertBox.style.display = 'block';
                 if (alertText) alertText.textContent = p.user_alert;
@@ -927,7 +923,6 @@ async function loadProfile() {
                     document.querySelector('.container').style.marginTop = '70px';
                 }
             }
-
             // 2. SUPPORT RESPONSE LOGIC
             if (p.support_response && p.support_response.trim() !== "" && p.support_response !== "—") {
                 if (typeof supportHub !== 'undefined' && supportHub.showResponse) {
@@ -937,7 +932,6 @@ async function loadProfile() {
                 const responseCard = document.getElementById('adminResponseCard');
                 if (responseCard) responseCard.style.display = 'none';
             }
-
             // 3. UI DATA FILL
             const nameDisp = document.getElementById('firstNameDisplay');
             if (nameDisp) {
