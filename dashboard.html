@@ -747,8 +747,8 @@ header .logo:hover img {
 
         <div class="stat-card" style="text-align: center; border-top: 4px solid var(--secondary); background: rgba(99, 102, 241, 0.03);">
             <div style="font-size: 35px; margin-bottom: 15px;">📧</div>
-            <h3 style="color: #fff; margin-bottom: 8px;">Write to Us</h3>
-            <p style="font-size: 13px; color: var(--text-grey); margin-bottom: 20px;">Send us your documents or detailed queries via email.</p>
+            <h3 style="color: #fff; margin-bottom: 8px;">Official Email</h3>
+            <p style="font-size: 13px; color: var(--text-grey); margin-bottom: 20px;">Send documents or detailed queries via email.</p>
             <button onclick="supportHub.openEmail()" class="service-btn" style="background: var(--secondary); border:none;">Send Email</button>
         </div>
 
@@ -756,22 +756,26 @@ header .logo:hover img {
             <div style="font-size: 35px; margin-bottom: 15px;">📞</div>
             <h3 style="color: #fff; margin-bottom: 8px;">Request Callback</h3>
             <p style="font-size: 13px; color: var(--text-grey); margin-bottom: 20px;">Busy? Just request a call, and we'll call you back.</p>
-            <button onclick="openCallbackModal()" class="service-btn" style="background: var(--primary); color: #000; border:none;">Call Me Back</button>
+            <button onclick="supportHub.requestCallback()" class="service-btn" style="background: var(--primary); color: #000; border:none;">Call Me Back</button>
         </div>
-
     </div>
 
     <div id="adminResponseCard" class="stat-card" style="margin-top: 25px; display: none; background: rgba(0, 212, 255, 0.05); border: 1px dashed var(--accent);">
         <div style="display: flex; align-items: flex-start; gap: 15px;">
             <div style="font-size: 20px;">🎙️</div>
             <div>
-                <h4 style="color: var(--accent); margin: 0 0 5px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Latest Expert Remark (From Sheet)</h4>
+                <h4 style="color: var(--accent); margin: 0 0 5px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Latest Expert Remark</h4>
                 <p id="supportResponseText" style="color: #fff; margin: 0; font-style: italic; font-size: 15px; line-height: 1.5;"></p>
             </div>
         </div>
     </div>
-</div>
-  </div>
+
+    <div class="stat-card" style="margin-top: 25px;">
+        <h3 style="color: #fff; margin-bottom: 15px;">Submit a Query</h3>
+        <p style="font-size: 13px; color: var(--text-grey); margin-bottom: 15px;">Unable to find what you're looking for? Write to us and we'll get back to you.</p>
+        <textarea id="userSupportQuery" placeholder="Describe your problem here..." rows="4" style="width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 15px;"></textarea>
+        <button onclick="alert('Ticketing system setting up... Please use WhatsApp for now.')" class="service-btn" style="width: auto; padding: 10px 30px;">Submit Ticket</button>
+    </div>
 </div>
 
 <div id="editModal" class="modal">
