@@ -51,7 +51,7 @@ const supportHub = {
         const userEmail = localStorage.getItem('userEmail') || "Guest"; 
 
         if (!query) {
-            alert("Bhai, kuch toh likho! Khali ticket submit nahi hoga.");
+            alert("Please enter your query before submitting.");
             return;
         }
 
@@ -62,7 +62,7 @@ const supportHub = {
         btn.disabled = true;
 
         // 🔥 APNA SCRIPT URL YAHAN DALO (Deployment wala)
-        const SCRIPT_URL = "APNA_G_SCRIPT_WEBAPP_URL_YAHAN_DALO";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
 
         // Fetch API use kar rahe hain taaki "google is not defined" error na aaye
         fetch(SCRIPT_URL, {
@@ -78,14 +78,14 @@ const supportHub = {
         })
         .then(() => {
             // no-cors mode mein response read nahi hota par data chala jata hai
-            alert("Ticket Submitted! Hum jaldi aapko isi dashboard par jawab denge.");
+            alert("Ticket Submitted Successfully. Our experts will review your query and provide a response on your dashboard shortly.");
             queryField.value = ""; 
             btn.innerText = originalText;
             btn.disabled = false;
         })
         .catch((err) => {
             console.error("Error:", err);
-            alert("Network Error: Ticket submit nahi ho paya. WhatsApp try karein.");
+            alert("Unable to submit ticket due to a network error. Please try again or contact us via WhatsApp for immediate assistance.");
             btn.innerText = originalText;
             btn.disabled = false;
         });
