@@ -156,37 +156,43 @@
 </div>
 
 <script>
-    // 1. Mobile Menu Toggle Logic
     function toggleMenu() {
-        document.getElementById('mobileMenu').classList.toggle('active');
+        const menu = document.getElementById('mobileMenu');
+        if(menu) menu.classList.toggle('active');
     }
-    
-    // Mobile icon par click karne ke liye event listener
-    document.getElementById('mobileToggle').onclick = toggleMenu;
 
-    // 2. Auth Check Logic (Dashboard button dikhane ke liye)
-    document.addEventListener("DOMContentLoaded", function() {
-        // LocalStorage check karega ki user login hai ya nahi
-        const userToken = localStorage.getItem('userToken'); 
+    // Ek function jo buttons ko swap karega
+    function updateHeaderButtons() {
+        const userToken = localStorage.getItem('userToken');
+        if (!userToken) return; // Agar login nahi hai toh kuch mat karo
 
-        if (userToken) {
-            // Desktop Buttons ki adala-badli
-            const loginBtn = document.getElementById('headerLoginBtn');
-            const signupBtn = document.getElementById('headerSignupBtn');
-            const dashboardBtn = document.getElementById('headerDashboardBtn');
+        // IDs check karo
+        const ids = [
+            'headerLoginBtn', 'headerSignupBtn', 'headerDashboardBtn',
+            'mobileLoginBtn', 'mobileSignupBtn', 'mobileDashboardBtn'
+        ];
 
-            if(loginBtn) loginBtn.style.display = 'none';
-            if(signupBtn) signupBtn.style.display = 'none';
-            if(dashboardBtn) dashboardBtn.style.display = 'block';
+        let allFound = true;
+        ids.forEach(id => {
+            if (!document.getElementById(id)) allFound = false;
+        });
 
-            // Mobile Buttons ki adala-badli
-            const mLoginBtn = document.getElementById('mobileLoginBtn');
-            const mSignupBtn = document.getElementById('mobileSignupBtn');
-            const mDashboardBtn = document.getElementById('mobileDashboardBtn');
+        if (allFound) {
+            // Desktop swap
+            document.getElementById('headerLoginBtn').style.display = 'none';
+            document.getElementById('headerSignupBtn').style.display = 'none';
+            document.getElementById('headerDashboardBtn').style.display = 'block';
 
-            if(mLoginBtn) mLoginBtn.style.display = 'none';
-            if(mSignupBtn) mSignupBtn.style.display = 'none';
-            if(mDashboardBtn) mDashboardBtn.style.display = 'block';
+            // Mobile swap
+            document.getElementById('mobileLoginBtn').style.display = 'none';
+            document.getElementById('mobileSignupBtn').style.display = 'none';
+            document.getElementById('mobileDashboardBtn').style.display = 'block';
+        } else {
+            // Agar buttons abhi load nahi hue, toh 100ms baad fir koshish karo
+            setTimeout(updateHeaderButtons, 100);
         }
-    });
+    }
+
+    // Page load hote hi shuru karo
+    updateHeaderButtons();
 </script>
