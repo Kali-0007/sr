@@ -3,6 +3,12 @@ const serviceHub = {
     API_URL: "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec",
 
     init: async function() {
+        // --- Sabse pehle Greeting update karein ---
+        const hours = new Date().getHours();
+        let greet = (hours < 12) ? "Good Morning," : (hours < 16) ? "Good Afternoon," : "Good Evening,";
+        const greetEl = document.getElementById('greetingText');
+        if (greetEl) greetEl.innerText = greet;
+        // ------------------------------------------
         const container = document.getElementById('dynamicServiceContent'); 
         if (!container) return;
         
