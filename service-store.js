@@ -25,51 +25,54 @@ const serviceStore = {
         }
     },
 
-    renderCards: function(category) {
+  renderCards: function(activeCategory = 'all') {
         const grid = document.getElementById('services-grid');
-        
         if (!Array.isArray(this.allServices)) return;
 
-        const filtered = category === 'all' 
-            ? this.allServices 
-            : this.allServices.filter(s => s.category === category);
+        // 1. Saari unique categories nikalna (Tabs banane ke liye)
+        const categories = ['all', ...new Set(this.allServices.map(s => s.category))];
 
-        if (filtered.length === 0) {
-            grid.innerHTML = '<p style="color:grey; padding:20px;">No services found.</p>';
-            return;
-        }
-
-        // --- NAYA GROUPING LOGIC START ---
-        const grouped = filtered.reduce((acc, s) => {
-            const cat = s.category || "General Services";
-            if (!acc[cat]) acc[cat] = [];
-            acc[cat].push(s);
-            return acc;
-        }, {});
-
-        grid.innerHTML = Object.keys(grouped).map(catName => `
-            <div class="category-section" style="width: 100%; margin-bottom: 40px; clear: both; text-align: left;">
-                <h2 style="color: var(--primary); font-size: 22px; border-left: 5px solid var(--primary); padding-left: 15px; margin-bottom: 25px; text-transform: uppercase; font-family: sans-serif;">
-                    ${catName}
-                </h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
-                    ${grouped[catName].map(s => `
-                        <div class="service-card">
-                            <div style="font-size: 40px; margin-bottom: 15px;">${s.icon || '💼'}</div>
-                            <div class="service-title" style="font-weight:bold; color:white;">${s.name}</div>
-                            <div class="service-price" style="margin: 10px 0;">
-                                <span style="text-decoration: line-through; color: #666; font-size: 14px;">₹${s.mPrice}</span>
-                                <span style="color: var(--primary); font-size: 18px; font-weight: bold; margin-left: 10px;">₹${s.oPrice}</span>
-                            </div>
-                            <p style="font-size: 13px; color: #aaa; margin: 10px 0;">${s.desc}</p>
-                            <div style="font-size: 12px; color: var(--secondary); margin-bottom: 15px;">⏱ ${s.time}</div>
-                            <button class="service-btn" onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">Get Started</button>
-                        </div>
-                    `).join('')}
-                </div>
+        // 2. Tabs ka HTML (Upar buttons dikhane ke liye)
+        const tabsHtml = `
+            <div class="tabs-container" style="display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;">
+                ${categories.map(cat => `
+                    <button onclick="serviceStore.renderCards('${cat}')" 
+                        style="padding: 10px 20px; border-radius: 20px; border: none; cursor: pointer; white-space: nowrap; font-weight: 500; transition: 0.3s;
+                        ${activeCategory === cat 
+                            ? 'background: var(--primary); color: #000; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);' 
+                            : 'background: #222; color: #888; border: 1px solid #333;'
+                        }">
+                        ${cat.toUpperCase()}
+                    </button>
+                `).join('')}
             </div>
-        `).join('');
-        // --- NAYA GROUPING LOGIC END ---
+        `;
+
+        // 3. Filtered services nikalna
+        const filtered = activeCategory === 'all' 
+            ? this.allServices 
+            : this.allServices.filter(s => s.category === activeCategory);
+
+        // 4. Cards ka HTML
+        const cardsHtml = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; animation: fadeIn 0.5s ease;">
+                ${filtered.map(s => `
+                    <div class="service-card" style="background: #1a1a1a; border: 1px solid #333; transition: transform 0.2s; position: relative; overflow: hidden;">
+                        <div style="font-size: 35px; margin-bottom: 12px;">${s.icon || '💼'}</div>
+                        <h3 style="color: white; font-size: 16px; margin-bottom: 8px;">${s.name}</h3>
+                        <div class="price-tag" style="margin-bottom: 10px;">
+                            <span style="color: var(--primary); font-size: 18px; font-weight: bold;">₹${s.oPrice}</span>
+                            <span style="text-decoration: line-through; color: #666; font-size: 12px; margin-left: 5px;">₹${s.mPrice}</span>
+                        </div>
+                        <p style="font-size: 12px; color: #888; height: 36px; overflow: hidden; line-height: 1.5;">${s.desc}</p>
+                        <button class="service-btn" style="margin-top: 15px; width: 100%;" onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">Get Started</button>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        // Dono ko combine karke grid mein daalna
+        grid.innerHTML = tabsHtml + cardsHtml;
     },
 
     showDetails: function(serviceName) {
