@@ -29,23 +29,22 @@ const serviceStore = {
         const grid = document.getElementById('services-grid');
         if (!Array.isArray(this.allServices)) return;
 
-        // CSS FIX: Grid ko reset karna taaki cards poore page par failein
         grid.style.display = "block"; 
         grid.style.width = "100%";
 
         const categories = ['all', ...new Set(this.allServices.map(s => s.category))];
 
-        // 1. TABS (Filter Buttons)
+        // 1. TABS: Minimal & Rounded
         const tabsHtml = `
-            <div style="display: flex; gap: 12px; margin-bottom: 30px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; border-bottom: 1px solid #333; padding-bottom: 15px;">
+            <div style="display: flex; gap: 10px; margin-bottom: 35px; overflow-x: auto; padding: 10px 0; scrollbar-width: none;">
                 ${categories.map(cat => `
                     <button onclick="serviceStore.renderCards('${cat}')" 
-                        style="padding: 10px 22px; border-radius: 12px; border: none; cursor: pointer; white-space: nowrap; font-weight: 600; transition: 0.3s; font-size: 13px;
+                        style="padding: 8px 20px; border-radius: 30px; border: 1px solid #333; cursor: pointer; white-space: nowrap; font-weight: 500; transition: all 0.2s; font-size: 13px;
                         ${activeCategory === cat 
-                            ? 'background: #00ff88; color: #000; box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);' 
-                            : 'background: #1e1e1e; color: #888; border: 1px solid #333;'
+                            ? 'background: #00ff88; color: #000; border-color: #00ff88;' 
+                            : 'background: transparent; color: #aaa;'
                         }">
-                        ${cat.toUpperCase()}
+                        ${cat === 'all' ? 'All Services' : cat.toUpperCase()}
                     </button>
                 `).join('')}
             </div>
@@ -55,19 +54,27 @@ const serviceStore = {
             ? this.allServices 
             : this.allServices.filter(s => s.category === activeCategory);
 
-        // 2. CARDS CONTAINER (Display Grid yahan lagayenge)
+        // 2. CARDS: Professional & Centered
         const cardsHtml = `
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; width: 100%;">
                 ${filtered.map(s => `
-                    <div class="service-card" style="background: #111; border: 1px solid #222; padding: 25px; border-radius: 16px; transition: 0.3s; position: relative;">
-                        <div style="font-size: 40px; margin-bottom: 20px;">${s.icon || '💼'}</div>
-                        <h3 style="color: #fff; font-size: 18px; margin-bottom: 10px; font-weight: 700;">${s.name}</h3>
-                        <div style="margin-bottom: 15px; display: flex; align-items: baseline; gap: 10px;">
-                            <span style="color: #00ff88; font-size: 22px; font-weight: 800;">₹${s.oPrice}</span>
-                            <span style="text-decoration: line-through; color: #555; font-size: 14px;">₹${s.mPrice}</span>
+                    <div class="service-card" style="background: #161b22; border: 1px solid #30363d; padding: 30px 20px; border-radius: 12px; transition: 0.3s; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                        
+                        <div style="width: 60px; height: 60px; background: #0d1117; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 20px; border: 1px solid #30363d;">
+                            ${s.icon || '💼'}
                         </div>
-                        <p style="font-size: 13px; color: #999; line-height: 1.6; margin-bottom: 20px; min-height: 40px;">${s.desc}</p>
-                        <button class="service-btn" style="width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; background: #00ff88; color: #000; border: none; cursor: pointer;" 
+
+                        <h3 style="color: #f0f6fc; font-size: 18px; margin-bottom: 8px; font-weight: 600; min-height: 44px; display: flex; align-items: center;">${s.name}</h3>
+                        
+                        <p style="font-size: 13px; color: #8b949e; line-height: 1.5; margin-bottom: 20px; min-height: 40px; max-width: 200px;">${s.desc}</p>
+                        
+                        <div style="margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <span style="color: #00ff88; font-size: 24px; font-weight: 700;">₹${s.oPrice}</span>
+                            <span style="text-decoration: line-through; color: #484f58; font-size: 14px;">M.R.P: ₹${s.mPrice}</span>
+                        </div>
+
+                        <button class="service-btn" style="width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; background: #00ff88; color: #0b0e14; border: none; cursor: pointer; transition: 0.2s; font-size: 14px;" 
+                                onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'"
                                 onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">
                             Get Started
                         </button>
