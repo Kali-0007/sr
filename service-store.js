@@ -29,54 +29,55 @@ const serviceStore = {
         const grid = document.getElementById('services-grid');
         if (!Array.isArray(this.allServices)) return;
 
-        // 1. Unique Categories nikalna (Sheet ke Column A se)
+        // CSS FIX: Grid ko reset karna taaki cards poore page par failein
+        grid.style.display = "block"; 
+        grid.style.width = "100%";
+
         const categories = ['all', ...new Set(this.allServices.map(s => s.category))];
 
-        // 2. TABS KA HTML (Upar wale buttons)
+        // 1. TABS (Filter Buttons)
         const tabsHtml = `
-            <div class="tabs-wrapper" style="margin-bottom: 25px; border-bottom: 1px solid #333; padding-bottom: 15px;">
-                <div style="display: flex; gap: 10px; overflow-x: auto; white-space: nowrap; scrollbar-width: none;">
-                    ${categories.map(cat => `
-                        <button onclick="serviceStore.renderCards('${cat}')" 
-                            style="padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s;
-                            ${activeCategory === cat 
-                                ? 'background: var(--primary); color: #000;' 
-                                : 'background: #222; color: #888; border: 1px solid #333;'
-                            }">
-                            ${cat === 'all' ? 'All Services' : cat.toUpperCase()}
-                        </button>
-                    `).join('')}
-                </div>
+            <div style="display: flex; gap: 12px; margin-bottom: 30px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; border-bottom: 1px solid #333; padding-bottom: 15px;">
+                ${categories.map(cat => `
+                    <button onclick="serviceStore.renderCards('${cat}')" 
+                        style="padding: 10px 22px; border-radius: 12px; border: none; cursor: pointer; white-space: nowrap; font-weight: 600; transition: 0.3s; font-size: 13px;
+                        ${activeCategory === cat 
+                            ? 'background: #00ff88; color: #000; box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);' 
+                            : 'background: #1e1e1e; color: #888; border: 1px solid #333;'
+                        }">
+                        ${cat.toUpperCase()}
+                    </button>
+                `).join('')}
             </div>
         `;
 
-        // 3. Filtered services (Jo select kiya hai wahi dikhega)
         const filtered = activeCategory === 'all' 
             ? this.allServices 
             : this.allServices.filter(s => s.category === activeCategory);
 
-        // 4. CARDS KA HTML
+        // 2. CARDS CONTAINER (Display Grid yahan lagayenge)
         const cardsHtml = `
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%;">
                 ${filtered.map(s => `
-                    <div class="service-card" style="background: #1a1a1a; border: 1px solid #333; padding: 20px; border-radius: 12px; transition: 0.3s;">
-                        <div style="font-size: 35px; margin-bottom: 15px;">${s.icon || '💼'}</div>
-                        <h3 style="color: white; font-size: 17px; margin-bottom: 10px;">${s.name}</h3>
-                        <div style="margin-bottom: 12px;">
-                            <span style="color: var(--primary); font-size: 20px; font-weight: bold;">₹${s.oPrice}</span>
-                            <span style="text-decoration: line-through; color: #555; font-size: 13px; margin-left: 8px;">₹${s.mPrice}</span>
+                    <div class="service-card" style="background: #111; border: 1px solid #222; padding: 25px; border-radius: 16px; transition: 0.3s; position: relative;">
+                        <div style="font-size: 40px; margin-bottom: 20px;">${s.icon || '💼'}</div>
+                        <h3 style="color: #fff; font-size: 18px; margin-bottom: 10px; font-weight: 700;">${s.name}</h3>
+                        <div style="margin-bottom: 15px; display: flex; align-items: baseline; gap: 10px;">
+                            <span style="color: #00ff88; font-size: 22px; font-weight: 800;">₹${s.oPrice}</span>
+                            <span style="text-decoration: line-through; color: #555; font-size: 14px;">₹${s.mPrice}</span>
                         </div>
-                        <p style="font-size: 13px; color: #888; line-height: 1.5; margin-bottom: 15px; min-height: 40px;">${s.desc}</p>
-                        <button class="service-btn" style="width: 100%;" onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">Get Started</button>
+                        <p style="font-size: 13px; color: #999; line-height: 1.6; margin-bottom: 20px; min-height: 40px;">${s.desc}</p>
+                        <button class="service-btn" style="width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; background: #00ff88; color: #000; border: none; cursor: pointer;" 
+                                onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">
+                            Get Started
+                        </button>
                     </div>
                 `).join('')}
             </div>
         `;
 
-        // Dono ko grid ke andar daal do
         grid.innerHTML = tabsHtml + cardsHtml;
     },
-
     showDetails: function(serviceName) {
         const s = this.allServices.find(x => x.name === serviceName);
         if(!s) return;
