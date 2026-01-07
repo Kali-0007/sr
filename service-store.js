@@ -28,7 +28,6 @@ const serviceStore = {
     renderCards: function(category) {
         const grid = document.getElementById('services-grid');
         
-        // Safety check taaki map() error na de
         if (!Array.isArray(this.allServices)) return;
 
         const filtered = category === 'all' 
@@ -40,19 +39,37 @@ const serviceStore = {
             return;
         }
 
-        grid.innerHTML = filtered.map(s => `
-            <div class="service-card">
-                <div style="font-size: 40px; margin-bottom: 15px;">${s.icon || '💼'}</div>
-                <div class="service-title" style="font-weight:bold; color:white;">${s.name}</div>
-                <div class="service-price" style="margin: 10px 0;">
-                    <span style="text-decoration: line-through; color: #666; font-size: 14px;">₹${s.mPrice}</span>
-                    <span style="color: var(--primary); font-size: 18px; font-weight: bold; margin-left: 10px;">₹${s.oPrice}</span>
+        // --- NAYA GROUPING LOGIC START ---
+        const grouped = filtered.reduce((acc, s) => {
+            const cat = s.category || "General Services";
+            if (!acc[cat]) acc[cat] = [];
+            acc[cat].push(s);
+            return acc;
+        }, {});
+
+        grid.innerHTML = Object.keys(grouped).map(catName => `
+            <div class="category-section" style="width: 100%; margin-bottom: 40px; clear: both; text-align: left;">
+                <h2 style="color: var(--primary); font-size: 22px; border-left: 5px solid var(--primary); padding-left: 15px; margin-bottom: 25px; text-transform: uppercase; font-family: sans-serif;">
+                    ${catName}
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                    ${grouped[catName].map(s => `
+                        <div class="service-card">
+                            <div style="font-size: 40px; margin-bottom: 15px;">${s.icon || '💼'}</div>
+                            <div class="service-title" style="font-weight:bold; color:white;">${s.name}</div>
+                            <div class="service-price" style="margin: 10px 0;">
+                                <span style="text-decoration: line-through; color: #666; font-size: 14px;">₹${s.mPrice}</span>
+                                <span style="color: var(--primary); font-size: 18px; font-weight: bold; margin-left: 10px;">₹${s.oPrice}</span>
+                            </div>
+                            <p style="font-size: 13px; color: #aaa; margin: 10px 0;">${s.desc}</p>
+                            <div style="font-size: 12px; color: var(--secondary); margin-bottom: 15px;">⏱ ${s.time}</div>
+                            <button class="service-btn" onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">Get Started</button>
+                        </div>
+                    `).join('')}
                 </div>
-                <p style="font-size: 13px; color: #aaa; margin: 10px 0;">${s.desc}</p>
-                <div style="font-size: 12px; color: var(--secondary); margin-bottom: 15px;">⏱ ${s.time}</div>
-                <button class="service-btn" onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">Get Started</button>
             </div>
         `).join('');
+        // --- NAYA GROUPING LOGIC END ---
     },
 
     showDetails: function(serviceName) {
