@@ -177,5 +177,42 @@ loadNotices: async function() {
 
         activityList.innerHTML = activities.length > 0 ? activities.join('') : 
             `<div style="color: var(--text-grey); text-align: center; padding: 30px; font-size: 14px;">No active orders or activity yet.</div>`;
-    }
+    },
+// Isse Security Shield ka popup handle hoga
+    showSecurityVault: function() {
+        const vaultHtml = `
+            <div id="securityModal" style="display:flex; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items:center; justify-content:center; padding: 20px;">
+                <div style="background:#0d1117; max-width: 480px; width:100%; border-radius:16px; border: 1px solid #30363d; overflow:hidden; animation: slideUp 0.3s ease;">
+                    
+                    <div style="padding: 30px 25px; text-align: center; background: linear-gradient(to bottom, #161b22, #0d1117);">
+                        <div style="font-size: 50px; margin-bottom: 15px;">🛡️</div>
+                        <h2 style="color:#fff; margin:0; font-size: 22px; font-weight: 700;">Data Privacy Commitment</h2>
+                        <p style="color:#8b949e; font-size:14px; margin-top:8px;">How TaxEasePro secures your sensitive information</p>
+                    </div>
+
+                    <div style="padding: 10px 30px 30px 30px;">
+                        <ul style="list-style: none; padding: 0; margin: 0; color: #c9d1d9; font-size: 14px; line-height: 1.8;">
+                            <li style="margin-bottom: 12px; display: flex; gap: 12px;">
+                                <span style="color: #38bdf8;">◈</span>
+                                <span><b>Bank-Grade Encryption:</b> Documents are protected via 256-bit SSL encryption during transit and storage.</span>
+                            </li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 12px;">
+                                <span style="color: #38bdf8;">◈</span>
+                                <span><b>Confidential Processing:</b> Only your assigned tax expert can access the files for filing purposes.</span>
+                            </li>
+                            <li style="margin-bottom: 12px; display: flex; gap: 12px;">
+                                <span style="color: #38bdf8;">◈</span>
+                                <span><b>Strict Compliance:</b> We adhere to data protection norms ensuring your PAN and Aadhaar details are never shared.</span>
+                            </li>
+                        </ul>
+
+                        <button onclick="document.getElementById('securityModal').remove()" style="width: 100%; margin-top: 20px; padding: 12px; background: #00ff88; color: #000; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;">
+                            I UNDERSTAND
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', vaultHtml);
+    },
 };
