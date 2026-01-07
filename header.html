@@ -156,7 +156,37 @@
 </div>
 
 <script>
+    // 1. Mobile Menu Toggle Logic
     function toggleMenu() {
         document.getElementById('mobileMenu').classList.toggle('active');
     }
+    
+    // Mobile icon par click karne ke liye event listener
+    document.getElementById('mobileToggle').onclick = toggleMenu;
+
+    // 2. Auth Check Logic (Dashboard button dikhane ke liye)
+    document.addEventListener("DOMContentLoaded", function() {
+        // LocalStorage check karega ki user login hai ya nahi
+        const userToken = localStorage.getItem('userToken'); 
+
+        if (userToken) {
+            // Desktop Buttons ki adala-badli
+            const loginBtn = document.getElementById('headerLoginBtn');
+            const signupBtn = document.getElementById('headerSignupBtn');
+            const dashboardBtn = document.getElementById('headerDashboardBtn');
+
+            if(loginBtn) loginBtn.style.display = 'none';
+            if(signupBtn) signupBtn.style.display = 'none';
+            if(dashboardBtn) dashboardBtn.style.display = 'block';
+
+            // Mobile Buttons ki adala-badli
+            const mLoginBtn = document.getElementById('mobileLoginBtn');
+            const mSignupBtn = document.getElementById('mobileSignupBtn');
+            const mDashboardBtn = document.getElementById('mobileDashboardBtn');
+
+            if(mLoginBtn) mLoginBtn.style.display = 'none';
+            if(mSignupBtn) mSignupBtn.style.display = 'none';
+            if(mDashboardBtn) mDashboardBtn.style.display = 'block';
+        }
+    });
 </script>
