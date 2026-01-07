@@ -134,21 +134,26 @@ header .logo:hover img {
   }
 
   .logout-btn-header {
-    background: transparent;
-    color: var(--text-grey);
-    padding: 8px 12px;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03); /* Ekdum halka background */
+    color: #8b949e; /* Greeting jaisa silver color */
+    padding: 6px 16px;
+    border-radius: 6px;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    transition: 0.3s;
-    border: 1px solid transparent;
-  }
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
 
 .logout-btn-header:hover {
-    background: #ff4757;
-    color: #fff;
-    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.2);
+    background: rgba(255, 71, 87, 0.1); /* Halka sa red tint background mein */
+    color: #ff4757; /* Text tab red hoga jab mouse aayega */
+    border-color: rgba(255, 71, 87, 0.3);
+    box-shadow: 0 0 15px rgba(255, 71, 87, 0.1);
+    transform: translateY(-1px); /* Chota sa lift effect */
 }
 
   /* --- 2. Sidebar & Container (Updated) --- */
@@ -632,7 +637,14 @@ header .logo:hover img {
     <span id="firstNameDisplay" style="color: #ffffff; font-weight: 800; font-size: 18px; text-shadow: 0 0 10px rgba(255,255,255,0.2);">Ravindra</span>
 </div>
 
-    <a href="#" id="logoutLink" class="logout-btn-header">Logout</a>
+    <a href="#" id="logoutLink" class="logout-btn-header">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+    </svg>
+    Logout
+</a>
   </div>
 </header>
 <div id="notificationTicker" style="display:none; background: #ff475715; border-bottom: 1px solid #ff475733; height: 35px; overflow: hidden; position: fixed; top: 80px; width: 100%; z-index: 999; backdrop-filter: blur(5px);">
