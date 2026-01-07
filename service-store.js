@@ -86,35 +86,57 @@ const serviceStore = {
         grid.innerHTML = tabsHtml + cardsHtml;
     },
     showDetails: function(serviceName) {
-        const s = this.allServices.find(x => x.name === serviceName);
-        if(!s) return;
+    const s = this.allServices.find(x => x.name === serviceName);
+    if(!s) return;
 
-        const docList = s.docs ? s.docs.split(',').map(d => `<li>✅ ${d.trim()}</li>`).join('') : '<li>Contact for documents</li>';
+    const docList = s.docs ? s.docs.split(',').map(d => `
+        <li style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <span style="color: #00ff88;">✔</span> ${d.trim()}
+        </li>
+    `).join('') : '<li>Contact for documents</li>';
 
-        const modalHtml = `
-            <div id="serviceModal" class="modal" style="display:block; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.9); overflow:auto;">
-                <div class="modal-content" style="background:#1a1a1a; max-width: 500px; margin: 50px auto; padding:25px; border-radius:15px; border-top: 4px solid var(--primary); position:relative;">
-                    <span onclick="document.getElementById('serviceModal').remove()" style="position:absolute; right:20px; top:10px; cursor:pointer; font-size:28px; color:white;">&times;</span>
-                    <h2 style="color:var(--primary); margin-top:10px;">${s.name}</h2>
-                    <p style="color:#ccc; font-size:14px; margin-bottom:20px;">${s.desc}</p>
-                    <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:20px;">
-                        <h4 style="margin:0 0 10px 0; color:var(--secondary);">Required Documents:</h4>
-                        <ul style="list-style:none; padding:0; font-size:13px; color:#ddd; line-height:1.8;">
+    const modalHtml = `
+        <div id="serviceModal" class="modal" style="display:flex; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); align-items:center; justify-content:center;">
+            <div class="modal-content" style="background:#0d1117; max-width: 450px; width:90%; padding:0; border-radius:16px; border: 1px solid #30363d; overflow:hidden; position:relative; animation: slideUp 0.3s ease;">
+                
+                <div style="background: #161b22; padding: 25px; border-bottom: 1px solid #30363d; text-align: center;">
+                    <div style="font-size: 40px; margin-bottom: 10px;">${s.icon || '💼'}</div>
+                    <h2 style="color:#fff; margin:0; font-size: 20px;">${s.name}</h2>
+                    <p style="color:#8b949e; font-size:13px; margin-top:5px;">Est. Delivery: <span style="color:#00ff88; font-weight:600;">${s.time || 'TBA'}</span></p>
+                </div>
+
+                <div style="padding: 25px;">
+                    <p style="color:#c9d1d9; font-size:14px; line-height:1.6; margin-bottom:20px; text-align: center;">${s.desc}</p>
+
+                    <div style="background:#161b22; padding:20px; border-radius:12px; border: 1px solid #30363d;">
+                        <h4 style="margin:0 0 15px 0; color:#00ff88; font-size:13px; text-transform:uppercase; letter-spacing:1px;">Documents Required:</h4>
+                        <ul style="list-style:none; padding:0; font-size:13px; color:#8b949e; margin:0;">
                             ${docList}
                         </ul>
                     </div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #444; padding-top:15px;">
-                        <div>
-                            <div style="font-size:12px; color:grey;">Total Payable:</div>
-                            <div style="font-size:24px; font-weight:bold; color:white;">₹${s.oPrice}</div>
-                        </div>
-                        <button class="service-btn" style="width:auto; padding:12px 30px;" onclick="serviceStore.placeOrder('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">Buy Now</button>
-                    </div>
+
+                    <p style="font-size: 11px; color: #484f58; margin-top: 15px; text-align: center;">
+                        🔒 Encrypted & Secure. Our expert will call you after payment.
+                    </p>
                 </div>
+
+                <div style="padding: 20px 25px; background: #161b22; display:flex; justify-content:space-between; align-items:center; border-top: 1px solid #30363d;">
+                    <div>
+                        <div style="font-size:11px; color:#8b949e; text-transform:uppercase;">Total Fees</div>
+                        <div style="font-size:22px; font-weight:bold; color:#fff;">₹${s.oPrice}</div>
+                    </div>
+                    <button class="service-btn" style="width:auto; padding:12px 35px; background:#00ff88; color:#0b0e14; border-radius:8px; font-weight:700; border:none; cursor:pointer;" 
+                        onclick="serviceStore.placeOrder('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">
+                        Book Now
+                    </button>
+                </div>
+
+                <span onclick="document.getElementById('serviceModal').remove()" style="position:absolute; right:20px; top:15px; cursor:pointer; font-size:24px; color:#8b949e;">&times;</span>
             </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-    },
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+},
 
     placeOrder: async function(serviceName, price) {
         const btn = event.target;
