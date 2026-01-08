@@ -41,12 +41,28 @@ const serviceHub = {
         const itr = this.allServices.find(s => s.serviceName.toLowerCase().includes('itr')) || {status: 'Not Opted', deadline: 'N/A'};
         const gst = this.allServices.find(s => s.serviceName.toLowerCase().includes('gst')) || {status: 'Not Opted', deadline: 'N/A'};
         
-        statContainer.innerHTML = `
-            <div class="stat-card"><h3>ITR Status</h3><div class="value">${itr.status}</div><div class="sub-text">Due: ${itr.deadline}</div></div>
-            <div class="stat-card"><h3>GST Status</h3><div class="value">${gst.status}</div><div class="sub-text">Next: ${gst.deadline}</div></div>
-            <div class="stat-card"><h3>Total Services</h3><div class="value">${this.allServices.length}</div><div class="sub-text">Active Now</div></div>
-            <div class="stat-card"><h3>Storage</h3><div class="value">Cloud</div><div class="sub-text">Docs Secured</div></div>
-        `;
+       statContainer.innerHTML = `
+    <div class="stat-card" style="background:#fff; border:1px solid #e2e8f0; border-left:4px solid #3b82f6; padding:20px; border-radius:8px;">
+        <h3 style="font-size:11px; color:#64748b; text-transform:uppercase; margin:0;">ITR Status</h3>
+        <div class="value" style="font-size:20px; color:#1e293b; font-weight:700; margin:8px 0;">${itr.status}</div>
+        <div class="sub-text" style="font-size:11px; color:#94a3b8;">Due: ${itr.deadline}</div>
+    </div>
+    <div class="stat-card" style="background:#fff; border:1px solid #e2e8f0; border-left:4px solid #10b981; padding:20px; border-radius:8px;">
+        <h3 style="font-size:11px; color:#64748b; text-transform:uppercase; margin:0;">GST Status</h3>
+        <div class="value" style="font-size:20px; color:#1e293b; font-weight:700; margin:8px 0;">${gst.status}</div>
+        <div class="sub-text" style="font-size:11px; color:#94a3b8;">Next: ${gst.deadline}</div>
+    </div>
+    <div class="stat-card" style="background:#fff; border:1px solid #e2e8f0; border-left:4px solid #6366f1; padding:20px; border-radius:8px;">
+        <h3 style="font-size:11px; color:#64748b; text-transform:uppercase; margin:0;">Total Services</h3>
+        <div class="value" style="font-size:20px; color:#1e293b; font-weight:700; margin:8px 0;">${this.allServices.length}</div>
+        <div class="sub-text" style="font-size:11px; color:#94a3b8;">Active Now</div>
+    </div>
+    <div class="stat-card" style="background:#fff; border:1px solid #e2e8f0; border-left:4px solid #f59e0b; padding:20px; border-radius:8px;">
+        <h3 style="font-size:11px; color:#64748b; text-transform:uppercase; margin:0;">Storage</h3>
+        <div class="value" style="font-size:20px; color:#1e293b; font-weight:700; margin:8px 0;">Cloud</div>
+        <div class="sub-text" style="font-size:11px; color:#94a3b8;">Docs Secured</div>
+    </div>
+`;
     },
 
     renderCards: function() {
