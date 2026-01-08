@@ -319,6 +319,7 @@ fetch('./header.html')
   .then(res => res.text())
   .then(data => {
     document.getElementById('header-placeholder').innerHTML = data;
+      if (window.syncHeaderWithAuth) syncHeaderWithAuth();
   });
 
 // Mobile Toggle Click Logic
@@ -337,7 +338,7 @@ document.addEventListener('click', function(e) {
     }
 });
 </script>
-
+<script src="header-auth-sync.js"></script>
 <script src="signup.js"></script>
      <script src="footer.js"></script>
 </body>
