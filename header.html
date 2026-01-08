@@ -156,39 +156,35 @@
 </div>
 
 <script>
+    // Isko mat chhedna, ye menu open/close karta hai
     function toggleMenu() {
         const menu = document.getElementById('mobileMenu');
         if(menu) menu.classList.toggle('active');
     }
 
+    // Is wale hisse ko update karo buttons fix karne ke liye
     function updateHeaderButtons() {
-        // Dono possibilities check kar rahe hain
+        // Index aur baaki pages dono ka token check karne ke liye
         const token = localStorage.getItem('userToken') || localStorage.getItem('user_data');
         
         if (token) {
             const ids = ['headerLoginBtn', 'headerSignupBtn', 'headerDashboardBtn', 'mobileLoginBtn', 'mobileSignupBtn', 'mobileDashboardBtn'];
-            const el = {};
-            ids.forEach(id => el[id] = document.getElementById(id));
-
-            // Agar saare buttons mil gaye, toh swap kar do
-            if (el.headerLoginBtn && el.headerDashboardBtn) {
-                el.headerLoginBtn.style.display = 'none';
-                el.headerSignupBtn.style.display = 'none';
-                el.headerDashboardBtn.style.display = 'inline-block';
-                
-                if(el.mobileLoginBtn) {
-                    el.mobileLoginBtn.style.display = 'none';
-                    el.mobileSignupBtn.style.display = 'none';
-                    el.mobileDashboardBtn.style.display = 'block';
+            
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id.includes('Login') || id.includes('Signup')) {
+                        el.style.display = 'none';
+                    } else if (id.includes('Dashboard')) {
+                        // Desktop ke liye inline-block, mobile ke liye block
+                        el.style.display = id.startsWith('header') ? 'inline-block' : 'block';
+                    }
                 }
-            } else {
-                // Agar HTML load hone mein deri ho rahi hai, toh 100ms baad fir try karo
-                setTimeout(updateHeaderButtons, 100);
-            }
+            });
         }
     }
 
-    // Har page par auto-run karne ke liye
+    // Dono events zaroori hain taaki har page par turant kaam kare
     document.addEventListener('DOMContentLoaded', updateHeaderButtons);
     window.addEventListener('load', updateHeaderButtons);
 </script>
