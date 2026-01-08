@@ -470,7 +470,7 @@
       </form>
     </div>
   </div>
-
+<script src="header-auth-sync.js"></script>
   <script src="footer.js"></script>
 
   <script>
@@ -479,7 +479,7 @@
       .then(res => res.text())
       .then(data => {
         document.getElementById('header-placeholder').innerHTML = data;
-        
+        if (window.syncHeaderWithAuth) syncHeaderWithAuth();
         // Active page highlight karne ka logic
         const currentPath = window.location.pathname.split("/").pop() || "index.html";
         const allLinks = document.querySelectorAll('.nav-links a, #mobileMenu a');
