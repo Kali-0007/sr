@@ -45,7 +45,7 @@ const serviceHub = {
     <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
         <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">ITR Status</h3>
         <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">${itr.status}</div>
-        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">📅 Due: ${itr.deadline}</div>
+        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">📅 Due Date: ${itr.deadline}</div>
     </div>
     <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
         <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">GST Status</h3>
