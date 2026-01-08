@@ -304,15 +304,17 @@ header {
         <span class="tagline">Pro Tax, Zero Stress</span>
     </div>
   </a>
-  <nav class="nav-links" id="desktopNav">
+ <nav class="nav-links" id="desktopNav">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="services.html">Services</a>
     <a href="blogs.html">Blogs</a>
     <a href="contact.html">Contact</a>
-    <a href="login.html" class="btn-login">Login</a>
-    <a href="signup.html" class="btn-signup">Signup</a>
-  </nav>
+    <a href="login.html" class="btn-login" id="headerLoginBtn">Login</a>
+    <a href="signup.html" class="btn-signup" id="headerSignupBtn">Signup</a>
+    
+    <a href="dashboard.html" class="btn-login" id="headerDashboardBtn" style="display: none;">Dashboard</a>
+</nav>
   <i class="fas fa-bars nav-toggle-right" id="navToggle" onclick="toggleMobileMenu()"></i>
   <i class="fas fa-times sidebar-toggle-right" id="sidebarClose" onclick="toggleSidebar()" style="display:none;"></i>
 </header>
@@ -323,8 +325,11 @@ header {
   <a href="services.html">Services</a>
   <a href="blogs.html">Blogs</a>
   <a href="contact.html">Contact</a>
-  <a href="login.html" class="btn-login" style="color:var(--primary);">Login</a>
-  <a href="signup.html" class="btn-signup" style="color:var(--success);">Signup</a>
+  
+  <a href="login.html" class="btn-login" id="mobileLoginBtn" style="color:var(--primary);">Login</a>
+  <a href="signup.html" class="btn-signup" id="mobileSignupBtn" style="color:var(--success);">Signup</a>
+  
+  <a href="dashboard.html" id="mobileDashboardBtn" style="display: none; color:var(--primary); font-weight: bold;">Dashboard</a>
 </div>
 <div class="main-layout" style="min-height: calc(100vh - 85px); margin-top: 0 !important; display: flex;">
     <aside class="sidebar" id="sidebar" style="width: 280px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); padding: 20px; flex-shrink: 0; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; position: sticky; top: 0; height: calc(100vh - 85px); max-height: 100vh; pointer-events: auto;">
