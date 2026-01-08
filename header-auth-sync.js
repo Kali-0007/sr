@@ -1,31 +1,39 @@
 function syncHeaderWithAuth() {
     const userData = localStorage.getItem('user_data') || localStorage.getItem('userToken');
-    const loginBtns = document.querySelectorAll('.btn-login');
-    const signupBtns = document.querySelectorAll('.btn-signup');
+    
+    // IDs ke zariye buttons ko pakdo
+    const dLogin = document.getElementById('headerLoginBtn');
+    const dSignup = document.getElementById('headerSignupBtn');
+    const dDash = document.getElementById('headerDashboardBtn');
+    
+    // Mobile menu wale buttons (Classes se)
+    const mLogin = document.querySelector('#mobileMenu .btn-login');
+    const mSignup = document.querySelector('#mobileMenu .btn-signup');
 
     if (userData) {
-        console.log("Syncing Header: User Found");
-        loginBtns.forEach(btn => btn.style.setProperty('display', 'none', 'important'));
-        signupBtns.forEach(btn => btn.style.setProperty('display', 'none', 'important'));
+        console.log("User Logged In - Updating Header...");
 
-        // Desktop aur Mobile dono containers ko target karo
-        const containers = [
-            document.getElementById('desktopNav'),
-            document.getElementById('mobileMenu')
-        ];
+        // Desktop buttons handle karo
+        if(dLogin) dLogin.style.display = 'none';
+        if(dSignup) dSignup.style.display = 'none';
+        if(dDash) dDash.style.display = 'inline-block';
 
-        containers.forEach(container => {
-            if (container && !container.querySelector('.btn-dashboard')) {
-                const dashBtn = document.createElement('a');
-                dashBtn.href = 'dashboard.html';
-                dashBtn.className = 'btn-dashboard';
-                dashBtn.innerHTML = 'Dashboard <i class="fas fa-user-circle"></i>';
-                dashBtn.style.cssText = "background:var(--primary, #007bff); color:white !important; padding:8px 20px; border-radius:25px; text-decoration:none; font-weight:600; margin:5px; display:inline-block;";
-                container.appendChild(dashBtn);
-            }
-        });
+        // Mobile buttons handle karo
+        if(mLogin) mLogin.style.display = 'none';
+        if(mSignup) mSignup.style.display = 'none';
+        
+        // Mobile mein Dashboard button add karo agar nahi hai
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenu && !mobileMenu.querySelector('.btn-dashboard')) {
+            const dashLink = document.createElement('a');
+            dashLink.href = 'dashboard.html';
+            dashLink.className = 'btn-dashboard';
+            dashLink.innerHTML = 'Dashboard';
+            dashLink.style.cssText = "color: var(--primary); font-weight: bold; display: block; padding: 10px 0;";
+            mobileMenu.appendChild(dashLink);
+        }
     }
 }
 
-// Ye line sabse zaroori hai - ye har page par apne aap chalegi
+// Page load hote hi chalayein
 window.addEventListener('load', syncHeaderWithAuth);
