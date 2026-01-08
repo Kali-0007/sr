@@ -46,3 +46,7 @@ function syncHeaderWithAuth() {
         console.log("Header Sync: No User Logged In");
     }
 }
+// Isse har page par apne aap sync shuru ho jayega
+document.addEventListener('DOMContentLoaded', function() {
+    syncHeaderWithAuth();
+});
