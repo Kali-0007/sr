@@ -161,39 +161,34 @@
         if(menu) menu.classList.toggle('active');
     }
 
-    // Ek function jo buttons ko swap karega
     function updateHeaderButtons() {
-        const userToken = localStorage.getItem('userToken');
-        alert("Local Storage mein token ye hai: " + localStorage.getItem('userToken'));
-        if (!userToken) return; // Agar login nahi hai toh kuch mat karo
+        // Dono possibilities check kar rahe hain
+        const token = localStorage.getItem('userToken') || localStorage.getItem('user_data');
+        
+        if (token) {
+            const ids = ['headerLoginBtn', 'headerSignupBtn', 'headerDashboardBtn', 'mobileLoginBtn', 'mobileSignupBtn', 'mobileDashboardBtn'];
+            const el = {};
+            ids.forEach(id => el[id] = document.getElementById(id));
 
-        // IDs check karo
-        const ids = [
-            'headerLoginBtn', 'headerSignupBtn', 'headerDashboardBtn',
-            'mobileLoginBtn', 'mobileSignupBtn', 'mobileDashboardBtn'
-        ];
-
-        let allFound = true;
-        ids.forEach(id => {
-            if (!document.getElementById(id)) allFound = false;
-        });
-
-        if (allFound) {
-            // Desktop swap
-            document.getElementById('headerLoginBtn').style.display = 'none';
-            document.getElementById('headerSignupBtn').style.display = 'none';
-            document.getElementById('headerDashboardBtn').style.display = 'block';
-
-            // Mobile swap
-            document.getElementById('mobileLoginBtn').style.display = 'none';
-            document.getElementById('mobileSignupBtn').style.display = 'none';
-            document.getElementById('mobileDashboardBtn').style.display = 'block';
-        } else {
-            // Agar buttons abhi load nahi hue, toh 100ms baad fir koshish karo
-            setTimeout(updateHeaderButtons, 100);
+            // Agar saare buttons mil gaye, toh swap kar do
+            if (el.headerLoginBtn && el.headerDashboardBtn) {
+                el.headerLoginBtn.style.display = 'none';
+                el.headerSignupBtn.style.display = 'none';
+                el.headerDashboardBtn.style.display = 'inline-block';
+                
+                if(el.mobileLoginBtn) {
+                    el.mobileLoginBtn.style.display = 'none';
+                    el.mobileSignupBtn.style.display = 'none';
+                    el.mobileDashboardBtn.style.display = 'block';
+                }
+            } else {
+                // Agar HTML load hone mein deri ho rahi hai, toh 100ms baad fir try karo
+                setTimeout(updateHeaderButtons, 100);
+            }
         }
     }
 
-    // Page load hote hi shuru karo
-    updateHeaderButtons();
+    // Har page par auto-run karne ke liye
+    document.addEventListener('DOMContentLoaded', updateHeaderButtons);
+    window.addEventListener('load', updateHeaderButtons);
 </script>
