@@ -41,26 +41,26 @@ const serviceHub = {
         const itr = this.allServices.find(s => s.serviceName.toLowerCase().includes('itr')) || {status: 'Not Opted', deadline: 'N/A'};
         const gst = this.allServices.find(s => s.serviceName.toLowerCase().includes('gst')) || {status: 'Not Opted', deadline: 'N/A'};
         
-      statContainer.innerHTML = `
-    <div class="stat-card" style="background:#1e293b; border:none; padding:20px; border-radius:12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
-        <h3 style="font-size:11px; color:#94a3b8; text-transform:uppercase; margin:0; letter-spacing:0.5px;">ITR Status</h3>
-        <div class="value" style="font-size:20px; color:#fff; font-weight:700; margin:8px 0;">${itr.status}</div>
-        <div class="sub-text" style="font-size:11px; color:#64748b;">Due: ${itr.deadline}</div>
+     statContainer.innerHTML = `
+    <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">ITR Status</h3>
+        <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">${itr.status}</div>
+        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">📅 Due: ${itr.deadline}</div>
     </div>
-    <div class="stat-card" style="background:#1e293b; border:none; padding:20px; border-radius:12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
-        <h3 style="font-size:11px; color:#94a3b8; text-transform:uppercase; margin:0; letter-spacing:0.5px;">GST Status</h3>
-        <div class="value" style="font-size:20px; color:#fff; font-weight:700; margin:8px 0;">${gst.status}</div>
-        <div class="sub-text" style="font-size:11px; color:#64748b;">Next: ${gst.deadline}</div>
+    <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">GST Status</h3>
+        <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">${gst.status}</div>
+        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">📅 Next: ${gst.deadline}</div>
     </div>
-    <div class="stat-card" style="background:#1e293b; border:none; padding:20px; border-radius:12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
-        <h3 style="font-size:11px; color:#94a3b8; text-transform:uppercase; margin:0; letter-spacing:0.5px;">Total Services</h3>
-        <div class="value" style="font-size:20px; color:#fff; font-weight:700; margin:8px 0;">${this.allServices.length}</div>
-        <div class="sub-text" style="font-size:11px; color:#64748b;">Active Now</div>
+    <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">Total Services</h3>
+        <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">${this.allServices.length}</div>
+        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">⭐ Active Now</div>
     </div>
-    <div class="stat-card" style="background:#1e293b; border:none; padding:20px; border-radius:12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
-        <h3 style="font-size:11px; color:#94a3b8; text-transform:uppercase; margin:0; letter-spacing:0.5px;">Storage</h3>
-        <div class="value" style="font-size:20px; color:#fff; font-weight:700; margin:8px 0;">Cloud</div>
-        <div class="sub-text" style="font-size:11px; color:#64748b;">Docs Secured</div>
+    <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">Storage</h3>
+        <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">Cloud</div>
+        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">🛡️ Secured Docs</div>
     </div>
 `;
     },
