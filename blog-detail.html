@@ -116,6 +116,7 @@
           .then(res => res.text())
           .then(data => {
             document.getElementById('header-placeholder').innerHTML = data;
+              if (window.syncHeaderWithAuth) syncHeaderWithAuth();
           });
 
         document.addEventListener('click', function (e) {
@@ -176,5 +177,6 @@ if (typeof ftr_openModal !== 'function') {
 }
 </script>
     <script src="footer.js"></script>
+    <script src="header-auth-sync.js"></script>
 </body>
 </html>
