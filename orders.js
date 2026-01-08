@@ -1,6 +1,16 @@
 // --- CONFIGURATION ---
-// Yahan apna naya Deployment URL paste karein
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec"; 
+const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: "get-my-orders",
+                token: token
+            })
+        });
+
+        // Response ko text mein lo pehle check karne ke liye
+        const text = await response.text(); 
+        console.log("Raw Response:", text); // Console mein check karo kya aaya
+        const data = JSON.parse(text);
 
 async function fetchMyOrders() {
     const root = document.getElementById('orders-root');
