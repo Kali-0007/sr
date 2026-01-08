@@ -1,44 +1,30 @@
-// --- MY ORDERS COMPLETE LOGIC ---
-
-// Sidebar link ke liye trigger function
 async function showOrdersTab() {
-    // 1. Tab switching (agar aapka switchTab function alag hai toh use rehne dein)
+    // 1. UI Switch
     const tabs = document.querySelectorAll('.tab-content');
     tabs.forEach(tab => tab.style.display = 'none');
     document.getElementById('orders').style.display = 'block';
 
-    // 2. UI Structure & Data Loading
     const root = document.getElementById('orders-root');
     const token = localStorage.getItem('userToken');
 
-    // UI Layout Inject Karna
+    // 2. Initial Layout with Loader
     root.innerHTML = `
-        <div class="orders-section" style="padding: 20px; font-family: 'Segoe UI', sans-serif;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div>
-                    <h2 style="color: #f8fafc; margin: 0;">My Orders</h2>
-                    <p style="color: #94a3b8; margin: 5px 0 0 0; font-size: 14px;">Aapki saari service history aur invoices yahan hain.</p>
-                </div>
-            </div>
-
-            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <div style="padding: 20px;">
+            <h2 style="color: #f8fafc; margin-bottom: 20px; font-family: sans-serif;">My Orders</h2>
+            <div style="overflow-x: auto; background: #1e293b; border-radius: 10px; border: 1px solid #334155;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; color: #f1f5f9; min-width: 700px;">
                     <thead>
-                        <tr style="background: #0f172a; color: #38bdf8; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <tr style="background: #0f172a; color: #38bdf8; text-transform: uppercase; font-size: 12px;">
                             <th style="padding: 15px; border-bottom: 1px solid #334155;">Date</th>
-                            <th style="padding: 15px; border-bottom: 1px solid #334155;">Order ID</th>
-                            <th style="padding: 15px; border-bottom: 1px solid #334155;">Service</th>
+                            <th style="padding: 15px; border-bottom: 1px solid #334155;">Service Name</th>
                             <th style="padding: 15px; border-bottom: 1px solid #334155;">Amount</th>
                             <th style="padding: 15px; border-bottom: 1px solid #334155;">Status</th>
+                            <th style="padding: 15px; border-bottom: 1px solid #334155;">Payment ID</th>
                             <th style="padding: 15px; border-bottom: 1px solid #334155; text-align: center;">Invoice</th>
                         </tr>
                     </thead>
-                    <tbody id="orders-data-list">
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 50px; color: #94a3b8;">
-                                <div class="loading-spinner"></div> Fetching your orders...
-                            </td>
-                        </tr>
+                    <tbody id="order-rows">
+                        <tr><td colspan="6" style="text-align: center; padding: 40px;">Fetching orders...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -46,45 +32,42 @@ async function showOrdersTab() {
     `;
 
     try {
-        // Backend se data lena
         const response = await fetch(`${SCRIPT_URL}?action=get-my-orders&token=${token}`);
         const result = await response.json();
-        const tbody = document.getElementById('orders-data-list');
+        const tbody = document.getElementById('order-rows');
 
         if (result.status === "success" && result.orders.length > 0) {
-            tbody.innerHTML = ''; // Loading text hatao
-            
+            tbody.innerHTML = ''; 
             result.orders.forEach(order => {
-                // Status Badge Logic
-                let badgeStyle = "padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; border: 1px solid; ";
-                if(order.status === "Success") {
-                    badgeStyle += "background: rgba(34, 197, 94, 0.1); color: #4ade80; border-color: #22c55e;";
-                } else if(order.status === "Pending") {
-                    badgeStyle += "background: rgba(234, 179, 8, 0.1); color: #facc15; border-color: #eab308;";
-                } else {
-                    badgeStyle += "background: rgba(239, 68, 68, 0.1); color: #f87171; border-color: #ef4444;";
-                }
+                // Status mapping to colors based on your screenshot labels
+                let statusColor = "#facc15"; // Default Pending (Yellow)
+                if(order.status === "Completed") statusColor = "#4ade80"; // Green
+                if(order.status === "In Progress") statusColor = "#38bdf8"; // Blue
 
                 tbody.innerHTML += `
-                    <tr style="border-bottom: 1px solid #334155; transition: background 0.2s;" onmouseover="this.style.background='#273549'" onmouseout="this.style.background='transparent'">
-                        <td style="padding: 15px; color: #cbd5e1;">${order.date}</td>
-                        <td style="padding: 15px; font-family: monospace; color: #38bdf8; font-weight: 600;">${order.orderId}</td>
-                        <td style="padding: 15px; color: #f1f5f9; font-weight: 500;">${order.service}</td>
-                        <td style="padding: 15px; color: #f1f5f9;">₹${order.amount}</td>
-                        <td style="padding: 15px;"><span style="${badgeStyle}">${order.status}</span></td>
+                    <tr style="border-bottom: 1px solid #334155;">
+                        <td style="padding: 15px;">${order.date}</td>
+                        <td style="padding: 15px; font-weight: bold;">${order.service}</td>
+                        <td style="padding: 15px;">₹${order.amount}</td>
+                        <td style="padding: 15px;">
+                            <span style="color: ${statusColor}; border: 1px solid ${statusColor}; padding: 3px 8px; border-radius: 4px; font-size: 12px;">
+                                ${order.status}
+                            </span>
+                        </td>
+                        <td style="padding: 15px; color: #94a3b8; font-size: 13px;">${order.orderId}</td>
                         <td style="padding: 15px; text-align: center;">
                             ${order.invoiceUrl ? 
-                                `<a href="${order.invoiceUrl}" target="_blank" style="color: #38bdf8; font-size: 20px; text-decoration: none;" title="Download PDF">📥</a>` : 
-                                `<span style="color: #64748b; font-size: 12px; font-style: italic;">Processing</span>`
+                                `<a href="${order.invoiceUrl}" target="_blank" style="text-decoration: none; font-size: 20px;">📥</a>` : 
+                                `<span style="color: #64748b; font-size: 11px;">N/A</span>`
                             }
                         </td>
                     </tr>
                 `;
             });
         } else {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 60px; color: #94a3b8;">Aapka koi order itihaas (history) nahi mila.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: #94a3b8;">No orders found for your account.</td></tr>';
         }
-    } catch (error) {
-        document.getElementById('orders-data-list').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #f87171;">Connection error! Please try again.</td></tr>';
+    } catch (e) {
+        document.getElementById('order-rows').innerHTML = '<tr><td colspan="6" style="text-align: center; color: #f87171;">Connection error.</td></tr>';
     }
 }
