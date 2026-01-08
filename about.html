@@ -253,8 +253,10 @@
     </div>
   </main>
   <script src="footer.js"></script>
+ <script src="header-auth-sync.js"></script> 
+
  <script>
-  // 1. Header load logic (Ismein ./ lagaya hai taaki GitHub 404 na de)
+  // 1. Header load logic
   fetch('./header.html')
     .then(response => {
       if (!response.ok) throw new Error('Header not found');
@@ -263,7 +265,10 @@
     .then(data => {
       document.getElementById('header-placeholder').innerHTML = data;
       
-      // Active link logic
+      // 2. YE EK LINE YAHAN ADD KARI
+      if (window.syncHeaderWithAuth) syncHeaderWithAuth();
+      
+      // Active link logic (Baki ka code waisa hi rehne do)
       const currentUrl = window.location.pathname.split("/").pop() || "index.html";
       document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
         if (link.getAttribute('href') === currentUrl) {
