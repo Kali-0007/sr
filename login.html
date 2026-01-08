@@ -188,33 +188,43 @@ async function getLoginSecurityData() {
         screenRes: window.screen.width + "x" + window.screen.height
     };
 }
-    // 1. Header Load & Mobile Menu Toggle
-    fetch('./header.html')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-        
-        const currentUrl = window.location.pathname.split("/").pop() || "index.html";
-        document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
-          if (link.getAttribute('href') === currentUrl) {
-            link.style.color = "#667eea";
-          }
-        });
-      });
+    // 1. Header Load & Auth Logic (Updated)
+fetch('./header.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
 
-    document.addEventListener('click', function (e) {
-      const menu = document.getElementById("mobileMenu");
-      const toggleBtn = e.target.closest('#mobileToggle') || e.target.closest('.mobile-btn');
-      if (menu) {
-        if (toggleBtn) {
-          menu.classList.toggle('active');
-        } else if (menu.classList.contains('active')) {
-          if (!menu.contains(e.target) || e.target.tagName === 'A') {
-            menu.classList.remove('active');
-          }
-        }
+    // --- DASHBOARD BUTTON LOGIC START ---
+    const userToken = localStorage.getItem('userToken');
+    if (userToken) {
+        // Desktop Buttons
+        const dLogin = document.getElementById('headerLoginBtn');
+        const dSignup = document.getElementById('headerSignupBtn');
+        const dDash = document.getElementById('headerDashboardBtn');
+
+        if(dLogin) dLogin.style.display = 'none';
+        if(dSignup) dSignup.style.display = 'none';
+        if(dDash) dDash.style.display = 'inline-block'; // Isko inline-block ya block rakho
+
+        // Mobile Buttons
+        const mLogin = document.getElementById('mobileLoginBtn');
+        const mSignup = document.getElementById('mobileSignupBtn');
+        const mDash = document.getElementById('mobileDashboardBtn');
+
+        if(mLogin) mLogin.style.display = 'none';
+        if(mSignup) mSignup.style.display = 'none';
+        if(mDash) mDash.style.display = 'block';
+    }
+    // --- DASHBOARD BUTTON LOGIC END ---
+
+    // Active Link Highlight Logic (Jo pehle se tha)
+    const currentUrl = window.location.pathname.split("/").pop() || "index.html";
+    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
+      if (link.getAttribute('href') === currentUrl) {
+        link.style.color = "#667eea";
       }
     });
+  });
 
     // 2. Google Login & Auth Logic
     function parseJwt(token) {
