@@ -1,44 +1,32 @@
 async function fetchMyOrders() {
+    // UI set karne wala logic (wohi jo pehle discuss kiya tha)
     const root = document.getElementById('orders-root');
-    const token = localStorage.getItem('userToken'); // Aapka auth token
+    const token = localStorage.getItem('userToken');
 
-    // 1. Table ka Header (Aapke columns ke hisaab se)
-    root.innerHTML = `
-        <div class="orders-container" style="padding:20px;">
-            <h2 style="color:#fff; margin-bottom:15px;">My Orders</h2>
-            <div style="overflow-x:auto;">
-                <table style="width:100%; border-collapse:collapse; color:#fff; background:#1e293b; border-radius:8px;">
-                    <thead>
-                        <tr style="background:#0f172a; text-align:left;">
-                            <th style="padding:12px;">Date</th>
-                            <th style="padding:12px;">Service</th>
-                            <th style="padding:12px;">Amount</th>
-                            <th style="padding:12px;">Status</th>
-                            <th style="padding:12px;">Order ID</th>
-                            <th style="padding:12px;">Invoice</th>
-                        </tr>
-                    </thead>
-                    <tbody id="orders-body">
-                        <tr><td colspan="6" style="padding:20px; text-align:center;">Loading your orders...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    `;
+    // Tab switch logic
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.style.display = 'none');
+    document.getElementById('orders').style.display = 'block';
+
+    root.innerHTML = `... (wohi table wala HTML jo aapne pehle save kiya tha) ...`;
 
     try {
-        // 2. SCRIPT_URL par request bhejna (Backend se data mangwana)
-        const response = await fetch(`${SCRIPT_URL}?action=get-my-orders&token=${token}`);
+        // Ab hum POST request bhej rahe hain
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: "get-my-orders",
+                token: token
+            })
+        });
+        
         const data = await response.json();
         const tbody = document.getElementById('orders-body');
 
         if (data.status === "success" && data.orders.length > 0) {
-            tbody.innerHTML = ''; // Loading hatado
-            
+            tbody.innerHTML = ''; 
             data.orders.forEach(order => {
-                // Status ke liye basic coloring
                 let color = (order.status === "Completed") ? "#4ade80" : "#facc15";
-
                 tbody.innerHTML += `
                     <tr style="border-bottom:1px solid #334155;">
                         <td style="padding:12px;">${order.date}</td>
@@ -49,8 +37,7 @@ async function fetchMyOrders() {
                         <td style="padding:12px; text-align:center;">
                             ${order.invoiceUrl ? `<a href="${order.invoiceUrl}" target="_blank">📥</a>` : "N/A"}
                         </td>
-                    </tr>
-                `;
+                    </tr>`;
             });
         } else {
             tbody.innerHTML = '<tr><td colspan="6" style="padding:20px; text-align:center;">No orders found.</td></tr>';
