@@ -1,33 +1,48 @@
-// Is file ka kaam hai header ke buttons ko login ke hisaab se badalna
 function syncHeaderWithAuth() {
-    const userToken = localStorage.getItem('userToken');
+    // Check karo ki user login hai ya nahi (Aapka variable 'user_data' ya 'userToken' jo bhi hai)
+    const userData = localStorage.getItem('user_data') || localStorage.getItem('userToken');
     
-    // Desktop Buttons
-    const dLogin = document.getElementById('headerLoginBtn');
-    const dSignup = document.getElementById('headerSignupBtn');
-    const dDash = document.getElementById('headerDashboardBtn');
+    // 1. Saare Login aur Signup buttons dhoondo (Desktop + Mobile)
+    const loginBtns = document.querySelectorAll('.btn-login');
+    const signupBtns = document.querySelectorAll('.btn-signup');
 
-    // Mobile Buttons
-    const mLogin = document.getElementById('mobileLoginBtn');
-    const mSignup = document.getElementById('mobileSignupBtn');
-    const mDash = document.getElementById('mobileDashboardBtn');
+    if (userData) {
+        console.log("Header Sync: User Logged In - Updating UI...");
 
-    if (userToken) {
-        // Agar user login hai, toh Dashboard dikhao
-        if(dLogin) dLogin.style.display = 'none';
-        if(dSignup) dSignup.style.display = 'none';
-        if(dDash) dDash.style.display = 'inline-block';
+        // 2. Login/Signup ko gayab karo
+        loginBtns.forEach(btn => btn.style.display = 'none');
+        signupBtns.forEach(btn => btn.style.display = 'none');
 
-        if(mLogin) mLogin.style.display = 'none';
-        if(mSignup) mSignup.style.display = 'none';
-        if(mDash) mDash.style.display = 'block';
-        console.log("Header Sync: User Logged In");
+        // 3. Dashboard button lagao (Desktop aur Mobile dono jagah)
+        const containers = [
+            document.getElementById('desktopNav'),
+            document.getElementById('mobileMenu')
+        ];
+
+        containers.forEach(container => {
+            // Check karo ki Dashboard button pehle se toh nahi laga
+            if (container && !container.querySelector('.btn-dashboard')) {
+                const dashBtn = document.createElement('a');
+                dashBtn.href = 'dashboard.html';
+                dashBtn.className = 'btn-dashboard';
+                dashBtn.innerHTML = 'Dashboard <i class="fas fa-user-circle"></i>';
+                
+                // Button ki styling
+                dashBtn.style.cssText = `
+                    background: var(--primary, #007bff);
+                    color: white !important;
+                    padding: 8px 20px;
+                    border-radius: 25px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    margin: 5px;
+                    display: inline-block;
+                `;
+                
+                container.appendChild(dashBtn);
+            }
+        });
     } else {
-        // Agar login nahi hai, toh Login/Signup dikhao (security ke liye)
-        if(dLogin) dLogin.style.display = 'inline-block';
-        if(dSignup) dSignup.style.display = 'inline-block';
-        if(dDash) dDash.style.display = 'none';
+        console.log("Header Sync: No User Logged In");
     }
 }
-
-// Ye function hum har page ke fetch() ke baad call karenge
