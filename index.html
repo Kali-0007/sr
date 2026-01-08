@@ -502,11 +502,7 @@ header {
         document.getElementById('bookingModal').style.display = 'none';
         alert('Thank you! Payment link opened. details sent to us.');
     }
-    // --- LOGIN STATUS SYNC (Dashboard Button) ---
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof syncHeaderWithAuth === 'function') {
-            syncHeaderWithAuth();
-        }
+    
     });
     function toggleMobileMenu() {
         document.getElementById('mobileMenu').classList.toggle('active');
