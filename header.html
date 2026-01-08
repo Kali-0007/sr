@@ -164,6 +164,7 @@
     // Ek function jo buttons ko swap karega
     function updateHeaderButtons() {
         const userToken = localStorage.getItem('userToken');
+        alert("Local Storage mein token ye hai: " + localStorage.getItem('userToken'));
         if (!userToken) return; // Agar login nahi hai toh kuch mat karo
 
         // IDs check karo
