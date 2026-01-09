@@ -139,27 +139,26 @@ const serviceStore = {
                         ` : ''}
                     <div style="padding: 20px 30px; background: #161b22; border-top: 1px solid #30363d;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <div style="display: flex; flex-direction: column; gap: 2px;">
-            <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px;">Professional Fee:</div>
-            <div style="display: flex; align-items: baseline; gap: 10px;">
-                <span style="font-size: 32px; font-weight: 800; color: #00ff88; letter-spacing: -0.5px;">₹${s.oPrice}</span>
-                
-                <span style="text-decoration: line-through; color: #ff453a; font-size: 16px; font-weight: 500; opacity: 0.8;">₹${s.mPrice}</span>
-                
-                <span style="background: rgba(0, 255, 136, 0.1); color: #00ff88; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 600;">SAVE ₹${parseInt(s.mPrice) - parseInt(s.oPrice)}</span>
+        <div>
+            <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Professional Fee</div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 32px; font-weight: 800; color: #fff;">₹${s.oPrice}</span>
+                <span style="text-decoration: line-through; color: #ff453a; font-size: 18px; font-weight: 500;">₹${s.mPrice}</span>
             </div>
         </div>
         
-        <button style="background:#00ff88; color:#0b0e14; padding: 14px 40px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer; font-size: 16px; box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2); transition: 0.2s;"
-                onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';"
+        <button style="background:#00ff88; color:#0b0e14; padding: 15px 50px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer; font-size: 16px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);"
+                onmouseover="this.style.opacity='0.9'; this.style.transform='translateY(-1px)'" 
+                onmouseout="this.style.opacity='1'; this.style.transform='translateY(0)'"
                 onclick="serviceStore.placeOrder('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">
             BUY NOW
         </button>
     </div>
-                    <div style="font-size: 11px; color: #8b949e; text-align: center; border-top: 1px solid #30363d; padding-top: 10px;">
-                        🛡️ <b>Secure Transaction:</b> Our expert will contact you within 2 hours of successful payment to initiate the process.
-                    </div>
-                </div>
+    
+    <div style="font-size: 11px; color: #8b949e; text-align: center; border-top: 1px solid #21262d; padding-top: 12px;">
+        🛡️ <b>Secure Transaction:</b> Our expert will contact you within 2 hours of successful payment.
+    </div>
+</div>
             </div>
         </div>
     `;
