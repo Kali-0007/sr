@@ -137,15 +137,25 @@ const serviceStore = {
                             <div style="color:#8b949e; font-size: 12px; line-height: 1.5; white-space: pre-line; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">${s.faq}</div>
                         </div>
                         ` : ''}
-                    </div> </div> <div style="padding: 20px 30px; background: #161b22; border-top: 1px solid #30363d;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <div>
-                            <span style="font-size:28px; font-weight:bold; color:#fff;">₹${s.oPrice}</span>
-                            <span style="text-decoration: line-through; color: #484f58; font-size: 14px; margin-left: 8px;">₹${s.mPrice}</span>
-                        </div>
-                        <button style="background:#00ff88; color:#0b0e14; padding: 12px 35px; border-radius: 6px; font-weight: 700; border:none; cursor:pointer;"
-                                onclick="serviceStore.placeOrder('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">BUY NOW</button>
-                    </div>
+                    <div style="padding: 20px 30px; background: #161b22; border-top: 1px solid #30363d;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px;">Professional Fee:</div>
+            <div style="display: flex; align-items: baseline; gap: 10px;">
+                <span style="font-size: 32px; font-weight: 800; color: #00ff88; letter-spacing: -0.5px;">₹${s.oPrice}</span>
+                
+                <span style="text-decoration: line-through; color: #ff453a; font-size: 16px; font-weight: 500; opacity: 0.8;">₹${s.mPrice}</span>
+                
+                <span style="background: rgba(0, 255, 136, 0.1); color: #00ff88; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 600;">SAVE ₹${parseInt(s.mPrice) - parseInt(s.oPrice)}</span>
+            </div>
+        </div>
+        
+        <button style="background:#00ff88; color:#0b0e14; padding: 14px 40px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer; font-size: 16px; box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2); transition: 0.2s;"
+                onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';"
+                onclick="serviceStore.placeOrder('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">
+            BUY NOW
+        </button>
+    </div>
                     <div style="font-size: 11px; color: #8b949e; text-align: center; border-top: 1px solid #30363d; padding-top: 10px;">
                         🛡️ <b>Secure Transaction:</b> Our expert will contact you within 2 hours of successful payment to initiate the process.
                     </div>
