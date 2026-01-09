@@ -85,7 +85,7 @@ const serviceStore = {
 
         grid.innerHTML = tabsHtml + cardsHtml;
     },
-    showDetails: function(serviceName) {
+ showDetails: function(serviceName) {
     const s = this.allServices.find(x => x.name === serviceName);
     if(!s) return;
 
@@ -130,10 +130,14 @@ const serviceStore = {
 
                         <h4 style="color:#fff; margin:0 0 10px 0; font-size: 14px;">⭐ Service Benefits</h4>
                         <div style="color:#8b949e; font-size: 13px; line-height: 1.5; white-space: pre-line;">${s.service_benefits || 'Expert assistance.'}</div>
-                    </div>
-                </div>
-
-                <div style="padding: 20px 30px; background: #161b22; border-top: 1px solid #30363d;">
+                        
+                        ${s.faq ? `
+                        <div style="margin-top: 25px; border-top: 1px solid #30363d; padding-top: 15px;">
+                            <h4 style="color:#fff; margin:0 0 10px 0; font-size: 14px;">❓ FAQ</h4>
+                            <div style="color:#8b949e; font-size: 12px; line-height: 1.5; white-space: pre-line; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">${s.faq}</div>
+                        </div>
+                        ` : ''}
+                    </div> </div> <div style="padding: 20px 30px; background: #161b22; border-top: 1px solid #30363d;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                         <div>
                             <span style="font-size:28px; font-weight:bold; color:#fff;">₹${s.oPrice}</span>
