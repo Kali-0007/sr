@@ -156,7 +156,7 @@ const serviceStore = {
                     </div>
                     
                     <div style="font-size: 11px; color: #8b949e; text-align: center; border-top: 1px solid #21262d; padding-top: 12px;">
-                        🛡️ <b>Secure Transaction:</b> Our expert will contact you within 2 hours of successful payment.
+                        🛡️ <b>Secure Transaction:</b> Our expert will contact you within 2 hours of successful payment to initiate the process.
                     </div>
                 </div>
             </div>
