@@ -295,21 +295,12 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
 </script>
 `);
 async function handleCredentialResponse(response) {
-    // 1. Consent Check (Sirf wahan jahan checkbox ho)
-    const consentCheckbox = document.getElementById('privacyConsent');
-    if (consentCheckbox && !consentCheckbox.checked) {
-        alert("Please agree to the Terms and Privacy Policy to continue.");
-        return; 
-    }
-
-    // 2. Message Div Handle (Auth status dikhane ke liye)
+    const responsePayload = parseJwt(response.credential);
     const messageDiv = document.getElementById('message');
-    // Check taaki Contact page ke textarea ko na chhede
+    
     if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
         messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
     }
-
-    const responsePayload = parseJwt(response.credential);
 
     try {
         const security = await getSecurityData(); 
@@ -319,51 +310,32 @@ async function handleCredentialResponse(response) {
             method: "POST",
             body: JSON.stringify({ 
                 action: "google-login", 
-                userData: { ...responsePayload, ...security },
-                securityData: JSON.stringify(security)
+                userData: { ...responsePayload, ...security }
             })
         });
         
         const res = await backendRes.json();
 
         if(res.status === "success") {
-            // 3. Data Store (Jo header ke buttons badalta hai)
+            // DATA SAVE
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            // Success Message dikhao
-            if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-                messageDiv.innerHTML = '<span style="color: #00ff9d;">Success! Redirecting...</span>';
-            }
-
-            // 4. Header Sync Function ko call karo (Agar page par load ho chuka hai)
-            if (window.syncHeaderWithAuth) {
+            // YAHAN HAI ASLI MAGIC: Header ko force update karna
+            if (typeof window.syncHeaderWithAuth === "function") {
                 window.syncHeaderWithAuth();
-            } else if (window.updateHeaderButtons) {
-                window.updateHeaderButtons();
             }
 
-            // 5. Smart Redirection
             const currentPage = window.location.pathname.split("/").pop() || "index.html";
             
             if(currentPage === "login.html" || currentPage === "signup.html") {
-                setTimeout(() => { window.location.href = "dashboard.html"; }, 1000);
+                window.location.href = "dashboard.html";
             } else {
-                // Baaki pages par 1 second baad reload taaki user success dekh sake
-                // Aur reload ke baad header buttons automatically update ho jayein
-                setTimeout(() => { window.location.reload(); }, 1000);
-            }
-        } else {
-            if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-                messageDiv.innerHTML = `<span style="color: #ff4d4d;">${res.message}</span>`;
-            } else {
-                alert(res.message);
+                // Refresh zaroori hai taki Google popup dubara na aaye
+                window.location.reload();
             }
         }
     } catch (error) {
         console.error("Login Error:", error);
-        if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-            messageDiv.innerHTML = '<span style="color: #ff4d4d;">Connection Failed!</span>';
-        }
     }
 }
