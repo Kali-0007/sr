@@ -103,22 +103,16 @@
     <div class="glass-card">
         <h2 style="color: #fff; margin-bottom: 10px;">Welcome Back</h2>
         <p style="color: #aaa; font-size: 14px; margin-bottom: 30px;">Login to manage your taxes</p>
-        
         <div style="display: flex; align-items: flex-start; gap: 10px; margin: 20px auto; max-width: 350px; text-align: left; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
-            <input type="checkbox" id="privacyConsent" checked style="width: 18px; height: 18px; cursor: pointer; margin-top: 2px;">
-            <label for="privacyConsent" style="font-size: 13px; color: #ccc; cursor: pointer; line-height: 1.5;">
-                I agree to the 
-                <a href="terms-of-service.html" target="_blank" style="color: #667eea; text-decoration: underline;">Terms of Service</a> 
-                and 
-                <a href="privacy-policy.html" target="_blank" style="color: #667eea; text-decoration: underline;">Privacy Policy</a>.
-            </label>
-        </div>
-        <div id="g_id_onload"
-     data-client_id="550754215798-ud6hkuvag4ee6dp8jqkro1ob8i8f0g3b.apps.googleusercontent.com"
-     data-callback="handleCredentialResponse"
-     data-auto_prompt="true"
-     data-auto_select="true">
+    <input type="checkbox" id="privacyConsent" style="width: 20px; height: 20px; cursor: pointer; margin-top: 2px;">
+    <label for="privacyConsent" style="font-size: 13px; color: #ccc; cursor: pointer; line-height: 1.4;">
+        I agree to the <a href="privacy-policy.html" target="_blank" style="color: #667eea; text-decoration: underline;">Privacy Policy</a>.
+    </label>
 </div>
+        <div id="g_id_onload"
+             data-client_id="550754215798-ud6hkuvag4ee6dp8jqkro1ob8i8f0g3b.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse">
+        </div>
         <div style="display: flex; justify-content: center; margin-bottom: 5px;">
             <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_blue" data-text="signin_with" data-size="large"></div>
         </div>
@@ -258,18 +252,13 @@ async function getSecurityData() {
     };
 }
     // --- Updated: Google Login Handler ---
+// --- 1. Google Login Handler ---
 async function handleCredentialResponse(response) {
     const consentCheckbox = document.getElementById('privacyConsent');
-    
-    // Agar checkbox tick nahi hai
     if (!consentCheckbox || !consentCheckbox.checked) {
-        alert("Please agree to the Terms of Service and Privacy Policy to continue.");
+        alert("Please tick the 'I agree to Privacy Policy' checkbox.");
         return; 
     }
-
-    // Iske baad aapka Google Login ka baaki code chalega...
-    console.log("Consent verified, proceeding with login...");
-
 
     const responsePayload = parseJwt(response.credential);
     const messageDiv = document.getElementById('message');
