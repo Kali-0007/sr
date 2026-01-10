@@ -132,15 +132,18 @@ const serviceStore = {
         } catch (err) { alert("Order Request Sent!"); }
     },
 
-    handleBuyNow: function(name) {
-        const user = localStorage.getItem('userEmail');
-        if (!user || user === "Guest/Unknown") {
-            alert('Please login to continue.');
-            window.location.href = 'login.html';
-            return;
-        }
-        this.showDetails(name);
+   handleBuyNow: function(name, price) {
+    const user = localStorage.getItem('userEmail');
+    
+    if (!user || user === "Guest" || user === "Unknown") {
+        alert('Aap logged in nahi hain. Order karne ke liye please login karein.');
+        window.location.href = 'login.html';
+        return;
     }
+
+    // Agar login hai, toh seedha order process kar do
+    this.placeOrder(name, price);
+}
 };
 
 window.toggleDetails = function(id) {
