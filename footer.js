@@ -295,26 +295,12 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
 </script>
 `);
 async function handleCredentialResponse(response) {
-    // Google ka token check karein
-    if (!response || !response.credential) {
-        alert("Google check failed. Please try again.");
-        return;
-    }
-
-    // JWT Parse karein
+    // Google payload parse karein
     const responsePayload = parseJwt(response.credential);
     
-    // Agar parse fail hua toh yahan error aayega
-    if (!responsePayload) {
-        alert("Invalid session. Please try again.");
-        return;
-    }
-
-    // Baaki ka code wahi rahega jo humne pehle likha tha...
-    const messageDiv = document.getElementById('message');
-    if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-        messageDiv.innerHTML = 'Authenticating...';
-    }
+    // Status dikhane ke liye koi doosri ID use karein (taki contact textarea se na takraye)
+    const statusDiv = document.getElementById('loginStatus'); 
+    if(statusDiv) statusDiv.innerHTML = "Authenticating...";
 
     try {
         const security = await getSecurityData(); 
@@ -322,8 +308,7 @@ async function handleCredentialResponse(response) {
         
         const backendRes = await fetch(API_URL, {
             method: "POST",
-            mode: "cors",
-            headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({ 
                 action: "google-login", 
                 userData: { ...responsePayload, ...security }
@@ -332,24 +317,28 @@ async function handleCredentialResponse(response) {
         
         const res = await backendRes.json();
 
-        // ChatGPT Security Sanity Checks
-        if(res.status === "success" && res.token && res.token.length > 30 && typeof res.username === "string") {
+        if(res.status === "success" && res.token) {
+            // 1. Data Save
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            updateUIForLogin(); // Buttons switch karne ke liye
+            // 2. Buttons Sync (Pehle buttons change karo fir reload)
+            if (window.syncHeaderWithAuth) {
+                window.syncHeaderWithAuth();
+            }
 
+            // 3. Simple Redirect/Reload
             const path = window.location.pathname;
             if(path.includes("login.html") || path.includes("signup.html")) {
                 window.location.href = "dashboard.html";
             } else {
-                window.location.reload(); 
+                // Page refresh takki login complete ho jaye
+                window.location.reload();
             }
         } else {
-            alert(res.message || "Login failed at server.");
+            alert(res.message || "Login Failed");
         }
     } catch (error) {
-        console.error("Fetch error:", error);
-        alert("Connection error. Check console for details.");
+        console.error("Critical Error:", error);
     }
 }
