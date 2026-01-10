@@ -61,7 +61,7 @@ const serviceStore = {
 
         grid.innerHTML = tabsHtml + cardsHtml;
     },
-    showDetails: function(serviceName) {
+   showDetails: function(serviceName) {
         const s = this.allServices.find(x => x.name === serviceName);
         if(!s) return;
 
@@ -72,8 +72,8 @@ const serviceStore = {
             </div>`).join('');
 
         const modalHtml = `
-            <div id="serviceModal" style="display:flex; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items: flex-start; justify-content:center; padding: 100px 20px 40px 20px;">
-                <div style="background:#0d1117; max-width: 950px; width:100%; border-radius:16px; border: 1px solid #30363d; overflow:hidden; display: flex; flex-direction: column; max-height: 90vh;">
+            <div id="serviceModal" style="display:flex; position:fixed; z-index:999999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items: flex-start; justify-content:center; padding: 100px 20px 40px 20px;">
+                <div style="background:#0d1117; max-width: 950px; width:100%; border-radius:16px; border: 1px solid #30363d; overflow:hidden; display: flex; flex-direction: column; max-height: 85vh; position: relative;">
                     
                     <div style="padding: 20px 30px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; background: #161b22;">
                         <div>
@@ -84,6 +84,7 @@ const serviceStore = {
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1.5fr 1fr; overflow-y: auto; flex: 1; background: #0d1117;">
+                        
                         <div style="padding: 25px; border-right: 1px solid #30363d;">
                             <p style="color:#8b949e; font-size:14px; line-height:1.6; margin-bottom: 20px; white-space: pre-line;">${s.desc}</p>
                             
@@ -91,6 +92,18 @@ const serviceStore = {
                                 <h4 style="color:#00ff88; margin:0 0 10px 0; font-size: 14px;">✅ Eligibility & Details</h4>
                                 <div style="color:#c9d1d9; font-size: 13px; line-height: 1.6; white-space: pre-line;">${s.detailed_info || 'Refer to documentation.'}</div>
                             </div>
+
+                            <div style="background: rgba(255,69,58,0.05); border: 1px solid rgba(255,69,58,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                                <h4 style="color:#ff453a; margin:0 0 10px 0; font-size: 14px;">⚠️ Not Eligible If</h4>
+                                <div style="color:#c9d1d9; font-size: 13px; line-height: 1.6; white-space: pre-line;">${s.not_eligible || 'N/A'}</div>
+                            </div>
+
+                            ${s.faq ? `
+                            <div style="margin-top: 20px; border-top: 1px solid #30363d; padding-top: 15px;">
+                                <h4 style="color:#fff; margin:0 0 10px 0; font-size: 14px;">❓ FAQ</h4>
+                                <div style="color:#8b949e; font-size: 12px; line-height: 1.5; white-space: pre-line; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">${s.faq}</div>
+                            </div>
+                            ` : ''}
                         </div>
 
                         <div style="padding: 25px; background: #161b22;">
@@ -112,15 +125,13 @@ const serviceStore = {
                                 </div>
                             </div>
                             
-                            <button style="background:#00ff88; color:#0b0e14; padding: 15px 50px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer; font-size: 16px; transition: 0.3s;"
-                                    onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'"
+                            <button style="background:#00ff88; color:#0b0e14; padding: 15px 50px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer; font-size: 16px;"
                                     onclick="serviceStore.handleBuyNow('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">
                                 CONFIRM & BUY
                             </button>
                         </div>
-                        
                         <div style="font-size: 11px; color: #8b949e; text-align: center; border-top: 1px solid #21262d; padding-top: 12px;">
-                            🛡️ <b>Secure Transaction:</b> Our expert will contact you within 2 hours of successful payment to initiate the process.
+                            🛡️ <b>Secure Transaction:</b> Our expert will contact you within 2 hours to initiate the process.
                         </div>
                     </div>
                 </div>
