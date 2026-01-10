@@ -296,7 +296,6 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
 `);
 // --- Google Login & Auth Logic (Global) ---
 
-// 1. JWT Token Parse karne ke liye
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -306,7 +305,6 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-// 2. Security Data (IP, Browser etc) lane ke liye
 async function getSecurityData() {
     let ip = "Unknown";
     try {
@@ -314,7 +312,6 @@ async function getSecurityData() {
         const data = await res.json();
         ip = data.ip;
     } catch (e) { console.error("IP fetch failed"); }
-
     return {
         ip: ip,
         userAgent: navigator.userAgent,
@@ -323,9 +320,7 @@ async function getSecurityData() {
     };
 }
 
-// 3. Google Login ka Main Handler
 async function handleCredentialResponse(response) {
-    // Checkbox check (Sirf wahan jahan checkbox maujood ho, jaise login page)
     const consentCheckbox = document.getElementById('privacyConsent');
     if (consentCheckbox && !consentCheckbox.checked) {
         alert("Please agree to the Terms and Privacy Policy to continue.");
@@ -333,8 +328,11 @@ async function handleCredentialResponse(response) {
     }
 
     const responsePayload = parseJwt(response.credential);
+    // Yahan agar login page hai toh 'message' div me dikhayega warna alert
     const messageDiv = document.getElementById('message');
-    if(messageDiv) messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
+    if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
+        messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
+    }
 
     try {
         const security = await getSecurityData(); 
@@ -354,13 +352,18 @@ async function handleCredentialResponse(response) {
         if(res.status === "success") {
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
-            if(messageDiv) messageDiv.innerHTML = '<span style="color: #00ff9d;">Success! Redirecting...</span>';
-            setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
+            
+            // SMART REDIRECT
+            const currentPage = window.location.pathname.split("/").pop() || "index.html";
+            if(currentPage === "login.html" || currentPage === "signup.html") {
+                window.location.href = "dashboard.html";
+            } else {
+                window.location.reload(); // Baaki pages par sirf reload
+            }
         } else {
             alert(res.message);
         }
     } catch (error) {
-        console.error("Login Error:", error);
         alert("Connection failed. Please try again.");
     }
 }
