@@ -72,7 +72,7 @@ const serviceStore = {
             </div>`).join('');
 
         const modalHtml = `
-            <div id="serviceModal" style="display:flex; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items:center; justify-content:center; padding: 20px;">
+            <div id="serviceModal" style="display:flex; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items: flex-start; justify-content:center; padding: 100px 20px 40px 20px;">
                 <div style="background:#0d1117; max-width: 950px; width:100%; border-radius:16px; border: 1px solid #30363d; overflow:hidden; display: flex; flex-direction: column; max-height: 90vh;">
                     
                     <div style="padding: 20px 30px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; background: #161b22;">
