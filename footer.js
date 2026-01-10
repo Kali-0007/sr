@@ -294,23 +294,13 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
   }
 </script>
 `);
-let isAuthProcessing = false; 
-
 async function handleCredentialResponse(response) {
-    if (isAuthProcessing) return; 
-    
-    // Agar pehle se login hai toh process mat karo (Loop Protection)
-    if (localStorage.getItem('userToken')) {
-        console.log("Already logged in.");
-        return; 
-    }
-
-    isAuthProcessing = true; 
     const responsePayload = parseJwt(response.credential);
-    const messageDiv = document.getElementById('message');
     
+    // Auth status dikhane ke liye (Optional)
+    const messageDiv = document.getElementById('message');
     if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-        messageDiv.innerHTML = 'Authenticating...';
+        messageDiv.innerHTML = "Authenticating...";
     }
 
     try {
@@ -321,38 +311,31 @@ async function handleCredentialResponse(response) {
             method: "POST",
             body: JSON.stringify({ 
                 action: "google-login", 
-                userData: { ...responsePayload, ...security },
-                securityData: JSON.stringify(security)
+                userData: { ...responsePayload, ...security }
             })
         });
         
         const res = await backendRes.json();
 
         if(res.status === "success") {
-            // 1. Data Store Karo
+            // 1. Token aur Username save karo (Yahi header change karta hai)
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            // 2. Header ko turant signal bhejo (Important)
-            if (typeof window.updateHeaderButtons === "function") {
-                window.updateHeaderButtons();
-            }
-
-            // 3. Smart Redirect/Reload
+            // 2. Simple Redirect Logic
             const currentPage = window.location.pathname.split("/").pop() || "index.html";
             
             if(currentPage === "login.html" || currentPage === "signup.html") {
+                // Agar login page hai toh dashboard bhej do
                 window.location.href = "dashboard.html";
             } else {
-                // Dashboard likha hua dikhane ke liye reload zaroori hai
-                window.location.reload(); 
+                // Baaki pages par sirf reload karo, Dashboard button apne aap aa jayega
+                window.location.reload();
             }
         } else {
-            alert("Login failed: " + res.message);
-            isAuthProcessing = false;
+            alert(res.message);
         }
     } catch (error) {
         console.error("Login Error:", error);
-        isAuthProcessing = false;
     }
 }
