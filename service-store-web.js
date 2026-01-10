@@ -46,7 +46,9 @@ const serviceStore = {
                             ${s.icon || '💼'}
                         </div>
                         <h3 style="color: #f0f6fc; font-size: 18px; margin-bottom: 8px; font-weight: 600; min-height: 44px; display: flex; align-items: center;">${s.name}</h3>
-                        <p style="font-size: 13px; color: #8b949e; line-height: 1.5; margin-bottom: 20px; min-height: 40px; max-width: 200px;">${s.desc.substring(0, 60)}...</p>
+                        <p style="font-size: 13px; color: #8b949e; line-height: 1.6; margin-bottom: 25px; min-height: 70px; max-width: 240px; text-align: center;">
+    ${s.desc.substring(0, 120)}${s.desc.length > 120 ? '...' : ''}
+</p>
                         <div style="margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; gap: 4px;">
                             <span style="color: #00ff88; font-size: 24px; font-weight: 700;">₹${s.oPrice}</span>
                             <span style="text-decoration: line-through; color: #484f58; font-size: 14px;">M.R.P: ₹${s.mPrice}</span>
