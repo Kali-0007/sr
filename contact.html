@@ -129,6 +129,13 @@
 <script src="footer.js"></script>
 
 <script>
+  // Force sync on page load
+  window.onload = function() {
+    if (window.syncHeaderWithAuth) window.syncHeaderWithAuth();
+  };
+</script>
+
+<script>
     // 1. Header Load & Toggle Logic
     fetch('./header.html')
       .then(res => res.text())
