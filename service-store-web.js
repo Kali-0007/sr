@@ -65,53 +65,66 @@ const serviceStore = {
         const s = this.allServices.find(x => x.name === serviceName);
         if(!s) return;
 
-        // Documents List Logic
         const docs = s.docs ? s.docs.split(',') : [];
-        const docList = docs.map(d => `<div style="display:flex; gap:8px; font-size:13px; color:#c9d1d9; margin-bottom:8px;"><span style="color:#00ff88;">✓</span> ${d.trim()}</div>`).join('');
+        const docList = docs.map(d => `
+            <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: #c9d1d9; margin-bottom: 8px;">
+                <span style="color: #00ff88;">✓</span> ${d.trim()}
+            </div>`).join('');
 
-        // Full Featured Modal (Dashboard wala logic, Website wala design)
         const modalHtml = `
-        <div id="serviceModal" style="display:flex; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items:center; justify-content:center; padding: 20px;">
-            <div style="background:#0d1117; max-width: 950px; width:100%; border-radius:16px; border: 1px solid #30363d; overflow:hidden; display: flex; flex-direction: column; max-height: 90vh;">
-                <div style="padding: 20px 30px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; background: #161b22;">
-                    <div>
-                        <h2 style="color:#fff; margin:0; font-size: 20px;">${s.name}</h2>
-                        <div style="color:#8b949e; font-size: 12px;">⏱ Time: <span style="color: #00ff88;">${s.time || 'Standard'}</span></div>
-                    </div>
-                    <span onclick="document.getElementById('serviceModal').remove()" style="cursor:pointer; font-size:28px; color:#8b949e;">&times;</span>
-                </div>
-                <div style="display: grid; grid-template-columns: 1.5fr 1fr; overflow-y: auto; background: #0d1117;">
-                    <div style="padding: 25px; border-right: 1px solid #30363d;">
-                        <p style="color:#8b949e; font-size:14px; line-height:1.6; white-space: pre-line;">${s.desc}</p>
-                        <div style="background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
-                            <h4 style="color:#00ff88; margin:0 0 10px 0; font-size: 14px;">✅ Eligibility & Details</h4>
-                            <div style="color:#c9d1d9; font-size: 13px; white-space: pre-line;">${s.detailed_info || 'Refer to docs.'}</div>
+            <div id="serviceModal" style="display:flex; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items:center; justify-content:center; padding: 20px;">
+                <div style="background:#0d1117; max-width: 950px; width:100%; border-radius:16px; border: 1px solid #30363d; overflow:hidden; display: flex; flex-direction: column; max-height: 90vh;">
+                    
+                    <div style="padding: 20px 30px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; background: #161b22;">
+                        <div>
+                            <h2 style="color:#fff; margin:0; font-size: 20px;">${s.name}</h2>
+                            <div style="color:#8b949e; font-size: 12px; margin-top: 4px;">⏱ Time: <span style="color: #00ff88;">${s.time || 'Standard'}</span></div>
                         </div>
-                        <div style="background: rgba(255,69,58,0.05); border: 1px solid rgba(255,69,58,0.1); border-radius: 8px; padding: 15px;">
-                            <h4 style="color:#ff453a; margin:0 0 10px 0; font-size: 14px;">⚠️ Not Eligible If</h4>
-                            <div style="color:#c9d1d9; font-size: 13px; white-space: pre-line;">${s.not_eligible || 'N/A'}</div>
+                        <span onclick="document.getElementById('serviceModal').remove()" style="cursor:pointer; font-size:28px; color:#8b949e;">&times;</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1.5fr 1fr; overflow-y: auto; flex: 1; background: #0d1117;">
+                        <div style="padding: 25px; border-right: 1px solid #30363d;">
+                            <p style="color:#8b949e; font-size:14px; line-height:1.6; margin-bottom: 20px; white-space: pre-line;">${s.desc}</p>
+                            
+                            <div style="background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                                <h4 style="color:#00ff88; margin:0 0 10px 0; font-size: 14px;">✅ Eligibility & Details</h4>
+                                <div style="color:#c9d1d9; font-size: 13px; line-height: 1.6; white-space: pre-line;">${s.detailed_info || 'Refer to documentation.'}</div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 25px; background: #161b22;">
+                            <h4 style="color:#fff; margin:0 0 15px 0; font-size: 14px;">📋 Required Documents</h4>
+                            <div style="margin-bottom: 25px;">${docList || 'Contact support.'}</div>
+                            
+                            <h4 style="color:#fff; margin:0 0 10px 0; font-size: 14px;">⭐ Service Benefits</h4>
+                            <div style="color:#8b949e; font-size: 13px; line-height: 1.5; white-space: pre-line;">${s.service_benefits || 'Expert assistance.'}</div>
                         </div>
                     </div>
-                    <div style="padding: 25px; background: #161b22;">
-                        <h4 style="color:#fff; margin-bottom: 15px; font-size: 14px;">📋 Required Documents</h4>
-                        <div>${docList}</div>
-                        <h4 style="color:#fff; margin: 20px 0 10px 0; font-size: 14px;">⭐ Benefits</h4>
-                        <div style="color:#8b949e; font-size: 13px; white-space: pre-line;">${s.service_benefits || 'Expert assistance.'}</div>
-                        ${s.faq ? `<div style="margin-top:20px; border-top:1px solid #333; padding-top:10px;"><h4 style="color:#fff; font-size:14px;">❓ FAQ</h4><div style="color:#8b949e; font-size:12px;">${s.faq}</div></div>` : ''}
+
+                    <div style="padding: 20px 30px; background: #161b22; border-top: 1px solid #30363d;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div>
+                                <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Professional Fee</div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="font-size: 32px; font-weight: 800; color: #fff;">₹${s.oPrice}</span>
+                                    <span style="text-decoration: line-through; color: #ff453a; font-size: 18px; font-weight: 500;">₹${s.mPrice}</span>
+                                </div>
+                            </div>
+                            
+                            <button style="background:#00ff88; color:#0b0e14; padding: 15px 50px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer; font-size: 16px; transition: 0.3s;"
+                                    onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'"
+                                    onclick="serviceStore.handleBuyNow('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">
+                                CONFIRM & BUY
+                            </button>
+                        </div>
+                        
+                        <div style="font-size: 11px; color: #8b949e; text-align: center; border-top: 1px solid #21262d; padding-top: 12px;">
+                            🛡️ <b>Secure Transaction:</b> Our expert will contact you within 2 hours of successful payment to initiate the process.
+                        </div>
                     </div>
                 </div>
-                <div style="padding: 20px 30px; background: #161b22; border-top: 1px solid #30363d;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 32px; font-weight: 800; color: #fff;">₹${s.oPrice}</span>
-                        // showDetails function ke andar wala button ab aisa dikhega:
-<button style="background:#00ff88; color:#0b0e14; padding: 15px 50px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer;" 
-        onclick="serviceStore.handleBuyNow('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">
-    CONFIRM & BUY
-</button>
-                    </div>
-                </div>
-            </div>
-        </div>`;
+            </div>`;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
 
