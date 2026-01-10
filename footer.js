@@ -295,45 +295,76 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
 </script>
 `);
 async function handleCredentialResponse(response) {
-    const responsePayload = parseJwt(response.credential);
+    let responsePayload;
+    try {
+        // ChatGPT Point #3: JWT Parse safety
+        responsePayload = parseJwt(response.credential);
+    } catch (e) {
+        console.error("JWT Parse Error:", e);
+        return alert("Invalid session. Please try again.");
+    }
+
+    const messageDiv = document.getElementById('message');
+    if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
+        messageDiv.innerHTML = '<span style="color: #667eea;">Securing Session...</span>';
+    }
+
     try {
         const security = await getSecurityData(); 
         const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
         
+        // ChatGPT Point #1: Headers added & Point #2: Clean Data
         const backendRes = await fetch(API_URL, {
             method: "POST",
+            mode: "cors", // Added for Apps Script compatibility
+            headers: { "Content-Type": "text/plain;charset=utf-8" }, // Apps Script takes JSON better this way
             body: JSON.stringify({ 
                 action: "google-login", 
-                userData: { ...responsePayload, ...security },
-                securityData: JSON.stringify(security)
+                userData: { ...responsePayload, ...security }
             })
         });
         
         const res = await backendRes.json();
 
-        if(res.status === "success") {
-            // 1. Data Save
+        // Improvement #1: Proper status check
+        if(res.status === "success" && res.token) {
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            // 2. FORCE BUTTON CHANGE (Bina header sync file ke bharose)
-            // Aapke header mein jo IDs hain, unhe yahan check kijiye
-            const loginBtns = document.querySelectorAll('[id*="Login"]'); // Har wo button jiske ID mein 'Login' ho
-            const signupBtns = document.querySelectorAll('[id*="Signup"]'); // Har wo button jiske ID mein 'Signup' ho
-            const dashboardBtns = document.querySelectorAll('[id*="Dashboard"]'); // Har wo button jiske ID mein 'Dashboard' ho
-
-            loginBtns.forEach(btn => btn.style.display = 'none');
-            signupBtns.forEach(btn => btn.style.display = 'none');
-            dashboardBtns.forEach(btn => btn.style.display = 'inline-block');
-
-            // 3. Smart Redirect
-            const currentPage = window.location.pathname.split("/").pop() || "index.html";
-            if(currentPage === "login.html" || currentPage === "signup.html") {
-                window.location.href = "dashboard.html";
-            } else {
-                // 1 second ka wait taaki aap apni aankhon se "Dashboard" button aata hua dekh sakein
-                setTimeout(() => { window.location.reload(); }, 1000);
+            if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
+                messageDiv.innerHTML = '<span style="color: #00ff9d;">Success! Redirecting...</span>';
             }
+
+            // ChatGPT Point #4: UI Update logic
+            updateUIForLogin();
+
+            const path = window.location.pathname;
+            if(path.includes("login.html") || path.includes("signup.html")) {
+                setTimeout(() => { window.location.href = "dashboard.html"; }, 800);
+            } else {
+                // Improvement #2: Cleaner Reload
+                setTimeout(() => { window.location.href = window.location.href; }, 800);
+            }
+        } else {
+            throw new Error(res.message || "Invalid response from server");
         }
-    } catch (error) { console.error("Error:", error); }
+    } catch (error) {
+        console.error("Login Error:", error);
+        alert(error.message || "Connection failed. Please check your internet.");
+        if(messageDiv) messageDiv.innerHTML = "";
+    }
+}
+
+// Separate function for UI update (Cleaner approach)
+function updateUIForLogin() {
+    // Specific IDs use karein jo aapne header mein rakhe hain
+    const elements = {
+        login: ['headerLoginBtn', 'mobileLoginBtn'],
+        signup: ['headerSignupBtn', 'mobileSignupBtn'],
+        dash: ['headerDashboardBtn', 'mobileDashboardBtn']
+    };
+
+    elements.login.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'none'; });
+    elements.signup.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'none'; });
+    elements.dash.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'inline-block'; });
 }
