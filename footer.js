@@ -294,33 +294,14 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
   }
 </script>
 `);
-// --- Google Login & Auth Logic (Global) ---
-
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-}
-
-async function getSecurityData() {
-    let ip = "Unknown";
-    try {
-        const res = await fetch('https://api.ipify.org?format=json');
-        const data = await res.json();
-        ip = data.ip;
-    } catch (e) { console.error("IP fetch failed"); }
-    return {
-        ip: ip,
-        userAgent: navigator.userAgent,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        screenRes: window.screen.width + "x" + window.screen.height
-    };
-}
-
 async function handleCredentialResponse(response) {
+    // 1. LOOP BREAKER: Agar token pehle se hai, toh reload mat karo
+    if (localStorage.getItem('userToken')) {
+        console.log("Already logged in. Stopping loop.");
+        return; 
+    }
+
+    // 2. Checkbox check
     const consentCheckbox = document.getElementById('privacyConsent');
     if (consentCheckbox && !consentCheckbox.checked) {
         alert("Please agree to the Terms and Privacy Policy to continue.");
@@ -328,8 +309,9 @@ async function handleCredentialResponse(response) {
     }
 
     const responsePayload = parseJwt(response.credential);
-    // Yahan agar login page hai toh 'message' div me dikhayega warna alert
     const messageDiv = document.getElementById('message');
+    
+    // Check if messageDiv exists and is NOT the contact form textarea
     if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
         messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
     }
@@ -358,12 +340,14 @@ async function handleCredentialResponse(response) {
             if(currentPage === "login.html" || currentPage === "signup.html") {
                 window.location.href = "dashboard.html";
             } else {
-                window.location.reload(); // Baaki pages par sirf reload
+                // Page ko sirf ek baar reload karega
+                window.location.reload(); 
             }
         } else {
             alert(res.message);
         }
     } catch (error) {
+        console.error("Login Error:", error);
         alert("Connection failed. Please try again.");
     }
 }
