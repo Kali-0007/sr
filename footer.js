@@ -295,13 +295,7 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
 </script>
 `);
 async function handleCredentialResponse(response) {
-    // 1. LOOP BREAKER: Agar token pehle se hai, toh reload mat karo
-    if (localStorage.getItem('userToken')) {
-        console.log("Already logged in. Stopping loop.");
-        return; 
-    }
-
-    // 2. Checkbox check
+    // 1. Checkbox check (Sirf login page par checkbox check karega)
     const consentCheckbox = document.getElementById('privacyConsent');
     if (consentCheckbox && !consentCheckbox.checked) {
         alert("Please agree to the Terms and Privacy Policy to continue.");
@@ -311,7 +305,7 @@ async function handleCredentialResponse(response) {
     const responsePayload = parseJwt(response.credential);
     const messageDiv = document.getElementById('message');
     
-    // Check if messageDiv exists and is NOT the contact form textarea
+    // Auth status dikhane ke liye
     if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
         messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
     }
@@ -332,22 +326,36 @@ async function handleCredentialResponse(response) {
         const res = await backendRes.json();
 
         if(res.status === "success") {
+            // LOGIN SE PEHLE CHECK KARO: Kya user pehle se login tha?
+            const existingToken = localStorage.getItem('userToken');
+            
+            // Data save karo
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            // SMART REDIRECT
+            if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
+                messageDiv.innerHTML = '<span style="color: #00ff9d;">Success!</span>';
+            }
+
+            // SMART REDIRECT & LOOP CONTROL
             const currentPage = window.location.pathname.split("/").pop() || "index.html";
+            
             if(currentPage === "login.html" || currentPage === "signup.html") {
+                // Login page par ho toh Dashboard bhej do
                 window.location.href = "dashboard.html";
             } else {
-                // Page ko sirf ek baar reload karega
-                window.location.reload(); 
+                // Baaki pages par: AGAR PEHLE LOGIN NAHI THA (token empty tha), tabhi reload karo
+                // Isse auto-select hone par baar-baar reload nahi hoga
+                if (!existingToken) {
+                    window.location.reload();
+                } else {
+                    console.log("Already synced. Loop prevented.");
+                }
             }
         } else {
             alert(res.message);
         }
     } catch (error) {
         console.error("Login Error:", error);
-        alert("Connection failed. Please try again.");
     }
 }
