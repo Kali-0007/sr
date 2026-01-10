@@ -37,27 +37,39 @@ const serviceStore = {
 
         const filtered = activeCategory === 'all' ? this.allServices : this.allServices.filter(s => s.category === activeCategory);
 
+        // 2. CARDS: Dashboard Professional Look Restored
         const cardsHtml = `
-            <div class="grid">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; width: 100%;">
                 ${filtered.map(s => {
                     const safeId = 's' + Math.random().toString(36).substr(2, 9);
                     return `
-                        <div class="card">
-                            <h3>${s.name}</h3>
-                            <div class="price-row">
-                                <span class="m-price">₹${s.mPrice}</span>
-                                <span class="o-price">₹${s.oPrice}</span>
+                        <div class="service-card" style="background: #161b22; border: 1px solid #30363d; padding: 30px 20px; border-radius: 12px; transition: 0.3s; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                            
+                            <div style="width: 60px; height: 60px; background: #0d1117; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 20px; border: 1px solid #30363d;">
+                                ${s.icon || '💼'}
                             </div>
-                            <button class="know-more" onclick="window.toggleDetails('${safeId}')">Quick View</button>
-                            <div id="${safeId}" class="details" style="display:none;">
-                                <ul>${s.desc.split('\n').map(point => `<li><i class="fas fa-check"></i> ${point}</li>`).join('')}</ul>
+
+                            <h3 style="color: #f0f6fc; font-size: 18px; margin-bottom: 8px; font-weight: 600; min-height: 44px; display: flex; align-items: center;">${s.name}</h3>
+                            
+                            <p style="font-size: 13px; color: #8b949e; line-height: 1.5; margin-bottom: 20px; min-height: 40px; max-width: 200px;">
+                                ${s.desc.substring(0, 60)}...
+                            </p>
+                            
+                            <div style="margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                                <span style="color: #00ff88; font-size: 24px; font-weight: 700;">₹${s.oPrice}</span>
+                                <span style="text-decoration: line-through; color: #484f58; font-size: 14px;">M.R.P: ₹${s.mPrice}</span>
                             </div>
-                            <button class="opt-btn" onclick="serviceStore.handleBuyNow('${s.name.replace(/'/g, "\\'")}')">Buy Now</button>
-                        </div>`;
+
+                            <button class="service-btn" style="width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; background: #00ff88; color: #0b0e14; border: none; cursor: pointer; transition: 0.2s; font-size: 14px;" 
+                                    onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'"
+                                    onclick="serviceStore.handleBuyNow('${s.name.replace(/'/g, "\\'")}')">
+                                Get Started
+                            </button>
+                        </div>
+                    `;
                 }).join('')}
-            </div>`;
-        grid.innerHTML = tabsHtml + cardsHtml;
-    },
+            </div>
+        `;
 
     showDetails: function(serviceName) {
         const s = this.allServices.find(x => x.name === serviceName);
