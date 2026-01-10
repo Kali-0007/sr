@@ -295,29 +295,35 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
 </script>
 `);
 async function handleCredentialResponse(response) {
-    let responsePayload;
-    try {
-        // ChatGPT Point #3: JWT Parse safety
-        responsePayload = parseJwt(response.credential);
-    } catch (e) {
-        console.error("JWT Parse Error:", e);
-        return alert("Invalid session. Please try again.");
+    // Google ka token check karein
+    if (!response || !response.credential) {
+        alert("Google check failed. Please try again.");
+        return;
     }
 
+    // JWT Parse karein
+    const responsePayload = parseJwt(response.credential);
+    
+    // Agar parse fail hua toh yahan error aayega
+    if (!responsePayload) {
+        alert("Invalid session. Please try again.");
+        return;
+    }
+
+    // Baaki ka code wahi rahega jo humne pehle likha tha...
     const messageDiv = document.getElementById('message');
     if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-        messageDiv.innerHTML = '<span style="color: #667eea;">Securing Session...</span>';
+        messageDiv.innerHTML = 'Authenticating...';
     }
 
     try {
         const security = await getSecurityData(); 
         const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
         
-        // ChatGPT Point #1: Headers added & Point #2: Clean Data
         const backendRes = await fetch(API_URL, {
             method: "POST",
-            mode: "cors", // Added for Apps Script compatibility
-            headers: { "Content-Type": "text/plain;charset=utf-8" }, // Apps Script takes JSON better this way
+            mode: "cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" }, 
             body: JSON.stringify({ 
                 action: "google-login", 
                 userData: { ...responsePayload, ...security }
@@ -326,45 +332,24 @@ async function handleCredentialResponse(response) {
         
         const res = await backendRes.json();
 
-        // Improvement #1: Proper status check
-        if(res.status === "success" && res.token) {
+        // ChatGPT Security Sanity Checks
+        if(res.status === "success" && res.token && res.token.length > 30 && typeof res.username === "string") {
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-                messageDiv.innerHTML = '<span style="color: #00ff9d;">Success! Redirecting...</span>';
-            }
-
-            // ChatGPT Point #4: UI Update logic
-            updateUIForLogin();
+            updateUIForLogin(); // Buttons switch karne ke liye
 
             const path = window.location.pathname;
             if(path.includes("login.html") || path.includes("signup.html")) {
-                setTimeout(() => { window.location.href = "dashboard.html"; }, 800);
+                window.location.href = "dashboard.html";
             } else {
-                // Improvement #2: Cleaner Reload
-                setTimeout(() => { window.location.href = window.location.href; }, 800);
+                window.location.reload(); 
             }
         } else {
-            throw new Error(res.message || "Invalid response from server");
+            alert(res.message || "Login failed at server.");
         }
     } catch (error) {
-        console.error("Login Error:", error);
-        alert(error.message || "Connection failed. Please check your internet.");
-        if(messageDiv) messageDiv.innerHTML = "";
+        console.error("Fetch error:", error);
+        alert("Connection error. Check console for details.");
     }
-}
-
-// Separate function for UI update (Cleaner approach)
-function updateUIForLogin() {
-    // Specific IDs use karein jo aapne header mein rakhe hain
-    const elements = {
-        login: ['headerLoginBtn', 'mobileLoginBtn'],
-        signup: ['headerSignupBtn', 'mobileSignupBtn'],
-        dash: ['headerDashboardBtn', 'mobileDashboardBtn']
-    };
-
-    elements.login.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'none'; });
-    elements.signup.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'none'; });
-    elements.dash.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'inline-block'; });
 }
