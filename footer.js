@@ -296,12 +296,6 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
 `);
 async function handleCredentialResponse(response) {
     const responsePayload = parseJwt(response.credential);
-    const messageDiv = document.getElementById('message');
-    
-    if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-        messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
-    }
-
     try {
         const security = await getSecurityData(); 
         const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
@@ -310,32 +304,36 @@ async function handleCredentialResponse(response) {
             method: "POST",
             body: JSON.stringify({ 
                 action: "google-login", 
-                userData: { ...responsePayload, ...security }
+                userData: { ...responsePayload, ...security },
+                securityData: JSON.stringify(security)
             })
         });
         
         const res = await backendRes.json();
 
         if(res.status === "success") {
-            // DATA SAVE
+            // 1. Data Save
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            // YAHAN HAI ASLI MAGIC: Header ko force update karna
-            if (typeof window.syncHeaderWithAuth === "function") {
-                window.syncHeaderWithAuth();
-            }
+            // 2. FORCE BUTTON CHANGE (Bina header sync file ke bharose)
+            // Aapke header mein jo IDs hain, unhe yahan check kijiye
+            const loginBtns = document.querySelectorAll('[id*="Login"]'); // Har wo button jiske ID mein 'Login' ho
+            const signupBtns = document.querySelectorAll('[id*="Signup"]'); // Har wo button jiske ID mein 'Signup' ho
+            const dashboardBtns = document.querySelectorAll('[id*="Dashboard"]'); // Har wo button jiske ID mein 'Dashboard' ho
 
+            loginBtns.forEach(btn => btn.style.display = 'none');
+            signupBtns.forEach(btn => btn.style.display = 'none');
+            dashboardBtns.forEach(btn => btn.style.display = 'inline-block');
+
+            // 3. Smart Redirect
             const currentPage = window.location.pathname.split("/").pop() || "index.html";
-            
             if(currentPage === "login.html" || currentPage === "signup.html") {
                 window.location.href = "dashboard.html";
             } else {
-                // Refresh zaroori hai taki Google popup dubara na aaye
-                window.location.reload();
+                // 1 second ka wait taaki aap apni aankhon se "Dashboard" button aata hua dekh sakein
+                setTimeout(() => { window.location.reload(); }, 1000);
             }
         }
-    } catch (error) {
-        console.error("Login Error:", error);
-    }
+    } catch (error) { console.error("Error:", error); }
 }
