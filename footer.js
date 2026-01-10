@@ -294,20 +294,25 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
   }
 </script>
 `);
+let isAuthProcessing = false; // Double request rokne ke liye
+
 async function handleCredentialResponse(response) {
-    // 1. Checkbox check (Sirf login page par checkbox check karega)
-    const consentCheckbox = document.getElementById('privacyConsent');
-    if (consentCheckbox && !consentCheckbox.checked) {
-        alert("Please agree to the Terms and Privacy Policy to continue.");
+    if (isAuthProcessing) return; // Agar pehle se process chal raha hai toh ruko
+    
+    const existingToken = localStorage.getItem('userToken');
+    
+    // Agar user pehle se login hai, toh login process mat chalao (Loop Break)
+    if (existingToken) {
+        console.log("User already logged in.");
         return; 
     }
 
+    isAuthProcessing = true; // Process shuru
+
     const responsePayload = parseJwt(response.credential);
     const messageDiv = document.getElementById('message');
-    
-    // Auth status dikhane ke liye
     if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-        messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
+        messageDiv.innerHTML = 'Authenticating...';
     }
 
     try {
@@ -326,36 +331,21 @@ async function handleCredentialResponse(response) {
         const res = await backendRes.json();
 
         if(res.status === "success") {
-            // LOGIN SE PEHLE CHECK KARO: Kya user pehle se login tha?
-            const existingToken = localStorage.getItem('userToken');
-            
-            // Data save karo
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-                messageDiv.innerHTML = '<span style="color: #00ff9d;">Success!</span>';
-            }
-
-            // SMART REDIRECT & LOOP CONTROL
             const currentPage = window.location.pathname.split("/").pop() || "index.html";
-            
             if(currentPage === "login.html" || currentPage === "signup.html") {
-                // Login page par ho toh Dashboard bhej do
                 window.location.href = "dashboard.html";
             } else {
-                // Baaki pages par: AGAR PEHLE LOGIN NAHI THA (token empty tha), tabhi reload karo
-                // Isse auto-select hone par baar-baar reload nahi hoga
-                if (!existingToken) {
-                    window.location.reload();
-                } else {
-                    console.log("Already synced. Loop prevented.");
-                }
+                window.location.reload(); // Sirf ek baar reload
             }
         } else {
-            alert(res.message);
+            console.error(res.message);
+            isAuthProcessing = false;
         }
     } catch (error) {
         console.error("Login Error:", error);
+        isAuthProcessing = false;
     }
 }
