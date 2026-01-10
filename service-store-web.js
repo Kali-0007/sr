@@ -52,9 +52,9 @@ const serviceStore = {
                             <span style="text-decoration: line-through; color: #484f58; font-size: 14px;">M.R.P: ₹${s.mPrice}</span>
                         </div>
                         <button class="service-btn" style="width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; background: #00ff88; color: #0b0e14; border: none; cursor: pointer;" 
-                                onclick="serviceStore.handleBuyNow('${s.name.replace(/'/g, "\\'")}')">
-                            Get Started
-                        </button>
+        onclick="serviceStore.showDetails('${s.name.replace(/'/g, "\\'")}')">
+    View Details
+</button>
                     </div>
                 `).join('')}
             </div>`;
@@ -103,7 +103,11 @@ const serviceStore = {
                 <div style="padding: 20px 30px; background: #161b22; border-top: 1px solid #30363d;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-size: 32px; font-weight: 800; color: #fff;">₹${s.oPrice}</span>
-                        <button style="background:#00ff88; color:#0b0e14; padding: 15px 50px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer;" onclick="serviceStore.placeOrder('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">CONFIRM & BUY</button>
+                        // showDetails function ke andar wala button ab aisa dikhega:
+<button style="background:#00ff88; color:#0b0e14; padding: 15px 50px; border-radius: 8px; font-weight: 800; border:none; cursor:pointer;" 
+        onclick="serviceStore.handleBuyNow('${s.name.replace(/'/g, "\\'")}', '${s.oPrice}')">
+    CONFIRM & BUY
+</button>
                     </div>
                 </div>
             </div>
