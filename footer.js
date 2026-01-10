@@ -294,3 +294,73 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
   }
 </script>
 `);
+// --- Google Login & Auth Logic (Global) ---
+
+// 1. JWT Token Parse karne ke liye
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+
+// 2. Security Data (IP, Browser etc) lane ke liye
+async function getSecurityData() {
+    let ip = "Unknown";
+    try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        ip = data.ip;
+    } catch (e) { console.error("IP fetch failed"); }
+
+    return {
+        ip: ip,
+        userAgent: navigator.userAgent,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        screenRes: window.screen.width + "x" + window.screen.height
+    };
+}
+
+// 3. Google Login ka Main Handler
+async function handleCredentialResponse(response) {
+    // Checkbox check (Sirf wahan jahan checkbox maujood ho, jaise login page)
+    const consentCheckbox = document.getElementById('privacyConsent');
+    if (consentCheckbox && !consentCheckbox.checked) {
+        alert("Please agree to the Terms and Privacy Policy to continue.");
+        return; 
+    }
+
+    const responsePayload = parseJwt(response.credential);
+    const messageDiv = document.getElementById('message');
+    if(messageDiv) messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
+
+    try {
+        const security = await getSecurityData(); 
+        const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
+        
+        const backendRes = await fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({ 
+                action: "google-login", 
+                userData: { ...responsePayload, ...security },
+                securityData: JSON.stringify(security)
+            })
+        });
+        
+        const res = await backendRes.json();
+
+        if(res.status === "success") {
+            localStorage.setItem('userToken', res.token);
+            localStorage.setItem('username', res.username);
+            if(messageDiv) messageDiv.innerHTML = '<span style="color: #00ff9d;">Success! Redirecting...</span>';
+            setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
+        } else {
+            alert(res.message);
+        }
+    } catch (error) {
+        console.error("Login Error:", error);
+        alert("Connection failed. Please try again.");
+    }
+}
