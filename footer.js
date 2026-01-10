@@ -295,13 +295,21 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
 </script>
 `);
 async function handleCredentialResponse(response) {
-    const responsePayload = parseJwt(response.credential);
-    
-    // Auth status dikhane ke liye (Optional)
-    const messageDiv = document.getElementById('message');
-    if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
-        messageDiv.innerHTML = "Authenticating...";
+    // 1. Consent Check (Sirf wahan jahan checkbox ho)
+    const consentCheckbox = document.getElementById('privacyConsent');
+    if (consentCheckbox && !consentCheckbox.checked) {
+        alert("Please agree to the Terms and Privacy Policy to continue.");
+        return; 
     }
+
+    // 2. Message Div Handle (Auth status dikhane ke liye)
+    const messageDiv = document.getElementById('message');
+    // Check taaki Contact page ke textarea ko na chhede
+    if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
+        messageDiv.innerHTML = '<span style="color: #667eea;">Authenticating...</span>';
+    }
+
+    const responsePayload = parseJwt(response.credential);
 
     try {
         const security = await getSecurityData(); 
@@ -311,31 +319,51 @@ async function handleCredentialResponse(response) {
             method: "POST",
             body: JSON.stringify({ 
                 action: "google-login", 
-                userData: { ...responsePayload, ...security }
+                userData: { ...responsePayload, ...security },
+                securityData: JSON.stringify(security)
             })
         });
         
         const res = await backendRes.json();
 
         if(res.status === "success") {
-            // 1. Token aur Username save karo (Yahi header change karta hai)
+            // 3. Data Store (Jo header ke buttons badalta hai)
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
             
-            // 2. Simple Redirect Logic
+            // Success Message dikhao
+            if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
+                messageDiv.innerHTML = '<span style="color: #00ff9d;">Success! Redirecting...</span>';
+            }
+
+            // 4. Header Sync Function ko call karo (Agar page par load ho chuka hai)
+            if (window.syncHeaderWithAuth) {
+                window.syncHeaderWithAuth();
+            } else if (window.updateHeaderButtons) {
+                window.updateHeaderButtons();
+            }
+
+            // 5. Smart Redirection
             const currentPage = window.location.pathname.split("/").pop() || "index.html";
             
             if(currentPage === "login.html" || currentPage === "signup.html") {
-                // Agar login page hai toh dashboard bhej do
-                window.location.href = "dashboard.html";
+                setTimeout(() => { window.location.href = "dashboard.html"; }, 1000);
             } else {
-                // Baaki pages par sirf reload karo, Dashboard button apne aap aa jayega
-                window.location.reload();
+                // Baaki pages par 1 second baad reload taaki user success dekh sake
+                // Aur reload ke baad header buttons automatically update ho jayein
+                setTimeout(() => { window.location.reload(); }, 1000);
             }
         } else {
-            alert(res.message);
+            if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
+                messageDiv.innerHTML = `<span style="color: #ff4d4d;">${res.message}</span>`;
+            } else {
+                alert(res.message);
+            }
         }
     } catch (error) {
         console.error("Login Error:", error);
+        if(messageDiv && messageDiv.tagName !== 'TEXTAREA') {
+            messageDiv.innerHTML = '<span style="color: #ff4d4d;">Connection Failed!</span>';
+        }
     }
 }
