@@ -294,47 +294,44 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
   }
 </script>
 `);
-async function handleCredentialResponse(response) {
-    // Google payload parse karein
+window.handleCredentialResponse = async function(response) {  // ← Yeh add karo: window pe attach karo taaki Google call kar sake
     const responsePayload = parseJwt(response.credential);
-    
-    // Status dikhane ke liye koi doosri ID use karein (taki contact textarea se na takraye)
-    const statusDiv = document.getElementById('loginStatus'); 
+   
+    const statusDiv = document.getElementById('loginStatus');
     if(statusDiv) statusDiv.innerHTML = "Authenticating...";
-
     try {
-        const security = await getSecurityData(); 
+        const security = await getSecurityData();
         const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
-        
+       
         const backendRes = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({ 
-                action: "google-login", 
+            body: JSON.stringify({
+                action: "google-login",
                 userData: { ...responsePayload, ...security }
             })
         });
-        
+       
         const res = await backendRes.json();
-
         if(res.status === "success" && res.token) {
             // 1. Data Save
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
-            
-            // 2. Buttons Sync (Pehle buttons change karo fir reload)
+           
+            // 2. Buttons Sync (Yeh hi kafi hai – bina reload ke)
             if (window.syncHeaderWithAuth) {
                 window.syncHeaderWithAuth();
             }
-
-            // 3. Simple Redirect/Reload
+           
+            // 3. Redirect sirf login/signup pages pe
             const path = window.location.pathname;
             if(path.includes("login.html") || path.includes("signup.html")) {
-                window.location.href = "dashboard.html";
-            } else {
-                // Page refresh takki login complete ho jaye
-                window.location.reload();
-            }
+                window.location.href = "dashboard.html";  // Yeh rakh do, kyunki login page pe redirect chahiye
+            } 
+            // Else: Kuch mat karo – user wahi rahega, header updated!
+            
+            // Optional: Agar status div hai to success message dikhao
+            if(statusDiv) statusDiv.innerHTML = "Logged in successfully!";
         } else {
             alert(res.message || "Login Failed");
         }
