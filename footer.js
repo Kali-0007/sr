@@ -226,7 +226,7 @@ document.write(`
       <h4>Resources</h4>
       <a href="faqs.html">FAQ</a>
       <a href="blogs.html">Blogs</a>
-      <a href="../partners/">Partner Program</a>
+     <a href="partners/">Partner Program</a>
       <a href="privacy-policy.html">Privacy Policy</a>
       <a href="terms-of-service.html">Terms of Service</a>
       <a href="refund-policy.html">Refund Policy</a>
