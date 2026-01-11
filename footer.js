@@ -311,7 +311,7 @@ function parseJwt(token) {
 
 // ------------------- Google Callback - Yeh pura function replace kar do -------------------
 window.handleCredentialResponse = async function(response) {
-    console.log("Google One Tap callback called!", response);  // Debug ke liye
+    console.log("Google One Tap callback called!", response);
 
     if (!response || !response.credential) {
         console.error("No credential received");
@@ -320,12 +320,24 @@ window.handleCredentialResponse = async function(response) {
 
     const responsePayload = parseJwt(response.credential);
 
-    // Optional: status message (agar contact page pe koi div hai)
     const statusDiv = document.getElementById('loginStatus');
-    if (statusDiv) statusDiv.innerHTML = "Authenticating Google login...";
+    if (statusDiv) statusDiv.innerHTML = "Authenticating...";
 
     try {
-        const security = await getSecurityData();  // yeh function already hai tumhare paas
+        // ── Yeh temporary dummy function bana do ────────────────────────────────
+        const getSecurityData = async () => {
+            return {
+                // Basic security info jo backend ko bhej sakte ho (optional)
+                userAgent: navigator.userAgent,
+                referrer: document.referrer || 'direct',
+                timestamp: new Date().toISOString(),
+                // Agar chahiye to IP le sakte ho (third-party API se, lekin abhi skip)
+                // ip: await fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => d.ip)
+            };
+        };
+        // ────────────────────────────────────────────────────────────────────────
+
+        const security = await getSecurityData();  // Ab yeh chalega
 
         const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
 
@@ -339,37 +351,31 @@ window.handleCredentialResponse = async function(response) {
         });
 
         const res = await backendRes.json();
-        console.log("Backend response:", res);  // Debug ke liye important
+        console.log("Backend response:", res);  // Yeh check karo kya aa raha hai
 
         if (res.status === "success" && res.token) {
-            // Save data
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
 
-            console.log("Login successful! Token saved. Now updating header...");
+            console.log("Success! Header sync kar rahe hain...");
 
-            // Header sync call
             if (window.syncHeaderWithAuth) {
                 window.syncHeaderWithAuth();
-            } else {
-                console.warn("syncHeaderWithAuth function not found!");
             }
 
-            // Sirf login/signup page pe redirect, baaki pages pe wahi raho
+            // Contact page pe rehna hai → reload mat karo
+            // Sirf login/signup page pe redirect
             const path = window.location.pathname.toLowerCase();
             if (path.includes("login") || path.includes("signup")) {
-                window.location.href = "dashboard.html";  // ya jo bhi dashboard ka path hai
+                window.location.href = "dashboard.html";
             }
-            // Contact page pe: kuch mat karo → user wahi rahega, header change ho jayega
 
             if (statusDiv) statusDiv.innerHTML = "Logged in successfully!";
         } else {
-            alert(res.message || "Google login failed on server");
-            if (statusDiv) statusDiv.innerHTML = "Login failed";
+            alert(res.message || "Login failed");
         }
     } catch (error) {
         console.error("Login process error:", error);
-        alert("Kuch technical issue hai, thodi der baad try karo");
-        if (statusDiv) statusDiv.innerHTML = "Error occurred";
+        alert("Kuch galat ho gaya – please try again");
     }
 };
