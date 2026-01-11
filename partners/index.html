@@ -29,12 +29,14 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
+   body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0; /* Ye top aur side ke gaps ko khatam kar dega */
+  padding: 0;
+}
 
     .container {
       max-width: 1280px;
@@ -134,10 +136,15 @@
       color: var(--text-light);
     }
 
-    /* Sections */
-    section {
-      padding: 8rem 0;
-    }
+  /* Baaki saare sections ke liye padding */
+section {
+  padding: 8rem 0;
+}
+
+/* Sirf Hero section (jo sabse upar hai) uski top padding 0 */
+.hero {
+  padding-top: 0 !important;
+}
 
     h2 {
       font-size: 2.8rem;
