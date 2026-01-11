@@ -47,21 +47,24 @@
       line-height: 1.2;
     }
 
-    /* Hero – Stacked Layout (Image Top, Text Below) */
+   /* Hero – Full Screen Width Image */
     .hero {
       position: relative;
       width: 100%;
       background: var(--bg);
       display: flex;
-      flex-direction: column; /* Isse image upar aur text neeche aayega */
+      flex-direction: column;
       align-items: center;
+      overflow-x: hidden; /* Side scroll rokne ke liye */
     }
 
     .hero-image-wrapper {
-      position: relative; /* Absolute se Relative kiya */
-      width: 100%;
-      max-width: 1100px; /* Image zyada badi na ho screen par */
-      margin: 0 auto;
+      position: relative;
+      width: 100vw; /* Viewport Width - Poori screen ki chaudai */
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
       /* Neeche se blend karne ke liye mask */
       mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
       -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
@@ -69,20 +72,19 @@
 
     .hero img {
       width: 100%;
-      height: auto; /* Natural height */
+      height: auto;
       display: block;
-      object-fit: contain;
+      object-fit: cover; /* Isse image poori width fill karegi */
     }
 
     .hero-content {
-      position: relative; /* Absolute hata diya */
+      position: relative;
       width: 100%;
-      max-width: 900px;
-      padding: 3rem 1.5rem 5rem; /* Upar se thodi jagah chodi */
+      max-width: 1200px; /* Text ko bahut wide hone se rokne ke liye */
+      padding: 4rem 1.5rem 6rem;
       text-align: center;
-      margin-top: -30px; /* Image ke blend area ke thoda paas laane ke liye */
+      margin: 0 auto; /* Text ko center mein rakhne ke liye */
     }
-
     .hero h1 {
       font-size: clamp(2.5rem, 6vw, 4.2rem);
       margin-bottom: 1.25rem;
