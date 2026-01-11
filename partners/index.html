@@ -50,42 +50,41 @@
     }
 
    /* Hero – Full Screen Width Image */
+   /* Hero Section - Sabse upar se start hoga aur poori width lega */
     .hero {
       position: relative;
       width: 100%;
       background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow-x: hidden; /* Side scroll rokne ke liye */
+      display: block; /* Flex hata diya taaki image center rahe */
+      padding-top: 0 !important; /* Top gap khatam */
+      overflow: hidden;
     }
 
     .hero-image-wrapper {
       position: relative;
-      width: 100vw; /* Viewport Width - Poori screen ki chaudai */
-      left: 50%;
-      right: 50%;
-      margin-left: -50vw;
-      margin-right: -50vw;
-      /* Neeche se blend karne ke liye mask */
+      width: 100%; /* Screen ki poori chaudai */
+      margin: 0;
+      padding: 0;
+      line-height: 0; /* Image ke neeche ki extra gap hatane ke liye */
+      
+      /* Neeche se blend karne ka smooth effect */
       mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
       -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
     }
 
     .hero img {
-      width: 100%;
+      width: 100%; /* Edge to edge touch karega */
       height: auto;
       display: block;
-      object-fit: cover; /* Isse image poori width fill karegi */
     }
 
     .hero-content {
       position: relative;
       width: 100%;
-      max-width: 1200px; /* Text ko bahut wide hone se rokne ke liye */
-      padding: 4rem 1.5rem 6rem;
+      max-width: 1200px;
+      margin: 0 auto; /* Text beech mein rahega */
+      padding: 3rem 1.5rem 6rem;
       text-align: center;
-      margin: 0 auto; /* Text ko center mein rakhne ke liye */
     }
     .hero h1 {
       font-size: clamp(2.5rem, 6vw, 4.2rem);
