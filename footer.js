@@ -294,15 +294,41 @@ if (ftr_form) { // Yahan 'form' ki jagah 'ftr_form' kijiye
   }
 </script>
 `);
-window.handleCredentialResponse = async function(response) {  // ← Yeh add karo: window pe attach karo taaki Google call kar sake
-    const responsePayload = parseJwt(response.credential);
-   
-    const statusDiv = document.getElementById('loginStatus');
-    if(statusDiv) statusDiv.innerHTML = "Authenticating...";
+function parseJwt(token) {
     try {
-        const security = await getSecurityData();
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    } catch (e) {
+        console.error("JWT parse error:", e);
+        return {};  // empty object return karo taaki crash na ho
+    }
+}
+
+// ------------------- Google Callback - Yeh pura function replace kar do -------------------
+window.handleCredentialResponse = async function(response) {
+    console.log("Google One Tap callback called!", response);  // Debug ke liye
+
+    if (!response || !response.credential) {
+        console.error("No credential received");
+        return;
+    }
+
+    const responsePayload = parseJwt(response.credential);
+
+    // Optional: status message (agar contact page pe koi div hai)
+    const statusDiv = document.getElementById('loginStatus');
+    if (statusDiv) statusDiv.innerHTML = "Authenticating Google login...";
+
+    try {
+        const security = await getSecurityData();  // yeh function already hai tumhare paas
+
         const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
-       
+
         const backendRes = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -311,31 +337,39 @@ window.handleCredentialResponse = async function(response) {  // ← Yeh add kar
                 userData: { ...responsePayload, ...security }
             })
         });
-       
+
         const res = await backendRes.json();
-        if(res.status === "success" && res.token) {
-            // 1. Data Save
+        console.log("Backend response:", res);  // Debug ke liye important
+
+        if (res.status === "success" && res.token) {
+            // Save data
             localStorage.setItem('userToken', res.token);
             localStorage.setItem('username', res.username);
-           
-            // 2. Buttons Sync (Yeh hi kafi hai – bina reload ke)
+
+            console.log("Login successful! Token saved. Now updating header...");
+
+            // Header sync call
             if (window.syncHeaderWithAuth) {
                 window.syncHeaderWithAuth();
+            } else {
+                console.warn("syncHeaderWithAuth function not found!");
             }
-           
-            // 3. Redirect sirf login/signup pages pe
-            const path = window.location.pathname;
-            if(path.includes("login.html") || path.includes("signup.html")) {
-                window.location.href = "dashboard.html";  // Yeh rakh do, kyunki login page pe redirect chahiye
-            } 
-            // Else: Kuch mat karo – user wahi rahega, header updated!
-            
-            // Optional: Agar status div hai to success message dikhao
-            if(statusDiv) statusDiv.innerHTML = "Logged in successfully!";
+
+            // Sirf login/signup page pe redirect, baaki pages pe wahi raho
+            const path = window.location.pathname.toLowerCase();
+            if (path.includes("login") || path.includes("signup")) {
+                window.location.href = "dashboard.html";  // ya jo bhi dashboard ka path hai
+            }
+            // Contact page pe: kuch mat karo → user wahi rahega, header change ho jayega
+
+            if (statusDiv) statusDiv.innerHTML = "Logged in successfully!";
         } else {
-            alert(res.message || "Login Failed");
+            alert(res.message || "Google login failed on server");
+            if (statusDiv) statusDiv.innerHTML = "Login failed";
         }
     } catch (error) {
-        console.error("Critical Error:", error);
+        console.error("Login process error:", error);
+        alert("Kuch technical issue hai, thodi der baad try karo");
+        if (statusDiv) statusDiv.innerHTML = "Error occurred";
     }
-}
+};
