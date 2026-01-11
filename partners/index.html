@@ -1,204 +1,430 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Join TaxEasePro Partner Program – Earn 10-20% lifetime recurring commission.">
-    <title>Partner with TaxEasePro | Lifetime Recurring Income</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Join TaxEasePro Partner Program – Earn lifetime recurring commission with zero investment. Perfect for agents, CA, CS and more."/>
+  <title>Partner with TaxEasePro | Build Your Passive Income</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --bg-primary: #0f0f1a;
-            --bg-secondary: #0a0a12;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --accent-teal: #00c4b4;
-            --accent-gold: #d4af37;
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --text: #ffffff;
+      --text-light: #e0e0e0;
+      --text-muted: #a0a0a0;
+      --teal: #00c4b4;
+      --teal-dark: #009a8f;
+      --gold: #d4af37;
+      --glass: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.08);
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
-        /* Hero Layout */
-        #hero-layout {
-            padding: 40px 0 100px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+    h1, h2, h3 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
 
-        .hero-graphic-container {
-            width: 100%;
-            max-width: 1100px;
-            margin-bottom: 50px;
-        }
+    /* Hero – Full-width image with perfect blending */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 90vh;
+      min-height: 700px;
+      overflow: hidden;
+      background: var(--bg);
+    }
 
-        .main-hero-img {
-            width: 100%;
-            height: auto;
-            border-radius: 24px;
-            box-shadow: 0 40px 80px rgba(0, 196, 180, 0.15);
-            border: 1px solid var(--glass-border);
-        }
+    .hero-image-wrapper {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(15,15,26,0.25) 0%,
+        rgba(15,15,26,0.55) 40%,
+        var(--bg) 70%,
+        var(--bg) 100%
+      );
+      mask-image: linear-gradient(to bottom, black 60%, transparent 85%);
+      -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 85%);
+    }
 
-        h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; }
-        .text-teal { color: var(--accent-teal); }
-        .hero-desc { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 850px; }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
 
-        .hero-badge {
-            display: inline-block;
-            background: rgba(0, 196, 180, 0.1);
-            color: var(--accent-teal);
-            padding: 10px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            margin-bottom: 3rem;
-            border: 1px solid rgba(0, 196, 180, 0.3);
-            font-size: 0.9rem;
-        }
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem 1.5rem 6rem;
+      background: linear-gradient(to top, rgba(15,15,26,0.85) 0%, transparent 60%);
+      text-align: center;
+    }
 
-        .btn-group { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 4rem; }
-        .btn { padding: 1.2rem 2.5rem; border-radius: 12px; font-weight: 700; text-decoration: none; transition: var(--transition); cursor: pointer; }
-        .btn-primary { background: var(--accent-teal); color: #000; box-shadow: 0 10px 20px rgba(0, 196, 180, 0.2); }
-        .btn-outline { border: 2px solid var(--accent-teal); color: var(--accent-teal); }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
+      margin-bottom: 1.25rem;
+    }
 
-        /* Sections */
-        .section-padding { padding: 100px 0; }
-        .glass-card { background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 2.5rem; transition: var(--transition); }
-        .glass-card:hover { border-color: var(--accent-teal); transform: translateY(-10px); }
-        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
+    .hero .subtitle {
+      font-size: clamp(1.25rem, 3.5vw, 1.6rem);
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      color: var(--text-light);
+    }
 
-        /* Timeline */
-        .timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 4rem; }
-        .step { text-align: center; }
-        .step-icon { width: 70px; height: 70px; background: var(--accent-teal); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.5rem; font-weight: 800; }
+    .cta-btn {
+      display: inline-block;
+      background: var(--teal);
+      color: #000;
+      font-weight: 600;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
 
-        /* Table */
-        .table-wrap { overflow-x: auto; margin-top: 3rem; border-radius: 15px; border: 1px solid var(--glass-border); }
-        table { width: 100%; border-collapse: collapse; background: var(--glass-bg); }
-        th, td { padding: 1.5rem; text-align: left; border-bottom: 1px solid var(--glass-border); }
-        th { background: rgba(0, 196, 180, 0.05); color: var(--accent-teal); }
+    .cta-btn:hover {
+      background: #00e0cc;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,196,180,0.4);
+    }
 
-        /* FAQ */
-        .faq-box { max-width: 850px; margin: 0 auto; }
-        details { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 1rem; }
-        summary { padding: 1.5rem; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; }
+    /* Pill tags */
+    .pill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
 
-        /* Animations */
-        .fade-in { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-    </style>
+    .pill {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      padding: 0.6rem 1.4rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    /* Sections */
+    section {
+      padding: 8rem 0;
+    }
+
+    h2 {
+      font-size: 2.8rem;
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    /* Benefits Grid */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .benefit-card {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .benefit-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    /* How It Works */
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      justify-content: center;
+    }
+
+    .step {
+      flex: 1 1 240px;
+      max-width: 280px;
+      text-align: center;
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: var(--teal);
+      color: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0 auto 1.5rem;
+    }
+
+    /* Commission Table */
+    .commission-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 3rem 0;
+    }
+
+    .commission-table th,
+    .commission-table td {
+      padding: 1.4rem 1.2rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .commission-table th {
+      background: rgba(0,196,180,0.08);
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    .highlight-gold {
+      background: rgba(212,175,55,0.12);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* FAQ */
+    details {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    summary {
+      padding: 1.5rem 2rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
+
+    details[open] summary {
+      background: rgba(0,196,180,0.1);
+    }
+
+    details div {
+      padding: 0 2rem 1.8rem;
+      color: var(--text-light);
+    }
+
+    /* Footer CTA */
+    .final-cta {
+      text-align: center;
+      padding: 10rem 2rem 12rem;
+      background: linear-gradient(to bottom, rgba(0,196,180,0.06), transparent);
+    }
+
+    .final-cta h2 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .final-cta .cta-btn {
+      font-size: 1.4rem;
+      padding: 1.3rem 3.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 2.8rem; }
+      h2 { font-size: 2.3rem; }
+      .steps { flex-direction: column; align-items: center; }
+      .final-cta { padding: 8rem 1.5rem 10rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <header id="hero-layout" class="container">
-        <div class="hero-graphic-container fade-in">
-            <img src="partner.png" alt="TaxEasePro Success Ecosystem" class="main-hero-img">
-        </div>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-image-wrapper">
+      <img src="partner.png" alt="TaxEasePro Partner Success Ecosystem" />
+    </div>
+    <div class="hero-content container">
+      <h1>Partner with TaxEasePro:<br>Build Your Passive Income Ecosystem</h1>
+      <p class="subtitle">
+        Refer clients → Give them 5% instant discount → Earn 10-20% lifetime recurring commission on every GST/ITR payment
+      </p>
+      <a href="#" class="cta-btn">Join Now – Free Signup</a>
 
-        <div class="hero-content fade-in">
-            <h1>Partner with TaxEasePro <br><span class="text-teal">Build Your Passive Income Ecosystem</span></h1>
-            <p class="hero-desc">Refer clients using your unique code. They receive 5% instant discount on GST/ITR services. You earn 10-20% lifetime recurring commission on every payment.</p>
-            <span class="hero-badge">Ideal for Agents • Dealers • CSC Owners • CA • CS • Freelancers</span>
-            <div class="btn-group">
-                <a href="#signup" class="btn btn-primary">Join Now – Free Signup</a>
-                <a href="#how-it-works" class="btn btn-outline">Learn How It Works</a>
-            </div>
-        </div>
-    </header>
+      <div class="pill-tags">
+        <span class="pill">Ideal for Agents</span>
+        <span class="pill">CA & CS Special</span>
+        <span class="pill">Zero Investment</span>
+        <span class="pill">Lifetime Recurring</span>
+      </div>
+    </div>
+  </section>
 
-    <section id="benefits" class="section-padding" style="background: var(--bg-secondary);">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 3rem;">Why Partner with Us?</h2>
-            <div class="benefits-grid">
-                <div class="glass-card fade-in">
-                    <i class="fas fa-sync-alt text-teal" style="font-size: 2rem; margin-bottom: 1.5rem;"></i>
-                    <h3>Lifetime Recurring</h3>
-                    <p>Earn commission on every payment the client makes, forever.</p>
-                </div>
-                <div class="glass-card fade-in">
-                    <i class="fas fa-bolt text-teal" style="font-size: 2rem; margin-bottom: 1.5rem;"></i>
-                    <h3>Instant Client Benefit</h3>
-                    <p>Clients get 5% off immediately using your code.</p>
-                </div>
-                <div class="glass-card fade-in">
-                    <i class="fas fa-shield-alt text-teal" style="font-size: 2rem; margin-bottom: 1.5rem;"></i>
-                    <h3>Zero Investment</h3>
-                    <p>No fees to join. Start earning from day one.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Why Partner -->
+  <section class="container">
+    <h2>Why Become a TaxEasePro Partner?</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <h3>Effortless Client Acquisition</h3>
+        <p>Your unique code provides clients with an instant 5% discount, making it much easier to convert referrals into paying clients.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Lifetime Recurring Revenue</h3>
+        <p>Earn 10% (general partners) or 20% (CA/CS) on every monthly/quarterly GST/ITR payment – real passive income that grows over time.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Dedicated Partner Dashboard</h3>
+        <p>Real-time tracking of referrals, earnings, commissions and payouts – complete transparency and control.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Zero Risk – Zero Cost</h3>
+        <p>Free to join. No investment, no hidden fees, no obligations – start earning from day one.</p>
+      </div>
+    </div>
+  </section>
 
-    <section class="section-padding">
-        <div class="container">
-            <h2 style="text-align: center;">Commission Structure</h2>
-            <div class="table-wrap fade-in">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Partner Type</th>
-                            <th>Commission Rate</th>
-                            <th>Frequency</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>General Partner</td>
-                            <td>10%</td>
-                            <td>Monthly</td>
-                        </tr>
-                        <tr>
-                            <td style="color: var(--accent-gold);">CA / CS Professionals</td>
-                            <td style="color: var(--accent-gold);">20%</td>
-                            <td>Monthly</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+  <!-- How It Works -->
+  <section class="container">
+    <h2>How It Works – Just 4 Simple Steps</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Sign Up Free</h3>
+        <p>Complete registration in 5 minutes</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Get Your Code</h3>
+        <p>Receive unique Partner Code & link</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Refer Clients</h3>
+        <p>Share code → Clients get 5% discount</p>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Earn Recurring</h3>
+        <p>Automatic monthly commission payouts</p>
+      </div>
+    </div>
+  </section>
 
-    <section class="section-padding" style="background: var(--bg-secondary);">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 3rem;">FAQs</h2>
-            <div class="faq-box fade-in">
-                <details>
-                    <summary>Is there any joining fee?</summary>
-                    <div>No, it's 100% free to join.</div>
-                </details>
-                <details>
-                    <summary>How do I get paid?</summary>
-                    <div>Payouts are sent directly to your bank account every month.</div>
-                </details>
-            </div>
-        </div>
-    </section>
+  <!-- Commission Table -->
+  <section class="container">
+    <h2>Your Earnings Structure</h2>
+    <table class="commission-table">
+      <thead>
+        <tr>
+          <th>Partner Type</th>
+          <th>Client Discount</th>
+          <th>First Payment Commission</th>
+          <th>Recurring Commission</th>
+          <th>Approx. Monthly Passive</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>General Partners (Agents, Dealers, CSC etc.)</td>
+          <td>5% Instant</td>
+          <td>10%</td>
+          <td>10% on every payment</td>
+          <td>₹500 – ₹2,000+</td>
+        </tr>
+        <tr class="highlight-gold">
+          <td>Chartered Accountants & Company Secretaries</td>
+          <td>5% Instant</td>
+          <td>20%</td>
+          <td>20% on recurring fees</td>
+          <td>₹1,000 – ₹5,000+</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
-    </script>
+  <!-- FAQ -->
+  <section class="container">
+    <h2>Frequently Asked Questions</h2>
+    <div>
+      <details>
+        <summary>How much does it cost to join?</summary>
+        <div>Nothing. The program is completely free with no hidden charges.</div>
+      </details>
+      <details>
+        <summary>How are commissions paid?</summary>
+        <div>Direct bank transfer every month. Minimum payout threshold is ₹1,000.</div>
+      </details>
+      <details>
+        <summary>How does the 5% client discount work?</summary>
+        <div>When your referred client uses your unique code, the discount is applied automatically during payment.</div>
+      </details>
+      <details>
+        <summary>Is the recurring commission lifetime?</summary>
+        <div>Yes — as long as the client continues paying their monthly/quarterly fees.</div>
+      </details>
+      <details>
+        <summary>Why do CA/CS get 20% commission?</summary>
+        <div>CA and CS partners often bring higher-value, long-term outsourcing work (GST/ITR), so we offer higher rewards.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta">
+    <div class="container">
+      <h2>Start Earning Passive Income Today</h2>
+      <p class="subtitle" style="margin-bottom:2.5rem;">
+        Join the TaxEasePro Partner Program – free, instant access, lifetime earning potential.
+      </p>
+      <a href="#" class="cta-btn">Join Now – Get Your Partner Code</a>
+    </div>
+  </section>
+
 </body>
 </html>
