@@ -1,78 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms & Conditions - TaxEasePro</title>
-  <style>
-    body { font-family: 'Times New Roman', serif; line-height: 1.6; color: #000; margin: 0; padding: 0; background: #f4f4f4; }
-    .container { max-width: 800px; margin: 20px auto; background: #fff; padding: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .nav { background: #fff; padding: 10px; border-bottom: 1px solid #ddd; text-align: center; position: sticky; top: 0; }
-    .nav a { color: blue; text-decoration: none; font-weight: bold; }
-    h1 { text-align: center; font-size: 24pt; margin-bottom: 10px; }
-    h2 { font-size: 14pt; margin-top: 20px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
-    p, li { font-size: 12pt; text-align: justify; margin-bottom: 10px; }
-    .print-btn { background: #000; color: #fff; padding: 10px 20px; border: none; cursor: pointer; margin-bottom: 20px; }
-    @media print { .nav, .print-btn { display: none; } .container { box-shadow: none; margin: 0; padding: 20px; width: 100%; } }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Terms & Conditions – TaxEasePro Partner Program</title>
+    <meta name="description" content="Terms and Conditions for TaxEasePro.in Partner Program – Effective January 12, 2026"/>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --text: #1a1a1a;
+            --muted: #555;
+            --link: #0066cc;
+            --bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .page {
+            max-width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height – can extend */
+            margin: 0 auto;
+            padding: 25mm 20mm 30mm;
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 0.5rem;
+        }
+
+        .update-date {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 15px;
+            color: var(--link);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+            color: #000;
+            border-left: 5px solid var(--link);
+            padding-left: 12px;
+        }
+
+        p, li {
+            font-size: 15px;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.6rem;
+        }
+
+        strong {
+            font-weight: 600;
+        }
+
+        .section-number {
+            font-weight: 700;
+            color: var(--link);
+        }
+
+        .placeholder {
+            color: #d32f2f;
+            font-style: italic;
+        }
+
+        @media print {
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 20mm;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page {
+                padding: 20mm 15mm;
+            }
+
+            h1 { font-size: 24px; }
+            h2 { font-size: 18px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="nav"><a href="index.html">← BACK TO PARTNER PROGRAM</a></div>
-  <div class="container">
-    <button class="print-btn" onclick="window.print()">Print as A4 PDF</button>
-    <h1>Terms & Conditions for Partner Program</h1>
-    <p><strong>Last Updated: January 12, 2026</strong></p>
 
-    <h2>1. Acceptance of Terms</h2>
-    <p>By participating in the TaxEasePro.in Partner Program, you agree to these Terms & Conditions. Acceptance is confirmed by ticking the consent box during signup, which is timestamped and logged with your IP address and user agent. If you do not agree, do not join or use the program. These terms form a binding agreement between you and TaxEasePro.in.</p>
+    <div class="page">
+        <header>
+            <h1>Terms & Conditions for Partner Program</h1>
+            <div class="update-date">Last Updated: January 12, 2026</div>
+            <a href="partner/index.html" class="back-link no-print">← Back to Partner Program Page</a>
+        </header>
 
-    <h2>2. Eligibility</h2>
-    <p>To join the Partner Program, you must: Be at least 18 years old. Be a resident of India. Possess valid credentials, such as a PAN, and for professionals like CA or CS, an active ICAI/ICSI membership. Not be barred from similar programs due to fraud or legal issues. Eligible participants include Loan Agents, Insurance Agents, Property Dealers, CSC Owners, Freelancers, Bank Sales Executives, Investment Advisers, CA, and CS. We reserve the right to reject applications.</p>
+        <section>
+            <h2>1. Acceptance of Terms</h2>
+            <p>By participating in the TaxEasePro.in Partner Program, you agree to these Terms & Conditions. Acceptance is confirmed by ticking the consent box during signup, which is timestamped and logged with your IP address and user agent. If you do not agree, do not join or use the program. These terms form a binding agreement between you and TaxEasePro.in.</p>
+        </section>
 
-    <h2>3. Registration Process & Verification</h2>
-    <p>To register: Sign up on our dedicated portal by providing name, email, phone, PAN, GSTIN (if applicable), bank details, and for CA/CS, ICAI/ICSI membership number and year of registration. Undergo verification: We check PAN/GSTIN via government APIs, CA/CS details via ICAI/ICSI portals, and bank details for authenticity. Upon approval, receive a unique Partner Code. All data is collected securely and used per our Privacy Policy. False information leads to immediate rejection or termination.</p>
+        <section>
+            <h2>2. Eligibility</h2>
+            <p>To join the Partner Program, you must:</p>
+            <ul>
+                <li>Be at least 18 years old.</li>
+                <li>Be a resident of India.</li>
+                <li>Possess valid credentials, such as a PAN, and for professionals like CA or CS, an active ICAI/ICSI membership.</li>
+                <li>Not be barred from similar programs due to fraud or legal issues.</li>
+            </ul>
+            <p>Eligible participants include Loan Agents, Insurance Agents, Property Dealers, CSC Owners, Freelancers, Bank Sales Executives, Investment Advisers, CA, and CS. We reserve the right to reject applications.</p>
+        </section>
 
-    <h2>4. Partner Code & Referral Rules</h2>
-    <p>Unique Partner Code: Issued post-verification, non-transferable, and for your use only. Referral Process: Share your code with potential clients. Clients enter it during GST/ITR filing signup for attribution. Rules: No spamming, misleading claims, or unauthorized use of our branding. Referrals must be genuine; no incentives beyond the program's 5% client discount. Violations may result in code revocation.</p>
+        <section>
+            <h2>3. Registration Process & Verification</h2>
+            <p>To register:</p>
+            <ul>
+                <li>Sign up on our dedicated portal by providing name, email, phone, PAN, GSTIN (if applicable), bank details, and for CA/CS, ICAI/ICSI membership number and year of registration.</li>
+                <li>Undergo verification: We check PAN/GSTIN via government APIs, CA/CS details via ICAI/ICSI portals, and bank details for authenticity.</li>
+                <li>Upon approval, receive a unique Partner Code.</li>
+            </ul>
+            <p>All data is collected securely and used per our Privacy Policy. False information leads to immediate rejection or termination.</p>
+        </section>
 
-    <h2>5. Commission Structure</h2>
-    <p>Partners earn lifetime recurring commissions on every GST/ITR payment from referred clients: General Partners (e.g., Loan Agents, Freelancers): 10% of the payment value. CA and CS Partners: 20% (higher due to their outsourcing expertise). Calculation Method: Commission = Percentage × (Client's GST/ITR filing fee paid, net of discounts and taxes). Tracked in real-time via dashboard. Lifetime means ongoing as long as the client remains active and pays. Exclusions: No commission on refunds, chargebacks, or non-GST/ITR services. Commissions are subject to TDS under sections 194J/194-I.</p>
+        <section>
+            <h2>4. Partner Code & Referral Rules</h2>
+            <ul>
+                <li><strong>Unique Partner Code:</strong> Issued post-verification, non-transferable, and for your use only.</li>
+                <li><strong>Referral Process:</strong> Share your code with potential clients. Clients enter it during GST/ITR filing signup for attribution.</li>
+                <li><strong>Rules:</strong> No spamming, misleading claims, or unauthorized use of our branding. Referrals must be genuine; no incentives beyond the program's 5% client discount.</li>
+            </ul>
+            <p>Violations may result in code revocation.</p>
+        </section>
 
-    <h2>6. Client Discount</h2>
-    <p>Clients using your Partner Code receive a 5% instant discount on their first and subsequent GST/ITR filings. Applied automatically at checkout. Does not affect your commission calculation (based on pre-discount fee). This incentive encourages genuine referrals.</p>
+        <section>
+            <h2>5. Commission Structure</h2>
+            <p>Partners earn lifetime recurring commissions on every GST/ITR payment from referred clients:</p>
+            <ul>
+                <li><strong>General Partners</strong> (e.g., Loan Agents, Freelancers): 10% of the payment value.</li>
+                <li><strong>CA and CS Partners:</strong> 20% (higher due to their outsourcing expertise).</li>
+            </ul>
+            <p><strong>Calculation Method:</strong> Commission = Percentage × (Client's GST/ITR filing fee paid, net of discounts and taxes). Tracked in real-time via dashboard. Lifetime means ongoing as long as the client remains active and pays.</p>
+            <p><strong>Exclusions:</strong> No commission on refunds, chargebacks, or non-GST/ITR services.</p>
+            <p>Commissions are subject to TDS under sections 194J/194-I.</p>
+        </section>
 
-    <h2>7. Attribution & Eligibility Rules</h2>
-    <p>Attribution Model: First-touch – the first Partner Code used by a client attributes all future commissions to that partner. Eligibility Window: Referrals valid within 90 days of code entry; beyond that, re-entry required. Prohibitions: No self-referrals (referring your own accounts), fake clients, or multiple codes per client. We monitor via IP and data patterns. Disputed attributions are resolved by us based on logs.</p>
+        <section>
+            <h2>6. Client Discount</h2>
+            <p>Clients using your Partner Code receive a 5% instant discount on their first and subsequent GST/ITR filings.</p>
+            <p>Applied automatically at checkout.</p>
+            <p>Does not affect your commission calculation (based on pre-discount fee).</p>
+            <p>This incentive encourages genuine referrals.</p>
+        </section>
 
-    <h2>8. Payout Terms</h2>
-    <p>Frequency: Monthly, on the 15th, for accrued commissions. Minimum Threshold: ₹1000; below rolls over. Method: Direct bank transfer using provided details. Deductions: TDS as per Income Tax Act (e.g., 10% under 194J), GST if applicable. Taxes: You are responsible for your income tax filings; we provide Form 16A for TDS. Payouts comply with RBI guidelines.</p>
+        <section>
+            <h2>7. Attribution & Eligibility Rules</h2>
+            <ul>
+                <li><strong>Attribution Model:</strong> First-touch – the first Partner Code used by a client attributes all future commissions to that partner.</li>
+                <li><strong>Eligibility Window:</strong> Referrals valid within 90 days of code entry; beyond that, re-entry required.</li>
+                <li><strong>Prohibitions:</strong> No self-referrals (referring your own accounts), fake clients, or multiple codes per client. We monitor via IP and data patterns.</li>
+            </ul>
+            <p>Disputed attributions are resolved by us based on logs.</p>
+        </section>
 
-    <h2>9. Fraud Prevention</h2>
-    <p>To ensure integrity: Bans: Self-referral, creating fake clients, or manipulating referrals are prohibited. Monitoring: We use IP, device info, and patterns for detection. Consequences: Withhold commissions, suspend accounts, or terminate immediately. Recovered funds may be clawed back. Reporting: Fraud may be reported to authorities under IT Act or other laws. All partners must provide verifiable details for prevention.</p>
+        <section>
+            <h2>8. Payout Terms</h2>
+            <ul>
+                <li><strong>Frequency:</strong> Monthly, on the 15th, for accrued commissions.</li>
+                <li><strong>Minimum Threshold:</strong> ₹1000; below rolls over.</li>
+                <li><strong>Method:</strong> Direct bank transfer using provided details.</li>
+                <li><strong>Deductions:</strong> TDS as per Income Tax Act (e.g., 10% under 194J), GST if applicable.</li>
+                <li><strong>Taxes:</strong> You are responsible for your income tax filings; we provide Form 16A for TDS.</li>
+            </ul>
+            <p>Payouts comply with RBI guidelines.</p>
+        </section>
 
-    <h2>10. Termination Rights</h2>
-    <p>By You: Terminate anytime via dashboard; pending commissions paid if eligible. By Us: For inactivity (6 months), violations, or fraud – immediate, without notice. For other reasons, 30 days' notice. Post-Termination: Code deactivated; data retained per Privacy Policy. No further commissions. Both parties' rights survive termination where applicable.</p>
+        <section>
+            <h2>9. Fraud Prevention</h2>
+            <p>To ensure integrity:</p>
+            <ul>
+                <li><strong>Bans:</strong> Self-referral, creating fake clients, or manipulating referrals are prohibited.</li>
+                <li><strong>Monitoring:</strong> We use IP, device info, and patterns for detection.</li>
+                <li><strong>Consequences:</strong> Withhold commissions, suspend accounts, or terminate immediately. Recovered funds may be clawed back.</li>
+                <li><strong>Reporting:</strong> Fraud may be reported to authorities under IT Act or other laws.</li>
+            </ul>
+            <p>All partners must provide verifiable details for prevention.</p>
+        </section>
 
-    <h2>11. Intellectual Property</h2>
-    <p>Usage Rights: Limited license to use TaxEasePro.in logo and materials for referrals, subject to guidelines (no alterations, no implying endorsement). Ownership: All IP remains ours. Restrictions: No sublicensing or commercial use beyond program. Breaches lead to termination and liability.</p>
+        <section>
+            <h2>10. Termination Rights</h2>
+            <ul>
+                <li><strong>By You:</strong> Terminate anytime via dashboard; pending commissions paid if eligible.</li>
+                <li><strong>By Us:</strong> For inactivity (6 months), violations, or fraud – immediate, without notice. For other reasons, 30 days' notice.</li>
+                <li><strong>Post-Termination:</strong> Code deactivated; data retained per Privacy Policy. No further commissions.</li>
+            </ul>
+            <p>Both parties' rights survive termination where applicable.</p>
+        </section>
 
-    <h2>12. Limitation of Liability & Indemnity</h2>
-    <p>Limitation: We are not liable for indirect, consequential, or punitive damages. Liability capped at commissions paid in last 12 months. Indemnity: You indemnify us against claims from your referrals, misrepresentations, or violations (e.g., data breaches caused by you). No warranties beyond program description.</p>
+        <section>
+            <h2>11. Intellectual Property</h2>
+            <ul>
+                <li><strong>Usage Rights:</strong> Limited license to use TaxEasePro.in logo and materials for referrals, subject to guidelines (no alterations, no implying endorsement).</li>
+                <li><strong>Ownership:</strong> All IP remains ours.</li>
+                <li><strong>Restrictions:</strong> No sublicensing or commercial use beyond program.</li>
+            </ul>
+            <p>Breaches lead to termination and liability.</p>
+        </section>
 
-    <h2>13. Dispute Resolution</h2>
-    <p>Arbitration: Disputes resolved via arbitration in Kanpur under the Arbitration and Conciliation Act, 1996, with one arbitrator appointed by us. Courts: Exclusive jurisdiction in Kanpur courts for injunctions or enforcement.</p>
+        <section>
+            <h2>12. Limitation of Liability & Indemnity</h2>
+            <ul>
+                <li><strong>Limitation:</strong> We are not liable for indirect, consequential, or punitive damages. Liability capped at commissions paid in last 12 months.</li>
+                <li><strong>Indemnity:</strong> You indemnify us against claims from your referrals, misrepresentations, or violations (e.g., data breaches caused by you).</li>
+            </ul>
+            <p>No warranties beyond program description.</p>
+        </section>
 
-    <h2>14. Force Majeure</h2>
-    <p>Neither party liable for delays due to events beyond control (e.g., natural disasters, wars, government actions), except payment obligations.</p>
+        <section>
+            <h2>13. Dispute Resolution</h2>
+            <ul>
+                <li><strong>Arbitration:</strong> Disputes resolved via arbitration in Kanpur under the Arbitration and Conciliation Act, 1996, with one arbitrator appointed by us.</li>
+                <li><strong>Courts:</strong> Exclusive jurisdiction in Kanpur courts for injunctions or enforcement.</li>
+            </ul>
+        </section>
 
-    <h2>15. Amendments to Terms</h2>
-    <p>We may amend terms with 30 days' email notice. Continued participation accepts changes. Material changes allow termination without penalty.</p>
+        <section>
+            <h2>14. Force Majeure</h2>
+            <p>Neither party liable for delays due to events beyond control (e.g., natural disasters, wars, government actions), except payment obligations.</p>
+        </section>
 
-    <h2>16. Entire Agreement & Severability</h2>
-    <p>These terms constitute the entire agreement, superseding prior ones. If any provision is invalid, others remain enforceable.</p>
+        <section>
+            <h2>15. Amendments to Terms</h2>
+            <p>We may amend terms with 30 days' email notice. Continued participation accepts changes. Material changes allow termination without penalty.</p>
+        </section>
 
-    <h2>17. Governing Law</h2>
-    <p>Governed by Indian laws, with jurisdiction in Kanpur courts.<br>Effective Date: January 12, 2026</p>
-  </div>
+        <section>
+            <h2>16. Entire Agreement & Severability</h2>
+            <p>These terms constitute the entire agreement, superseding prior ones. If any provision is invalid, others remain enforceable.</p>
+        </section>
+
+        <section>
+            <h2>17. Governing Law</h2>
+            <p>Governed by Indian laws, with jurisdiction in Kanpur courts.</p>
+        </section>
+
+        <footer style="margin-top: 4rem; text-align: center; font-size: 13px; color: var(--muted);">
+            <p>Effective Date: January 12, 2026</p>
+            <p>TaxEasePro.in – All rights reserved.</p>
+            <a href="partner/index.html" class="back-link no-print" style="display: block; margin-top: 1rem;">← Back to Partner Program Page</a>
+        </footer>
+    </div>
+
 </body>
 </html>
