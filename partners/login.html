@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Login - TaxEasePro</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        :root { --primary: #2563eb; --bg: #f3f4f6; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+            height: 100vh; margin: 0;
+        }
+        .login-card {
+            background: white; padding: 2.5rem; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center; max-width: 420px; width: 90%;
+        }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-bottom: 1rem; }
+        h1 { font-size: 1.25rem; margin-bottom: 0.5rem; color: #1f2937; }
+        p { color: #6b7280; font-size: 0.9rem; margin-bottom: 2rem; }
+
+        /* Checkbox Styling */
+        .consent-container {
+            text-align: left; margin-bottom: 1.5rem;
+            padding: 1rem; background: #f9fafb; border-radius: 8px;
+        }
+        .consent-item {
+            display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;
+            font-size: 0.85rem; color: #374151; cursor: pointer;
+        }
+        .consent-item input { margin-top: 3px; cursor: pointer; }
+        .consent-item a { color: var(--primary); text-decoration: none; font-weight: 500; }
+
+        /* Google Button Container */
+        #googleBtnWrapper {
+            position: relative;
+            margin-top: 1rem;
+        }
+        .disabled-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.6); z-index: 10;
+            cursor: not-allowed; display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; color: #ef4444; font-weight: bold;
+            border-radius: 4px; border: 1px dashed #ef4444;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo">TaxEasePro Partners</div>
+        <h1>Partner Access</h1>
+        <p>Please accept the terms to continue with Google</p>
+
+        <div class="consent-container">
+            <label class="consent-item">
+                <input type="checkbox" id="checkPrivacy" onchange="toggleGoogleBtn()">
+                <span>I have read and agree to the <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</span>
+            </label>
+            <label class="consent-item">
+                <input type="checkbox" id="checkTerms" onchange="toggleGoogleBtn()">
+                <span>I accept the <a href="terms-conditions.html" target="_blank">Terms & Conditions</a> of the Partner Program.</span>
+            </label>
+        </div>
+
+        <div id="googleBtnWrapper">
+            <div id="overlay" class="disabled-overlay">Tick both boxes to enable login</div>
+            <div id="googleBtn"></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleGoogleBtn() {
+            const isPrivacyChecked = document.getElementById('checkPrivacy').checked;
+            const isTermsChecked = document.getElementById('checkTerms').checked;
+            const overlay = document.getElementById('overlay');
+
+            if (isPrivacyChecked && isTermsChecked) {
+                overlay.classList.add('hidden');
+            } else {
+                overlay.classList.remove('hidden');
+            }
+        }
+
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("googleBtn"),
+                { theme: "outline", size: "large", width: "320" }
+            );
+        };
+
+        function handleCredentialResponse(response) {
+            // Success hone par user info aur acceptance timestamp record karenge
+            console.log("Encoded JWT ID token: " + response.credential);
+            
+            // Yahan se user Profile Update par jayega
+            window.location.href = "profile-update.html";
+        }
+    </script>
+</body>
+</html>
