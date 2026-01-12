@@ -13,60 +13,76 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; }
 
-    /* Section 1: Full Width Image Only */
-    .hero-image-section {
-      width: 100%;
-      height: 70vh; /* Image area */
-      background: url('partner1.png') no-repeat center center;
-      background-size: cover;
+    body, html {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Full Width Background Image with Blending */
+    .hero-wrapper {
       position: relative;
-    }
-
-    /* Section 2: Login Content (Strictly Centered) */
-    .login-section {
+      min-height: 100vh;
       width: 100%;
-      padding: 60px 20px;
       display: flex;
-      flex-direction: column;
-      align-items: center; /* Center horizontally */
+      align-items: center;
       justify-content: center;
-      background: var(--bg);
-      text-align: center;
+      background-image: url('partner1.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
+    /* BORDER BLENDING: Ye layer photo ko page ke saath mix karegi */
+    .hero-wrapper::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      /* Ye gradient charon taraf se image ko dark color mein merge karega */
+      background: radial-gradient(circle, rgba(15, 15, 26, 0.4) 0%, rgba(15, 15, 26, 0.8) 70%, var(--bg) 100%);
+      z-index: 1;
+    }
+
+    /* Centered Login Content */
     .login-container {
-      max-width: 450px;
-      width: 100%;
+      position: relative;
+      z-index: 10;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      padding: 40px;
+      /* Halki glass effect taaki image thodi dikhti rahe */
+      background: rgba(15, 15, 26, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .logo {
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: 800;
       background: linear-gradient(90deg, var(--teal), var(--gold));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
-    h1 { font-size: 2rem; margin-bottom: 1.5rem; }
+    h1 { font-size: 1.8rem; margin-bottom: 2rem; font-weight: 700; }
 
-    .consent-box {
-      background: rgba(255,255,255,0.05);
-      padding: 25px;
-      border-radius: 15px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(255,255,255,0.1);
+    .consent-group {
       text-align: left;
+      margin-bottom: 2.5rem;
     }
 
-    .checkbox-item {
+    .checkbox-row {
       display: flex;
       gap: 12px;
       margin-bottom: 15px;
       font-size: 0.95rem;
-      color: #ccc;
+      color: #d0d0d0;
       cursor: pointer;
     }
 
@@ -78,68 +94,84 @@
     }
 
     .links { color: var(--teal); text-decoration: none; font-weight: 600; }
+    .links:hover { text-decoration: underline; }
 
-    .login-btn {
+    .google-login-btn {
       width: 100%;
       padding: 16px;
-      background: #fff;
+      background: white;
       color: #000;
       border: none;
       border-radius: 50px;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      transition: 0.3s;
+      transition: 0.3s ease;
     }
 
-    .login-btn:disabled {
-      background: #333;
-      color: #666;
+    .google-login-btn:disabled {
+      background: #444;
+      color: #777;
       cursor: not-allowed;
     }
 
-    .login-btn:not(:disabled):hover {
+    .google-login-btn:not(:disabled):hover {
       background: var(--teal);
       color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .trust-footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      opacity: 0.6;
+      letter-spacing: 1px;
     }
   </style>
 </head>
 <body>
 
-  <div class="hero-image-section"></div>
-
-  <div class="login-section">
+  <div class="hero-wrapper">
     <div class="login-container">
       <div class="logo">TaxEasePro</div>
-      <h1>Partner Login</h1>
+      <h1>Partner Program</h1>
 
-      <div class="consent-box">
-        <label class="checkbox-item">
-          <input type="checkbox" id="c1" onchange="toggle()">
+      <div class="consent-group">
+        <label class="checkbox-row">
+          <input type="checkbox" id="p_check" onchange="toggleBtn()">
           <span>I agree to the <a href="privacy-policy.html" target="_blank" class="links">Privacy Policy</a></span>
         </label>
-        <label class="checkbox-item">
-          <input type="checkbox" id="c2" onchange="toggle()">
+        <label class="checkbox-row">
+          <input type="checkbox" id="t_check" onchange="toggleBtn()">
           <span>I accept the <a href="terms-conditions.html" target="_blank" class="links">Terms & Conditions</a></span>
         </label>
       </div>
 
-      <button id="btn" class="login-btn" disabled onclick="location.href='profile-update.html'">
-        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/><path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/><path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/></svg>
+      <button id="loginBtn" class="google-login-btn" disabled onclick="location.href='profile-update.html'">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/>
+          <path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/>
+          <path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/>
+        </svg>
         Continue with Google
       </button>
+
+      <div class="trust-footer">
+        SECURE 256-BIT ENCRYPTION • DPDP COMPLIANT
+      </div>
     </div>
   </div>
 
   <script>
-    function toggle() {
-      const a = document.getElementById('c1').checked;
-      const b = document.getElementById('c2').checked;
-      document.getElementById('btn').disabled = !(a && b);
+    function toggleBtn() {
+      const p = document.getElementById('p_check').checked;
+      const t = document.getElementById('t_check').checked;
+      document.getElementById('loginBtn').disabled = !(p && t);
     }
   </script>
 
