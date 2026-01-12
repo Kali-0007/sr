@@ -73,14 +73,39 @@
     }
 
     /* --- RESPONSIVE FIXES (MOBILE ONLY) --- */
-   @media (max-width: 480px) {
+   /* --- MOBILE & IPAD BRIGHTNESS FIX --- */
+    @media (max-width: 1024px) {
+      .hero-container { 
+        height: 50vh; /* Image height iPad ke liye */
+        background-size: cover;
+      }
+      
+      /* Gradient ko bohot niche shift kar diya taaki image dim na ho */
+      .hero-container::after {
+        height: 20vh; 
+        background: linear-gradient(to top, 
+          var(--bg) 0%, 
+          rgba(3, 3, 8, 0.5) 40%, 
+          transparent 100%
+        );
+        opacity: 0.8; /* Pure black ki jagah thoda light rakha hai */
+      }
+    }
+
+    @media (max-width: 480px) {
       .hero-container { 
         height: 45vh; 
         background-size: 100% auto; 
-        background-position: center top; 
       }
+      
+      .hero-container::after {
+        height: 15vh; /* Mobile par gradient aur bhi chota taaki brightness poori rahe */
+        background: linear-gradient(to top, var(--bg) 20%, transparent 100%);
+        opacity: 0.9;
+      }
+
       .login-section {
-        margin-top: -110px; /* Logo ko image ke upar overlap karne ke liye */
+        margin-top: -100px; /* Content ko upar rakha */
       }
     }
       .logo-main {
