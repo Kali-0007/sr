@@ -3,189 +3,196 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login – TaxEasePro Partner</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>Partner Program – TaxEasePro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0f0f1a;
+      --card-bg: #161625;
       --teal: #00c4b4;
       --gold: #d4af37;
+      --text: #ffffff;
+      --text-dim: #b0b0b0;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body { 
-      background-color: var(--bg); 
-      color: #fff; 
-      font-family: 'Inter', sans-serif;
-      /* Scroll allow karenge taaki image aur login dono space le saken */
-      overflow-y: auto; 
-    }
+    body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
 
-    /* 1. HERO IMAGE SECTION - Poori width aur height */
+    /* --- 1. PERFECTLY BLENDED HERO SECTION --- */
     .hero-container {
       width: 100%;
-      height: 85vh; /* 85% screen sirf image ke liye, taaki cut na ho */
-      background-image: url('partner1.png');
+      height: 90vh;
+      background: url('partner1.png') no-repeat center center;
       background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       position: relative;
     }
 
-    /* Bottom blending layer - Smooth mix with background */
-    .hero-container::after {
+    /* Seamless Blend Overlay */
+    .hero-container::before {
       content: "";
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 250px; /* Bada gradient taaki niche ka transition natural lage */
-      background: linear-gradient(to top, var(--bg) 10%, transparent 100%);
+      inset: 0;
+      /* Top and Bottom Blending to remove sharp edges */
+      background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%, transparent 70%, var(--bg) 100%);
+      z-index: 1;
     }
 
-    /* 2. LOGIN SECTION - Isko kafi neeche push kiya hai */
-    .login-wrapper {
+    /* --- 2. LOGIN SECTION (PUSHED LOWER) --- */
+    .login-section {
       width: 100%;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 20px 100px; /* Niche kafi space */
-      background-color: var(--bg);
+      justify-content: center;
+      padding: 100px 20px; /* Pushed further down */
+      background: var(--bg);
       position: relative;
       z-index: 10;
-      margin-top: -50px; /* Smooth transition with hero image */
     }
 
-    .login-content {
-      max-width: 460px;
+    .login-card {
+      max-width: 500px;
       width: 100%;
       text-align: center;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 40px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
     }
 
     .logo {
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: 800;
       background: linear-gradient(90deg, var(--teal), var(--gold));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 1rem;
-      letter-spacing: -1px;
+      margin-bottom: 0.5rem;
     }
 
-    h1 { font-size: 1.8rem; margin-bottom: 2.5rem; font-weight: 700; color: #f0f0f0; }
-
-    .consent-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 30px;
-      margin-bottom: 35px;
-      text-align: left;
-    }
-
-    .checkbox-item {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 18px;
-      font-size: 1rem;
-      color: #b0b0b0;
-      cursor: pointer;
-      line-height: 1.4;
-    }
-
-    input[type="checkbox"] {
-      width: 22px;
-      height: 22px;
-      accent-color: var(--teal);
-      flex-shrink: 0;
-      cursor: pointer;
-    }
-
-    .links { color: var(--teal); text-decoration: none; font-weight: 600; border-bottom: 1px solid transparent; }
-    .links:hover { border-bottom: 1px solid var(--teal); }
+    .consent-group { margin: 30px 0; text-align: left; }
+    .check-item { display: flex; gap: 12px; margin-bottom: 15px; font-size: 0.9rem; color: var(--text-dim); cursor: pointer; }
+    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--teal); flex-shrink: 0; }
+    .links { color: var(--teal); text-decoration: none; font-weight: 600; }
 
     .google-btn {
-      width: 100%;
-      padding: 18px;
-      background: white;
-      color: #000;
-      border: none;
-      border-radius: 50px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      transition: all 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      width: 100%; padding: 18px; border-radius: 50px; border: none; font-size: 1.1rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; transition: 0.3s;
     }
+    .google-btn:disabled { background: #2a2a35; color: #555; cursor: not-allowed; }
+    .google-btn:not(:disabled) { background: white; color: black; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .google-btn:not(:disabled):hover { background: var(--teal); color: white; transform: translateY(-3px); }
 
-    .google-btn:disabled {
-      background: #2a2a35;
-      color: #555;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
+    .security-badges { margin-top: 25px; display: flex; justify-content: center; gap: 15px; font-size: 0.8rem; color: var(--text-dim); }
 
-    .google-btn:not(:disabled):hover {
-      background: var(--teal);
-      color: white;
-      transform: translateY(-3px);
-    }
+    /* --- 3. HOW IT WORKS SECTION --- */
+    .content-section { max-width: 1000px; margin: 0 auto; padding: 100px 20px; }
+    .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 60px; font-weight: 800; color: var(--gold); }
+    
+    .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .step-card { background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+    .step-number { font-size: 1rem; font-weight: 800; color: var(--teal); margin-bottom: 10px; text-transform: uppercase; }
+    .step-card h3 { font-size: 1.3rem; margin-bottom: 15px; color: #fff; }
+    .step-card p { font-size: 0.95rem; color: var(--text-dim); }
 
-    .footer-note {
-      margin-top: 40px;
-      font-size: 0.85rem;
-      color: #666;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
+    .example-box { background: linear-gradient(135deg, #1e1e30, #161625); border: 2px dashed var(--teal); padding: 30px; border-radius: 20px; margin-top: 40px; text-align: center; }
+    .example-box span { color: var(--teal); font-weight: 700; font-size: 1.2rem; }
+
+    .highlights { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 60px; justify-content: center; }
+    .highlight-pill { background: rgba(0, 196, 180, 0.1); border: 1px solid var(--teal); padding: 12px 25px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; }
+
+    @media (max-width: 768px) { .section-title { font-size: 1.8rem; } }
   </style>
 </head>
 <body>
 
   <div class="hero-container"></div>
 
-  <div class="login-wrapper">
-    <div class="login-content">
+  <section class="login-section">
+    <div class="login-card">
       <div class="logo">TaxEasePro</div>
-      <h1>Partner Dashboard Access</h1>
-
-      <div class="consent-card">
-        <label class="checkbox-item">
-          <input type="checkbox" id="c1" onchange="validate()">
-          <span>I have read and agree to the <a href="privacy-policy.html" target="_blank" class="links">Privacy Policy</a></span>
+      <h1>Partner Dashboard</h1>
+      
+      <div class="consent-group">
+        <label class="check-item">
+          <input type="checkbox" id="c1" onchange="check()">
+          <span>I agree to the <a href="privacy-policy.html" target="_blank" class="links">Privacy Policy</a></span>
         </label>
-        <label class="checkbox-item">
-          <input type="checkbox" id="c2" onchange="validate()">
-          <span>I accept the Partner <a href="terms-conditions.html" target="_blank" class="links">Terms & Conditions</a></span>
+        <label class="check-item">
+          <input type="checkbox" id="c2" onchange="check()">
+          <span>I accept the <a href="terms-conditions.html" target="_blank" class="links">Terms & Conditions</a></span>
         </label>
       </div>
 
-      <button id="loginBtn" class="google-btn" disabled onclick="location.href='profile-update.html'">
-        <svg width="24" height="24" viewBox="0 0 24 24">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/>
-          <path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/>
-          <path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/>
-        </svg>
+      <button id="lBtn" class="google-btn" disabled onclick="location.href='profile-update.html'">
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/><path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/><path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/></svg>
         Continue with Google
       </button>
 
-      <div class="footer-note">
-        100% Secure • RBI & DPDP Compliant
+      <div class="security-badges">
+        <span>🔒 Secure Login</span>
+        <span>✅ DPDP Compliant</span>
+        <span>✅ 256-bit Encryption</span>
       </div>
     </div>
-  </div>
+  </section>
+
+  <section class="content-section">
+    <h2 class="section-title">How Agents Earn Money – Simple Process</h2>
+    
+    <div class="step-grid">
+      <div class="step-card">
+        <div class="step-number">Step 1</div>
+        <h3>Sign Up for Free</h3>
+        <p>Click "Continue with Google". No passwords, no long forms. Your account is created automatically.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 2</div>
+        <h3>Get Your Unique Code</h3>
+        <p>Instantly receive your personal referral code (e.g., TAXEASE-XXXXXX) from your dashboard.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 3</div>
+        <h3>Share With Your Network</h3>
+        <p>Share via WhatsApp or call. Clients get an <b>instant 5% discount</b> when they use your code.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 4</div>
+        <h3>Earn Commissions</h3>
+        <p>Get 10% (General Partners) or 20% (CA/CS) commission on every payment. It's lifetime recurring!</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 5</div>
+        <h3>Track Everything Live</h3>
+        <p>See referred clients, total earnings, and monthly history in real-time on your dashboard.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 6</div>
+        <h3>Direct Bank Payouts</h3>
+        <p>Earnings transferred between 10th-15th of every month. Automatic TDS compliance included.</p>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <p><b>Example:</b> If one client pays ₹5,000/month for GST services, you earn <span>₹500 - ₹1,000 every single month</span> from that one client—forever!</p>
+    </div>
+
+    <div class="highlights">
+      <div class="highlight-pill">Zero Investment</div>
+      <div class="highlight-pill">Lifetime Passive Income</div>
+      <div class="highlight-pill">Super Simple Process</div>
+      <div class="highlight-pill">100% Transparent Tracking</div>
+    </div>
+  </section>
 
   <script>
-    function validate() {
+    function check() {
       const a = document.getElementById('c1').checked;
       const b = document.getElementById('c2').checked;
-      document.getElementById('loginBtn').disabled = !(a && b);
+      document.getElementById('lBtn').disabled = !(a && b);
     }
   </script>
 
