@@ -15,38 +15,25 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body { 
-      background-color: var(--bg); 
-      color: var(--text); 
-      font-family: 'Inter', sans-serif; 
-      line-height: 1.8; 
-      overflow-x: hidden;
-    }
+    body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.8; overflow-x: hidden; }
 
-    /* --- 1. RESPONSIVE HERO IMAGE --- */
+    /* --- HERO SECTION: FULLY RESPONSIVE --- */
     .hero-container {
       width: 100%;
       height: 100vh;
       background: url('partner1.png') no-repeat center center;
-      background-size: cover; /* Desktop ke liye perfect */
+      background-size: cover;
       position: relative;
     }
 
-    /* Mobile aur iPad ke liye adjustments */
+    /* iPad/Tablet adjust */
     @media (max-width: 1024px) {
-      .hero-container {
-        height: 60vh; /* iPad par image ki height thodi kam taaki content jaldi dikhe */
-        background-position: top center; /* Image ka main part (chehra/top) hamesha dikhega */
-      }
+      .hero-container { height: 70vh; background-position: center; }
     }
 
+    /* Mobile adjust: Image kategi nahi, center focus rahega */
     @media (max-width: 480px) {
-      .hero-container {
-        height: 50vh; /* Mobile par aur compact */
-        background-size: contain; /* Mobile par image ko katne se bachane ke liye contain use kar sakte hain */
-        background-color: var(--bg);
-      }
+      .hero-container { height: 60vh; background-position: center; }
     }
 
     .hero-container::after {
@@ -56,23 +43,24 @@
       left: 0;
       width: 100%;
       height: 40vh;
-      background: linear-gradient(to top, var(--bg) 15%, transparent 100%);
+      background: linear-gradient(to top, var(--bg) 20%, transparent 100%);
       z-index: 2;
     }
 
-    /* --- 2. FLOATING LOGIN SECTION --- */
+    /* --- LOGIN SECTION --- */
     .login-section {
       position: relative;
       z-index: 10;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px 20px 80px;
+      padding: 20px 20px 80px;
       background: var(--bg);
+      margin-top: -5vh;
     }
 
     .logo-main {
-      font-size: clamp(3rem, 10vw, 5.5rem); /* Responsive font size */
+      font-size: clamp(3rem, 8vw, 5.5rem);
       font-weight: 800;
       letter-spacing: -3px;
       background: linear-gradient(135deg, var(--teal), var(--gold));
@@ -83,103 +71,55 @@
     }
 
     .tagline {
-      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      font-size: clamp(0.8rem, 2vw, 1.1rem);
       font-weight: 400;
       color: var(--text-dim);
       margin-bottom: 50px;
       letter-spacing: 4px;
       text-transform: uppercase;
-      text-align: center;
     }
 
-    .login-controls {
-      width: 100%;
-      max-width: 420px;
-    }
+    .login-controls { width: 100%; max-width: 420px; }
 
     .consent-item {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-      font-size: 0.95rem;
-      color: var(--text-dim);
-      cursor: pointer;
+      display: flex; gap: 12px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-dim); cursor: pointer;
     }
 
-    input[type="checkbox"] {
-      width: 22px;
-      height: 22px;
-      accent-color: var(--teal);
-      flex-shrink: 0;
-    }
+    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--teal); flex-shrink: 0; }
 
     .google-btn {
-      width: 100%;
-      padding: 18px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: transparent;
-      color: #fff;
-      font-size: 1.1rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.4s ease;
+      width: 100%; padding: 20px; border: 1px solid rgba(255,255,255,0.2);
+      background: transparent; color: #fff; font-size: 1.1rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; transition: 0.3s;
     }
 
-    .google-btn:not(:disabled):hover {
-      background: #fff;
-      color: #000;
-    }
-
+    .google-btn:not(:disabled):hover { background: #fff; color: #000; }
     .google-btn:disabled { opacity: 0.2; }
 
-    .trust-badges {
-      margin-top: 40px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      font-size: 0.75rem;
-      color: var(--teal);
-      font-weight: 600;
+    .trust-badges { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--teal); font-weight: 600; opacity: 0.8; }
+
+    /* --- DETAILED CONTENT --- */
+    .content-flow { max-width: 850px; margin: 80px auto; padding: 0 25px; }
+    .section-head { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; margin-bottom: 70px; text-align: center; color: var(--gold); }
+    
+    .process-row { margin-bottom: 60px; padding-left: 20px; border-left: 1px solid var(--teal); }
+    .step-marker { color: var(--teal); font-weight: 800; font-size: 0.8rem; letter-spacing: 2px; display: block; margin-bottom: 10px; }
+    .process-row h3 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 12px; color: #fff; }
+    .process-row p { font-size: 1.05rem; color: var(--text-dim); margin-bottom: 10px; }
+    .process-row ul { list-style: none; margin-top: 10px; }
+    .process-row li { position: relative; padding-left: 25px; margin-bottom: 8px; color: var(--text-dim); }
+    .process-row li::before { content: "→"; position: absolute; left: 0; color: var(--gold); }
+
+    .example-box {
+      background: #0a0a15; border: 1px solid rgba(212, 175, 55, 0.3); padding: 40px 25px; border-radius: 4px; text-align: center; margin: 80px 0;
     }
+    .example-box h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--teal); margin-bottom: 10px; }
+    .highlight-gold { color: var(--gold); font-weight: 700; }
 
-    /* --- 3. RESPONSIVE CONTENT FLOW --- */
-    .content-flow {
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 0 24px;
-    }
+    .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 80px; }
+    .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.3); padding: 20px; text-align: center; font-weight: 600; font-size: 0.9rem; color: var(--teal); }
 
-    .section-head {
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      font-weight: 800;
-      margin-bottom: 60px;
-      text-align: center;
-    }
-
-    .process-row {
-      margin-bottom: 60px;
-      padding-left: 20px;
-      border-left: 2px solid rgba(0, 196, 180, 0.3);
-    }
-
-    .process-row h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin-bottom: 10px; }
-    .process-row p { font-size: 1rem; color: var(--text-dim); }
-
-    .earning-showcase {
-      background: #0a0a15;
-      padding: 40px 20px;
-      text-align: center;
-      margin: 60px 0;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .earning-showcase h2 { font-size: clamp(1.8rem, 5vw, 3rem); color: var(--teal); }
-
+    @media (max-width: 768px) { .process-row { padding-left: 15px; } }
   </style>
 </head>
 <body>
@@ -188,49 +128,90 @@
 
   <section class="login-section">
     <div class="logo-main">TaxEasePro</div>
-    <div class="tagline">Partner Access Portal</div>
+    <div class="tagline">Exclusive Partner Access</div>
 
     <div class="login-controls">
       <label class="consent-item">
-        <input type="checkbox" id="c1" onchange="toggle()">
-        <span>Agree to <a href="#" style="color:var(--teal)">Privacy Policy</a></span>
+        <input type="checkbox" id="c1" onchange="v()">
+        <span>I agree to the <a href="#" style="color:var(--teal); text-decoration:none">Privacy Policy</a></span>
       </label>
       <label class="consent-item">
-        <input type="checkbox" id="c2" onchange="toggle()">
-        <span>Accept <a href="#" style="color:var(--teal)">Terms & Conditions</a></span>
+        <input type="checkbox" id="c2" onchange="v()">
+        <span>I accept the <a href="#" style="color:var(--teal); text-decoration:none">Terms & Conditions</a></span>
       </label>
 
       <button id="lBtn" class="google-btn" disabled onclick="location.href='profile-update.html'">
-        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/><path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/><path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/><path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/><path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/></svg>
         Continue with Google
       </button>
     </div>
 
     <div class="trust-badges">
-      <span>🔒 SECURE</span>
-      <span>✅ DPDP READY</span>
-      <span>✅ SSL ENCRYPTED</span>
+      <span>🔒 SECURE GOOGLE LOGIN</span>
+      <span>✅ DPDP COMPLIANT</span>
+      <span>✅ 256-BIT ENCRYPTION</span>
     </div>
   </section>
 
   <section class="content-flow">
-    <h2 class="section-head">How it Works</h2>
+    <h2 class="section-head">How Agents Earn Money – Super Simple Process</h2>
+
     <div class="process-row">
-      <h3>1. Sign Up for Free</h3>
-      <p>Click "Continue with Google" for an instant 1-minute setup.</p>
+      <span class="step-marker">STEP 01</span>
+      <h3>Sign Up for Free (Takes 1 Minute)</h3>
+      <p>Click "Continue with Google" on the login page. No password, no long form – your account is created automatically using your Google info.</p>
     </div>
+
     <div class="process-row">
-      <h3>2. Get Your Code</h3>
-      <p>Receive your unique referral ID instantly on your dashboard.</p>
+      <span class="step-marker">STEP 02</span>
+      <h3>Get Your Unique Partner Code</h3>
+      <p>After login, go to your dashboard. You will instantly receive a personal referral code (e.g., TAXEASE-XXXXXX). This code belongs only to you.</p>
     </div>
-    <div class="earning-showcase">
-      <h2>₹1,000 / Month</h2>
-      <p>Passive income from just one client (CA/CS rate).</p>
+
+    <div class="process-row">
+      <span class="step-marker">STEP 03</span>
+      <h3>Share Your Code with Clients</h3>
+      <p>Share the code with your network via WhatsApp, call, or in person. When any client uses your code for GST/ITR services, <span class="highlight-gold">they get 5% instant discount</span> on their payment.</p>
+    </div>
+
+    <div class="process-row">
+      <span class="step-marker">STEP 04</span>
+      <h3>Earn Commission Automatically</h3>
+      <ul>
+        <li><b>10% commission</b> for general partners (Loan/Insurance agents, Property dealers, etc.)</li>
+        <li><b>20% commission</b> for Chartered Accountants (CA) and Company Secretaries (CS).</li>
+        <li>Commission is <span class="highlight-gold">Lifetime Recurring</span> – earn every month as long as the client keeps paying.</li>
+      </ul>
+    </div>
+
+    <div class="example-box">
+      <p style="letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px;">INCOME EXAMPLE</p>
+      <h2>₹1,000 / Per Client</h2>
+      <p>If a client pays ₹5,000/month, you earn up to ₹1,000 every single month — <b>forever!</b></p>
+    </div>
+
+    <div class="process-row">
+      <span class="step-marker">STEP 05</span>
+      <h3>Track Everything in Your Dashboard</h3>
+      <p>Log in anytime to see live updates: Number of referred clients, total commission earned, monthly earnings, and previous payout history.</p>
+    </div>
+
+    <div class="process-row">
+      <span class="step-marker">STEP 06</span>
+      <h3>Get Paid Directly in Your Bank Account</h3>
+      <p>Every month (10th-15th), commission is transferred to your bank. Minimum payout: ₹1,000. TDS is deducted as per Income Tax rules, and we issue Form 16A annually.</p>
+    </div>
+
+    <div class="highlights-grid">
+      <div class="highlight-pill">ZERO INVESTMENT</div>
+      <div class="highlight-pill">LIFETIME PASSIVE INCOME</div>
+      <div class="highlight-pill">100% TRANSPARENT</div>
+      <div class="highlight-pill">WE HANDLE COMPLIANCE</div>
     </div>
   </section>
 
   <script>
-    function toggle() {
+    function v() {
       const a = document.getElementById('c1').checked;
       const b = document.getElementById('c2').checked;
       document.getElementById('lBtn').disabled = !(a && b);
