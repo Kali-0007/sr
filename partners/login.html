@@ -17,79 +17,82 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.8; overflow-x: hidden; }
 
-    /* --- HERO SECTION: DESKTOP PE FULL, MOBILE PE ADJUSTED --- */
+    /* --- HERO SECTION --- */
     .hero-container {
       width: 100%;
-      height: 100vh; /* Desktop par wapas full kar diya */
+      height: 100vh;
       background: url('partner1.png') no-repeat center top;
       background-size: cover; 
       position: relative;
     }
 
-    @media (max-width: 1024px) {
-      .hero-container { 
-        height: 60vh; /* iPad par content upar lane ke liye */
-        background-size: cover;
-      }
-    }
-
-    /* --- MOBILE & IPAD FIX --- */
-    @media (max-width: 480px) {
-      .hero-container { 
-        height: 45vh; 
-        background-size: 100% auto; 
-        background-position: top center;
-      }
-
-      .login-section {
-        margin-top: -120px; /* Gap kam karne ke liye isko zyada minus kiya */
-        padding-top: 0;
-      }
-
-      .logo-main {
-        margin-bottom: 0px; 
-        font-size: 3.2rem; /* Mobile par thoda adjust kiya */
-      }
-    }
-
-    /* Gradient Height kam ki taaki image saaf dikhe */
+    /* SMOOTH BLEND (No Boundaries) */
     .hero-container::after {
       content: "";
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 20vh; /* Gradient chota kiya taaki gap kam lage */
-      background: linear-gradient(to top, var(--bg) 10%, transparent 100%);
+      height: 45vh; 
+      background: linear-gradient(to top, var(--bg) 25%, transparent 100%);
       z-index: 2;
     }
 
-    /* --- LOGIN SECTION (General) --- */
+    /* --- LOGIN SECTION --- */
     .login-section {
       position: relative;
       z-index: 10;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 20px 60px;
+      padding: 0 20px 80px;
       background: var(--bg);
-      margin-top: -30px; /* Ye desktop ke liye hai */
+      margin-top: -40px; 
     }
 
-    .tagline {
-      font-size: clamp(0.75rem, 2vw, 1.1rem);
-      font-weight: 400;
-      color: var(--text-dim);
-      margin-bottom: 40px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
+    /* DESKTOP LOGO (BIG) */
+    .logo-main {
+      font-size: 5.5rem; 
+      font-weight: 800;
+      letter-spacing: -3px;
+      background: linear-gradient(135deg, var(--teal), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       text-align: center;
     }
 
-    .login-controls { width: 100%; max-width: 420px; }
-    .consent-item { display: flex; gap: 12px; margin-bottom: 18px; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
-    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--teal); flex-shrink: 0; }
+    .tagline {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text-dim);
+      margin-bottom: 50px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
 
+    /* --- RESPONSIVE FIXES (MOBILE ONLY) --- */
+    @media (max-width: 480px) {
+      .hero-container { 
+        height: 45vh; 
+        background-size: 100% auto; 
+      }
+      .login-section {
+        margin-top: -110px; /* Logo image ke kareeb chala jayega */
+      }
+      .logo-main {
+        font-size: 3.2rem; /* Mobile optimized size */
+      }
+      .tagline {
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+      }
+    }
+
+    /* --- LOGIN CONTROLS --- */
+    .login-controls { width: 100%; max-width: 420px; }
+    .consent-item { display: flex; gap: 12px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
+    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--teal); flex-shrink: 0; }
+    
     .google-btn {
       width: 100%; padding: 20px; border: 1px solid rgba(255,255,255,0.2);
       background: transparent; color: #fff; font-size: 1.1rem; font-weight: 700;
@@ -97,27 +100,29 @@
     }
     .google-btn:not(:disabled):hover { background: #fff; color: #000; }
     .google-btn:disabled { opacity: 0.2; }
-
+    
     .trust-badges { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--teal); font-weight: 600; opacity: 0.8; }
 
-    /* --- CONTENT FLOW --- */
-    .content-flow { max-width: 850px; margin: 60px auto; padding: 0 25px; }
-    .section-head { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; margin-bottom: 60px; text-align: center; color: var(--gold); }
+    /* --- FULL CONTENT FLOW --- */
+    .content-flow { max-width: 850px; margin: 80px auto; padding: 0 25px; }
+    .section-head { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; margin-bottom: 70px; text-align: center; color: var(--gold); }
     
-    .process-row { margin-bottom: 50px; padding-left: 20px; border-left: 1px solid var(--teal); }
-    .process-row h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin-bottom: 12px; color: #fff; }
-    .process-row p { font-size: 1.05rem; color: var(--text-dim); }
+    .process-row { margin-bottom: 60px; padding-left: 20px; border-left: 1px solid var(--teal); }
+    .step-marker { color: var(--teal); font-weight: 800; font-size: 0.8rem; letter-spacing: 2px; display: block; margin-bottom: 10px; }
+    .process-row h3 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 12px; color: #fff; }
+    .process-row p { font-size: 1.05rem; color: var(--text-dim); margin-bottom: 10px; }
     .process-row ul { list-style: none; margin-top: 10px; }
     .process-row li { position: relative; padding-left: 25px; margin-bottom: 8px; color: var(--text-dim); }
     .process-row li::before { content: "→"; position: absolute; left: 0; color: var(--gold); }
 
     .example-box {
-      background: #0a0a15; border: 1px solid rgba(212, 175, 55, 0.2); padding: 40px 25px; border-radius: 4px; text-align: center; margin: 70px 0;
+      background: #0a0a15; border: 1px solid rgba(212, 175, 55, 0.3); padding: 40px 25px; border-radius: 4px; text-align: center; margin: 80px 0;
     }
     .example-box h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--teal); margin-bottom: 10px; }
+    .highlight-gold { color: var(--gold); font-weight: 700; }
 
-    .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 70px; }
-    .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.2); padding: 18px; text-align: center; font-weight: 600; font-size: 0.85rem; color: var(--teal); }
+    .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 80px; }
+    .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.3); padding: 20px; text-align: center; font-weight: 600; font-size: 0.9rem; color: var(--teal); }
 
   </style>
 </head>
@@ -127,7 +132,7 @@
 
   <section class="login-section">
     <div class="logo-main">TaxEasePro</div>
-    <div class="tagline">Partner Program</div>
+    <div class="tagline">Exclusive Partner Access</div>
 
     <div class="login-controls">
       <label class="consent-item">
@@ -153,50 +158,57 @@
   </section>
 
   <section class="content-flow">
-    <h2 class="section-head">How it Works</h2>
+    <h2 class="section-head">How Agents Earn Money</h2>
 
     <div class="process-row">
-      <h3>1. Sign Up for Free (Takes 1 Minute)</h3>
-      <p>Click "Continue with Google" on the login page. Your account is created automatically using your Google info.</p>
+      <span class="step-marker">STEP 01</span>
+      <h3>Sign Up for Free (Takes 1 Minute)</h3>
+      <p>Click "Continue with Google" on the login page. No password, no long form – your account is created automatically using your Google info.</p>
     </div>
 
     <div class="process-row">
-      <h3>2. Get Your Unique Partner Code</h3>
-      <p>Receive your personal referral code (e.g., TAXEASE-XXXXXX) instantly on your dashboard.</p>
+      <span class="step-marker">STEP 02</span>
+      <h3>Get Your Unique Partner Code</h3>
+      <p>After login, go to your dashboard. You will instantly receive a personal referral code (e.g., TAXEASE-XXXXXX). This code belongs only to you.</p>
     </div>
 
     <div class="process-row">
-      <h3>3. Share Your Code with Clients</h3>
-      <p>Share via WhatsApp or call. Clients get <b>5% instant discount</b> on services using your code.</p>
+      <span class="step-marker">STEP 03</span>
+      <h3>Share Your Code with Clients</h3>
+      <p>Share the code with your network via WhatsApp or call. When any client uses your code for GST/ITR services, <span class="highlight-gold">they get 5% instant discount</span>.</p>
     </div>
 
     <div class="process-row">
-      <h3>4. Earn Commission Automatically</h3>
+      <span class="step-marker">STEP 04</span>
+      <h3>Earn Commission Automatically</h3>
       <ul>
         <li><b>10% commission</b> for general partners.</li>
         <li><b>20% commission</b> for CA and CS partners.</li>
-        <li><b>Lifetime Recurring</b> – Earn every month as long as the client pays.</li>
+        <li>Commission is <span class="highlight-gold">Lifetime Recurring</span> – earn every month.</li>
       </ul>
     </div>
 
     <div class="example-box">
+      <p style="letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px;">INCOME EXAMPLE</p>
       <h2>₹1,000 / Per Client</h2>
-      <p>Earn up to ₹1,000 monthly from just one ₹5,000 client — <b>forever!</b></p>
+      <p>If a client pays ₹5,000/month, you earn up to ₹1,000 every single month — <b>forever!</b></p>
     </div>
 
     <div class="process-row">
-      <h3>5. Track Everything Live</h3>
-      <p>See live updates of referrals, total earnings, and payout history on your dashboard.</p>
+      <span class="step-marker">STEP 05</span>
+      <h3>Track Everything in Your Dashboard</h3>
+      <p>Log in anytime to see live updates: Number of referred clients, total commission earned, and payout history.</p>
     </div>
 
     <div class="process-row">
-      <h3>6. Direct Bank Payouts</h3>
-      <p>Transferred between 10th-15th monthly. We handle TDS and provide Form 16A annually.</p>
+      <span class="step-marker">STEP 06</span>
+      <h3>Get Paid Directly in Your Bank</h3>
+      <p>Every month (10th-15th), commission is transferred to your bank. We handle TDS and issue Form 16A annually.</p>
     </div>
 
     <div class="highlights-grid">
       <div class="highlight-pill">ZERO INVESTMENT</div>
-      <div class="highlight-pill">PASSIVE INCOME</div>
+      <div class="highlight-pill">LIFETIME PASSIVE INCOME</div>
       <div class="highlight-pill">100% TRANSPARENT</div>
       <div class="highlight-pill">WE HANDLE COMPLIANCE</div>
     </div>
