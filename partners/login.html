@@ -1,109 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partner Login - TaxEasePro</title>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        :root { --primary: #2563eb; --bg: #f3f4f6; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            display: flex; align-items: center; justify-content: center;
-            height: 100vh; margin: 0;
-        }
-        .login-card {
-            background: white; padding: 2.5rem; border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center; max-width: 420px; width: 90%;
-        }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-bottom: 1rem; }
-        h1 { font-size: 1.25rem; margin-bottom: 0.5rem; color: #1f2937; }
-        p { color: #6b7280; font-size: 0.9rem; margin-bottom: 2rem; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Login to TaxEasePro Partner Program – Access your dashboard, track referrals & earnings"/>
+  <title>Login – TaxEasePro Partner Program</title>
 
-        /* Checkbox Styling */
-        .consent-container {
-            text-align: left; margin-bottom: 1.5rem;
-            padding: 1rem; background: #f9fafb; border-radius: 8px;
-        }
-        .consent-item {
-            display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;
-            font-size: 0.85rem; color: #374151; cursor: pointer;
-        }
-        .consent-item input { margin-top: 3px; cursor: pointer; }
-        .consent-item a { color: var(--primary); text-decoration: none; font-weight: 500; }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        /* Google Button Container */
-        #googleBtnWrapper {
-            position: relative;
-            margin-top: 1rem;
-        }
-        .disabled-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.6); z-index: 10;
-            cursor: not-allowed; display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; color: #ef4444; font-weight: bold;
-            border-radius: 4px; border: 1px dashed #ef4444;
-        }
-        .hidden { display: none !important; }
-    </style>
+  <!-- Google Sign-In SDK (for real implementation, add your client ID) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --overlay: rgba(15, 15, 26, 0.75);
+      --text: #ffffff;
+      --text-light: #e0e0e0;
+      --teal: #00c4b4;
+      --teal-dark: #009a8f;
+      --gold: #d4af37;
+      --card: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Full-screen hero with perfect blending */
+    .hero {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to bottom, rgba(15,15,26,0.3) 0%, rgba(15,15,26,0.6) 40%, var(--bg) 75%, var(--bg) 100%),
+        url('partner1.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 90%);
+      mask-image: linear-gradient(to bottom, black 65%, transparent 90%);
+    }
+
+    .login-container {
+      position: relative;
+      z-index: 10;
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .logo {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--text-light);
+      margin-bottom: 2.5rem;
+    }
+
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 24px;
+      background: #ffffff;
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .google-btn:hover {
+      background: #f0f0f0;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .google-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .checkbox-container {
+      margin: 2rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    .checkbox-container a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .checkbox-container a:hover {
+      text-decoration: underline;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--teal);
+      cursor: pointer;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 2.5rem 1.5rem;
+      }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="login-card">
-        <div class="logo">TaxEasePro Partners</div>
-        <h1>Partner Access</h1>
-        <p>Please accept the terms to continue with Google</p>
+  <section class="hero">
+    <div class="hero-bg"></div>
 
-        <div class="consent-container">
-            <label class="consent-item">
-                <input type="checkbox" id="checkPrivacy" onchange="toggleGoogleBtn()">
-                <span>I have read and agree to the <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</span>
-            </label>
-            <label class="consent-item">
-                <input type="checkbox" id="checkTerms" onchange="toggleGoogleBtn()">
-                <span>I accept the <a href="terms-conditions.html" target="_blank">Terms & Conditions</a> of the Partner Program.</span>
-            </label>
-        </div>
+    <div class="login-container">
+      <div class="logo">TaxEasePro</div>
+      <h1>Partner Login</h1>
+      <p class="subtitle">Access your dashboard, track referrals, and manage earnings</p>
 
-        <div id="googleBtnWrapper">
-            <div id="overlay" class="disabled-overlay">Tick both boxes to enable login</div>
-            <div id="googleBtn"></div>
-        </div>
+      <!-- Google Login Button (Placeholder – integrate real Google Sign-In) -->
+      <button class="google-btn" onclick="alert('Google Sign-In integration goes here!')">
+        <svg class="google-icon" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z"/>
+          <path fill="#EA4335" d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="agree" required />
+        <label for="agree">
+          I agree to the <a href="privacy-policy.html" target="_blank">Privacy Policy</a> & 
+          <a href="terms-conditions.html" target="_blank">Terms & Conditions</a>
+        </label>
+      </div>
     </div>
+  </section>
 
-    <script>
-        function toggleGoogleBtn() {
-            const isPrivacyChecked = document.getElementById('checkPrivacy').checked;
-            const isTermsChecked = document.getElementById('checkTerms').checked;
-            const overlay = document.getElementById('overlay');
+  <script>
+    // Optional: Disable button until checkbox is checked (real-world UX)
+    const checkbox = document.getElementById('agree');
+    const googleBtn = document.querySelector('.google-btn');
 
-            if (isPrivacyChecked && isTermsChecked) {
-                overlay.classList.add('hidden');
-            } else {
-                overlay.classList.remove('hidden');
-            }
-        }
+    checkbox.addEventListener('change', () => {
+      googleBtn.disabled = !checkbox.checked;
+      googleBtn.style.opacity = checkbox.checked ? '1' : '0.6';
+      googleBtn.style.cursor = checkbox.checked ? 'pointer' : 'not-allowed';
+    });
 
-        window.onload = function () {
-            google.accounts.id.initialize({
-                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
-                callback: handleCredentialResponse
-            });
-            google.accounts.id.renderButton(
-                document.getElementById("googleBtn"),
-                { theme: "outline", size: "large", width: "320" }
-            );
-        };
+    // Real Google Sign-In (uncomment when you have client ID)
+    /*
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+        callback: handleGoogleLogin
+      });
+      google.accounts.id.renderButton(
+        document.getElementById('googleButtonContainer'),
+        { theme: 'outline', size: 'large', text: 'signin_with' }
+      );
+    };
+    function handleGoogleLogin(response) {
+      console.log('Google Login Token:', response.credential);
+      // Send to backend for verification & login
+    }
+    */
+  </script>
 
-        function handleCredentialResponse(response) {
-            // Success hone par user info aur acceptance timestamp record karenge
-            console.log("Encoded JWT ID token: " + response.credential);
-            
-            // Yahan se user Profile Update par jayega
-            window.location.href = "profile-update.html";
-        }
-    </script>
 </body>
 </html>
