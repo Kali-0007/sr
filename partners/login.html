@@ -24,70 +24,83 @@
       overflow-x: hidden;
     }
 
-    /* --- 1. SHARP HERO IMAGE (NO DIMMING) --- */
+    /* --- 1. RESPONSIVE HERO IMAGE --- */
     .hero-container {
       width: 100%;
       height: 100vh;
       background: url('partner1.png') no-repeat center center;
-      background-size: cover;
+      background-size: cover; /* Desktop ke liye perfect */
       position: relative;
     }
 
-    /* Sirf bottom mein transition blend hai taaki image kategi nahi */
+    /* Mobile aur iPad ke liye adjustments */
+    @media (max-width: 1024px) {
+      .hero-container {
+        height: 60vh; /* iPad par image ki height thodi kam taaki content jaldi dikhe */
+        background-position: top center; /* Image ka main part (chehra/top) hamesha dikhega */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-container {
+        height: 50vh; /* Mobile par aur compact */
+        background-size: contain; /* Mobile par image ko katne se bachane ke liye contain use kar sakte hain */
+        background-color: var(--bg);
+      }
+    }
+
     .hero-container::after {
       content: "";
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 35vh; /* Bada gradient smooth merging ke liye */
-      background: linear-gradient(to top, var(--bg) 10%, transparent 100%);
+      height: 40vh;
+      background: linear-gradient(to top, var(--bg) 15%, transparent 100%);
       z-index: 2;
     }
 
-    /* --- 2. PUSHED DOWN LOGIN SECTION --- */
+    /* --- 2. FLOATING LOGIN SECTION --- */
     .login-section {
       position: relative;
       z-index: 10;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 20px 100px;
-      margin-top: -5vh; /* Content start point niche kar diya */
+      padding: 40px 20px 80px;
       background: var(--bg);
     }
 
     .logo-main {
-      font-size: 5.5rem;
+      font-size: clamp(3rem, 10vw, 5.5rem); /* Responsive font size */
       font-weight: 800;
-      letter-spacing: -4px;
+      letter-spacing: -3px;
       background: linear-gradient(135deg, var(--teal), var(--gold));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 5px;
+      text-align: center;
     }
 
     .tagline {
-      font-size: 1.2rem;
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
       font-weight: 400;
       color: var(--text-dim);
-      margin-bottom: 60px;
+      margin-bottom: 50px;
       letter-spacing: 4px;
       text-transform: uppercase;
+      text-align: center;
     }
 
     .login-controls {
       width: 100%;
       max-width: 420px;
-      text-align: center;
     }
 
     .consent-item {
       display: flex;
-      align-items: flex-start;
-      text-align: left;
       gap: 15px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       font-size: 0.95rem;
       color: var(--text-dim);
       cursor: pointer;
@@ -98,94 +111,75 @@
       height: 22px;
       accent-color: var(--teal);
       flex-shrink: 0;
-      margin-top: 2px;
     }
 
     .google-btn {
       width: 100%;
-      padding: 22px;
+      padding: 18px;
       border: 1px solid rgba(255,255,255,0.15);
       background: transparent;
       color: #fff;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
+      gap: 12px;
       cursor: pointer;
       transition: all 0.4s ease;
-      margin-top: 20px;
     }
 
     .google-btn:not(:disabled):hover {
       background: #fff;
       color: #000;
-      box-shadow: 0 0 40px rgba(0, 196, 180, 0.2);
     }
 
-    .google-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+    .google-btn:disabled { opacity: 0.2; }
 
     .trust-badges {
       margin-top: 40px;
       display: flex;
-      gap: 25px;
-      font-size: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      font-size: 0.75rem;
       color: var(--teal);
       font-weight: 600;
-      opacity: 0.8;
     }
 
-    /* --- 3. TYPOGRAPHY CONTENT FLOW --- */
+    /* --- 3. RESPONSIVE CONTENT FLOW --- */
     .content-flow {
       max-width: 900px;
-      margin: 100px auto;
-      padding: 0 20px;
+      margin: 60px auto;
+      padding: 0 24px;
     }
 
     .section-head {
-      font-size: 3rem;
+      font-size: clamp(1.8rem, 5vw, 3rem);
       font-weight: 800;
-      margin-bottom: 100px;
+      margin-bottom: 60px;
       text-align: center;
-      color: #fff;
     }
 
     .process-row {
-      margin-bottom: 90px;
-      padding-left: 30px;
-      border-left: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 60px;
+      padding-left: 20px;
+      border-left: 2px solid rgba(0, 196, 180, 0.3);
     }
 
-    .step-marker {
-      color: var(--gold);
-      font-weight: 800;
-      font-size: 0.9rem;
-      letter-spacing: 2px;
-      display: block;
-      margin-bottom: 15px;
-    }
-
-    .process-row h3 { font-size: 2rem; margin-bottom: 15px; }
-    .process-row p { font-size: 1.1rem; color: var(--text-dim); }
-
-    .highlight-gold { color: var(--gold); font-weight: 700; }
+    .process-row h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin-bottom: 10px; }
+    .process-row p { font-size: 1rem; color: var(--text-dim); }
 
     .earning-showcase {
-      background: linear-gradient(135deg, #0a0a15, #030308);
-      padding: 60px;
-      border-radius: 2px;
+      background: #0a0a15;
+      padding: 40px 20px;
       text-align: center;
-      margin: 100px 0;
+      margin: 60px 0;
       border: 1px solid rgba(255,255,255,0.05);
     }
 
-    .earning-showcase h2 { font-size: 3rem; margin-bottom: 10px; color: var(--teal); }
+    .earning-showcase h2 { font-size: clamp(1.8rem, 5vw, 3rem); color: var(--teal); }
 
-    @media (max-width: 768px) {
-      .logo-main { font-size: 3.5rem; }
-      .section-head { font-size: 2rem; }
-    }
   </style>
 </head>
 <body>
@@ -194,74 +188,44 @@
 
   <section class="login-section">
     <div class="logo-main">TaxEasePro</div>
-    <div class="tagline">Exclusive Partner Access</div>
+    <div class="tagline">Partner Access Portal</div>
 
     <div class="login-controls">
       <label class="consent-item">
         <input type="checkbox" id="c1" onchange="toggle()">
-        <span>I have read and agree to the <a href="#" style="color:var(--teal); text-decoration:none">Privacy Policy</a></span>
+        <span>Agree to <a href="#" style="color:var(--teal)">Privacy Policy</a></span>
       </label>
       <label class="consent-item">
         <input type="checkbox" id="c2" onchange="toggle()">
-        <span>I accept the Partner <a href="#" style="color:var(--teal); text-decoration:none">Terms & Conditions</a></span>
+        <span>Accept <a href="#" style="color:var(--teal)">Terms & Conditions</a></span>
       </label>
 
       <button id="lBtn" class="google-btn" disabled onclick="location.href='profile-update.html'">
-        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/><path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/><path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/></svg>
-        Sign in with Google
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/><path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/><path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/></svg>
+        Continue with Google
       </button>
     </div>
 
     <div class="trust-badges">
-      <span>🔒 SECURE LOGIN</span>
-      <span>✅ DPDP COMPLIANT</span>
-      <span>✅ 256-BIT SSL</span>
+      <span>🔒 SECURE</span>
+      <span>✅ DPDP READY</span>
+      <span>✅ SSL ENCRYPTED</span>
     </div>
   </section>
 
   <section class="content-flow">
-    <h2 class="section-head">The Earning Process</h2>
-
+    <h2 class="section-head">How it Works</h2>
     <div class="process-row">
-      <span class="step-marker">STEP 01</span>
-      <h3>Instant Registration</h3>
-      <p>Click "Continue with Google" to create your account. No passwords, no lengthy forms. We sync your details automatically for a <span class="highlight-gold">1-minute setup</span>.</p>
+      <h3>1. Sign Up for Free</h3>
+      <p>Click "Continue with Google" for an instant 1-minute setup.</p>
     </div>
-
     <div class="process-row">
-      <span class="step-marker">STEP 02</span>
-      <h3>Your Partner Code</h3>
-      <p>Once inside the dashboard, you will find your unique referral ID (e.g., TAXEASE-XXXXXX). This is your digital signature for tracking every rupee you earn.</p>
+      <h3>2. Get Your Code</h3>
+      <p>Receive your unique referral ID instantly on your dashboard.</p>
     </div>
-
-    <div class="process-row">
-      <span class="step-marker">STEP 03</span>
-      <h3>Network Activation</h3>
-      <p>Share your code with clients via WhatsApp or personal meetings. When clients use your code, <span class="highlight-gold">they get 5% off</span>—giving them a reason to choose you.</p>
-    </div>
-
-    <div class="process-row">
-      <span class="step-marker">STEP 04</span>
-      <h3>Lifetime Revenue</h3>
-      <p>Earn 10% or 20% (for CA/CS) on every payment your referred client makes. This includes their first payment and every recurring monthly/quarterly fee <span class="highlight-gold">forever</span>.</p>
-    </div>
-
     <div class="earning-showcase">
-      <p style="letter-spacing: 3px; font-size: 0.9rem; margin-bottom: 20px;">MONTHLY PASSIVE INCOME</p>
-      <h2>₹1,000 / Per Client</h2>
-      <p style="color:var(--text-dim)">Calculated at 20% commission on a ₹5,000 service fee.</p>
-    </div>
-
-    <div class="process-row">
-      <span class="step-marker">STEP 05</span>
-      <h3>Automated Payouts</h3>
-      <p>Commissions are transferred directly to your bank account between the 10th and 15th of every month. We handle TDS and provide Form 16A annually for your legal records.</p>
-    </div>
-
-    <div class="process-row">
-      <span class="step-marker">STEP 06</span>
-      <h3>Live Tracking</h3>
-      <p>Log in anytime to see real-time data: Total referrals, current month earnings, and your complete payout history in one transparent view.</p>
+      <h2>₹1,000 / Month</h2>
+      <p>Passive income from just one client (CA/CS rate).</p>
     </div>
   </section>
 
