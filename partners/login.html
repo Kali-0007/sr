@@ -17,23 +17,32 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.8; overflow-x: hidden; }
 
-    /* --- HERO SECTION: FULLY RESPONSIVE --- */
+    /* --- HERO SECTION: FIX FOR LEFT/RIGHT CUTTING --- */
     .hero-container {
       width: 100%;
       height: 100vh;
       background: url('partner1.png') no-repeat center center;
-      background-size: cover;
+      background-size: cover; 
       position: relative;
     }
 
-    /* iPad/Tablet adjust */
+    /* iPad/Tablet: Image ko thoda adjust kiya */
     @media (max-width: 1024px) {
-      .hero-container { height: 70vh; background-position: center; }
+      .hero-container { 
+        height: 60vh; 
+        background-size: contain; /* Isse side se nahi kategi */
+        background-position: top center;
+        background-color: var(--bg); /* Side gaps ko fill karne ke liye */
+      }
     }
 
-    /* Mobile adjust: Image kategi nahi, center focus rahega */
+    /* Mobile: 100% Width Fix */
     @media (max-width: 480px) {
-      .hero-container { height: 60vh; background-position: center; }
+      .hero-container { 
+        height: 45vh; /* Mobile screen ke hisab se height */
+        background-size: 100% auto; /* Forcefully fit width 100% */
+        background-position: top center;
+      }
     }
 
     .hero-container::after {
@@ -42,8 +51,8 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 40vh;
-      background: linear-gradient(to top, var(--bg) 20%, transparent 100%);
+      height: 30vh;
+      background: linear-gradient(to top, var(--bg) 10%, transparent 100%);
       z-index: 2;
     }
 
@@ -54,19 +63,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 20px 80px;
+      padding: 0 20px 80px;
       background: var(--bg);
-      margin-top: -5vh;
+      margin-top: -20px; /* Gradient ke sath merge karne ke liye */
     }
 
     .logo-main {
-      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-size: clamp(3rem, 10vw, 5rem);
       font-weight: 800;
       letter-spacing: -3px;
       background: linear-gradient(135deg, var(--teal), var(--gold));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 5px;
       text-align: center;
     }
 
@@ -77,14 +85,11 @@
       margin-bottom: 50px;
       letter-spacing: 4px;
       text-transform: uppercase;
+      text-align: center;
     }
 
     .login-controls { width: 100%; max-width: 420px; }
-
-    .consent-item {
-      display: flex; gap: 12px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-dim); cursor: pointer;
-    }
-
+    .consent-item { display: flex; gap: 12px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
     input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--teal); flex-shrink: 0; }
 
     .google-btn {
@@ -92,34 +97,30 @@
       background: transparent; color: #fff; font-size: 1.1rem; font-weight: 700;
       display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; transition: 0.3s;
     }
-
     .google-btn:not(:disabled):hover { background: #fff; color: #000; }
     .google-btn:disabled { opacity: 0.2; }
 
-    .trust-badges { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--teal); font-weight: 600; opacity: 0.8; }
+    .trust-badges { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 0.75rem; color: var(--teal); font-weight: 600; }
 
     /* --- DETAILED CONTENT --- */
     .content-flow { max-width: 850px; margin: 80px auto; padding: 0 25px; }
-    .section-head { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; margin-bottom: 70px; text-align: center; color: var(--gold); }
+    .section-head { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; margin-bottom: 60px; text-align: center; color: var(--gold); }
     
-    .process-row { margin-bottom: 60px; padding-left: 20px; border-left: 1px solid var(--teal); }
-    .step-marker { color: var(--teal); font-weight: 800; font-size: 0.8rem; letter-spacing: 2px; display: block; margin-bottom: 10px; }
-    .process-row h3 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 12px; color: #fff; }
-    .process-row p { font-size: 1.05rem; color: var(--text-dim); margin-bottom: 10px; }
+    .process-row { margin-bottom: 50px; padding-left: 20px; border-left: 1px solid var(--teal); }
+    .process-row h3 { font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom: 10px; color: #fff; }
+    .process-row p { font-size: 1.05rem; color: var(--text-dim); }
     .process-row ul { list-style: none; margin-top: 10px; }
     .process-row li { position: relative; padding-left: 25px; margin-bottom: 8px; color: var(--text-dim); }
     .process-row li::before { content: "→"; position: absolute; left: 0; color: var(--gold); }
 
     .example-box {
-      background: #0a0a15; border: 1px solid rgba(212, 175, 55, 0.3); padding: 40px 25px; border-radius: 4px; text-align: center; margin: 80px 0;
+      background: #0a0a15; border: 1px solid rgba(212, 175, 55, 0.2); padding: 40px 20px; border-radius: 4px; text-align: center; margin: 60px 0;
     }
-    .example-box h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--teal); margin-bottom: 10px; }
-    .highlight-gold { color: var(--gold); font-weight: 700; }
+    .example-box h2 { font-size: clamp(1.8rem, 4vw, 2.3rem); color: var(--teal); margin-bottom: 10px; }
 
-    .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 80px; }
-    .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.3); padding: 20px; text-align: center; font-weight: 600; font-size: 0.9rem; color: var(--teal); }
+    .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 60px; }
+    .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.2); padding: 15px; text-align: center; font-weight: 600; font-size: 0.85rem; color: var(--teal); }
 
-    @media (max-width: 768px) { .process-row { padding-left: 15px; } }
   </style>
 </head>
 <body>
@@ -128,7 +129,7 @@
 
   <section class="login-section">
     <div class="logo-main">TaxEasePro</div>
-    <div class="tagline">Exclusive Partner Access</div>
+    <div class="tagline">Partner Access</div>
 
     <div class="login-controls">
       <label class="consent-item">
@@ -147,66 +148,59 @@
     </div>
 
     <div class="trust-badges">
-      <span>🔒 SECURE GOOGLE LOGIN</span>
+      <span>🔒 SECURE LOGIN</span>
       <span>✅ DPDP COMPLIANT</span>
-      <span>✅ 256-BIT ENCRYPTION</span>
+      <span>✅ SSL ENCRYPTED</span>
     </div>
   </section>
 
   <section class="content-flow">
-    <h2 class="section-head">How Agents Earn Money – Super Simple Process</h2>
+    <h2 class="section-head">How it Works</h2>
 
     <div class="process-row">
-      <span class="step-marker">STEP 01</span>
-      <h3>Sign Up for Free (Takes 1 Minute)</h3>
-      <p>Click "Continue with Google" on the login page. No password, no long form – your account is created automatically using your Google info.</p>
+      <h3>1. Sign Up for Free (Takes 1 Minute)</h3>
+      <p>Click "Continue with Google" on the login page. Your account is created automatically using your Google info.</p>
     </div>
 
     <div class="process-row">
-      <span class="step-marker">STEP 02</span>
-      <h3>Get Your Unique Partner Code</h3>
-      <p>After login, go to your dashboard. You will instantly receive a personal referral code (e.g., TAXEASE-XXXXXX). This code belongs only to you.</p>
+      <h3>2. Get Your Unique Partner Code</h3>
+      <p>Receive your personal referral code (e.g., TAXEASE-XXXXXX) instantly on your dashboard.</p>
     </div>
 
     <div class="process-row">
-      <span class="step-marker">STEP 03</span>
-      <h3>Share Your Code with Clients</h3>
-      <p>Share the code with your network via WhatsApp, call, or in person. When any client uses your code for GST/ITR services, <span class="highlight-gold">they get 5% instant discount</span> on their payment.</p>
+      <h3>3. Share Your Code with Clients</h3>
+      <p>Share via WhatsApp or call. Clients get <b>5% instant discount</b> on GST/ITR services using your code.</p>
     </div>
 
     <div class="process-row">
-      <span class="step-marker">STEP 04</span>
-      <h3>Earn Commission Automatically</h3>
+      <h3>4. Earn Commission Automatically</h3>
       <ul>
-        <li><b>10% commission</b> for general partners (Loan/Insurance agents, Property dealers, etc.)</li>
-        <li><b>20% commission</b> for Chartered Accountants (CA) and Company Secretaries (CS).</li>
-        <li>Commission is <span class="highlight-gold">Lifetime Recurring</span> – earn every month as long as the client keeps paying.</li>
+        <li><b>10% commission</b> for General Partners.</li>
+        <li><b>20% commission</b> for CA and CS.</li>
+        <li><b>Lifetime Recurring</b> – Earn every month as long as the client keeps paying.</li>
       </ul>
     </div>
 
     <div class="example-box">
-      <p style="letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px;">INCOME EXAMPLE</p>
       <h2>₹1,000 / Per Client</h2>
-      <p>If a client pays ₹5,000/month, you earn up to ₹1,000 every single month — <b>forever!</b></p>
+      <p>On a ₹5,000 service fee, you earn up to ₹1,000 monthly — <b>forever!</b></p>
     </div>
 
     <div class="process-row">
-      <span class="step-marker">STEP 05</span>
-      <h3>Track Everything in Your Dashboard</h3>
-      <p>Log in anytime to see live updates: Number of referred clients, total commission earned, monthly earnings, and previous payout history.</p>
+      <h3>5. Track Everything Live</h3>
+      <p>See live updates of referrals, total earnings, and payout history on your dashboard.</p>
     </div>
 
     <div class="process-row">
-      <span class="step-marker">STEP 06</span>
-      <h3>Get Paid Directly in Your Bank Account</h3>
-      <p>Every month (10th-15th), commission is transferred to your bank. Minimum payout: ₹1,000. TDS is deducted as per Income Tax rules, and we issue Form 16A annually.</p>
+      <h3>6. Direct Bank Payouts</h3>
+      <p>Transferred between 10th-15th monthly. We handle TDS and provide Form 16A annually.</p>
     </div>
 
     <div class="highlights-grid">
       <div class="highlight-pill">ZERO INVESTMENT</div>
-      <div class="highlight-pill">LIFETIME PASSIVE INCOME</div>
+      <div class="highlight-pill">PASSIVE INCOME</div>
       <div class="highlight-pill">100% TRANSPARENT</div>
-      <div class="highlight-pill">WE HANDLE COMPLIANCE</div>
+      <div class="highlight-pill">COMPLIANCE MANAGED</div>
     </div>
   </section>
 
