@@ -92,22 +92,25 @@
       }
     }
 
-    @media (max-width: 480px) {
-      .hero-container { 
-        height: 45vh; 
-        background-size: 100% auto; 
-      }
-      
-      .hero-container::after {
-        height: 15vh; /* Mobile par gradient aur bhi chota taaki brightness poori rahe */
-        background: linear-gradient(to top, var(--bg) 20%, transparent 100%);
-        opacity: 0.9;
-      }
+   @media (max-width: 480px) {
+  .hero-container { 
+    height: 45vh; 
+    /* Zoom ko 115% rakhte hain taaki jyada na kate */
+    background-size: 115% auto; 
+    /* '0px' top se gap khatam karega, '-10%' right side ke logo ko dhaklega */
+    background-position: -15% 0px; 
+    background-repeat: no-repeat;
+  }
+  
+  .login-section {
+    margin-top: -110px; /* Logo aur content ko image ke upar set karne ke liye */
+  }
 
-      .login-section {
-        margin-top: -100px; /* Content ko upar rakha */
-      }
-    }
+  .hero-container::after {
+    height: 15vh;
+    background: linear-gradient(to top, var(--bg) 10%, transparent 100%);
+  }
+}
       .logo-main {
         font-size: 3.2rem; /* Mobile optimized size */
       }
