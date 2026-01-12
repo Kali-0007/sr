@@ -13,52 +13,46 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body, html {
-      height: 100%;
+    
+    body { 
+      background-color: var(--bg); 
+      color: #fff; 
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg);
-      color: #fff;
-      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    /* Full Width Background Image with Blending */
-    .hero-wrapper {
-      position: relative;
-      min-height: 100vh;
+    /* 1. HERO IMAGE SECTION - Yeh section sirf image dikhayega */
+    .hero-container {
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 60vh; /* Image height - isko aap adjust kar sakte ho */
       background-image: url('partner1.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      position: relative;
     }
 
-    /* BORDER BLENDING: Ye layer photo ko page ke saath mix karegi */
-    .hero-wrapper::after {
+    /* Image ke bottom ko smooth blend karne ke liye */
+    .hero-container::after {
       content: "";
       position: absolute;
-      inset: 0;
-      /* Ye gradient charon taraf se image ko dark color mein merge karega */
-      background: radial-gradient(circle, rgba(15, 15, 26, 0.4) 0%, rgba(15, 15, 26, 0.8) 70%, var(--bg) 100%);
-      z-index: 1;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 150px;
+      background: linear-gradient(to top, var(--bg), transparent);
     }
 
-    /* Centered Login Content */
-    .login-container {
-      position: relative;
-      z-index: 10;
-      max-width: 480px;
-      width: 90%;
+    /* 2. LOGIN SECTION - Yeh image ke niche start hoga */
+    .login-wrapper {
+      width: 100%;
+      max-width: 500px;
+      padding: 40px 20px 80px;
       text-align: center;
-      padding: 40px;
-      /* Halki glass effect taaki image thodi dikhti rahe */
-      background: rgba(15, 15, 26, 0.6);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
+      margin-top: -30px; /* Thoda sa upar overlap blend ke liye */
     }
 
     .logo {
@@ -72,12 +66,16 @@
 
     h1 { font-size: 1.8rem; margin-bottom: 2rem; font-weight: 700; }
 
-    .consent-group {
+    .consent-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 30px;
       text-align: left;
-      margin-bottom: 2.5rem;
     }
 
-    .checkbox-row {
+    .checkbox-item {
       display: flex;
       gap: 12px;
       margin-bottom: 15px;
@@ -87,91 +85,88 @@
     }
 
     input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       accent-color: var(--teal);
       flex-shrink: 0;
     }
 
     .links { color: var(--teal); text-decoration: none; font-weight: 600; }
-    .links:hover { text-decoration: underline; }
 
-    .google-login-btn {
+    .google-btn {
       width: 100%;
       padding: 16px;
       background: white;
       color: #000;
       border: none;
       border-radius: 50px;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      transition: 0.3s ease;
+      transition: 0.3s;
     }
 
-    .google-login-btn:disabled {
-      background: #444;
-      color: #777;
+    .google-btn:disabled {
+      background: #333;
+      color: #666;
       cursor: not-allowed;
     }
 
-    .google-login-btn:not(:disabled):hover {
+    .google-btn:not(:disabled):hover {
       background: var(--teal);
-      color: #fff;
-      transform: translateY(-2px);
+      color: white;
     }
 
-    .trust-footer {
-      margin-top: 2rem;
+    .footer-text {
+      margin-top: 25px;
       font-size: 0.8rem;
-      opacity: 0.6;
-      letter-spacing: 1px;
+      opacity: 0.5;
     }
   </style>
 </head>
 <body>
 
-  <div class="hero-wrapper">
-    <div class="login-container">
-      <div class="logo">TaxEasePro</div>
-      <h1>Partner Program</h1>
+  <div class="hero-container"></div>
 
-      <div class="consent-group">
-        <label class="checkbox-row">
-          <input type="checkbox" id="p_check" onchange="toggleBtn()">
-          <span>I agree to the <a href="privacy-policy.html" target="_blank" class="links">Privacy Policy</a></span>
-        </label>
-        <label class="checkbox-row">
-          <input type="checkbox" id="t_check" onchange="toggleBtn()">
-          <span>I accept the <a href="terms-conditions.html" target="_blank" class="links">Terms & Conditions</a></span>
-        </label>
-      </div>
+  <div class="login-wrapper">
+    <div class="logo">TaxEasePro</div>
+    <h1>Partner Program</h1>
 
-      <button id="loginBtn" class="google-login-btn" disabled onclick="location.href='profile-update.html'">
-        <svg width="24" height="24" viewBox="0 0 24 24">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/>
-          <path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/>
-          <path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/>
-        </svg>
-        Continue with Google
-      </button>
+    <div class="consent-card">
+      <label class="checkbox-item">
+        <input type="checkbox" id="c1" onchange="validate()">
+        <span>I agree to the <a href="privacy-policy.html" target="_blank" class="links">Privacy Policy</a></span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="c2" onchange="validate()">
+        <span>I accept the <a href="terms-conditions.html" target="_blank" class="links">Terms & Conditions</a></span>
+      </label>
+    </div>
 
-      <div class="trust-footer">
-        SECURE 256-BIT ENCRYPTION • DPDP COMPLIANT
-      </div>
+    <button id="loginBtn" class="google-btn" disabled onclick="location.href='profile-update.html'">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/>
+        <path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/>
+        <path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <div class="footer-text">
+      🔒 SECURE SERVER • DPDP COMPLIANT
     </div>
   </div>
 
   <script>
-    function toggleBtn() {
-      const p = document.getElementById('p_check').checked;
-      const t = document.getElementById('t_check').checked;
-      document.getElementById('loginBtn').disabled = !(p && t);
+    function validate() {
+      const a = document.getElementById('c1').checked;
+      const b = document.getElementById('c2').checked;
+      document.getElementById('loginBtn').disabled = !(a && b);
     }
   </script>
 
