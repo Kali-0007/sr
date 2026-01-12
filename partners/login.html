@@ -73,14 +73,16 @@
     }
 
     /* --- RESPONSIVE FIXES (MOBILE ONLY) --- */
-    @media (max-width: 480px) {
+   @media (max-width: 480px) {
       .hero-container { 
         height: 45vh; 
         background-size: 100% auto; 
+        background-position: center top; 
       }
       .login-section {
-        margin-top: -110px; /* Logo image ke kareeb chala jayega */
+        margin-top: -110px; /* Logo ko image ke upar overlap karne ke liye */
       }
+    }
       .logo-main {
         font-size: 3.2rem; /* Mobile optimized size */
       }
