@@ -17,10 +17,10 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.8; overflow-x: hidden; }
 
-    /* --- HERO SECTION: HEIGHT REDUCED TO BRING CONTENT UP --- */
+    /* --- HERO SECTION: DESKTOP PE FULL, MOBILE PE ADJUSTED --- */
     .hero-container {
       width: 100%;
-      height: 75vh; /* Desktop par height kam ki taaki content dikhe */
+      height: 100vh; /* Desktop par wapas full kar diya */
       background: url('partner1.png') no-repeat center top;
       background-size: cover; 
       position: relative;
@@ -28,31 +28,30 @@
 
     @media (max-width: 1024px) {
       .hero-container { 
-        height: 55vh; /* iPad par aur upar */
+        height: 60vh; /* iPad par content upar lane ke liye */
         background-size: cover;
       }
     }
 
     @media (max-width: 480px) {
       .hero-container { 
-        height: 45vh; /* Mobile par perfect balance */
+        height: 45vh; /* Mobile par content turant dikhega */
         background-size: 100% auto; /* Sides nahi katenge */
       }
     }
 
-    /* Subtle blend at the bottom */
     .hero-container::after {
       content: "";
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 25vh;
-      background: linear-gradient(to top, var(--bg) 5%, transparent 100%);
+      height: 35vh;
+      background: linear-gradient(to top, var(--bg) 15%, transparent 100%);
       z-index: 2;
     }
 
-    /* --- LOGIN SECTION: MOVED UP --- */
+    /* --- LOGIN SECTION --- */
     .login-section {
       position: relative;
       z-index: 10;
@@ -61,11 +60,11 @@
       align-items: center;
       padding: 0 20px 60px;
       background: var(--bg);
-      margin-top: -40px; /* Hero ke thoda upar overlap */
+      margin-top: -30px; 
     }
 
     .logo-main {
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 800;
       letter-spacing: -2px;
       background: linear-gradient(135deg, var(--teal), var(--gold));
@@ -75,47 +74,47 @@
     }
 
     .tagline {
-      font-size: clamp(0.75rem, 2vw, 1rem);
+      font-size: clamp(0.75rem, 2vw, 1.1rem);
       font-weight: 400;
       color: var(--text-dim);
       margin-bottom: 40px;
-      letter-spacing: 3px;
+      letter-spacing: 4px;
       text-transform: uppercase;
       text-align: center;
     }
 
-    .login-controls { width: 100%; max-width: 400px; }
-    .consent-item { display: flex; gap: 12px; margin-bottom: 18px; font-size: 0.9rem; color: var(--text-dim); cursor: pointer; }
-    input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--teal); flex-shrink: 0; }
+    .login-controls { width: 100%; max-width: 420px; }
+    .consent-item { display: flex; gap: 12px; margin-bottom: 18px; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
+    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--teal); flex-shrink: 0; }
 
     .google-btn {
-      width: 100%; padding: 18px; border: 1px solid rgba(255,255,255,0.2);
+      width: 100%; padding: 20px; border: 1px solid rgba(255,255,255,0.2);
       background: transparent; color: #fff; font-size: 1.1rem; font-weight: 700;
       display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; transition: 0.3s;
     }
     .google-btn:not(:disabled):hover { background: #fff; color: #000; }
     .google-btn:disabled { opacity: 0.2; }
 
-    .trust-badges { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 0.75rem; color: var(--teal); font-weight: 600; }
+    .trust-badges { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--teal); font-weight: 600; opacity: 0.8; }
 
     /* --- CONTENT FLOW --- */
     .content-flow { max-width: 850px; margin: 60px auto; padding: 0 25px; }
-    .section-head { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; margin-bottom: 50px; text-align: center; color: var(--gold); }
+    .section-head { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; margin-bottom: 60px; text-align: center; color: var(--gold); }
     
-    .process-row { margin-bottom: 45px; padding-left: 20px; border-left: 1px solid var(--teal); }
-    .process-row h3 { font-size: clamp(1.2rem, 3vw, 1.6rem); margin-bottom: 8px; color: #fff; }
-    .process-row p { font-size: 1rem; color: var(--text-dim); }
-    .process-row ul { list-style: none; margin-top: 8px; }
-    .process-row li { position: relative; padding-left: 25px; margin-bottom: 6px; color: var(--text-dim); font-size: 0.95rem; }
+    .process-row { margin-bottom: 50px; padding-left: 20px; border-left: 1px solid var(--teal); }
+    .process-row h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin-bottom: 12px; color: #fff; }
+    .process-row p { font-size: 1.05rem; color: var(--text-dim); }
+    .process-row ul { list-style: none; margin-top: 10px; }
+    .process-row li { position: relative; padding-left: 25px; margin-bottom: 8px; color: var(--text-dim); }
     .process-row li::before { content: "→"; position: absolute; left: 0; color: var(--gold); }
 
     .example-box {
-      background: #0a0a15; border: 1px solid rgba(212, 175, 55, 0.2); padding: 35px 20px; border-radius: 4px; text-align: center; margin: 50px 0;
+      background: #0a0a15; border: 1px solid rgba(212, 175, 55, 0.2); padding: 40px 25px; border-radius: 4px; text-align: center; margin: 70px 0;
     }
-    .example-box h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); color: var(--teal); margin-bottom: 8px; }
+    .example-box h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--teal); margin-bottom: 10px; }
 
-    .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 50px; }
-    .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.2); padding: 12px; text-align: center; font-weight: 600; font-size: 0.8rem; color: var(--teal); letter-spacing: 1px; }
+    .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 70px; }
+    .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.2); padding: 18px; text-align: center; font-weight: 600; font-size: 0.85rem; color: var(--teal); }
 
   </style>
 </head>
@@ -125,7 +124,7 @@
 
   <section class="login-section">
     <div class="logo-main">TaxEasePro</div>
-    <div class="tagline">Partner Access Portal</div>
+    <div class="tagline">Partner Program</div>
 
     <div class="login-controls">
       <label class="consent-item">
@@ -145,8 +144,8 @@
 
     <div class="trust-badges">
       <span>🔒 SECURE LOGIN</span>
-      <span>✅ DPDP READY</span>
-      <span>✅ SSL PROTECTED</span>
+      <span>✅ DPDP COMPLIANT</span>
+      <span>✅ 256-BIT ENCRYPTION</span>
     </div>
   </section>
 
@@ -160,12 +159,12 @@
 
     <div class="process-row">
       <h3>2. Get Your Unique Partner Code</h3>
-      <p>After login, go to your dashboard. You will instantly receive a personal referral code (e.g., TAXEASE-XXXXXX).</p>
+      <p>Receive your personal referral code (e.g., TAXEASE-XXXXXX) instantly on your dashboard.</p>
     </div>
 
     <div class="process-row">
       <h3>3. Share Your Code with Clients</h3>
-      <p>Share via WhatsApp or call. Clients get <b>5% instant discount</b> on GST/ITR services using your code.</p>
+      <p>Share via WhatsApp or call. Clients get <b>5% instant discount</b> on services using your code.</p>
     </div>
 
     <div class="process-row">
@@ -179,7 +178,7 @@
 
     <div class="example-box">
       <h2>₹1,000 / Per Client</h2>
-      <p>Earn up to ₹1,000 every single month from just one ₹5,000 client — <b>forever!</b></p>
+      <p>Earn up to ₹1,000 monthly from just one ₹5,000 client — <b>forever!</b></p>
     </div>
 
     <div class="process-row">
@@ -196,7 +195,7 @@
       <div class="highlight-pill">ZERO INVESTMENT</div>
       <div class="highlight-pill">PASSIVE INCOME</div>
       <div class="highlight-pill">100% TRANSPARENT</div>
-      <div class="highlight-pill">LEGAL COMPLIANCE</div>
+      <div class="highlight-pill">WE HANDLE COMPLIANCE</div>
     </div>
   </section>
 
