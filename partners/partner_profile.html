@@ -3,480 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Partner Profile | TaxEasePro</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-   
+    <title>Partner Profile | TaxEasePro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #030308;
-            --card-bg: #0d0d15;
-            --teal: #00c4b4;
-            --gold: #d4af37;
-            --text-white: #ffffff;
-            --text-dim: #94a3b8;
-            --error: #ff4d4d;
-            --border: #1f1f2e;
-            --input-bg: #161621;
+            --accent: #00f2fe; --gold: #fccb90; --bg-dark: #05050a;
+            --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #e0e0e0; --text-muted: #888;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text-white);
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            line-height: 1.5;
-        }
-        .container {
-            width: 100%;
-            max-width: 900px;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* Header Styling */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--teal), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-        h1 { font-weight: 700; font-size: 24px; margin-bottom: 5px; }
-        .subtitle { color: var(--text-dim); font-size: 14px; font-weight: 300; }
-        /* Main Card Layout */
-        .profile-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid var(--border);
-        }
-        .columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-        @media (max-width: 768px) {
-            .columns { grid-template-columns: 1fr; }
-        }
-        /* Field Styling */
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-        label {
-            display: block;
-            font-size: 12px;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            margin-bottom: 6px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        input, textarea, select {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            color: var(--text-white);
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--teal);
-            box-shadow: 0 0 8px rgba(0, 196, 180, 0.2);
-        }
-        input:disabled, textarea:disabled, select:disabled {
-            background: transparent;
-            border-color: transparent;
-            padding-left: 0;
-            cursor: default;
-            color: var(--text-white);
-            opacity: 1;
-            -webkit-text-fill-color: var(--text-white);
-        }
-        /* Photo Styles */
-        .photo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-        .photo-preview {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 3px solid var(--border);
-            object-fit: cover;
-            background: var(--input-bg);
-            margin-bottom: 10px;
-        }
-        .file-input-wrapper {
-            font-size: 12px;
-            display: none; /* Hidden in view mode */
-        }
-        /* Conditional Section */
-        #membership-group { display: none; }
-        /* Referral Logic */
-        .referral-box {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .copy-btn {
-            background: var(--teal);
-            color: var(--bg);
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            display: none;
-        }
-        /* Buttons */
-        .action-area {
-            margin-top: 30px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-        .btn {
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-        .btn-teal { background: var(--teal); border: none; color: var(--bg); }
-        .btn-teal:hover { background: var(--gold); transform: translateY(-2px); }
-       
-        .btn-outline { background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); }
-        .btn-outline:hover { border-color: var(--text-white); color: var(--text-white); }
-        .edit-controls { display: none; }
-        /* Toast & Spinner */
-        #toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #10b981;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .error-msg { color: var(--error); font-size: 11px; margin-top: 4px; display: none; }
+        body { background: radial-gradient(circle at top right, #111, var(--bg-dark)); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; padding: 20px; }
+        .glass-card { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; width: 100%; max-width: 950px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+        .header-section { text-align: center; margin-bottom: 30px; }
+        .header-section h1 { font-size: 28px; background: linear-gradient(to right, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+        .photo-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+        .profile-ring { width: 120px; height: 120px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, var(--accent), var(--gold)); }
+        .profile-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #111; }
+        .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .form-group { position: relative; }
+        label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; display: block; font-weight: 700; }
+        input, select, textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px; padding: 12px; color: #fff; font-size: 14px; box-sizing: border-box; }
+        input:disabled, textarea:disabled, select:disabled { background: transparent; border-color: transparent; padding-left: 0; color: #bbb; cursor: not-allowed; -webkit-text-fill-color: #bbb; }
+        .button-group { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
+        .btn-premium { background: linear-gradient(45deg, var(--accent), #00d2ff); color: #000; border: none; padding: 12px 35px; border-radius: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn-cancel { background: transparent; border: 1px solid var(--glass-border); color: #888; padding: 12px 25px; border-radius: 10px; cursor: pointer; }
+        #membership-box { display: none; }
+        @media (max-width: 768px) { .data-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div id="toast">Profile Updated Successfully!</div>
-    <div class="container">
-        <header>
-            <div class="logo">TaxEasePro</div>
-            <h1>My Partner Profile</h1>
-            <p class="subtitle">View and update your details. Referral code will be assigned after admin approval.</p>
-        </header>
-        <form id="profileForm">
-            <div class="profile-card">
-                <div class="columns">
-                    <div class="left-col">
-                        <div class="photo-container">
-                            <img src="https://via.placeholder.com/150" id="profileImg" class="photo-preview" alt="Profile">
-                            <div class="file-input-wrapper" id="photoInputWrapper">
-                                <label>Change Photo</label>
-                                <input type="file" id="photoUpload" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Partner ID</label>
-                            <input type="text" id="partnerId" value="PART12345" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" id="fullName" value="Ravindra Kumar" required disabled>
-                            <div class="error-msg" id="err-fullName">Name is required</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" id="email" value="ravindra.kumar@example.com" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>Mobile Number (+91)</label>
-                            <input type="tel" id="mobile" value="9876543210" required disabled maxlength="10">
-                            <div class="error-msg" id="err-mobile">Enter valid 10-digit number</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Office Address</label>
-                            <textarea id="address" rows="3" required disabled>123, Financial District, New Delhi, 110001</textarea>
-                            <div class="error-msg" id="err-address">Address is required</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Profession</label>
-                            <select id="profession" disabled required onchange="handleProfessionChange()">
-                                <option value="Chartered Accountant (CA)">Chartered Accountant (CA)</option>
-                                <option value="Company Secretary (CS)">Company Secretary (CS)</option>
-                                <option value="Bank Loan Agent">Bank Loan Agent</option>
-                                <option value="LIC Agent">LIC Agent</option>
-                                <option value="Insurance Agent">Insurance Agent</option>
-                                <option value="Mutual Fund Distributor">Mutual Fund Distributor</option>
-                                <option value="Tax Consultant">Tax Consultant</option>
-                                <option value="Others">Others</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="right-col">
-                        <div class="form-group">
-                            <label>PAN Number</label>
-                            <input type="text" id="panNumber" value="ABCDE1234F" style="text-transform: uppercase;" required disabled maxlength="10">
-                            <div class="error-msg" id="err-pan">Format: ABCDE1234F</div>
-                        </div>
-                        <div class="form-group">
-                            <label>PAN Card Document</label>
-                            <div id="panViewLink" style="font-size: 13px; margin-bottom: 5px;">
-                                <a href="#" style="color: var(--teal); text-decoration: none;">View Uploaded PAN</a>
-                            </div>
-                            <div class="file-input-wrapper" id="panInputWrapper">
-                                <input type="file" id="panUpload" accept=".jpg,.png,.pdf">
-                            </div>
-                        </div>
-                        <div class="form-group" id="membership-group">
-                            <label id="membership-label">Membership Number</label>
-                            <input type="text" id="membershipNo" value="654321" disabled>
-                            <div class="error-msg" id="err-membership">Membership number is required</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Bank Name</label>
-                            <input type="text" id="bankName" value="HDFC Bank" required disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>Account Number</label>
-                            <input type="text" id="accountNo" value="501002345678" required disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>IFSC Code</label>
-                            <input type="text" id="ifscCode" value="HDFC0001234" style="text-transform: uppercase;" required disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>Referral Code</label>
-                            <div class="referral-box">
-                                <input type="text" id="referralCode" value="TAXPRTN-RK123" disabled readonly>
-                                <button type="button" class="copy-btn" id="copyBtn" onclick="copyReferral()">COPY</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="action-area">
-                    <button type="button" id="editBtn" class="btn btn-teal" onclick="enableEditMode()">Edit Profile</button>
-                   
-                    <div class="edit-controls" id="editControls">
-                        <button type="button" class="btn btn-outline" onclick="cancelEdit()" style="margin-right: 10px;">Cancel</button>
-                        <button type="submit" class="btn btn-teal">
-                            <span class="spinner" id="loadingSpinner"></span>
-                            <span id="saveText">Save Changes</span>
-                        </button>
-                    </div>
-                    <a href="dashboard.html" class="btn btn-outline" style="margin-top: 20px;">Back to Dashboard</a>
-                </div>
-            </div>
-        </form>
+
+<div class="glass-card">
+    <div class="header-section">
+        <h1>PARTNER PROFILE</h1>
+        <p style="color:var(--text-muted); font-size: 12px;">Review and manage your account information</p>
     </div>
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
-    let isEditMode = false;
-    let originalData = {};
 
-    // --- 1. Global Functions (Inhe bahar rakhiye taaki HTML ke onclick inhe dekh sake) --
+    <form id="profileForm" onsubmit="handleUpdate(event)">
+        <div class="photo-section">
+            <div class="profile-ring">
+                <img id="Photo_Link" src="https://via.placeholder.com/150" alt="Profile">
+            </div>
+            <input type="file" id="photoInp" style="display:none" onchange="previewImg(event)">
+            <p id="changeText" style="font-size:11px; color:var(--accent); cursor:pointer; margin-top:8px; display:none" onclick="document.getElementById('photoInp').click()">CHANGE PHOTO</p>
+        </div>
 
-    function handleProfessionChange() {
-        const profession = document.getElementById('profession').value;
-        const membershipGroup = document.getElementById('membership-group');
-        if (profession === 'Chartered Accountant (CA)' || profession === 'Company Secretary (CS)') {
-            membershipGroup.style.display = 'block';
-        } else {
-            membershipGroup.style.display = 'none';
-        }
-    }
+        <div class="data-grid">
+            <div class="form-group">
+                <label>Partner ID</label>
+                <input type="text" id="Partner_ID" placeholder="Loading..." disabled>
+            </div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="Name" placeholder="Loading..." disabled>
+            </div>
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <input type="text" id="Mobile" placeholder="Loading..." disabled maxlength="10">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="Email" placeholder="Loading..." disabled>
+            </div>
+            <div class="form-group">
+                <label>Profession</label>
+                <select id="Profession" disabled onchange="toggleMembership()">
+                    <option value="">Loading...</option>
+                </select>
+            </div>
+            <div class="form-group" id="membership-box">
+                <label>Membership Number</label>
+                <input type="text" id="Membership_Number" disabled>
+            </div>
 
-    function enableEditMode() {
-        isEditMode = true;
-        // Store current data before editing
-        const inputs = document.querySelectorAll('input, textarea, select');
-        inputs.forEach(el => originalData[el.id] = el.value);
+            <div class="form-group">
+                <label>PAN Number</label>
+                <input type="text" id="PAN_Number" style="text-transform:uppercase" disabled maxlength="10">
+            </div>
+            <div class="form-group">
+                <label>Bank Name</label>
+                <input type="text" id="Bank_Name" disabled>
+            </div>
+            <div class="form-group">
+                <label>Account Number</label>
+                <input type="text" id="Account_Number" disabled>
+            </div>
+            <div class="form-group">
+                <label>IFSC Code</label>
+                <input type="text" id="IFSC_Code" style="text-transform:uppercase" disabled>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <textarea id="Address" rows="1" disabled></textarea>
+            </div>
+            <div class="form-group">
+                <label>Referral Code</label>
+                <input type="text" id="Referral_Code" style="color:var(--gold); font-weight:bold" disabled>
+            </div>
+        </div>
 
-        document.getElementById('editBtn').style.display = 'none';
-        document.getElementById('editControls').style.display = 'flex';
-        document.getElementById('photoInputWrapper').style.display = 'block';
-        document.getElementById('panInputWrapper').style.display = 'block';
-        document.getElementById('panViewLink').style.display = 'none';
+        <div class="button-group">
+            <button type="button" id="editBtn" class="btn-premium" onclick="activateEdit()">Edit Profile</button>
+            <div id="editActions" style="display:none; gap:10px;">
+                <button type="button" class="btn-cancel" onclick="location.reload()">Cancel</button>
+                <button type="submit" id="saveBtn" class="btn-premium">Save Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
 
-        const editableIds = ['fullName', 'mobile', 'address', 'profession', 'panNumber', 'membershipNo', 'bankName', 'accountNo', 'ifscCode'];
-        editableIds.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.disabled = false;
-        });
-        document.getElementById('profession').disabled = false;
-    }
-
-    function cancelEdit() {
-        isEditMode = false;
-        // Restore original data
-        for (let key in originalData) {
-            const el = document.getElementById(key);
-            if (el) el.value = originalData[key];
-        }
-
-        document.getElementById('editBtn').style.display = 'block';
-        document.getElementById('editControls').style.display = 'none';
-        document.getElementById('photoInputWrapper').style.display = 'none';
-        document.getElementById('panInputWrapper').style.display = 'none';
-        document.getElementById('panViewLink').style.display = 'block';
-
-        const inputs = document.querySelectorAll('input, textarea, select');
-        inputs.forEach(el => {
-            if (el.id !== 'partnerId' && el.id !== 'email' && el.id !== 'referralCode') el.disabled = true;
-        });
-    }
-
-    function copyReferral() {
-        const code = document.getElementById('referralCode').value;
-        navigator.clipboard.writeText(code).then(() => {
-            const btn = document.getElementById('copyBtn');
-            btn.innerText = "COPIED!";
-            setTimeout(() => btn.innerText = "COPY", 2000);
-        });
-    }
-
-    // --- 2. Data Fetching & Form Submit ---
-
-    async function loadPartnerProfile() {
-    console.log("Profile loading started...");
-    const token = localStorage.getItem('userToken');
+<script>
+    const API = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
     
-    if (!token) {
-        console.error("Token nahi mila!");
-        alert("Session expired. Please login again.");
-        return;
+    window.onload = () => {
+        const token = localStorage.getItem('userToken');
+        if(!token) return alert("Session Expired. Login Again.");
+        loadData(token);
     }
 
-    try {
-        // Hum yahan URL ke saath token bhej rahe hain (GET method)
-        const fetchUrl = `${API_URL}?action=get-partner-profile&token=${token}`;
-        console.log("Fetching from:", fetchUrl);
+    async function loadData(token) {
+        try {
+            const res = await fetch(`${API}?action=get-partner-profile&token=${token}`);
+            const data = await res.json();
+            
+            if(data.status === "success") {
+                const p = data.profile;
+                // Sheet Headers match kar diye gaye hain:
+                document.getElementById('Partner_ID').value = p.Partner_ID || '';
+                document.getElementById('Name').value = p.Name || '';
+                document.getElementById('Mobile').value = p.Mobile || '';
+                document.getElementById('Email').value = p.Email || '';
+                document.getElementById('Address').value = p.Address || '';
+                document.getElementById('PAN_Number').value = p.PAN_Number || '';
+                document.getElementById('Membership_Number').value = p.Membership_Number || '';
+                document.getElementById('Bank_Name').value = p.Bank_Name || '';
+                document.getElementById('Account_Number').value = p.Account_Number || '';
+                document.getElementById('IFSC_Code').value = p.IFSC_Code || '';
+                document.getElementById('Referral_Code').value = p.Referral_Code || 'Under Review';
+                
+                // Profession setup
+                const prof = document.getElementById('Profession');
+                prof.innerHTML = `<option value="${p.Profession}">${p.Profession}</option>
+                                  <option value="Chartered Accountant (CA)">CA</option>
+                                  <option value="Company Secretary (CS)">CS</option>
+                                  <option value="Tax Consultant">Tax Consultant</option>
+                                  <option value="Others">Others</option>`;
+                
+                if(p.Photo_Link) document.getElementById('Photo_Link').src = p.Photo_Link;
+                toggleMembership();
+            }
+        } catch(e) { console.error("Fetch failed", e); }
+    }
 
-        const response = await fetch(fetchUrl);
-        const data = await response.json();
+    function activateEdit() {
+        document.getElementById('editBtn').style.display = 'none';
+        document.getElementById('editActions').style.display = 'flex';
+        document.getElementById('changeText').style.display = 'block';
         
-        console.log("Backend se data aaya:", data);
-
-        if (data.status === "success" && data.profile) {
-            const p = data.profile;
-            
-            // Dummy data ko overwrite kar rahe hain
-            document.getElementById('fullName').value = p.name || "";
-            document.getElementById('email').value = p.email || "";
-            document.getElementById('mobile').value = p.mobile || "";
-            document.getElementById('address').value = p.address || "";
-            document.getElementById('profession').value = p.profession || "Others";
-            document.getElementById('panNumber').value = p.panNumber || "";
-            document.getElementById('membershipNo').value = p.membershipNumber || "";
-            document.getElementById('bankName').value = p.bankName || "";
-            document.getElementById('accountNo').value = p.accountNumber || "";
-            document.getElementById('ifscCode').value = p.ifscCode || "";
-            document.getElementById('partnerId').value = p.partnerId || "PENDING";
-
-            // Photo update
-            if (p.photoLink) {
-                document.getElementById('profileImg').src = p.photoLink;
-            }
-
-            // UI Adjustments
-            handleProfessionChange(); 
-            console.log("Form successfully fill ho gaya!");
-        } else {
-            console.warn("Data to aaya par success nahi tha:", data.message);
-        }
-    } catch (error) {
-        console.error("Profile load karne mein error:", error);
+        const editable = ['Name', 'Mobile', 'Address', 'Profession', 'PAN_Number', 'Membership_Number', 'Bank_Name', 'Account_Number', 'IFSC_Code'];
+        editable.forEach(id => document.getElementById(id).disabled = false);
     }
-}
 
-    // --- 3. Event Listeners (On Page Load) ---
+    function toggleMembership() {
+        const val = document.getElementById('Profession').value;
+        document.getElementById('membership-box').style.display = (val.includes('CA') || val.includes('CS')) ? 'block' : 'none';
+    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        loadPartnerProfile(); // Page load hote hi data fetch
+    function previewImg(e) {
+        const reader = new FileReader();
+        reader.onload = () => document.getElementById('Photo_Link').src = reader.result;
+        reader.readAsDataURL(e.target.files[0]);
+    }
 
-        document.getElementById('profileForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Show loading
-            document.getElementById('loadingSpinner').style.display = 'inline-block';
-            document.getElementById('saveText').innerText = 'Saving...';
+    async function handleUpdate(e) {
+        e.preventDefault();
+        const saveBtn = document.getElementById('saveBtn');
+        saveBtn.innerText = "Saving...";
+        
+        const payload = {
+            action: "update-partner-profile",
+            token: localStorage.getItem('userToken'),
+            Name: document.getElementById('Name').value,
+            Mobile: document.getElementById('Mobile').value,
+            Address: document.getElementById('Address').value,
+            Profession: document.getElementById('Profession').value,
+            PAN_Number: document.getElementById('PAN_Number').value,
+            Membership_Number: document.getElementById('Membership_Number').value,
+            Bank_Name: document.getElementById('Bank_Name').value,
+            Account_Number: document.getElementById('Account_Number').value,
+            IFSC_Code: document.getElementById('IFSC_Code').value
+        };
 
-            const payload = {
-                action: "update-partner-profile",
-                token: localStorage.getItem('userToken'),
-                fullName: document.getElementById('fullName').value,
-                mobile: document.getElementById('mobile').value,
-                address: document.getElementById('address').value,
-                profession: document.getElementById('profession').value,
-                panNumber: document.getElementById('panNumber').value.toUpperCase(),
-                membershipNo: document.getElementById('membershipNo').value,
-                bankName: document.getElementById('bankName').value,
-                accountNo: document.getElementById('accountNo').value,
-                ifscCode: document.getElementById('ifscCode').value.toUpperCase()
-            };
-
-            try {
-                const res = await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Apps script POST usually needs this or proper CORS setup
-                    body: JSON.stringify(payload)
-                });
-                
-                // Note: no-cors mode won't let you read the response body
-                // It's better to use google.script.run if this is hosted on Apps Script
-                
-                document.getElementById('toast').style.display = 'block';
-                setTimeout(() => window.location.reload(), 2000);
-            } catch (err) {
-                alert("Error saving profile");
-            } finally {
-                document.getElementById('loadingSpinner').style.display = 'none';
-                document.getElementById('saveText').innerText = 'Save Changes';
+        try {
+            const response = await fetch(API, { method: 'POST', body: JSON.stringify(payload) });
+            const result = await response.json();
+            if(result.status === "success") {
+                alert("Profile Updated Successfully!");
+                location.reload();
             }
-        });
-    });
+        } catch(err) { alert("Update failed. Check connection."); }
+        saveBtn.innerText = "Save Changes";
+    }
 </script>
 </body>
 </html>
