@@ -243,7 +243,7 @@
       localStorage.setItem('referralCode', res.referralCode || '');
 
       statusDiv.innerHTML = '<span style="color: #00ff9d;">Welcome Partner! Redirecting...</span>';
-      setTimeout(() => { window.location.href = "partner-dashboard.html"; }, 1500);
+      setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
     } else {
       statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
     }
