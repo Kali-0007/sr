@@ -312,276 +312,154 @@
         </form>
     </div>
   <script>
-    // API URL
     const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
-
     let isEditMode = false;
     let originalData = {};
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('profileForm');
-        const professionSelect = document.getElementById('profession');
-        const caField = document.getElementById('ca-field');
-        const csField = document.getElementById('cs-field');
-        const otherField = document.getElementById('other-field');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('saveText');
-        const spinner = document.getElementById('loadingSpinner');
-        const toast = document.getElementById('toast');
+    // --- 1. Global Functions (Inhe bahar rakhiye taaki HTML ke onclick inhe dekh sake) ---
 
-        // 1. Auto-fill fallback from localStorage
-        const storedName = localStorage.getItem('username') || 'Ravindra Kumar';
-        const storedEmail = localStorage.getItem('userEmail') || 'ravindra.kumar@example.com';
+    function handleProfessionChange() {
+        const profession = document.getElementById('profession').value;
+        const membershipGroup = document.getElementById('membership-group');
+        if (profession === 'Chartered Accountant (CA)' || profession === 'Company Secretary (CS)') {
+            membershipGroup.style.display = 'block';
+        } else {
+            membershipGroup.style.display = 'none';
+        }
+    }
 
-        document.getElementById('fullName').value = storedName;
-        document.getElementById('email').value = storedEmail;
+    function enableEditMode() {
+        isEditMode = true;
+        // Store current data before editing
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(el => originalData[el.id] = el.value);
 
-        // 2. Conditional Fields Logic
-        professionSelect.addEventListener('change', handleProfessionChange);
+        document.getElementById('editBtn').style.display = 'none';
+        document.getElementById('editControls').style.display = 'flex';
+        document.getElementById('photoInputWrapper').style.display = 'block';
+        document.getElementById('panInputWrapper').style.display = 'block';
+        document.getElementById('panViewLink').style.display = 'none';
 
-        // 3. File Previews
-        document.getElementById('photoUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('profileImg').src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-                document.getElementById('photoFileName').textContent = file.name;
-            }
+        const editableIds = ['fullName', 'mobile', 'address', 'profession', 'panNumber', 'membershipNo', 'bankName', 'accountNo', 'ifscCode'];
+        editableIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.disabled = false;
         });
+        document.getElementById('profession').disabled = false;
+    }
 
-        document.getElementById('panUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                document.getElementById('panFileName').textContent = `Attached: ${file.name}`;
-            }
+    function cancelEdit() {
+        isEditMode = false;
+        // Restore original data
+        for (let key in originalData) {
+            const el = document.getElementById(key);
+            if (el) el.value = originalData[key];
+        }
+
+        document.getElementById('editBtn').style.display = 'block';
+        document.getElementById('editControls').style.display = 'none';
+        document.getElementById('photoInputWrapper').style.display = 'none';
+        document.getElementById('panInputWrapper').style.display = 'none';
+        document.getElementById('panViewLink').style.display = 'block';
+
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(el => {
+            if (el.id !== 'partnerId' && el.id !== 'email' && el.id !== 'referralCode') el.disabled = true;
         });
+    }
 
-        // File to base64 converter
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        // Load existing profile from backend
-        async function loadPartnerProfile() {
-            const token = localStorage.getItem('userToken');
-            if (!token) {
-                alert("Session expired. Please login again.");
-                window.location.href = "login.html";
-                return;
-            }
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    redirect: "follow",
-                    body: JSON.stringify({
-                        action: "get-partner-profile",
-                        token: token
-                    })
-                });
-
-                const text = await response.text();
-                const data = JSON.parse(text);
-
-                if (data.status === "success" && data.profile) {
-                    document.getElementById('fullName').value = data.profile.name || storedName;
-                    document.getElementById('email').value = data.profile.email || storedEmail;
-                    document.getElementById('mobile').value = data.profile.mobile || '';
-                    document.getElementById('address').value = data.profile.address || '';
-                    document.getElementById('profession').value = data.profile.profession || '';
-                    document.getElementById('panNumber').value = data.profile.panNumber || '';
-                    document.getElementById('membershipNo').value = data.profile.membershipNumber || '';
-                    document.getElementById('bankName').value = data.profile.bankName || '';
-                    document.getElementById('accountNo').value = data.profile.accountNumber || '';
-                    document.getElementById('ifscCode').value = data.profile.ifscCode || '';
-
-                    // Referral Code (locked)
-                    const refCodeEl = document.getElementById('referralCode');
-                    const copyBtn = document.getElementById('copyBtn');
-                    if (refCodeEl) {
-                        if (data.profile.referralCode && data.profile.referralCode !== "Pending Approval") {
-                            refCodeEl.value = data.profile.referralCode;
-                            copyBtn.style.display = 'inline-block';
-                        } else {
-                            refCodeEl.value = "Referral Code: Pending Admin Approval";
-                            copyBtn.style.display = 'none';
-                        }
-                    }
-
-                    // Photo from backend
-                    if (data.profile.photoLink) {
-                        document.getElementById('profileImg').src = data.profile.photoLink;
-                    }
-
-                    professionSelect.dispatchEvent(new Event('change'));
-                }
-            } catch (error) {
-                console.error("Failed to load profile:", error);
-            }
-        }
-
-        // Store original data for cancel
-        function storeOriginalData() {
-            const inputs = document.querySelectorAll('input, textarea, select');
-            inputs.forEach(el => originalData[el.id] = el.value);
-            originalData['profileImg'] = document.getElementById('profileImg').src;
-        }
-
-        // Enable edit mode
-        function enableEditMode() {
-            isEditMode = true;
-            document.getElementById('editBtn').style.display = 'none';
-            document.getElementById('editControls').style.display = 'flex';
-            document.getElementById('photoInputWrapper').style.display = 'block';
-            document.getElementById('panInputWrapper').style.display = 'block';
-            document.getElementById('panViewLink').style.display = 'none';
-
-            const editableIds = ['fullName', 'mobile', 'address', 'profession', 'panNumber', 'membershipNo', 'bankName', 'accountNo', 'ifscCode'];
-            editableIds.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.disabled = false;
-            });
-
-            professionSelect.disabled = false;
-            handleProfessionChange();
-        }
-
-        // Cancel edit
-        function cancelEdit() {
-            isEditMode = false;
-            for (let key in originalData) {
-                const el = document.getElementById(key);
-                if (el) {
-                    if (el.tagName === 'IMG') el.src = originalData[key];
-                    else el.value = originalData[key];
-                }
-            }
-
-            document.getElementById('editBtn').style.display = 'block';
-            document.getElementById('editControls').style.display = 'none';
-            document.getElementById('photoInputWrapper').style.display = 'none';
-            document.getElementById('panInputWrapper').style.display = 'none';
-            document.getElementById('panViewLink').style.display = 'block';
-
-            const inputs = document.querySelectorAll('input, textarea, select');
-            inputs.forEach(el => {
-                if (el.id !== 'partnerId' && el.id !== 'email' && el.id !== 'referralCode') el.disabled = true;
-            });
-
-            professionSelect.disabled = true;
-            handleProfessionChange();
-        }
-
-        // Copy referral code
-        function copyReferral() {
-            const code = document.getElementById('referralCode').value;
-            navigator.clipboard.writeText(code);
+    function copyReferral() {
+        const code = document.getElementById('referralCode').value;
+        navigator.clipboard.writeText(code).then(() => {
             const btn = document.getElementById('copyBtn');
             btn.innerText = "COPIED!";
             setTimeout(() => btn.innerText = "COPY", 2000);
+        });
+    }
+
+    // --- 2. Data Fetching & Form Submit ---
+
+    async function loadPartnerProfile() {
+        const token = localStorage.getItem('userToken');
+        if (!token) {
+            alert("Session expired. Please login again.");
+            // window.location.href = "login.html"; // Isko uncomment karein login page ke liye
+            return;
         }
 
-        // Real submit with file upload
-        async function submitProfile(e) {
+        try {
+            // Apps Script requires POST for many actions but using fetch we need to handle it carefully
+            const response = await fetch(`${API_URL}?action=get-partner-profile&token=${token}`);
+            const data = await response.json();
+
+            if (data.status === "success" && data.profile) {
+                const p = data.profile;
+                document.getElementById('fullName').value = p.name || '';
+                document.getElementById('email').value = p.email || '';
+                document.getElementById('mobile').value = p.mobile || '';
+                document.getElementById('address').value = p.address || '';
+                document.getElementById('profession').value = p.profession || 'Others';
+                document.getElementById('panNumber').value = p.panNumber || '';
+                document.getElementById('membershipNo').value = p.membershipNumber || '';
+                document.getElementById('bankName').value = p.bankName || '';
+                document.getElementById('accountNo').value = p.accountNumber || '';
+                document.getElementById('ifscCode').value = p.ifscCode || '';
+                document.getElementById('partnerId').value = p.partnerId || 'PENDING';
+
+                if (p.photoLink) document.getElementById('profileImg').src = p.photoLink;
+                
+                handleProfessionChange();
+            }
+        } catch (error) {
+            console.error("Failed to load profile:", error);
+        }
+    }
+
+    // --- 3. Event Listeners (On Page Load) ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPartnerProfile(); // Page load hote hi data fetch
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            let hasError = false;
-
-            document.querySelectorAll('.error-msg').forEach(m => m.style.display = 'none');
-
-            if (!document.getElementById('fullName').value.trim()) {
-                document.getElementById('err-fullName').style.display = 'block';
-                hasError = true;
-            }
-
-            const mobile = document.getElementById('mobile').value;
-            if (mobile.length !== 10 || isNaN(mobile)) {
-                document.getElementById('err-mobile').style.display = 'block';
-                hasError = true;
-            }
-
-            const pan = document.getElementById('panNumber').value.toUpperCase();
-            const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-            if (!panRegex.test(pan)) {
-                document.getElementById('err-pan').style.display = 'block';
-                hasError = true;
-            }
-
-            const prof = document.getElementById('profession').value;
-            if ((prof === 'Chartered Accountant (CA)' || prof === 'Company Secretary (CS)') && !document.getElementById('membershipNo').value.trim()) {
-                document.getElementById('err-membership').style.display = 'block';
-                hasError = true;
-            }
-
-            if (hasError) return;
-
+            
+            // Show loading
             document.getElementById('loadingSpinner').style.display = 'inline-block';
             document.getElementById('saveText').innerText = 'Saving...';
 
+            const payload = {
+                action: "update-partner-profile",
+                token: localStorage.getItem('userToken'),
+                fullName: document.getElementById('fullName').value,
+                mobile: document.getElementById('mobile').value,
+                address: document.getElementById('address').value,
+                profession: document.getElementById('profession').value,
+                panNumber: document.getElementById('panNumber').value.toUpperCase(),
+                membershipNo: document.getElementById('membershipNo').value,
+                bankName: document.getElementById('bankName').value,
+                accountNo: document.getElementById('accountNo').value,
+                ifscCode: document.getElementById('ifscCode').value.toUpperCase()
+            };
+
             try {
-                const photoFile = document.getElementById('photoUpload').files[0];
-                const panFile = document.getElementById('panUpload').files[0];
-
-                const payload = {
-                    action: "update-partner-profile",
-                    token: localStorage.getItem('userToken'),
-                    fullName: document.getElementById('fullName').value,
-                    mobile: document.getElementById('mobile').value,
-                    address: document.getElementById('address').value,
-                    profession: document.getElementById('profession').value,
-                    panNumber: document.getElementById('panNumber').value.toUpperCase(),
-                    membershipNo: document.getElementById('membershipNo').value,
-                    bankName: document.getElementById('bankName').value,
-                    accountNo: document.getElementById('accountNo').value,
-                    ifscCode: document.getElementById('ifscCode').value.toUpperCase(),
-                    photoBase64: photoFile ? await fileToBase64(photoFile) : null,
-                    photoName: photoFile ? photoFile.name : null,
-                    panBase64: panFile ? await fileToBase64(panFile) : null,
-                    panName: panFile ? panFile.name : null
-                };
-
-                const response = await fetch(API_URL, {
+                const res = await fetch(API_URL, {
                     method: 'POST',
+                    mode: 'no-cors', // Apps script POST usually needs this or proper CORS setup
                     body: JSON.stringify(payload)
                 });
-
-                const result = await response.json();
-
-                if (result.status === "success") {
-                    document.getElementById('toast').style.display = 'block';
-                    setTimeout(() => {
-                        window.location.href = "dashboard.html";
-                    }, 2000);
-                } else {
-                    alert("Update failed: " + (result.message || "Unknown error"));
-                }
+                
+                // Note: no-cors mode won't let you read the response body
+                // It's better to use google.script.run if this is hosted on Apps Script
+                
+                document.getElementById('toast').style.display = 'block';
+                setTimeout(() => window.location.reload(), 2000);
             } catch (err) {
-                console.error(err);
-                alert("Technical error occurred. Please try again.");
+                alert("Error saving profile");
             } finally {
                 document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('saveText').innerText = 'Save Changes';
             }
-        }
-
-        // Event Listeners
-        document.getElementById('profileForm').onsubmit = submitProfile;
-        document.getElementById('editBtn').onclick = enableEditMode;
-        document.getElementById('cancelBtn')?.onclick = cancelEdit; // agar cancel button ka id 'cancelBtn' hai to
-
-        // Initial calls
-        handleProfessionChange();
-        checkReferralStatus();
-        storeOriginalData();
-        loadPartnerProfile(); // Backend se data load karo
+        });
     });
 </script>
 </body>
