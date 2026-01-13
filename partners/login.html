@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Partner Program – TaxEasePro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
- 
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     :root {
@@ -59,7 +58,7 @@
     .login-controls { width: 100%; max-width: 420px; }
     .consent-item { display: flex; gap: 12px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
     input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--teal); flex-shrink: 0; }
-   
+  
     .google-btn {
       width: 100%; padding: 20px; border: 1px solid rgba(255,255,255,0.2);
       background: transparent; color: #fff; font-size: 1.1rem; font-weight: 700;
@@ -67,7 +66,7 @@
     }
     .google-btn:not(:disabled):hover { background: #fff; color: #000; }
     .google-btn:disabled { opacity: 0.2; cursor: not-allowed; }
-   
+  
     #statusMessage { margin-top: 15px; font-size: 14px; text-align: center; min-height: 20px; }
     .trust-badges { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--teal); font-weight: 600; opacity: 0.8; }
     /* --- CONTENT FLOW --- */
@@ -210,43 +209,49 @@
       text: "continue_with",
       shape: "rectangular",
       logo_alignment: "left",
-      width: "100%"
+      width: "400"
     }
   );
   updateButtonState();
 };
     async function handlePartnerLogin(response) {
-      const statusDiv = document.getElementById('statusMessage');
-      statusDiv.innerHTML = '<span style="color: var(--teal);">Verifying Partner Account...</span>';
-      try {
-        const responsePayload = parseJwt(response.credential);
-        const security = await getSecurityData();
-        const backendRes = await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            action: "google-login",
-            userData: { ...responsePayload, ...security },
-            securityData: JSON.stringify(security),
-            partnerRoute: true
-          })
-        });
-        const res = await backendRes.json();
-        if(res.status === "success") {
-          localStorage.setItem('userToken', res.token);
-          localStorage.setItem('username', res.username);
-          localStorage.setItem('userEmail', responsePayload.email);
-          localStorage.setItem('isPartner', 'true');
-         
-          statusDiv.innerHTML = '<span style="color: #00ff9d;">Welcome Partner! Redirecting...</span>';
-          setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
-        } else {
-          statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
-        }
-      } catch (error) {
-        console.error("Login Error:", error);
-        statusDiv.innerHTML = '<span style="color: #ff6b6b;">Connection error. Try again.</span>';
-      }
+  const statusDiv = document.getElementById('statusMessage');
+  statusDiv.innerHTML = '<span style="color: var(--teal);">Verifying Partner Account...</span>';
+  
+  try {
+    const responsePayload = parseJwt(response.credential);
+    const security = await getSecurityData();
+    
+    const backendRes = await fetch(API_URL, {
+      method: "POST",
+      redirect: "follow",
+      body: JSON.stringify({
+        action: "google-login-partner",
+        userData: { ...responsePayload, ...security },
+        securityData: JSON.stringify(security)
+      })
+    });
+
+    const text = await backendRes.text();
+    const res = JSON.parse(text);
+
+    if(res.status === "success") {
+      localStorage.setItem('userToken', res.token);
+      localStorage.setItem('username', res.username);
+      localStorage.setItem('userEmail', responsePayload.email);
+      localStorage.setItem('isPartner', 'true');
+      localStorage.setItem('referralCode', res.referralCode || '');
+
+      statusDiv.innerHTML = '<span style="color: #00ff9d;">Welcome Partner! Redirecting...</span>';
+      setTimeout(() => { window.location.href = "partner-dashboard.html"; }, 1500);
+    } else {
+      statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
     }
+  } catch (error) {
+    console.error("Login Error:", error);
+    statusDiv.innerHTML = '<span style="color: #ff6b6b;">Connection error. Try again.</span>';
+  }
+}
   </script>
 </body>
 </html>
