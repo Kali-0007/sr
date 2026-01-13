@@ -591,6 +591,79 @@
         storeOriginalData();
         loadPartnerProfile();
     });
+       // Missing functions jo AI ne bhool gaya
+function enableEditMode() {
+    isEditMode = true;
+    document.getElementById('editBtn').style.display = 'none';
+    document.getElementById('editControls').style.display = 'flex';
+    document.getElementById('photoInputWrapper').style.display = 'block';
+    document.getElementById('panInputWrapper').style.display = 'block';
+    document.getElementById('panViewLink').style.display = 'none';
+
+    const editableIds = ['fullName', 'mobile', 'address', 'profession', 'panNumber', 'bankName', 'accountNo', 'ifscCode'];
+    editableIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = false;
+    });
+
+    handleProfessionChange(); // Membership field enable/disable
+}
+
+function cancelEdit() {
+    isEditMode = false;
+    for (let key in originalData) {
+        const el = document.getElementById(key);
+        if (el) {
+            if (el.tagName === 'IMG') el.src = originalData[key];
+            else el.value = originalData[key];
+        }
+    }
+
+    document.getElementById('editBtn').style.display = 'block';
+    document.getElementById('editControls').style.display = 'none';
+    document.getElementById('photoInputWrapper').style.display = 'none';
+    document.getElementById('panInputWrapper').style.display = 'none';
+    document.getElementById('panViewLink').style.display = 'block';
+
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(el => {
+        if (el.id !== 'partnerId' && el.id !== 'email' && el.id !== 'referralCode') el.disabled = true;
+    });
+
+    handleProfessionChange();
+}
+
+function handleProfessionChange() {
+    const profession = document.getElementById('profession').value;
+    const group = document.getElementById('membership-group');
+    const label = document.getElementById('membership-label');
+    const input = document.getElementById('membershipNo');
+    if (profession === 'Chartered Accountant (CA)' || profession === 'Company Secretary (CS)') {
+        group.style.display = 'block';
+        label.innerText = profession === 'Chartered Accountant (CA)' ? 'Membership Number (CA)' : 'Membership Number (CS)';
+        if (isEditMode) input.disabled = false;
+    } else {
+        group.style.display = 'none';
+        input.disabled = true;
+    }
+}
+
+function storeOriginalData() {
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(el => originalData[el.id] = el.value);
+    originalData['profileImg'] = document.getElementById('profileImg').src;
+}
+
+function checkReferralStatus() {
+    const refInput = document.getElementById('referralCode');
+    const copyBtn = document.getElementById('copyBtn');
+    if (refInput.value && !refInput.value.includes('Pending')) {
+        copyBtn.style.display = 'block';
+    } else {
+        refInput.value = "Referral Code: Pending Admin Approval";
+        copyBtn.style.display = 'none';
+    }
+}
 </script>
 </body>
 </html>
