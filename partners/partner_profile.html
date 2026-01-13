@@ -454,7 +454,7 @@
         // 1. Auto-fill from LocalStorage (tumhara existing code)
         const storedName = localStorage.getItem('username') || 'Ravindra Kumar'; // Dummy fallback
         const storedEmail = localStorage.getItem('userEmail') || 'ravindra.kumar@example.com';
-        
+       
         document.getElementById('fullName').value = storedName;
         document.getElementById('email').value = storedEmail;
 
@@ -465,7 +465,7 @@
             caField.style.display = 'none';
             csField.style.display = 'none';
             otherField.style.display = 'none';
-            
+           
             // Toggle specific
             if (val === 'CA') caField.style.display = 'block';
             else if (val === 'CS') csField.style.display = 'block';
@@ -477,7 +477,7 @@
             const file = e.target.files[0];
             const preview = document.getElementById('photoPreview');
             const fileNameDisplay = document.getElementById('photoFileName');
-            
+           
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
@@ -495,6 +495,16 @@
                 fileNameDisplay.textContent = `Attached: ${file.name}`;
             }
         });
+
+        // ==================== NAYA: File ko base64 mein convert karne ka helper ====================
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]); // sirf base64 part
+                reader.onerror = error => reject(error);
+            });
+        }
 
         // ==================== NAYA: Page Load pe Existing Profile Fetch ====================
         async function loadPartnerProfile() {
@@ -540,7 +550,7 @@
             }
         }
 
-        // ==================== NAYA: Real Submit to Backend ====================
+        // ==================== NAYA: Real Submit to Backend with File Upload ====================
         async function submitProfile(e) {
             e.preventDefault();
 
@@ -601,14 +611,35 @@
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
 
+                // Files ko base64 mein convert karo
+                const photoFile = document.getElementById('photoUpload').files[0];
+                const panFile = document.getElementById('panUpload').files[0];
+
+                let photoBase64 = null;
+                let photoName = null;
+                if (photoFile) {
+                    photoBase64 = await fileToBase64(photoFile);
+                    photoName = photoFile.name;
+                }
+
+                let panBase64 = null;
+                let panName = null;
+                if (panFile) {
+                    panBase64 = await fileToBase64(panFile);
+                    panName = panFile.name;
+                }
+
                 const response = await fetch(API_URL, {
                     method: "POST",
                     redirect: "follow",
                     body: JSON.stringify({
                         action: "update-partner-profile",
                         token: localStorage.getItem('userToken'),
-                        profileData: JSON.stringify(data)
-                        // Files ka base64 agle step mein add karenge
+                        profileData: JSON.stringify(data),
+                        photoBase64: photoBase64,
+                        photoName: photoName,
+                        panBase64: panBase64,
+                        panName: panName
                     })
                 });
 
