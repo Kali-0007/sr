@@ -437,126 +437,208 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('profileForm');
-            const professionSelect = document.getElementById('profession');
-            const caField = document.getElementById('ca-field');
-            const csField = document.getElementById('cs-field');
-            const otherField = document.getElementById('other-field');
+    // API URL (login page se same copy kar lo)
+    const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('profileForm');
+        const professionSelect = document.getElementById('profession');
+        const caField = document.getElementById('ca-field');
+        const csField = document.getElementById('cs-field');
+        const otherField = document.getElementById('other-field');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('btnSpinner');
+        const toast = document.getElementById('toast');
+
+        // 1. Auto-fill from LocalStorage (tumhara existing code)
+        const storedName = localStorage.getItem('username') || 'Ravindra Kumar'; // Dummy fallback
+        const storedEmail = localStorage.getItem('userEmail') || 'ravindra.kumar@example.com';
+        
+        document.getElementById('fullName').value = storedName;
+        document.getElementById('email').value = storedEmail;
+
+        // 2. Conditional Fields Logic (tumhara existing code)
+        professionSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            // Reset all
+            caField.style.display = 'none';
+            csField.style.display = 'none';
+            otherField.style.display = 'none';
             
-            // 1. Auto-fill from LocalStorage
-            const storedName = localStorage.getItem('username') || 'Ravindra Kumar'; // Dummy fallback
-            const storedEmail = localStorage.getItem('userEmail') || 'ravindra.kumar@example.com';
+            // Toggle specific
+            if (val === 'CA') caField.style.display = 'block';
+            else if (val === 'CS') csField.style.display = 'block';
+            else if (val === 'Others') otherField.style.display = 'block';
+        });
+
+        // 3. File Previews (tumhara existing code – bilkul same)
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('photoPreview');
+            const fileNameDisplay = document.getElementById('photoFileName');
             
-            document.getElementById('fullName').value = storedName;
-            document.getElementById('email').value = storedEmail;
-
-            // 2. Conditional Fields Logic
-            professionSelect.addEventListener('change', (e) => {
-                const val = e.target.value;
-                // Reset all
-                caField.style.display = 'none';
-                csField.style.display = 'none';
-                otherField.style.display = 'none';
-                
-                // Toggle specific
-                if (val === 'CA') caField.style.display = 'block';
-                else if (val === 'CS') csField.style.display = 'block';
-                else if (val === 'Others') otherField.style.display = 'block';
-            });
-
-            // 3. File Previews
-            document.getElementById('photoUpload').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                const preview = document.getElementById('photoPreview');
-                const fileNameDisplay = document.getElementById('photoFileName');
-                
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        preview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
-                    };
-                    reader.readAsDataURL(file);
-                    fileNameDisplay.textContent = file.name;
-                }
-            });
-
-            document.getElementById('panUpload').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                const fileNameDisplay = document.getElementById('panFileName');
-                if (file) {
-                    fileNameDisplay.textContent = `Attached: ${file.name}`;
-                }
-            });
-
-            // 4. Form Validation & Submission
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                let isValid = true;
-
-                // Simple validation checks
-                const inputs = form.querySelectorAll('[required]');
-                inputs.forEach(input => {
-                    const error = input.closest('.form-group')?.querySelector('.error-text');
-                    if (!input.value || (input.type === 'checkbox' && !input.checked)) {
-                        if (error) error.style.display = 'block';
-                        input.style.borderColor = 'var(--error-red)';
-                        isValid = false;
-                    } else {
-                        if (error) error.style.display = 'none';
-                        input.style.borderColor = 'var(--border-color)';
-                    }
-                });
-
-                // Mobile validation
-                const mobile = document.getElementById('mobile');
-                if (mobile.value.length !== 10) {
-                    mobile.closest('.form-group').querySelector('.error-text').style.display = 'block';
-                    isValid = false;
-                }
-
-                // PAN Validation (Regex)
-                const pan = document.getElementById('panNumber');
-                const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
-                if (!panPattern.test(pan.value)) {
-                    pan.closest('.form-group').querySelector('.error-text').style.display = 'block';
-                    isValid = false;
-                }
-
-                if (isValid) {
-                    simulateSubmit();
-                }
-            });
-
-            function simulateSubmit() {
-                const btn = document.getElementById('submitBtn');
-                const btnText = document.getElementById('btnText');
-                const spinner = document.getElementById('btnSpinner');
-                const toast = document.getElementById('toast');
-
-                // UI state
-                btn.disabled = true;
-                btnText.textContent = "Processing...";
-                spinner.style.display = "block";
-
-                // Prepare Data
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-                
-                console.log("Submitting Partner Data:", data);
-
-                // Fake API Call
-                setTimeout(() => {
-                    spinner.style.display = "none";
-                    toast.style.display = "block";
-                    
-                    setTimeout(() => {
-                        // Redirect to Dashboard
-                        window.location.href = "dashboard.html"; 
-                    }, 2000);
-                }, 1500);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    preview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+                fileNameDisplay.textContent = file.name;
             }
         });
-    </script>
+
+        document.getElementById('panUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const fileNameDisplay = document.getElementById('panFileName');
+            if (file) {
+                fileNameDisplay.textContent = `Attached: ${file.name}`;
+            }
+        });
+
+        // ==================== NAYA: Page Load pe Existing Profile Fetch ====================
+        async function loadPartnerProfile() {
+            const token = localStorage.getItem('userToken');
+            if (!token) {
+                alert("Session expired. Please login again.");
+                window.location.href = "login.html"; // Partner login page ka naam daal do
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    redirect: "follow",
+                    body: JSON.stringify({
+                        action: "get-partner-profile",
+                        token: token
+                    })
+                });
+
+                const text = await response.text();
+                const data = JSON.parse(text);
+
+                if (data.status === "success" && data.profile) {
+                    // Auto-fill existing saved data
+                    document.getElementById('fullName').value = data.profile.name || storedName;
+                    document.getElementById('mobile').value = data.profile.mobile || '';
+                    document.getElementById('address').value = data.profile.address || '';
+                    document.getElementById('profession').value = data.profile.profession || '';
+                    document.getElementById('panNumber').value = data.profile.panNumber || '';
+
+                    // Conditional fields ko trigger karo
+                    professionSelect.dispatchEvent(new Event('change'));
+
+                    // Agar photo link backend se aaya ho to preview dikhao
+                    if (data.profile.photoLink) {
+                        document.getElementById('photoPreview').innerHTML = `<img src="${data.profile.photoLink}" alt="Profile Photo">`;
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to load profile:", error);
+                // Silent fail – user ko disturb mat karo
+            }
+        }
+
+        // ==================== NAYA: Real Submit to Backend ====================
+        async function submitProfile(e) {
+            e.preventDefault();
+
+            let isValid = true;
+
+            // Tumhara existing validation
+            const inputs = form.querySelectorAll('[required]');
+            inputs.forEach(input => {
+                const error = input.closest('.form-group')?.querySelector('.error-text');
+                if (!input.value || (input.type === 'checkbox' && !input.checked)) {
+                    if (error) error.style.display = 'block';
+                    input.style.borderColor = 'var(--error-red)';
+                    isValid = false;
+                } else {
+                    if (error) error.style.display = 'none';
+                    input.style.borderColor = 'var(--border-color)';
+                }
+            });
+
+            // Mobile validation
+            const mobile = document.getElementById('mobile');
+            if (mobile.value.length !== 10) {
+                mobile.closest('.form-group').querySelector('.error-text').style.display = 'block';
+                isValid = false;
+            }
+
+            // PAN Validation
+            const pan = document.getElementById('panNumber');
+            const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
+            if (!panPattern.test(pan.value)) {
+                pan.closest('.form-group').querySelector('.error-text').style.display = 'block';
+                isValid = false;
+            }
+
+            // Conditional required check
+            const profession = professionSelect.value;
+            if (profession === 'CA' && !document.getElementById('caMembership').value) {
+                document.getElementById('ca-field').querySelector('.error-text').style.display = 'block';
+                isValid = false;
+            }
+            if (profession === 'CS' && !document.getElementById('csMembership').value) {
+                document.getElementById('cs-field').querySelector('.error-text').style.display = 'block';
+                isValid = false;
+            }
+            if (profession === 'Others' && !document.getElementById('otherProfession').value) {
+                document.getElementById('other-field').querySelector('.error-text').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Loading state
+            submitBtn.disabled = true;
+            btnText.textContent = "Saving...";
+            spinner.style.display = "inline-block";
+
+            try {
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    redirect: "follow",
+                    body: JSON.stringify({
+                        action: "update-partner-profile",
+                        token: localStorage.getItem('userToken'),
+                        profileData: JSON.stringify(data)
+                        // Files ka base64 agle step mein add karenge
+                    })
+                });
+
+                const text = await response.text();
+                const result = JSON.parse(text);
+
+                if (result.status === "success") {
+                    toast.style.display = "block";
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html"; // ya partner-dashboard.html
+                    }, 2000);
+                } else {
+                    alert(result.message || "Failed to update profile");
+                }
+            } catch (error) {
+                console.error("Profile update error:", error);
+                alert("Connection error. Please try again.");
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = "Save & Complete Profile";
+                spinner.style.display = "none";
+            }
+        }
+
+        // ==================== Event Listeners ====================
+        form.addEventListener('submit', submitProfile);
+
+        // Page load hone pe profile data fetch karo
+        loadPartnerProfile();
+    });
+</script>
 </body>
 </html>
