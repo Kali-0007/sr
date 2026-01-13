@@ -5,71 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Partner Program – TaxEasePro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  
+ 
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-
   <style>
     :root {
-      --bg: #030308; 
+      --bg: #030308;
       --teal: #00c4b4;
       --gold: #d4af37;
       --text: #ffffff;
       --text-dim: #94a3b8;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.8; overflow-x: hidden; }
-
     /* --- HERO SECTION --- */
     .hero-container {
       width: 100%; height: 100vh;
       background: url('partner1.png') no-repeat;
-      background-size: cover; 
-      background-position: center -80px; 
+      background-size: cover;
+      background-position: center -80px;
       position: relative;
     }
-
     .hero-container::after {
-      content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 45vh; 
+      content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 45vh;
       background: linear-gradient(to top, var(--bg) 25%, transparent 100%);
       z-index: 2;
     }
-
     /* --- LOGIN SECTION --- */
     .login-section {
       position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center;
-      padding: 0 20px 80px; background: var(--bg); margin-top: -40px; 
+      padding: 0 20px 80px; background: var(--bg); margin-top: -40px;
     }
-
     .logo-main {
       font-size: 5.5rem; font-weight: 800; letter-spacing: -3px;
       background: linear-gradient(135deg, var(--teal), var(--gold));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center;
     }
-
     .tagline {
       font-size: 1.2rem; font-weight: 400; color: var(--text-dim);
       margin-bottom: 50px; letter-spacing: 4px; text-transform: uppercase;
     }
-
     /* --- RESPONSIVE FIXES --- */
     @media (max-width: 1024px) {
       .hero-container { height: 50vh; background-size: cover; }
       .hero-container::after { height: 20vh; background: linear-gradient(to top, var(--bg) 0%, rgba(3, 3, 8, 0.5) 40%, transparent 100%); opacity: 0.8; }
     }
-
     @media (max-width: 480px) {
       .hero-container { height: 45vh; background-size: 115% auto; background-position: 30% 0px; }
       .login-section { margin-top: -110px; }
       .logo-main { font-size: 3.2rem; }
       .tagline { font-size: 0.8rem; letter-spacing: 2px; }
     }
-
     /* --- LOGIN CONTROLS --- */
     .login-controls { width: 100%; max-width: 420px; }
     .consent-item { display: flex; gap: 12px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-dim); cursor: pointer; }
     input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--teal); flex-shrink: 0; }
-    
+   
     .google-btn {
       width: 100%; padding: 20px; border: 1px solid rgba(255,255,255,0.2);
       background: transparent; color: #fff; font-size: 1.1rem; font-weight: 700;
@@ -77,11 +67,9 @@
     }
     .google-btn:not(:disabled):hover { background: #fff; color: #000; }
     .google-btn:disabled { opacity: 0.2; cursor: not-allowed; }
-    
+   
     #statusMessage { margin-top: 15px; font-size: 14px; text-align: center; min-height: 20px; }
-
     .trust-badges { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--teal); font-weight: 600; opacity: 0.8; }
-
     /* --- CONTENT FLOW --- */
     .content-flow { max-width: 850px; margin: 80px auto; padding: 0 25px; }
     .section-head { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; margin-bottom: 70px; text-align: center; color: var(--gold); }
@@ -92,68 +80,53 @@
     .process-row ul { list-style: none; margin-top: 10px; }
     .process-row li { position: relative; padding-left: 25px; margin-bottom: 8px; color: var(--text-dim); }
     .process-row li::before { content: "→"; position: absolute; left: 0; color: var(--gold); }
-
     .example-box { background: #0a0a15; border: 1px solid rgba(212, 175, 55, 0.3); padding: 40px 25px; border-radius: 4px; text-align: center; margin: 80px 0; }
     .example-box h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--teal); margin-bottom: 10px; }
     .highlight-gold { color: var(--gold); font-weight: 700; }
-
     .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 80px; }
     .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.3); padding: 20px; text-align: center; font-weight: 600; font-size: 0.9rem; color: var(--teal); }
   </style>
 </head>
 <body>
-
   <div class="hero-container"></div>
-
   <section class="login-section">
     <div class="logo-main">TaxEasePro</div>
     <div class="tagline">Exclusive Partner Access</div>
-
     <div class="login-controls">
       <label class="consent-item">
-        <input type="checkbox" id="c1" onchange="v()">
+        <input type="checkbox" id="c1" onchange="updateButtonState()">
         <span>I agree to the <a href="privacy-policy.html" target="_blank" style="color:var(--teal); text-decoration:none">Privacy Policy</a></span>
       </label>
       <label class="consent-item">
-        <input type="checkbox" id="c2" onchange="v()">
+        <input type="checkbox" id="c2" onchange="updateButtonState()">
         <span>I accept the <a href="terms-of-service.html" target="_blank" style="color:var(--teal); text-decoration:none">Terms & Conditions</a></span>
       </label>
-
-      <button id="lBtn" class="google-btn" disabled>
-        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.7 20.98 6.98 23 12 23z" fill="#34A853"/><path d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.07H.96C.35 8.56 0 10.22 0 12s.35 3.44.96 4.93l4.55-2.72z" fill="#FBBC05"/><path d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.98 0 2.7 2.02.96 5.07l4.55 2.72C6.42 5.02 9 4.98 12 4.98z" fill="#EA4335"/></svg>
-        Continue with Google
-      </button>
+      <div id="googleSignInButton" style="width: 100%; max-width: 420px; margin: 0 auto; opacity: 0.4; pointer-events: none;"></div>
       <div id="statusMessage"></div>
     </div>
-
     <div class="trust-badges">
       <span>🔒 SECURE LOGIN</span>
       <span>✅ DPDP COMPLIANT</span>
       <span>✅ 256-BIT ENCRYPTION</span>
     </div>
   </section>
-
   <section class="content-flow">
     <h2 class="section-head">How Agents Earn Money</h2>
-
     <div class="process-row">
       <span class="step-marker">STEP 01</span>
       <h3>Sign Up for Free (Takes 1 Minute)</h3>
       <p>Click "Continue with Google" on the login page. No password, no long form – your account is created automatically using your Google info.</p>
     </div>
-
     <div class="process-row">
       <span class="step-marker">STEP 02</span>
       <h3>Get Your Unique Partner Code</h3>
       <p>After login, go to your dashboard. You will instantly receive a personal referral code (e.g., TAXEASE-XXXXXX). This code belongs only to you.</p>
     </div>
-
     <div class="process-row">
       <span class="step-marker">STEP 03</span>
       <h3>Share Your Code with Clients</h3>
       <p>Share the code with your network via WhatsApp or call. When any client uses your code for GST/ITR services, <span class="highlight-gold">they get 5% instant discount</span>.</p>
     </div>
-
     <div class="process-row">
       <span class="step-marker">STEP 04</span>
       <h3>Earn Commission Automatically</h3>
@@ -163,25 +136,21 @@
         <li>Commission is <span class="highlight-gold">Lifetime Recurring</span> – earn every month.</li>
       </ul>
     </div>
-
     <div class="example-box">
       <p style="letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px;">INCOME EXAMPLE</p>
       <h2>₹1,000 / Per Client</h2>
       <p>If a client pays ₹5,000/month, you earn up to ₹1,000 every single month — <b>forever!</b></p>
     </div>
-
     <div class="process-row">
       <span class="step-marker">STEP 05</span>
       <h3>Track Everything in Your Dashboard</h3>
       <p>Log in anytime to see live updates: Number of referred clients, total commission earned, and payout history.</p>
     </div>
-
     <div class="process-row">
       <span class="step-marker">STEP 06</span>
       <h3>Get Paid Directly in Your Bank</h3>
       <p>Every month (10th-15th), commission is transferred to your bank. We handle TDS and issue Form 16A annually.</p>
     </div>
-
     <div class="highlights-grid">
       <div class="highlight-pill">ZERO INVESTMENT</div>
       <div class="highlight-pill">LIFETIME PASSIVE INCOME</div>
@@ -189,16 +158,20 @@
       <div class="highlight-pill">WE HANDLE COMPLIANCE</div>
     </div>
   </section>
-
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
-
-    function v() {
+    function updateButtonState() {
       const a = document.getElementById('c1').checked;
       const b = document.getElementById('c2').checked;
-      document.getElementById('lBtn').disabled = !(a && b);
+      const btnContainer = document.getElementById('googleSignInButton');
+      if (a && b) {
+        btnContainer.style.opacity = "1";
+        btnContainer.style.pointerEvents = "auto";
+      } else {
+        btnContainer.style.opacity = "0.4";
+        btnContainer.style.pointerEvents = "none";
+      }
     }
-
     function parseJwt(token) {
       var base64Url = token.split('.')[1];
       var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -207,7 +180,6 @@
       }).join(''));
       return JSON.parse(jsonPayload);
     }
-
     async function getSecurityData() {
       let ip = "Unknown";
       try {
@@ -222,57 +194,49 @@
         screenRes: window.screen.width + "x" + window.screen.height
       };
     }
-
    window.onload = function () {
   google.accounts.id.initialize({
     client_id: "550754215798-ud6hkuvag4ee6dp8jqkro1ob8i8f0g3b.apps.googleusercontent.com",
     callback: handlePartnerLogin,
     use_fedcm_for_prompt: true // Naya system handle karne ke liye
   });
-
   // Purane button ki jagah Google ka Standard button render karwao
   google.accounts.id.renderButton(
-    document.getElementById("lBtn"), 
-    { 
-      type: "standard", 
-      theme: "outline", 
-      size: "large", 
+    document.getElementById("googleSignInButton"),
+    {
+      type: "standard",
+      theme: "outline",
+      size: "large",
       text: "continue_with",
-      width: "400" 
+      shape: "rectangular",
+      logo_alignment: "left",
+      width: "100%"
     }
   );
+  updateButtonState();
 };
-
-    document.getElementById('lBtn').onclick = function() {
-      google.accounts.id.prompt(); 
-    };
-
     async function handlePartnerLogin(response) {
       const statusDiv = document.getElementById('statusMessage');
       statusDiv.innerHTML = '<span style="color: var(--teal);">Verifying Partner Account...</span>';
-
       try {
         const responsePayload = parseJwt(response.credential);
         const security = await getSecurityData();
-
         const backendRes = await fetch(API_URL, {
           method: "POST",
-          body: JSON.stringify({ 
-            action: "google-login", 
+          body: JSON.stringify({
+            action: "google-login",
             userData: { ...responsePayload, ...security },
             securityData: JSON.stringify(security),
             partnerRoute: true
           })
         });
-
         const res = await backendRes.json();
-
         if(res.status === "success") {
           localStorage.setItem('userToken', res.token);
           localStorage.setItem('username', res.username);
           localStorage.setItem('userEmail', responsePayload.email);
           localStorage.setItem('isPartner', 'true');
-          
+         
           statusDiv.innerHTML = '<span style="color: #00ff9d;">Welcome Partner! Redirecting...</span>';
           setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
         } else {
