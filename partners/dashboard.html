@@ -407,61 +407,109 @@
     </main>
 
     <script>
-        // 1. Copy Code Functionality
-        function copyCode() {
-            const code = "TAXEASE-RK8292";
-            navigator.clipboard.writeText(code).then(() => {
-                const tooltip = document.getElementById('tooltip');
-                tooltip.classList.add('show');
-                setTimeout(() => {
-                    tooltip.classList.remove('show');
-                }, 2000);
-            });
-        }
-
-        // 2. Count-up Animation for Earnings
-        function animateValue(obj, start, end, duration) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const val = Math.floor(progress * (end - start) + start);
-                obj.innerHTML = "₹" + val.toLocaleString('en-IN');
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
-
-        // 3. Trigger Animations on Load
-        window.addEventListener('DOMContentLoaded', () => {
-            // Count up lifetime earnings
-            const earningsDisplay = document.getElementById('lifetimeEarnings');
-            animateValue(earningsDisplay, 0, 124500, 1500);
-
-            // Animate Chart Bars
-            const bars = document.querySelectorAll('.bar');
+    // 1. Copy Code Functionality (tumhara purana code – same rakha)
+    function copyCode() {
+        const code = "TAXEASE-RK8292";
+        navigator.clipboard.writeText(code).then(() => {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.classList.add('show');
             setTimeout(() => {
-                bars.forEach(bar => {
-                    const height = bar.style.height;
-                    bar.style.height = '0';
-                    setTimeout(() => bar.style.height = height, 100);
-                });
-            }, 500);
+                tooltip.classList.remove('show');
+            }, 2000);
         });
+    }
 
-        // 4. Responsive Header Adjustment (Simple interaction)
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.padding = '8px 0';
-                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
-            } else {
-                header.style.padding = '12px 0';
-                header.style.boxShadow = 'none';
+    // 2. Count-up Animation for Earnings (tumhara purana code)
+    function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const val = Math.floor(progress * (end - start) + start);
+            obj.innerHTML = "₹" + val.toLocaleString('en-IN');
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
             }
-        });
-    </script>
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    // 3. API URL (same jo login aur profile page mein hai)
+    const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
+
+    // ==================== NAYA: Profile Completion Check ====================
+    async function checkProfileCompletion() {
+        const token = localStorage.getItem('userToken');
+        if (!token) {
+            console.warn("No token found, skipping profile check");
+            return;
+        }
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                redirect: "follow",
+                body: JSON.stringify({
+                    action: "check-partner-profile-status",
+                    token: token
+                })
+            });
+
+            const text = await response.text();
+            const data = JSON.parse(text);
+
+            const banner = document.getElementById('payoutBanner');
+
+            if (data.status === "success") {
+                if (data.profileComplete === true) {
+                    // Profile complete → banner hide
+                    if (banner) banner.style.display = 'none';
+                } else {
+                    // Incomplete → banner show
+                    if (banner) banner.style.display = 'block';
+                }
+            } else {
+                // Backend error → default banner show (safety)
+                if (banner) banner.style.display = 'block';
+            }
+        } catch (error) {
+            console.error("Profile status check failed:", error);
+            // Network error → banner show kar do taaki user aware rahe
+            const banner = document.getElementById('payoutBanner');
+            if (banner) banner.style.display = 'block';
+        }
+    }
+
+    // 4. Trigger Animations on Load + Profile Check (tumhara purana code + naya call)
+    window.addEventListener('DOMContentLoaded', () => {
+        // Tumhara purana animation code
+        const earningsDisplay = document.getElementById('lifetimeEarnings');
+        animateValue(earningsDisplay, 0, 124500, 1500);
+
+        const bars = document.querySelectorAll('.bar');
+        setTimeout(() => {
+            bars.forEach(bar => {
+                const height = bar.style.height;
+                bar.style.height = '0';
+                setTimeout(() => bar.style.height = height, 100);
+            });
+        }, 500);
+
+        // Naya: Profile status check call karo
+        checkProfileCompletion();
+    });
+
+    // 5. Responsive Header Adjustment (tumhara purana code – same)
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+            header.style.padding = '8px 0';
+            header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+        } else {
+            header.style.padding = '12px 0';
+            header.style.boxShadow = 'none';
+        }
+    });
+</script>
 </body>
 </html>
