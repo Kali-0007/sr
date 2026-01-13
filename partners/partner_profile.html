@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    
+   
     <style>
         :root {
             --bg: #030308;
@@ -20,14 +20,12 @@
             --border: #1f1f2e;
             --input-bg: #161621;
         }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
         }
-
         body {
             background-color: var(--bg);
             color: var(--text-white);
@@ -37,21 +35,17 @@
             padding: 20px;
             line-height: 1.5;
         }
-
         .container {
             width: 100%;
             max-width: 900px;
             animation: fadeIn 0.5s ease-in-out;
         }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         /* Header Styling */
         header {
             text-align: center;
             margin-bottom: 30px;
         }
-
         .logo {
             font-size: 28px;
             font-weight: 800;
@@ -61,10 +55,8 @@
             margin-bottom: 10px;
             display: inline-block;
         }
-
         h1 { font-weight: 700; font-size: 24px; margin-bottom: 5px; }
         .subtitle { color: var(--text-dim); font-size: 14px; font-weight: 300; }
-
         /* Main Card Layout */
         .profile-card {
             background: var(--card-bg);
@@ -73,23 +65,19 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             border: 1px solid var(--border);
         }
-
         .columns {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
         }
-
         @media (max-width: 768px) {
             .columns { grid-template-columns: 1fr; }
         }
-
         /* Field Styling */
         .form-group {
             margin-bottom: 20px;
             position: relative;
         }
-
         label {
             display: block;
             font-size: 12px;
@@ -99,7 +87,6 @@
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-
         input, textarea, select {
             width: 100%;
             background: var(--input-bg);
@@ -110,13 +97,11 @@
             font-size: 14px;
             transition: all 0.3s ease;
         }
-
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--teal);
             box-shadow: 0 0 8px rgba(0, 196, 180, 0.2);
         }
-
         input:disabled, textarea:disabled, select:disabled {
             background: transparent;
             border-color: transparent;
@@ -126,7 +111,6 @@
             opacity: 1;
             -webkit-text-fill-color: var(--text-white);
         }
-
         /* Photo Styles */
         .photo-container {
             display: flex;
@@ -134,7 +118,6 @@
             align-items: center;
             margin-bottom: 25px;
         }
-
         .photo-preview {
             width: 150px;
             height: 150px;
@@ -144,22 +127,18 @@
             background: var(--input-bg);
             margin-bottom: 10px;
         }
-
         .file-input-wrapper {
             font-size: 12px;
             display: none; /* Hidden in view mode */
         }
-
         /* Conditional Section */
         #membership-group { display: none; }
-
         /* Referral Logic */
         .referral-box {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-
         .copy-btn {
             background: var(--teal);
             color: var(--bg);
@@ -171,7 +150,6 @@
             cursor: pointer;
             display: none;
         }
-
         /* Buttons */
         .action-area {
             margin-top: 30px;
@@ -179,7 +157,6 @@
             gap: 15px;
             justify-content: center;
         }
-
         .btn {
             padding: 12px 30px;
             border-radius: 8px;
@@ -189,15 +166,12 @@
             font-size: 14px;
             text-transform: uppercase;
         }
-
         .btn-teal { background: var(--teal); border: none; color: var(--bg); }
         .btn-teal:hover { background: var(--gold); transform: translateY(-2px); }
-        
+       
         .btn-outline { background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); }
         .btn-outline:hover { border-color: var(--text-white); color: var(--text-white); }
-
         .edit-controls { display: none; }
-
         /* Toast & Spinner */
         #toast {
             position: fixed;
@@ -211,7 +185,6 @@
             z-index: 1000;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-
         .spinner {
             display: none;
             width: 20px;
@@ -223,21 +196,17 @@
             margin-right: 10px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
         .error-msg { color: var(--error); font-size: 11px; margin-top: 4px; display: none; }
     </style>
 </head>
 <body>
-
     <div id="toast">Profile Updated Successfully!</div>
-
     <div class="container">
         <header>
             <div class="logo">TaxEasePro</div>
             <h1>My Partner Profile</h1>
             <p class="subtitle">View and update your details. Referral code will be assigned after admin approval.</p>
         </header>
-
         <form id="profileForm">
             <div class="profile-card">
                 <div class="columns">
@@ -249,35 +218,29 @@
                                 <input type="file" id="photoUpload" accept="image/*">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label>Partner ID</label>
                             <input type="text" id="partnerId" value="PART12345" disabled>
                         </div>
-
                         <div class="form-group">
                             <label>Full Name</label>
                             <input type="text" id="fullName" value="Ravindra Kumar" required disabled>
                             <div class="error-msg" id="err-fullName">Name is required</div>
                         </div>
-
                         <div class="form-group">
                             <label>Email Address</label>
                             <input type="email" id="email" value="ravindra.kumar@example.com" disabled>
                         </div>
-
                         <div class="form-group">
                             <label>Mobile Number (+91)</label>
                             <input type="tel" id="mobile" value="9876543210" required disabled maxlength="10">
                             <div class="error-msg" id="err-mobile">Enter valid 10-digit number</div>
                         </div>
-
                         <div class="form-group">
                             <label>Office Address</label>
                             <textarea id="address" rows="3" required disabled>123, Financial District, New Delhi, 110001</textarea>
                             <div class="error-msg" id="err-address">Address is required</div>
                         </div>
-
                         <div class="form-group">
                             <label>Profession</label>
                             <select id="profession" disabled required onchange="handleProfessionChange()">
@@ -292,14 +255,12 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="right-col">
                         <div class="form-group">
                             <label>PAN Number</label>
                             <input type="text" id="panNumber" value="ABCDE1234F" style="text-transform: uppercase;" required disabled maxlength="10">
                             <div class="error-msg" id="err-pan">Format: ABCDE1234F</div>
                         </div>
-
                         <div class="form-group">
                             <label>PAN Card Document</label>
                             <div id="panViewLink" style="font-size: 13px; margin-bottom: 5px;">
@@ -309,28 +270,23 @@
                                 <input type="file" id="panUpload" accept=".jpg,.png,.pdf">
                             </div>
                         </div>
-
                         <div class="form-group" id="membership-group">
                             <label id="membership-label">Membership Number</label>
                             <input type="text" id="membershipNo" value="654321" disabled>
                             <div class="error-msg" id="err-membership">Membership number is required</div>
                         </div>
-
                         <div class="form-group">
                             <label>Bank Name</label>
                             <input type="text" id="bankName" value="HDFC Bank" required disabled>
                         </div>
-
                         <div class="form-group">
                             <label>Account Number</label>
                             <input type="text" id="accountNo" value="501002345678" required disabled>
                         </div>
-
                         <div class="form-group">
                             <label>IFSC Code</label>
                             <input type="text" id="ifscCode" value="HDFC0001234" style="text-transform: uppercase;" required disabled>
                         </div>
-
                         <div class="form-group">
                             <label>Referral Code</label>
                             <div class="referral-box">
@@ -340,10 +296,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="action-area">
                     <button type="button" id="editBtn" class="btn btn-teal" onclick="enableEditMode()">Edit Profile</button>
-                    
+                   
                     <div class="edit-controls" id="editControls">
                         <button type="button" class="btn btn-outline" onclick="cancelEdit()" style="margin-right: 10px;">Cancel</button>
                         <button type="submit" class="btn btn-teal">
@@ -351,296 +306,204 @@
                             <span id="saveText">Save Changes</span>
                         </button>
                     </div>
+                    <a href="dashboard.html" class="btn btn-outline" style="margin-top: 20px;">Back to Dashboard</a>
                 </div>
             </div>
         </form>
     </div>
-
    <script>
-    // API URL
-    const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
-
-    let isEditMode = false;
-    let originalData = {};
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('profileForm');
-        const professionSelect = document.getElementById('profession');
-        const caField = document.getElementById('ca-field');
-        const csField = document.getElementById('cs-field');
-        const otherField = document.getElementById('other-field');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('saveText');
-        const spinner = document.getElementById('loadingSpinner');
-        const toast = document.getElementById('toast');
-
-        // 1. Auto-fill from LocalStorage (initial fallback)
-        const storedName = localStorage.getItem('username') || 'Ravindra Kumar';
-        const storedEmail = localStorage.getItem('userEmail') || 'ravindra.kumar@example.com';
-
-        // 2. Conditional Fields Logic
-        professionSelect.addEventListener('change', (e) => {
-            const val = e.target.value;
-            caField.style.display = 'none';
-            csField.style.display = 'none';
-            otherField.style.display = 'none';
-
-            if (val === 'CA') caField.style.display = 'block';
-            else if (val === 'CS') csField.style.display = 'block';
-            else if (val === 'Others') otherField.style.display = 'block';
-        });
-
-        // 3. File Previews
-        document.getElementById('photoUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const preview = document.getElementById('profileImg');
-            const fileNameDisplay = document.getElementById('photoFileName');
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    preview.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-                fileNameDisplay.textContent = file.name;
-            }
-        });
-
-        document.getElementById('panUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const fileNameDisplay = document.getElementById('panFileName');
-            if (file) {
-                fileNameDisplay.textContent = `Attached: ${file.name}`;
-            }
-        });
-
-        // File to base64 converter
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        // Load existing profile from backend
-        async function loadPartnerProfile() {
-            const token = localStorage.getItem('userToken');
-            if (!token) {
-                alert("Session expired. Please login again.");
-                window.location.href = "login.html";
-                return;
-            }
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    redirect: "follow",
-                    body: JSON.stringify({
-                        action: "get-partner-profile",
-                        token: token
-                    })
-                });
-
-                const text = await response.text();
-                const data = JSON.parse(text);
-
-                if (data.status === "success" && data.profile) {
-                    document.getElementById('fullName').value = data.profile.name || storedName;
-                    document.getElementById('email').value = data.profile.email || storedEmail;
-                    document.getElementById('mobile').value = data.profile.mobile || '';
-                    document.getElementById('address').value = data.profile.address || '';
-                    document.getElementById('profession').value = data.profile.profession || '';
-                    document.getElementById('panNumber').value = data.profile.panNumber || '';
-                    document.getElementById('membershipNo').value = data.profile.membershipNumber || '';
-                    document.getElementById('bankName').value = data.profile.bankName || '';
-                    document.getElementById('accountNo').value = data.profile.accountNumber || '';
-                    document.getElementById('ifscCode').value = data.profile.ifscCode || '';
-
-                    // Referral Code (locked)
-                    const refCodeEl = document.getElementById('referralCode');
-                    const copyBtn = document.getElementById('copyBtn');
-                    if (refCodeEl) {
-                        if (data.profile.referralCode && data.profile.referralCode !== "Pending Approval") {
-                            refCodeEl.value = data.profile.referralCode;
-                            copyBtn.style.display = 'inline-block';
-                        } else {
-                            refCodeEl.value = "Referral Code: Pending Admin Approval";
-                            copyBtn.style.display = 'none';
-                        }
-                    }
-
-                    // Photo preview from backend
-                    if (data.profile.photoLink) {
-                        document.getElementById('profileImg').src = data.profile.photoLink;
-                    }
-
-                    // Trigger conditional
-                    professionSelect.dispatchEvent(new Event('change'));
-                }
-            } catch (error) {
-                console.error("Failed to load profile:", error);
-            }
-        }
-
-        // Store original data for cancel
-        function storeOriginalData() {
-            const inputs = document.querySelectorAll('input, textarea, select');
-            inputs.forEach(el => originalData[el.id] = el.value);
-            originalData['profileImg'] = document.getElementById('profileImg').src;
-        }
-
-        // Enable edit mode
-        function enableEditMode() {
-            isEditMode = true;
-            document.getElementById('editBtn').style.display = 'none';
-            document.getElementById('editControls').style.display = 'flex';
-            document.getElementById('photoInputWrapper').style.display = 'block';
-            document.getElementById('panInputWrapper').style.display = 'block';
-            document.getElementById('panViewLink').style.display = 'none';
-
-            const editableIds = ['fullName', 'mobile', 'address', 'profession', 'panNumber', 'membershipNo', 'bankName', 'accountNo', 'ifscCode'];
-            editableIds.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.disabled = false;
-            });
-
-            professionSelect.disabled = false;
-            handleProfessionChange();
-        }
-
-        // Cancel edit
-        function cancelEdit() {
-            isEditMode = false;
-            for (let key in originalData) {
-                const el = document.getElementById(key);
-                if (el) {
-                    if (el.tagName === 'IMG') el.src = originalData[key];
-                    else el.value = originalData[key];
-                }
-            }
-
-            document.getElementById('editBtn').style.display = 'block';
-            document.getElementById('editControls').style.display = 'none';
-            document.getElementById('photoInputWrapper').style.display = 'none';
-            document.getElementById('panInputWrapper').style.display = 'none';
-            document.getElementById('panViewLink').style.display = 'block';
-
-            const inputs = document.querySelectorAll('input, textarea, select');
-            inputs.forEach(el => {
-                if (el.id !== 'partnerId' && el.id !== 'email' && el.id !== 'referralCode') el.disabled = true;
-            });
-
-            professionSelect.disabled = true;
-            handleProfessionChange();
-        }
-
-        // Copy referral code
-        function copyReferral() {
-            const code = document.getElementById('referralCode').value;
-            navigator.clipboard.writeText(code);
-            const btn = document.getElementById('copyBtn');
-            btn.innerText = "COPIED!";
-            setTimeout(() => btn.innerText = "COPY", 2000);
-        }
-
-        // Real submit with file upload
-        async function submitProfile(e) {
-            e.preventDefault();
-
-            let hasError = false;
-
-            // Reset Errors
-            document.querySelectorAll('.error-msg').forEach(m => m.style.display = 'none');
-
-            // Name
-            if (!document.getElementById('fullName').value.trim()) {
-                document.getElementById('err-fullName').style.display = 'block';
-                hasError = true;
-            }
-
-            // Mobile
-            const mobile = document.getElementById('mobile').value;
-            if (mobile.length !== 10 || isNaN(mobile)) {
-                document.getElementById('err-mobile').style.display = 'block';
-                hasError = true;
-            }
-
-            // PAN
-            const pan = document.getElementById('panNumber').value.toUpperCase();
-            const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-            if (!panRegex.test(pan)) {
-                document.getElementById('err-pan').style.display = 'block';
-                hasError = true;
-            }
-
-            // Membership (Conditional)
-            const prof = document.getElementById('profession').value;
-            if ((prof === 'Chartered Accountant (CA)' || prof === 'Company Secretary (CS)') && !document.getElementById('membershipNo').value.trim()) {
-                document.getElementById('err-membership').style.display = 'block';
-                hasError = true;
-            }
-
-            if (hasError) return;
-
-            document.getElementById('loadingSpinner').style.display = 'inline-block';
-            document.getElementById('saveText').innerText = 'Saving...';
-
-            try {
-                const photoFile = document.getElementById('photoUpload').files[0];
-                const panFile = document.getElementById('panUpload').files[0];
-
-                const payload = {
-                    action: "update-partner-profile",
-                    token: localStorage.getItem('userToken'),
-                    fullName: document.getElementById('fullName').value,
-                    mobile: document.getElementById('mobile').value,
-                    address: document.getElementById('address').value,
-                    profession: document.getElementById('profession').value,
-                    panNumber: document.getElementById('panNumber').value.toUpperCase(),
-                    membershipNo: document.getElementById('membershipNo').value,
-                    bankName: document.getElementById('bankName').value,
-                    accountNo: document.getElementById('accountNo').value,
-                    ifscCode: document.getElementById('ifscCode').value.toUpperCase(),
-                    photoBase64: photoFile ? await fileToBase64(photoFile) : null,
-                    photoName: photoFile ? photoFile.name : null,
-                    panBase64: panFile ? await fileToBase64(panFile) : null,
-                    panName: panFile ? panFile.name : null
-                };
-
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.status === "success") {
-                    document.getElementById('toast').style.display = 'block';
-                    setTimeout(() => {
-                        window.location.href = "dashboard.html";
-                    }, 2000);
-                } else {
-                    alert("Update failed: " + (result.message || "Unknown error"));
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Technical error occurred. Please try again.");
-            } finally {
-                document.getElementById('loadingSpinner').style.display = 'none';
-                document.getElementById('saveText').innerText = 'Save Changes';
-            }
-        }
-
-        // Event Listeners
-        document.getElementById('profileForm').onsubmit = submitProfile;
-
-        // Initial load
-        handleProfessionChange();
-        checkReferralStatus();
-        storeOriginalData();
-        loadPartnerProfile(); // Backend se load
-    });
-</script>
+       // API URL
+       const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
+       let isEditMode = false;
+       let originalData = {};
+       document.addEventListener('DOMContentLoaded', () => {
+           const form = document.getElementById('profileForm');
+           const professionSelect = document.getElementById('profession');
+           const caField = document.getElementById('ca-field');
+           const csField = document.getElementById('cs-field');
+           const otherField = document.getElementById('other-field');
+           const submitBtn = document.getElementById('submitBtn');
+           const btnText = document.getElementById('saveText');
+           const spinner = document.getElementById('loadingSpinner');
+           const toast = document.getElementById('toast');
+           // 1. Auto-fill from LocalStorage
+           const storedName = localStorage.getItem('username') || 'Ravindra Kumar';
+           const storedEmail = localStorage.getItem('userEmail') || 'ravindra.kumar@example.com';
+          
+           document.getElementById('fullName').value = storedName;
+           document.getElementById('email').value = storedEmail;
+           // 2. Conditional Fields Logic
+           professionSelect.addEventListener('change', (e) => {
+               const val = e.target.value;
+               caField.style.display = 'none';
+               csField.style.display = 'none';
+               otherField.style.display = 'none';
+              
+               if (val === 'CA') caField.style.display = 'block';
+               else if (val === 'CS') csField.style.display = 'block';
+               else if (val === 'Others') otherField.style.display = 'block';
+           });
+           // 3. File Previews
+           document.getElementById('photoUpload').addEventListener('change', function(e) {
+               const file = e.target.files[0];
+               const preview = document.getElementById('photoPreview');
+               const fileNameDisplay = document.getElementById('photoFileName');
+              
+               if (file) {
+                   const reader = new FileReader();
+                   reader.onload = function(event) {
+                       preview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+                   };
+                   reader.readAsDataURL(file);
+                   fileNameDisplay.textContent = file.name;
+               }
+           });
+           document.getElementById('panUpload').addEventListener('change', function(e) {
+               const file = e.target.files[0];
+               const fileNameDisplay = document.getElementById('panFileName');
+               if (file) {
+                   fileNameDisplay.textContent = `Attached: ${file.name}`;
+               }
+           });
+           // File to base64 converter
+           function fileToBase64(file) {
+               return new Promise((resolve, reject) => {
+                   const reader = new FileReader();
+                   reader.readAsDataURL(file);
+                   reader.onload = () => resolve(reader.result.split(',')[1]);
+                   reader.onerror = error => reject(error);
+               });
+           }
+           // Load existing profile from backend
+           async function loadPartnerProfile() {
+               const token = localStorage.getItem('userToken');
+               if (!token) {
+                   alert("Session expired. Please login again.");
+                   window.location.href = "login.html";
+                   return;
+               }
+               try {
+                   const response = await fetch(API_URL, {
+                       method: "POST",
+                       redirect: "follow",
+                       body: JSON.stringify({
+                           action: "get-partner-profile",
+                           token: token
+                       })
+                   });
+                   const text = await response.text();
+                   const data = JSON.parse(text);
+                   if (data.status === "success" && data.profile) {
+                       document.getElementById('fullName').value = data.profile.name || storedName;
+                       document.getElementById('mobile').value = data.profile.mobile || '';
+                       document.getElementById('address').value = data.profile.address || '';
+                       document.getElementById('profession').value = data.profile.profession || '';
+                       document.getElementById('panNumber').value = data.profile.panNumber || '';
+                       professionSelect.dispatchEvent(new Event('change'));
+                       if (data.profile.photoLink) {
+                           document.getElementById('photoPreview').innerHTML = `<img src="${data.profile.photoLink}" alt="Profile Photo">`;
+                       }
+                   }
+               } catch (error) {
+                   console.error("Failed to load profile:", error);
+               }
+           }
+           // Real submit with file upload
+           async function submitProfile(e) {
+               e.preventDefault();
+               let isValid = true;
+               const inputs = form.querySelectorAll('[required]');
+               inputs.forEach(input => {
+                   const error = input.closest('.form-group')?.querySelector('.error-text');
+                   if (!input.value || (input.type === 'checkbox' && !input.checked)) {
+                       if (error) error.style.display = 'block';
+                       input.style.borderColor = 'var(--error-red)';
+                       isValid = false;
+                   } else {
+                       if (error) error.style.display = 'none';
+                       input.style.borderColor = 'var(--border-color)';
+                   }
+               });
+               const mobile = document.getElementById('mobile');
+               if (mobile.value.length !== 10) {
+                   mobile.closest('.form-group').querySelector('.error-text').style.display = 'block';
+                   isValid = false;
+               }
+               const pan = document.getElementById('panNumber');
+               const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
+               if (!panPattern.test(pan.value)) {
+                   pan.closest('.form-group').querySelector('.error-text').style.display = 'block';
+                   isValid = false;
+               }
+               const profession = professionSelect.value;
+               if (profession === 'CA' && !document.getElementById('caMembership').value) {
+                   document.getElementById('ca-field').querySelector('.error-text').style.display = 'block';
+                   isValid = false;
+               }
+               if (profession === 'CS' && !document.getElementById('csMembership').value) {
+                   document.getElementById('cs-field').querySelector('.error-text').style.display = 'block';
+                   isValid = false;
+               }
+               if (profession === 'Others' && !document.getElementById('otherProfession').value) {
+                   document.getElementById('other-field').querySelector('.error-text').style.display = 'block';
+                   isValid = false;
+               }
+               if (!isValid) return;
+               submitBtn.disabled = true;
+               btnText.textContent = "Saving...";
+               spinner.style.display = "inline-block";
+               try {
+                   const formData = new FormData(form);
+                   const data = Object.fromEntries(formData.entries());
+                   const photoFile = document.getElementById('photoUpload').files[0];
+                   const panFile = document.getElementById('panUpload').files[0];
+                   let photoBase64 = null;
+                   let photoName = null;
+                   if (photoFile) {
+                       photoBase64 = await fileToBase64(photoFile);
+                       photoName = photoFile.name;
+                   }
+                   let panBase64 = null;
+                   let panName = null;
+                   if (panFile) {
+                       panBase64 = await fileToBase64(panFile);
+                       panName = panFile.name;
+                   }
+                   const response = await fetch(API_URL, {
+                       method: "POST",
+                       redirect: "follow",
+                       body: JSON.stringify({
+                           action: "update-partner-profile",
+                           token: localStorage.getItem('userToken'),
+                           profileData: JSON.stringify(data),
+                           photoBase64: photoBase64,
+                           photoName: photoName,
+                           panBase64: panBase64,
+                           panName: panName
+                       })
+                   });
+                   const text = await response.text();
+                   const result = JSON.parse(text);
+                   if (result.status === "success") {
+                       toast.style.display = "block";
+                       setTimeout(() => {
+                           window.location.href = "dashboard.html";
+                       }, 2000);
+                   } else {
+                       alert(result.message || "Failed to update profile");
+                   }
+               } catch (error) {
+                   console.error("Profile update error:", error);
+                   alert("Connection error. Please try again.");
+               } finally {
+                   submitBtn.disabled = false;
+                   btnText.textContent = "Save & Complete Profile";
+                   spinner.style.display = "none";
+               }
+           }
+           form.addEventListener('submit', submitProfile);
+           loadPartnerProfile();
+       });
+   </script>
 </body>
 </html>
