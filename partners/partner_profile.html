@@ -356,9 +356,12 @@
         </form>
     </div>
 
-    <script>
-    // API URL (login page se same copy kar lo)
+   <script>
+    // API URL
     const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
+
+    let isEditMode = false;
+    let originalData = {};
 
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('profileForm');
@@ -367,16 +370,13 @@
         const csField = document.getElementById('cs-field');
         const otherField = document.getElementById('other-field');
         const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        const spinner = document.getElementById('btnSpinner');
+        const btnText = document.getElementById('saveText');
+        const spinner = document.getElementById('loadingSpinner');
         const toast = document.getElementById('toast');
 
-        // 1. Auto-fill from LocalStorage
+        // 1. Auto-fill from LocalStorage (initial fallback)
         const storedName = localStorage.getItem('username') || 'Ravindra Kumar';
         const storedEmail = localStorage.getItem('userEmail') || 'ravindra.kumar@example.com';
-        
-        document.getElementById('fullName').value = storedName;
-        document.getElementById('email').value = storedEmail;
 
         // 2. Conditional Fields Logic
         professionSelect.addEventListener('change', (e) => {
@@ -384,7 +384,7 @@
             caField.style.display = 'none';
             csField.style.display = 'none';
             otherField.style.display = 'none';
-            
+
             if (val === 'CA') caField.style.display = 'block';
             else if (val === 'CS') csField.style.display = 'block';
             else if (val === 'Others') otherField.style.display = 'block';
@@ -393,13 +393,12 @@
         // 3. File Previews
         document.getElementById('photoUpload').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            const preview = document.getElementById('photoPreview');
+            const preview = document.getElementById('profileImg');
             const fileNameDisplay = document.getElementById('photoFileName');
-            
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    preview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+                    preview.src = event.target.result;
                 };
                 reader.readAsDataURL(file);
                 fileNameDisplay.textContent = file.name;
@@ -448,132 +447,199 @@
 
                 if (data.status === "success" && data.profile) {
                     document.getElementById('fullName').value = data.profile.name || storedName;
+                    document.getElementById('email').value = data.profile.email || storedEmail;
                     document.getElementById('mobile').value = data.profile.mobile || '';
                     document.getElementById('address').value = data.profile.address || '';
                     document.getElementById('profession').value = data.profile.profession || '';
                     document.getElementById('panNumber').value = data.profile.panNumber || '';
+                    document.getElementById('membershipNo').value = data.profile.membershipNumber || '';
+                    document.getElementById('bankName').value = data.profile.bankName || '';
+                    document.getElementById('accountNo').value = data.profile.accountNumber || '';
+                    document.getElementById('ifscCode').value = data.profile.ifscCode || '';
 
-                    professionSelect.dispatchEvent(new Event('change'));
-
-                    if (data.profile.photoLink) {
-                        document.getElementById('photoPreview').innerHTML = `<img src="${data.profile.photoLink}" alt="Profile Photo">`;
+                    // Referral Code (locked)
+                    const refCodeEl = document.getElementById('referralCode');
+                    const copyBtn = document.getElementById('copyBtn');
+                    if (refCodeEl) {
+                        if (data.profile.referralCode && data.profile.referralCode !== "Pending Approval") {
+                            refCodeEl.value = data.profile.referralCode;
+                            copyBtn.style.display = 'inline-block';
+                        } else {
+                            refCodeEl.value = "Referral Code: Pending Admin Approval";
+                            copyBtn.style.display = 'none';
+                        }
                     }
+
+                    // Photo preview from backend
+                    if (data.profile.photoLink) {
+                        document.getElementById('profileImg').src = data.profile.photoLink;
+                    }
+
+                    // Trigger conditional
+                    professionSelect.dispatchEvent(new Event('change'));
                 }
             } catch (error) {
                 console.error("Failed to load profile:", error);
             }
         }
 
+        // Store original data for cancel
+        function storeOriginalData() {
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(el => originalData[el.id] = el.value);
+            originalData['profileImg'] = document.getElementById('profileImg').src;
+        }
+
+        // Enable edit mode
+        function enableEditMode() {
+            isEditMode = true;
+            document.getElementById('editBtn').style.display = 'none';
+            document.getElementById('editControls').style.display = 'flex';
+            document.getElementById('photoInputWrapper').style.display = 'block';
+            document.getElementById('panInputWrapper').style.display = 'block';
+            document.getElementById('panViewLink').style.display = 'none';
+
+            const editableIds = ['fullName', 'mobile', 'address', 'profession', 'panNumber', 'membershipNo', 'bankName', 'accountNo', 'ifscCode'];
+            editableIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.disabled = false;
+            });
+
+            professionSelect.disabled = false;
+            handleProfessionChange();
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            isEditMode = false;
+            for (let key in originalData) {
+                const el = document.getElementById(key);
+                if (el) {
+                    if (el.tagName === 'IMG') el.src = originalData[key];
+                    else el.value = originalData[key];
+                }
+            }
+
+            document.getElementById('editBtn').style.display = 'block';
+            document.getElementById('editControls').style.display = 'none';
+            document.getElementById('photoInputWrapper').style.display = 'none';
+            document.getElementById('panInputWrapper').style.display = 'none';
+            document.getElementById('panViewLink').style.display = 'block';
+
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(el => {
+                if (el.id !== 'partnerId' && el.id !== 'email' && el.id !== 'referralCode') el.disabled = true;
+            });
+
+            professionSelect.disabled = true;
+            handleProfessionChange();
+        }
+
+        // Copy referral code
+        function copyReferral() {
+            const code = document.getElementById('referralCode').value;
+            navigator.clipboard.writeText(code);
+            const btn = document.getElementById('copyBtn');
+            btn.innerText = "COPIED!";
+            setTimeout(() => btn.innerText = "COPY", 2000);
+        }
+
         // Real submit with file upload
         async function submitProfile(e) {
             e.preventDefault();
 
-            let isValid = true;
+            let hasError = false;
 
-            const inputs = form.querySelectorAll('[required]');
-            inputs.forEach(input => {
-                const error = input.closest('.form-group')?.querySelector('.error-text');
-                if (!input.value || (input.type === 'checkbox' && !input.checked)) {
-                    if (error) error.style.display = 'block';
-                    input.style.borderColor = 'var(--error-red)';
-                    isValid = false;
-                } else {
-                    if (error) error.style.display = 'none';
-                    input.style.borderColor = 'var(--border-color)';
-                }
-            });
+            // Reset Errors
+            document.querySelectorAll('.error-msg').forEach(m => m.style.display = 'none');
 
-            const mobile = document.getElementById('mobile');
-            if (mobile.value.length !== 10) {
-                mobile.closest('.form-group').querySelector('.error-text').style.display = 'block';
-                isValid = false;
+            // Name
+            if (!document.getElementById('fullName').value.trim()) {
+                document.getElementById('err-fullName').style.display = 'block';
+                hasError = true;
             }
 
-            const pan = document.getElementById('panNumber');
-            const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
-            if (!panPattern.test(pan.value)) {
-                pan.closest('.form-group').querySelector('.error-text').style.display = 'block';
-                isValid = false;
+            // Mobile
+            const mobile = document.getElementById('mobile').value;
+            if (mobile.length !== 10 || isNaN(mobile)) {
+                document.getElementById('err-mobile').style.display = 'block';
+                hasError = true;
             }
 
-            const profession = professionSelect.value;
-            if (profession === 'CA' && !document.getElementById('caMembership').value) {
-                document.getElementById('ca-field').querySelector('.error-text').style.display = 'block';
-                isValid = false;
-            }
-            if (profession === 'CS' && !document.getElementById('csMembership').value) {
-                document.getElementById('cs-field').querySelector('.error-text').style.display = 'block';
-                isValid = false;
-            }
-            if (profession === 'Others' && !document.getElementById('otherProfession').value) {
-                document.getElementById('other-field').querySelector('.error-text').style.display = 'block';
-                isValid = false;
+            // PAN
+            const pan = document.getElementById('panNumber').value.toUpperCase();
+            const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            if (!panRegex.test(pan)) {
+                document.getElementById('err-pan').style.display = 'block';
+                hasError = true;
             }
 
-            if (!isValid) return;
+            // Membership (Conditional)
+            const prof = document.getElementById('profession').value;
+            if ((prof === 'Chartered Accountant (CA)' || prof === 'Company Secretary (CS)') && !document.getElementById('membershipNo').value.trim()) {
+                document.getElementById('err-membership').style.display = 'block';
+                hasError = true;
+            }
 
-            submitBtn.disabled = true;
-            btnText.textContent = "Saving...";
-            spinner.style.display = "inline-block";
+            if (hasError) return;
+
+            document.getElementById('loadingSpinner').style.display = 'inline-block';
+            document.getElementById('saveText').innerText = 'Saving...';
 
             try {
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-
                 const photoFile = document.getElementById('photoUpload').files[0];
                 const panFile = document.getElementById('panUpload').files[0];
 
-                let photoBase64 = null;
-                let photoName = null;
-                if (photoFile) {
-                    photoBase64 = await fileToBase64(photoFile);
-                    photoName = photoFile.name;
-                }
-
-                let panBase64 = null;
-                let panName = null;
-                if (panFile) {
-                    panBase64 = await fileToBase64(panFile);
-                    panName = panFile.name;
-                }
+                const payload = {
+                    action: "update-partner-profile",
+                    token: localStorage.getItem('userToken'),
+                    fullName: document.getElementById('fullName').value,
+                    mobile: document.getElementById('mobile').value,
+                    address: document.getElementById('address').value,
+                    profession: document.getElementById('profession').value,
+                    panNumber: document.getElementById('panNumber').value.toUpperCase(),
+                    membershipNo: document.getElementById('membershipNo').value,
+                    bankName: document.getElementById('bankName').value,
+                    accountNo: document.getElementById('accountNo').value,
+                    ifscCode: document.getElementById('ifscCode').value.toUpperCase(),
+                    photoBase64: photoFile ? await fileToBase64(photoFile) : null,
+                    photoName: photoFile ? photoFile.name : null,
+                    panBase64: panFile ? await fileToBase64(panFile) : null,
+                    panName: panFile ? panFile.name : null
+                };
 
                 const response = await fetch(API_URL, {
-                    method: "POST",
-                    redirect: "follow",
-                    body: JSON.stringify({
-                        action: "update-partner-profile",
-                        token: localStorage.getItem('userToken'),
-                        profileData: JSON.stringify(data),
-                        photoBase64: photoBase64,
-                        photoName: photoName,
-                        panBase64: panBase64,
-                        panName: panName
-                    })
+                    method: 'POST',
+                    body: JSON.stringify(payload)
                 });
 
-                const text = await response.text();
-                const result = JSON.parse(text);
+                const result = await response.json();
 
                 if (result.status === "success") {
-                    toast.style.display = "block";
+                    document.getElementById('toast').style.display = 'block';
                     setTimeout(() => {
                         window.location.href = "dashboard.html";
                     }, 2000);
                 } else {
-                    alert(result.message || "Failed to update profile");
+                    alert("Update failed: " + (result.message || "Unknown error"));
                 }
-            } catch (error) {
-                console.error("Profile update error:", error);
-                alert("Connection error. Please try again.");
+            } catch (err) {
+                console.error(err);
+                alert("Technical error occurred. Please try again.");
             } finally {
-                submitBtn.disabled = false;
-                btnText.textContent = "Save & Complete Profile";
-                spinner.style.display = "none";
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('saveText').innerText = 'Save Changes';
             }
         }
 
-        form.addEventListener('submit', submitProfile);
-        loadPartnerProfile();
+        // Event Listeners
+        document.getElementById('profileForm').onsubmit = submitProfile;
+
+        // Initial load
+        handleProfessionChange();
+        checkReferralStatus();
+        storeOriginalData();
+        loadPartnerProfile(); // Backend se load
     });
 </script>
 </body>
