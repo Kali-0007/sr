@@ -12,11 +12,11 @@
             --text-main: #e0e0e0; --text-muted: #888;
         }
         body { background: radial-gradient(circle at top right, #111, var(--bg-dark)); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; padding: 20px; }
-        .glass-card { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; width: 100%; max-width: 950px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); position: relative; }
+        .glass-card { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; width: 100%; max-width: 1000px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
         
-        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .back-dash { color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
-        .back-dash:hover { opacity: 0.7; transform: translateX(-5px); }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .btn-dash { text-decoration: none; color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 8px; transition: 0.3s; }
+        .btn-dash:hover { background: rgba(0, 242, 254, 0.1); }
 
         .header-section { text-align: center; margin-bottom: 30px; }
         .header-section h1 { font-size: 28px; background: linear-gradient(to right, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
@@ -26,26 +26,28 @@
         .profile-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #111; }
         
         .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .section-title { grid-column: span 2; color: var(--gold); font-size: 14px; font-weight: 700; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px; margin-top: 15px; }
+        
         .form-group { position: relative; }
         label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; display: block; font-weight: 700; }
         
         input, select, textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px; padding: 12px; color: #fff; font-size: 14px; box-sizing: border-box; }
-        input:disabled, textarea:disabled, select:disabled { background: transparent; border-color: transparent; color: #bbb; cursor: not-allowed; -webkit-text-fill-color: #bbb; }
+        input:disabled, textarea:disabled, select:disabled { background: transparent; border-color: transparent; color: #bbb; cursor: not-allowed; }
         
-        .button-group { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
+        .button-group { margin-top: 40px; display: flex; justify-content: center; gap: 15px; }
         .btn-premium { background: linear-gradient(45deg, var(--accent), #00d2ff); color: #000; border: none; padding: 12px 35px; border-radius: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
         .btn-cancel { background: transparent; border: 1px solid var(--glass-border); color: #888; padding: 12px 25px; border-radius: 10px; cursor: pointer; }
         
         #membership-box { display: none; }
-        @media (max-width: 768px) { .data-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .data-grid { grid-template-columns: 1fr; } .section-title { grid-column: span 1; } }
     </style>
 </head>
 <body>
 
 <div class="glass-card">
-    <div class="nav-header">
-        <a href="dashboard.html" class="back-dash">← DASHBOARD</a>
-        <span style="color: var(--gold); font-size: 11px; letter-spacing: 1px;">TAXEASEPRO PARTNER</span>
+    <div class="top-nav">
+        <a href="dashboard.html" class="btn-dash">← BACK TO DASHBOARD</a>
+        <span id="Profile_Status" style="color: var(--gold); font-size: 11px; font-weight: bold; border: 1px solid var(--gold); padding: 4px 12px; border-radius: 20px;">STATUS: FETCHING...</span>
     </div>
 
     <div class="header-section">
@@ -55,63 +57,36 @@
     <form id="profileForm" onsubmit="handleUpdate(event)">
         <div class="photo-section">
             <div class="profile-ring">
-                <img id="Photo_Link_Preview" src="https://via.placeholder.com/150" alt="Profile">
+                <img id="Photo_Preview" src="https://via.placeholder.com/150" alt="Profile">
             </div>
             <input type="file" id="photoInp" style="display:none" onchange="previewImg(event)">
-            <p id="changeText" style="font-size:11px; color:var(--accent); cursor:pointer; margin-top:8px; display:none" onclick="document.getElementById('photoInp').click()">CHANGE PHOTO</p>
+            <p id="changeText" style="font-size:11px; color:var(--accent); cursor:pointer; margin-top:10px; display:none" onclick="document.getElementById('photoInp').click()">CHANGE PHOTO</p>
         </div>
 
         <div class="data-grid">
-            <div class="form-group">
-                <label>Partner ID</label>
-                <input type="text" id="Partner_ID" disabled>
-            </div>
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="Name" disabled>
-            </div>
-            <div class="form-group">
-                <label>Mobile Number</label>
-                <input type="text" id="Mobile" disabled maxlength="10">
-            </div>
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="Email" disabled>
-            </div>
+            <div class="section-title">PERSONAL IDENTITY</div>
+            <div class="form-group"><label>Partner ID</label><input type="text" id="Partner_ID" disabled></div>
+            <div class="form-group"><label>Full Name</label><input type="text" id="Name" placeholder="Fetching..." disabled></div>
+            <div class="form-group"><label>Date of Birth</label><input type="date" id="DOB" disabled></div>
+            <div class="form-group"><label>Mobile</label><input type="text" id="Mobile" placeholder="Fetching..." disabled></div>
+            <div class="form-group"><label>Email</label><input type="email" id="Email" disabled></div>
+            <div class="form-group"><label>Address</label><textarea id="Address" rows="1" disabled></textarea></div>
+
+            <div class="section-title">PROFESSIONAL DETAILS</div>
             <div class="form-group">
                 <label>Profession</label>
                 <select id="Profession" disabled onchange="toggleMembership()">
                     <option value="">Fetching...</option>
                 </select>
             </div>
-            <div class="form-group" id="membership-box">
-                <label>Membership Number</label>
-                <input type="text" id="Membership_Number" disabled>
-            </div>
-            <div class="form-group">
-                <label>PAN Number</label>
-                <input type="text" id="PAN_Number" style="text-transform:uppercase" disabled maxlength="10">
-            </div>
-            <div class="form-group">
-                <label>Bank Name</label>
-                <input type="text" id="Bank_Name" disabled>
-            </div>
-            <div class="form-group">
-                <label>Account Number</label>
-                <input type="text" id="Account_Number" disabled>
-            </div>
-            <div class="form-group">
-                <label>IFSC Code</label>
-                <input type="text" id="IFSC_Code" style="text-transform:uppercase" disabled>
-            </div>
-            <div class="form-group">
-                <label>Address</label>
-                <textarea id="Address" rows="1" disabled></textarea>
-            </div>
-            <div class="form-group">
-                <label>Referral Code</label>
-                <input type="text" id="Referral_Code" style="color:var(--gold);" disabled>
-            </div>
+            <div class="form-group" id="membership-box"><label>Membership No.</label><input type="text" id="Membership_Number" disabled></div>
+            <div class="form-group"><label>PAN Number</label><input type="text" id="PAN_Number" style="text-transform:uppercase" disabled maxlength="10"></div>
+            <div class="form-group"><label>Referral Code</label><input type="text" id="Referral_Code" style="color:var(--gold)" disabled></div>
+
+            <div class="section-title">BANKING FOR PAYOUTS</div>
+            <div class="form-group"><label>Bank Name</label><input type="text" id="Bank_Name" disabled></div>
+            <div class="form-group"><label>Account Number</label><input type="text" id="Account_Number" disabled></div>
+            <div class="form-group"><label>IFSC Code</label><input type="text" id="IFSC_Code" style="text-transform:uppercase" disabled></div>
         </div>
 
         <div class="button-group">
@@ -129,57 +104,52 @@
     
     window.onload = () => {
         const token = localStorage.getItem('userToken');
-        if(!token) return alert("Login Required");
-        loadProfileData(token);
+        if(!token) return alert("Login Required!");
+        loadProfile(token);
     }
 
-    async function loadProfileData(token) {
+    async function loadProfile(token) {
         try {
-            // URL clean build kar rahe hain bina kisi space ke
-            const params = new URLSearchParams({
-                action: 'get-partner-profile',
-                token: token
-            });
-            const response = await fetch(`${API}?${params.toString()}`);
-            const data = await response.json();
+            const res = await fetch(`${API}?action=get-partner-profile&token=${token}`);
+            const data = await res.json();
             
-            if(data.status === "success") {
+            if(data.status === "success" && data.profile) {
                 const p = data.profile;
-                // Aapke sheet headers se mapping:
-                document.getElementById('Partner_ID').value = p.Partner_ID || '';
-                document.getElementById('Name').value = p.Name || '';
-                document.getElementById('Mobile').value = p.Mobile || '';
-                document.getElementById('Email').value = p.Email || '';
-                document.getElementById('Address').value = p.Address || '';
-                document.getElementById('PAN_Number').value = p.PAN_Number || '';
-                document.getElementById('Membership_Number').value = p.Membership_Number || '';
-                document.getElementById('Bank_Name').value = p.Bank_Name || '';
-                document.getElementById('Account_Number').value = p.Account_Number || '';
-                document.getElementById('IFSC_Code').value = p.IFSC_Code || '';
-                document.getElementById('Referral_Code').value = p.Referral_Code || 'Under Review';
+                const setVal = (id, val) => { if(document.getElementById(id)) document.getElementById(id).value = val || ''; };
+
+                setVal('Partner_ID', p.Partner_ID);
+                setVal('Name', p.Name);
+                setVal('Mobile', p.Mobile);
+                setVal('Email', p.Email);
+                setVal('DOB', p.DOB ? p.DOB.split('T')[0] : ''); 
+                setVal('Address', p.Address);
+                setVal('PAN_Number', p.PAN_Number);
+                setVal('Membership_Number', p.Membership_Number);
+                setVal('Bank_Name', p.Bank_Name);
+                setVal('Account_Number', p.Account_Number);
+                setVal('IFSC_Code', p.IFSC_Code);
+                setVal('Referral_Code', p.Referral_Code);
+                
+                document.getElementById('Profile_Status').innerText = "STATUS: " + (p.Profile_Status || 'PENDING');
                 
                 const prof = document.getElementById('Profession');
-                prof.innerHTML = `<option value="${p.Profession || 'Others'}">${p.Profession || 'Others'}</option>
-                                  <option value="Chartered Accountant (CA)">Chartered Accountant (CA)</option>
-                                  <option value="Company Secretary (CS)">Company Secretary (CS)</option>
+                prof.innerHTML = `<option value="${p.Profession || ''}">${p.Profession || 'Select'}</option>
+                                  <option value="Chartered Accountant (CA)">CA</option>
+                                  <option value="Company Secretary (CS)">CS</option>
                                   <option value="Others">Others</option>`;
                 
-                if(p.Photo_Link) document.getElementById('Photo_Link_Preview').src = p.Photo_Link;
+                if(p.Photo_Link) document.getElementById('Photo_Preview').src = p.Photo_Link;
                 toggleMembership();
             }
-        } catch(e) {
-            console.error("DNS/Fetch Error:", e);
-            alert("Network Error: Could not connect to the server.");
-        }
+        } catch(e) { console.error("Data Load Error", e); }
     }
 
     function activateEdit() {
         document.getElementById('editBtn').style.display = 'none';
         document.getElementById('editActions').style.display = 'flex';
         document.getElementById('changeText').style.display = 'block';
-        
-        const fields = ['Name', 'Mobile', 'Address', 'Profession', 'PAN_Number', 'Membership_Number', 'Bank_Name', 'Account_Number', 'IFSC_Code'];
-        fields.forEach(id => document.getElementById(id).disabled = false);
+        const editable = ['Name', 'Mobile', 'DOB', 'Address', 'Profession', 'PAN_Number', 'Membership_Number', 'Bank_Name', 'Account_Number', 'IFSC_Code'];
+        editable.forEach(id => document.getElementById(id).disabled = false);
     }
 
     function toggleMembership() {
@@ -189,7 +159,7 @@
 
     function previewImg(e) {
         const reader = new FileReader();
-        reader.onload = () => document.getElementById('Photo_Link_Preview').src = reader.result;
+        reader.onload = () => document.getElementById('Photo_Preview').src = reader.result;
         reader.readAsDataURL(e.target.files[0]);
     }
 
@@ -203,6 +173,7 @@
             token: localStorage.getItem('userToken'),
             Name: document.getElementById('Name').value,
             Mobile: document.getElementById('Mobile').value,
+            DOB: document.getElementById('DOB').value,
             Address: document.getElementById('Address').value,
             Profession: document.getElementById('Profession').value,
             PAN_Number: document.getElementById('PAN_Number').value,
@@ -215,10 +186,7 @@
         try {
             const res = await fetch(API, { method: 'POST', body: JSON.stringify(payload) });
             const result = await res.json();
-            if(result.status === "success") {
-                alert("Profile Updated!");
-                location.reload();
-            }
+            if(result.status === "success") { alert("Profile Updated!"); location.reload(); }
         } catch(err) { alert("Update failed."); }
         saveBtn.innerText = "Save Changes";
     }
