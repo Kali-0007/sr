@@ -380,40 +380,56 @@
     // --- 2. Data Fetching & Form Submit ---
 
     async function loadPartnerProfile() {
-        const token = localStorage.getItem('userToken');
-        if (!token) {
-            alert("Session expired. Please login again.");
-            // window.location.href = "login.html"; // Isko uncomment karein login page ke liye
-            return;
-        }
-
-        try {
-            // Apps Script requires POST for many actions but using fetch we need to handle it carefully
-            const response = await fetch(`${API_URL}?action=get-partner-profile&token=${token}`);
-            const data = await response.json();
-
-            if (data.status === "success" && data.profile) {
-                const p = data.profile;
-                document.getElementById('fullName').value = p.name || '';
-                document.getElementById('email').value = p.email || '';
-                document.getElementById('mobile').value = p.mobile || '';
-                document.getElementById('address').value = p.address || '';
-                document.getElementById('profession').value = p.profession || 'Others';
-                document.getElementById('panNumber').value = p.panNumber || '';
-                document.getElementById('membershipNo').value = p.membershipNumber || '';
-                document.getElementById('bankName').value = p.bankName || '';
-                document.getElementById('accountNo').value = p.accountNumber || '';
-                document.getElementById('ifscCode').value = p.ifscCode || '';
-                document.getElementById('partnerId').value = p.partnerId || 'PENDING';
-
-                if (p.photoLink) document.getElementById('profileImg').src = p.photoLink;
-                
-                handleProfessionChange();
-            }
-        } catch (error) {
-            console.error("Failed to load profile:", error);
-        }
+    console.log("Profile loading started...");
+    const token = localStorage.getItem('userToken');
+    
+    if (!token) {
+        console.error("Token nahi mila!");
+        alert("Session expired. Please login again.");
+        return;
     }
+
+    try {
+        // Hum yahan URL ke saath token bhej rahe hain (GET method)
+        const fetchUrl = `${API_URL}?action=get-partner-profile&token=${token}`;
+        console.log("Fetching from:", fetchUrl);
+
+        const response = await fetch(fetchUrl);
+        const data = await response.json();
+        
+        console.log("Backend se data aaya:", data);
+
+        if (data.status === "success" && data.profile) {
+            const p = data.profile;
+            
+            // Dummy data ko overwrite kar rahe hain
+            document.getElementById('fullName').value = p.name || "";
+            document.getElementById('email').value = p.email || "";
+            document.getElementById('mobile').value = p.mobile || "";
+            document.getElementById('address').value = p.address || "";
+            document.getElementById('profession').value = p.profession || "Others";
+            document.getElementById('panNumber').value = p.panNumber || "";
+            document.getElementById('membershipNo').value = p.membershipNumber || "";
+            document.getElementById('bankName').value = p.bankName || "";
+            document.getElementById('accountNo').value = p.accountNumber || "";
+            document.getElementById('ifscCode').value = p.ifscCode || "";
+            document.getElementById('partnerId').value = p.partnerId || "PENDING";
+
+            // Photo update
+            if (p.photoLink) {
+                document.getElementById('profileImg').src = p.photoLink;
+            }
+
+            // UI Adjustments
+            handleProfessionChange(); 
+            console.log("Form successfully fill ho gaya!");
+        } else {
+            console.warn("Data to aaya par success nahi tha:", data.message);
+        }
+    } catch (error) {
+        console.error("Profile load karne mein error:", error);
+    }
+}
 
     // --- 3. Event Listeners (On Page Load) ---
 
