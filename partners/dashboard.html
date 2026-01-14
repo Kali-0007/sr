@@ -522,7 +522,7 @@ if (userPhoto && userPhoto !== "") {
     avatarElement.style.background = "transparent"; // Background clean kar do
 } else {
     // Agar photo nahi hai, toh initials dikhao (e.g., RK)
-    const savedName = localStorage.getItem('userName') || "Partner";
+    const savedName = localStorage.getItem('username') || "Partner";
     const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
     avatarElement.innerText = initials.substring(0, 2);
 }
