@@ -224,6 +224,120 @@ function checkProfession(val) {
     box.style.display = (val === 'CA' || val === 'CS') ? 'block' : 'none';
 }
 
+async function showProfile() {
+    const mainArea = document.getElementById('mainContent');
+    const token = localStorage.getItem('userToken');
+
+    mainArea.innerHTML = `<div class="glass-card" style="text-align:center; padding:100px 0;"><div class="spinner"></div><p>Syncing Professional Profile...</p></div>`;
+
+    try {
+        const response = await fetch(`${API}?action=check-partner-profile-status&token=${token}`);
+        const data = await response.json();
+
+        if (data.status === "success") {
+            renderProfileUI(data.profile);
+        } else {
+            alert("Error: " + data.message);
+        }
+    } catch (e) {
+        alert("Connection failed!");
+    }
+}
+
+function renderProfileUI(p) {
+    const mainArea = document.getElementById('mainContent');
+    const photoUrl = p.photoLink || 'https://via.placeholder.com/150';
+    const s = (p.profileStatus || "PENDING").toUpperCase();
+    
+    let badgeColor = "#ffcc00";
+    if (s === "ACTIVE" || s === "APPROVED") badgeColor = "#00ccbb";
+    else if (s === "REJECTED" || s === "BLACKLISTED") badgeColor = "#ff4d4d";
+    else if (s === "UNDER REVIEW") badgeColor = "#00acee";
+
+    if (s === "BLACKLISTED") {
+        mainArea.innerHTML = `<div class="glass-card" style="padding:50px; text-align:center; margin-top:100px;"><h1>🚫</h1><h2>ACCOUNT TERMINATED</h2><button onclick="localStorage.clear(); location.reload();" class="btn btn-teal">LOGOUT</button></div>`;
+        return; 
+    }
+
+    const dobForInput = p.dob ? new Date(p.dob).toISOString().split('T')[0] : "";
+
+    mainArea.innerHTML = `
+        <div class="animate-fade-in" style="max-width: 950px; margin: 0 auto; padding-bottom: 50px;">
+            <div class="glass-card" style="padding: 40px; border-top: 5px solid var(--primary-teal);">
+                <form id="profileForm">
+                    <div style="text-align: center; margin-bottom: 40px;">
+                        <div style="position: relative; display: inline-block;">
+                            <img src="${photoUrl}" id="profile-img-preview" 
+                                 style="width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--primary-teal); object-fit: cover; object-position: center; aspect-ratio: 1/1; display: block; padding: 5px; background: rgba(255,255,255,0.05);">
+                            ${isEditMode ? `<label for="upd-photo" style="position: absolute; bottom: 8px; right: 8px; background: var(--primary-teal); color: white; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; border: 2px solid #fff;"><span>✎</span></label><input type="file" id="upd-photo" style="display:none" accept="image/*" onchange="previewImage(this)">` : ''}
+                        </div>
+                        <h2 style="margin-top:15px; font-size: 22px; color: #fff;">${p.fullName || 'Partner Name'}</h2>
+                        <div style="margin-top: 5px;">
+                            <span style="background: ${badgeColor}33; color: ${badgeColor}; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; border: 1px solid ${badgeColor};">● ${s}</span>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px;">
+                        <div><label>FULL NAME</label><input type="text" id="upd-name" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.fullName || ''}" ${!isEditMode ? 'readonly' : ''}></div>
+                        <div><label>DATE OF BIRTH</label><input type="date" id="upd-dob" class="btn btn-outline" style="width:100%; text-align:left;" value="${dobForInput}" ${!isEditMode ? 'readonly' : ''}></div>
+                        <div><label>EMAIL ADDRESS</label><input type="text" class="btn btn-outline" style="width:100%; text-align:left; background: rgba(255,255,255,0.02);" value="${p.email || localStorage.getItem('userEmail') || ''}" readonly></div>
+                        <div><label>MOBILE NUMBER</label><input type="text" id="upd-mobile" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.mobile || ''}" ${!isEditMode ? 'readonly' : ''}></div>
+                        
+                        <div><label>PROFESSION</label>
+                            ${!isEditMode ? `<input type="text" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.profession || ''}" readonly>` : 
+                            `<select id="upd-profession" class="btn btn-outline" style="width:100%; text-align:left;" onchange="handleProfessionLogic(this.value)">
+                                <option value="Tax Consultant" ${p.profession === 'Tax Consultant' ? 'selected' : ''}>Tax Consultant</option>
+                                <option value="CA" ${p.profession === 'CA' ? 'selected' : ''}>Chartered Accountant (CA)</option>
+                                <option value="CS" ${p.profession === 'CS' ? 'selected' : ''}>Company Secretary (CS)</option>
+                                <option value="Advocate" ${p.profession === 'Advocate' ? 'selected' : ''}>Advocate</option>
+                                <option value="Other" ${p.profession === 'Other' ? 'selected' : ''}>Other</option>
+                            </select>`}
+                        </div>
+
+                        <div id="other-profession-box" style="display: ${p.profession === 'Other' ? 'block' : 'none'};">
+                            <label>SPECIFY PROFESSION</label>
+                            <input type="text" id="upd-other-spec" class="btn btn-outline" style="width:100%;" value="${p.otherProfession || ''}" ${!isEditMode ? 'readonly' : ''}>
+                        </div>
+
+                        <div id="membership-box" style="display: ${(p.profession === 'CA' || p.profession === 'CS') ? 'block' : 'none'};">
+                            <label>MEMBERSHIP NO.</label>
+                            <input type="text" id="upd-membership" class="btn btn-outline" style="width:100%;" value="${p.membershipNumber || ''}" ${!isEditMode ? 'readonly' : ''}>
+                        </div>
+
+                        <div><label>PAN NUMBER</label><input type="text" id="upd-pan" class="btn btn-outline" style="width:100%;" value="${p.panNumber || ''}" ${!isEditMode ? 'readonly' : ''}></div>
+                        <div><label>BANK NAME</label><input type="text" id="upd-bank" class="btn btn-outline" style="width:100%;" value="${p.bankName || ''}" ${!isEditMode ? 'readonly' : ''}></div>
+                        <div><label>ACCOUNT NUMBER</label><input type="text" id="upd-acc" class="btn btn-outline" style="width:100%;" value="${p.accountNumber || ''}" ${!isEditMode ? 'readonly' : ''}></div>
+                        <div><label>IFSC CODE</label><input type="text" id="upd-ifsc" class="btn btn-outline" style="width:100%;" value="${p.ifscCode || ''}" ${!isEditMode ? 'readonly' : ''}></div>
+
+                        <div style="grid-column: span 2;">
+                            <label>PAN CARD (JPG/PDF)</label>
+                            <div style="margin-top:5px;">
+                                ${isEditMode ? `<input type="file" id="upd-pan-file" accept=".jpg,.jpeg,.png,.pdf">` : 
+                                `<div class="btn btn-outline" style="text-align:left; border-style:dashed;">${p.panDocLink ? `✅ <a href="${p.panDocLink}" target="_blank" style="color:var(--primary-teal);">View PAN</a>` : '❌ Missing'}</div>`}
+                            </div>
+                        </div>
+
+                        <div><label style="color:var(--secondary-gold);">REFERRAL CODE</label>
+                            <input type="text" class="btn btn-outline" style="width:100%; color:var(--secondary-gold); border:1px dashed var(--secondary-gold);" value="${(s === 'ACTIVE' || s === 'APPROVED') ? (p.referralCode || 'NOT ASSIGNED') : 'Locked until Approval'}" readonly>
+                        </div>
+
+                        <div style="grid-column: span 2;"><label>ADDRESS</label><textarea id="upd-address" class="btn btn-outline" style="width:100%; min-height:80px;" ${!isEditMode ? 'readonly' : ''}>${p.address || ''}</textarea></div>
+                    </div>
+
+                    <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
+                        ${!isEditMode ? `<button type="button" onclick="toggleEdit(true)" class="btn btn-teal" style="padding:16px 60px;">✎ EDIT PROFILE</button>` : 
+                        `<button type="submit" class="btn btn-teal" style="padding:16px 60px;">SAVE CHANGES</button><button type="button" onclick="toggleEdit(false)" class="btn btn-outline" style="color:#ff4d4d;">CANCEL</button>`}
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    if(isEditMode) {
+        setTimeout(attachSubmit, 200); 
+    }
+}
+
 async function attachSubmit() {
     const form = document.getElementById('profileForm');
     if (!form) return;
@@ -236,31 +350,19 @@ async function attachSubmit() {
         btn.disabled = true;
 
         try {
-            // 1. Profile Image Handling
             const photoFile = document.getElementById('upd-photo')?.files[0];
             let photoBase64 = null;
             if (photoFile) {
-                photoBase64 = await new Promise(resolve => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result.split(',')[1]);
-                    reader.readAsDataURL(photoFile);
-                });
+                photoBase64 = await new Promise(r => { const reader = new FileReader(); reader.onload = () => r(reader.result.split(',')[1]); reader.readAsDataURL(photoFile); });
             }
 
-            // 2. PAN Card File Handling (PDF & JPG Support)
             const panFile = document.getElementById('upd-pan-file')?.files[0];
-            let panBase64 = null;
-            let panMimeType = null; 
+            let panBase64 = null; let panMimeType = null;
             if (panFile) {
                 panMimeType = panFile.type;
-                panBase64 = await new Promise(resolve => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result.split(',')[1]);
-                    reader.readAsDataURL(panFile);
-                });
+                panBase64 = await new Promise(r => { const reader = new FileReader(); reader.onload = () => r(reader.result.split(',')[1]); reader.readAsDataURL(panFile); });
             }
 
-            // 3. Final Data Payload (ONLY ONE DECLARATION)
             const payload = {
                 action: "update-partner-profile",
                 token: localStorage.getItem('userToken'),
@@ -275,41 +377,36 @@ async function attachSubmit() {
                 accountNumber: document.getElementById('upd-acc').value,
                 ifscCode: document.getElementById('upd-ifsc').value,
                 address: document.getElementById('upd-address').value,
-                
-                // File Data
-                panBlob: panBase64,
-                panName: panFile ? panFile.name : null,
-                panMime: panMimeType, // <--- Corrected mapping
-                photoBlob: photoBase64,
+                panBlob: panBase64, 
+                panName: panFile ? panFile.name : null, 
+                panMime: panMimeType,
+                photoBlob: photoBase64, 
                 photoName: photoFile ? photoFile.name : null,
-                
-                // Security
                 resolution: window.screen.width + "x" + window.screen.height
             };
 
-            // 4. API Request
-            const res = await fetch(API, { 
-                method: 'POST', 
-                body: JSON.stringify(payload) 
-            });
+            const res = await fetch(API, { method: 'POST', body: JSON.stringify(payload) });
             const result = await res.json();
             
             if(result.status === "success") {
                 alert("Profile Updated Successfully!");
                 isEditMode = false;
                 showProfile(); 
-            } else {
-                alert("Update Error: " + result.message);
-            }
-        } catch (e) {
-            console.error("Submission Error:", e);
-            alert("Network Error! Please try again.");
-        } finally {
-            btn.innerText = originalText;
-            btn.disabled = false;
-        }
+            } else { alert("Error: " + result.message); }
+        } catch (e) { alert("Network Error!"); } 
+        finally { btn.innerText = originalText; btn.disabled = false; }
     };
 }
+
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => { document.getElementById('profile-img-preview').src = e.target.result; };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function toggleEdit(mode) { isEditMode = mode; showProfile(); }
 
 function handleProfessionLogic(val) {
     // 1. Membership box handle karein
