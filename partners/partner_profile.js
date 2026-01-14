@@ -243,16 +243,28 @@ async function attachSubmit() {
             });
         }
 
-        // 2. PAN Card File Handling
-        const panFile = document.getElementById('upd-pan-file')?.files[0];
-        let panBase64 = null;
-        if (panFile) {
-            panBase64 = await new Promise(resolve => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.readAsDataURL(panFile);
-            });
-        }
+        // 2. PAN Card File Handling (Updated for PDF & JPG)
+const panFile = document.getElementById('upd-pan-file')?.files[0];
+let panBase64 = null;
+let panMimeType = null; 
+
+if (panFile) {
+    panMimeType = panFile.type; // Ye PDF ya JPG ko identify karega
+    panBase64 = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(panFile);
+    });
+}
+
+// Payload mein ise niche aise jodiye
+const payload = {
+    action: "update-partner-profile",
+    // ... baki fields ...
+    panBlob: panBase64,
+    panName: panFile ? panFile.name : null,
+    panMime: panMimeType // Ye backend ko batayega ki file PDF hai
+};
 
         // 3. Data Payload Construction
         const payload = {
