@@ -24,8 +24,36 @@ async function showProfile() {
 function renderProfileUI(p) {
     const mainArea = document.getElementById('mainContent');
     const photoUrl = p.photoLink || 'https://via.placeholder.com/150';
-    const isApproved = (p.profileStatus === "Active" || p.profileStatus === "Approved");
+    // Purani isApproved wali line ki jagah ye paste karein:
+const s = (p.profileStatus || "PENDING").toUpperCase();
+let badgeColor = "#ffcc00"; // Default Yellow (Pending)
 
+if (s === "ACTIVE" || s === "APPROVED") {
+    badgeColor = "#00ccbb"; // Teal Green
+} else if (s === "REJECTED" || s === "BLACKLISTED") {
+    badgeColor = "#ff4d4d"; // Red
+} else if (s === "UNDER REVIEW") {
+    badgeColor = "#00acee"; // Blue
+} else if (s === "ON HOLD") {
+    badgeColor = "#ff9900"; // Orange
+}
+
+// Security: Blacklisted user ko dashboard se bahar phenk do
+if (s === "BLACKLISTED") {
+    mainArea.innerHTML = `
+        <div class="animate-fade-in" style="max-width: 600px; margin: 100px auto; text-align: center;">
+            <div class="glass-card" style="padding: 50px; border-top: 5px solid #ff4d4d;">
+                <h1 style="font-size: 60px; margin-bottom: 20px;">🚫</h1>
+                <h2 style="color: #fff; margin-bottom: 15px;">ACCOUNT TERMINATED</h2>
+                <p style="color: var(--text-gray); line-height: 1.6;">Aapka account policy violations ya fraud ki wajah se permanent block kar diya gaya hai.</p>
+                <button onclick="localStorage.clear(); location.reload();" class="btn btn-teal" style="margin-top: 30px; background: #ff4d4d; border:none; padding:10px 30px; border-radius:20px; color:white; cursor:pointer;">LOGOUT</button>
+            </div>
+        </div>`;
+    return; 
+}
+
+const isApproved = (s === "ACTIVE" || s === "APPROVED");
+// Iske baad aapka mainArea.innerHTML wala code shuru hoga...
     mainArea.innerHTML = `
         <div class="animate-fade-in" style="max-width: 950px; margin: 0 auto; padding-bottom: 50px;">
             <div class="glass-card" style="padding: 40px; border-top: 5px solid var(--primary-teal);">
