@@ -497,6 +497,10 @@
 
         // Naya: Profile status check call karo
         checkProfileCompletion();
+        // Security: Check if token exists, else redirect to login
+        if (!localStorage.getItem('userToken')) {
+            window.location.href = 'login.html'; 
+        }
     });
 
     // 5. Responsive Header Adjustment (tumhara purana code – same)
