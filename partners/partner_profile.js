@@ -225,78 +225,69 @@ function checkProfession(val) {
 }
 
 async function attachSubmit() {
-    document.getElementById('profileForm').onsubmit = async (e) => {
+    const form = document.getElementById('profileForm');
+    if (!form) return;
+
+    form.onsubmit = async (e) => {
         e.preventDefault();
         const btn = e.target.querySelector('button[type="submit"]');
         const originalText = btn.innerText;
         btn.innerText = "SAVING..."; 
         btn.disabled = true;
 
-        // 1. Profile Image Handling
-        const photoFile = document.getElementById('upd-photo')?.files[0];
-        let photoBase64 = null;
-        if (photoFile) {
-            photoBase64 = await new Promise(resolve => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.readAsDataURL(photoFile);
-            });
-        }
-
-        // 2. PAN Card File Handling (Updated for PDF & JPG)
-const panFile = document.getElementById('upd-pan-file')?.files[0];
-let panBase64 = null;
-let panMimeType = null; 
-
-if (panFile) {
-    panMimeType = panFile.type; // Ye PDF ya JPG ko identify karega
-    panBase64 = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.readAsDataURL(panFile);
-    });
-}
-
-// Payload mein ise niche aise jodiye
-const payload = {
-    action: "update-partner-profile",
-    // ... baki fields ...
-    panBlob: panBase64,
-    panName: panFile ? panFile.name : null,
-    panMime: panMimeType // Ye backend ko batayega ki file PDF hai
-};
-
-        // 3. Data Payload Construction
-        const payload = {
-            action: "update-partner-profile",
-            token: localStorage.getItem('userToken'),
-            fullName: document.getElementById('upd-name').value,
-            dob: document.getElementById('upd-dob').value,
-            mobile: document.getElementById('upd-mobile').value,
-            profession: document.getElementById('upd-profession').value,
-            
-            // Other Profession data
-            otherProfession: document.getElementById('upd-other-spec')?.value || "",
-            
-            membershipNumber: document.getElementById('upd-membership')?.value || "",
-            panNumber: document.getElementById('upd-pan').value,
-            
-            // PAN File data
-            panBlob: panBase64,
-            panName: panFile ? panFile.name : null,
-            
-            bankName: document.getElementById('upd-bank').value,
-            accountNumber: document.getElementById('upd-acc').value,
-            ifscCode: document.getElementById('upd-ifsc').value,
-            address: document.getElementById('upd-address').value,
-            
-            // Photo data
-            photoBlob: photoBase64,
-            photoName: photoFile ? photoFile.name : null
-        };
-
-        // 4. API Request
         try {
+            // 1. Profile Image Handling
+            const photoFile = document.getElementById('upd-photo')?.files[0];
+            let photoBase64 = null;
+            if (photoFile) {
+                photoBase64 = await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.readAsDataURL(photoFile);
+                });
+            }
+
+            // 2. PAN Card File Handling (PDF & JPG Support)
+            const panFile = document.getElementById('upd-pan-file')?.files[0];
+            let panBase64 = null;
+            let panMimeType = null; 
+            if (panFile) {
+                panMimeType = panFile.type;
+                panBase64 = await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.readAsDataURL(panFile);
+                });
+            }
+
+            // 3. Final Data Payload (ONLY ONE DECLARATION)
+            const payload = {
+                action: "update-partner-profile",
+                token: localStorage.getItem('userToken'),
+                fullName: document.getElementById('upd-name').value,
+                dob: document.getElementById('upd-dob').value,
+                mobile: document.getElementById('upd-mobile').value,
+                profession: document.getElementById('upd-profession').value,
+                otherProfession: document.getElementById('upd-other-spec')?.value || "",
+                membershipNumber: document.getElementById('upd-membership')?.value || "",
+                panNumber: document.getElementById('upd-pan').value,
+                bankName: document.getElementById('upd-bank').value,
+                accountNumber: document.getElementById('upd-acc').value,
+                ifscCode: document.getElementById('upd-ifsc').value,
+                address: document.getElementById('upd-address').value,
+                
+                // File Data
+                panBlob: panBase64,
+                panName: panFile ? panFile.name : null,
+                panMime: panMimeType, // <--- Corrected mapping
+                photoBlob: photoBase64,
+                photoName: photoFile ? photoFile.name : null,
+                
+                // Security
+                resolution: window.screen.width + "x" + window.screen.height
+            };
+
+            // 4. API Request
             const res = await fetch(API, { 
                 method: 'POST', 
                 body: JSON.stringify(payload) 
@@ -305,21 +296,14 @@ const payload = {
             
             if(result.status === "success") {
                 alert("Profile Updated Successfully!");
-                
-                // Force Update Profile Image Circle if new photo URL is returned
-                if(result.newPhoto) {
-                    const imgPreview = document.getElementById('profile-img-preview');
-                    if(imgPreview) imgPreview.src = result.newPhoto + "?t=" + new Date().getTime();
-                }
-
                 isEditMode = false;
-                showProfile(); // Full UI Sync
+                showProfile(); 
             } else {
                 alert("Update Error: " + result.message);
             }
         } catch (e) {
             console.error("Submission Error:", e);
-            alert("Network Error! Please check your connection.");
+            alert("Network Error! Please try again.");
         } finally {
             btn.innerText = originalText;
             btn.disabled = false;
