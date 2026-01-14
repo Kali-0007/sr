@@ -84,7 +84,7 @@ const isApproved = (s === "ACTIVE" || s === "APPROVED");
     </div>
     <h2 style="margin-top:15px; font-size: 22px; color: #fff;">${p.fullName || 'Partner Name'}</h2>
     </div>
-                        <h2 style="margin-top:15px; font-size: 22px; color: #fff;">${p.fullName || 'Partner Name'}</h2>
+                        
                         <div style="margin-top: 5px;">
                             <span style="background: ${badgeColor}33; color: ${badgeColor}; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; border: 1px solid ${badgeColor}; text-transform: uppercase;">
     ● ${s || 'PENDING'}
