@@ -113,6 +113,22 @@ function renderProfileUI(p) {
                             <input type="text" id="upd-ifsc" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.ifscCode || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
                         <div>
+    <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">IFSC CODE</label>
+    <input type="text" id="upd-ifsc" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.ifscCode || ''}" ${!isEditMode ? 'readonly' : ''}>
+</div>
+
+<div style="grid-column: span 2; margin-top: 10px;">
+    <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">UPLOAD PAN CARD (JPG/PDF) *</label>
+    <div style="display: flex; align-items: center; gap: 15px; margin-top: 5px;">
+        ${isEditMode ? 
+            `<input type="file" id="upd-pan-file" accept=".jpg,.jpeg,.png,.pdf" style="color: white; font-size: 12px;">` : 
+            `<div class="btn btn-outline" style="width:100%; text-align:left; background: rgba(0,204,187,0.05); color: var(--primary-teal); border-style: dashed;">
+                ${p.panDocLink ? `✅ <a href="${p.panDocLink}" target="_blank" style="color:var(--primary-teal); text-decoration:none;">View Uploaded PAN</a>` : '❌ PAN Card Missing'}
+             </div>`
+        }
+    </div>
+</div>
+                        <div>
                             <label style="font-size: 11px; color: var(--secondary-gold); font-weight: 600;">REFERRAL CODE</label>
                             <input type="text" class="btn btn-outline" style="width:100%; text-align:left; border: 1px dashed var(--secondary-gold); color: var(--secondary-gold); font-weight: bold;" 
                                 value="${isApproved ? (p.referralCode || 'GENERATING...') : 'Unlock After Admin Approval'}" readonly>
