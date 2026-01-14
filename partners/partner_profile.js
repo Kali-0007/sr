@@ -18,13 +18,14 @@ async function showProfile() {
 
     try {
         // Aapka backend POST mangta hai token check karne ke liye
-        const response = await fetch(API, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: "get-partner-profile", 
-                token: token
-            })
-        });
+        // partner_profile.js ke andar
+const response = await fetch(API, {
+    method: 'POST',
+    body: JSON.stringify({
+        action: "check-partner-profile-status", // <-- Ye naam backend se match hona chahiye
+        token: token
+    })
+});
         const data = await response.json();
 
         if (data.status === "success") {
