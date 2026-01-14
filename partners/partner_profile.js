@@ -181,22 +181,43 @@ async function attachSubmit() {
             });
         }
 
-        const payload = {
-            action: "update-partner-profile",
-            token: localStorage.getItem('userToken'),
-            fullName: document.getElementById('upd-name').value,
-            dob: document.getElementById('upd-dob').value,
-            mobile: document.getElementById('upd-mobile').value,
-            profession: document.getElementById('upd-profession').value,
-            membershipNumber: document.getElementById('upd-membership')?.value || "",
-            panNumber: document.getElementById('upd-pan').value,
-            bankName: document.getElementById('upd-bank').value,
-            accountNumber: document.getElementById('upd-acc').value,
-            ifscCode: document.getElementById('upd-ifsc').value,
-            address: document.getElementById('upd-address').value,
-            photoBlob: photoBase64,
-            photoName: photoFile ? photoFile.name : null
-        };
+        // Pehle PAN file ka base64 nikalna hoga (Upar photo ki tarah)
+const panFile = document.getElementById('upd-pan-file')?.files[0];
+let panBase64 = null;
+if (panFile) {
+    panBase64 = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(panFile);
+    });
+}
+
+const payload = {
+    action: "update-partner-profile",
+    token: localStorage.getItem('userToken'),
+    fullName: document.getElementById('upd-name').value,
+    dob: document.getElementById('upd-dob').value,
+    mobile: document.getElementById('upd-mobile').value,
+    profession: document.getElementById('upd-profession').value,
+    
+    // Naya Addition 1: Other Profession specify wala data
+    otherProfession: document.getElementById('upd-other-spec')?.value || "",
+    
+    membershipNumber: document.getElementById('upd-membership')?.value || "",
+    panNumber: document.getElementById('upd-pan').value,
+    
+    // Naya Addition 2: PAN File data
+    panBlob: panBase64,
+    panName: panFile ? panFile.name : null,
+    
+    bankName: document.getElementById('upd-bank').value,
+    accountNumber: document.getElementById('upd-acc').value,
+    ifscCode: document.getElementById('upd-ifsc').value,
+    address: document.getElementById('upd-address').value,
+    
+    photoBlob: photoBase64,
+    photoName: photoFile ? photoFile.name : null
+};
 
         try {
             const res = await fetch(API, { 
