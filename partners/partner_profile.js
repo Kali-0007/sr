@@ -224,25 +224,7 @@ function checkProfession(val) {
     box.style.display = (val === 'CA' || val === 'CS') ? 'block' : 'none';
 }
 
-async function showProfile() {
-    const mainArea = document.getElementById('mainContent');
-    const token = localStorage.getItem('userToken');
 
-    mainArea.innerHTML = `<div class="glass-card" style="text-align:center; padding:100px 0;"><div class="spinner"></div><p>Syncing Professional Profile...</p></div>`;
-
-    try {
-        const response = await fetch(`${API}?action=check-partner-profile-status&token=${token}`);
-        const data = await response.json();
-
-        if (data.status === "success") {
-            renderProfileUI(data.profile);
-        } else {
-            alert("Error: " + data.message);
-        }
-    } catch (e) {
-        alert("Connection failed!");
-    }
-}
 
 function renderProfileUI(p) {
     const mainArea = document.getElementById('mainContent');
