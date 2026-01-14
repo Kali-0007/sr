@@ -260,7 +260,26 @@
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <div class="notif-dot"></div>
                 </div>
-                <div class="avatar">RK</div>
+               <div class="header-right">
+    <div id="profileImageContainer">
+        <div class="avatar" id="headerAvatar">RK</div>
+    </div>
+</div>
+                <div class="header-right">
+    <div class="icon-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <div class="notif-dot"></div>
+    </div>
+    <div class="avatar" id="headerAvatar">RK</div>
+    
+    <div class="icon-btn" onclick="logoutUser()" title="Logout" style="margin-left: 10px; color: var(--danger-red);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+    </div>
+</div>
             </div>
         </div>
     </header>
@@ -514,6 +533,13 @@
             header.style.boxShadow = 'none';
         }
     });
+        // Logout Function
+function logoutUser() {
+    if (confirm("Kya aap logout karna chahte hain?")) {
+        localStorage.clear(); // Saara session data saaf
+        window.location.href = "login.html"; // Login page par bhej do
+    }
+}
 </script>
     <script src="partner_profile.js"></script>
 </body>
