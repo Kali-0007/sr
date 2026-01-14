@@ -90,7 +90,14 @@ const isApproved = (s === "ACTIVE" || s === "APPROVED");
     <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">DATE OF BIRTH</label>
     <input type="date" id="upd-dob" class="btn btn-outline" style="width:100%; text-align:left;" value="${dobForInput}" ${!isEditMode ? 'readonly' : ''}>
 </div>
-
+// Email
+<div>
+    <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">EMAIL ADDRESS</label>
+    <input type="text" class="btn btn-outline" 
+           style="width:100%; text-align:left; background: rgba(255,255,255,0.02); color: var(--text-dim);" 
+           value="${p.email || localStorage.getItem('userEmail') || ''}" readonly>
+    <small style="font-size: 9px; color: #666;">* Email cannot be changed</small>
+</div>
                         <div>
                             <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">MOBILE NUMBER</label>
                             <input type="text" id="upd-mobile" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.mobile || ''}" ${!isEditMode ? 'readonly' : ''}>
