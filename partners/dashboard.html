@@ -492,11 +492,40 @@
         }
     }
 
-    // 4. Trigger Animations on Load + Profile Check (tumhara purana code + naya call)
+    // 4. Trigger Animations on Load + Profile Check
     window.addEventListener('DOMContentLoaded', () => {
-        // Tumhara purana animation code
+        // --- STEP A: SECURITY CHECK (Pehle ye check karo) ---
+        if (!localStorage.getItem('userToken')) {
+            window.location.href = 'login.html';
+            return; // Aage ka code mat chalao
+        }
+
+        // --- STEP B: NAAM AUR PHOTO UPDATE KARO ---
+        const savedName = localStorage.getItem('username') || "Partner"; // Login page wala 'username'
+        const userPhoto = localStorage.getItem('userPhoto');
+        const nameElement = document.getElementById('userNameDisplay');
+        const avatarElement = document.getElementById('headerAvatar');
+
+        // 1. Welcome Message mein naam dalo
+        if (nameElement) {
+            nameElement.innerText = savedName;
+        }
+
+        // 2. Avatar/Photo update karo
+        if (avatarElement) {
+            if (userPhoto && userPhoto !== "") {
+                avatarElement.innerHTML = `<img src="${userPhoto}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+                avatarElement.style.background = "transparent";
+            } else {
+                // Initials nikalo (e.g. Ravindra Kumar -> RK)
+                const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
+                avatarElement.innerText = initials.substring(0, 2);
+            }
+        }
+
+        // --- STEP C: ANIMATIONS (Jo pehle se thi) ---
         const earningsDisplay = document.getElementById('lifetimeEarnings');
-        animateValue(earningsDisplay, 0, 124500, 1500);
+        if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
 
         const bars = document.querySelectorAll('.bar');
         setTimeout(() => {
@@ -506,27 +535,10 @@
                 setTimeout(() => bar.style.height = height, 100);
             });
         }, 500);
-const userPhoto = localStorage.getItem('userPhoto'); // Photo ka URL
-const avatarElement = document.getElementById('headerAvatar');
 
-if (userPhoto && userPhoto !== "") {
-    // Agar photo hai, toh RK hatao aur Image dalo
-    avatarElement.innerHTML = `<img src="${userPhoto}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-    avatarElement.style.background = "transparent"; // Background clean kar do
-} else {
-    // Agar photo nahi hai, toh initials dikhao (e.g., RK)
-    const savedName = localStorage.getItem('username') || "Partner";
-    const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
-    avatarElement.innerText = initials.substring(0, 2);
-}
-        // Naya: Profile status check call karo
+        // Profile status check call
         checkProfileCompletion();
-        // Security: Check if token exists, else redirect to login
-        if (!localStorage.getItem('userToken')) {
-            window.location.href = 'login.html'; 
-        }
     });
-
     // 5. Responsive Header Adjustment (tumhara purana code – same)
     window.addEventListener('scroll', () => {
         const header = document.querySelector('header');
