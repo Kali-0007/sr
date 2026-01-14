@@ -141,10 +141,7 @@ const isApproved = (s === "ACTIVE" || s === "APPROVED");
                             <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">IFSC CODE</label>
                             <input type="text" id="upd-ifsc" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.ifscCode || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
-                        <div>
-    <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">IFSC CODE</label>
-    <input type="text" id="upd-ifsc" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.ifscCode || ''}" ${!isEditMode ? 'readonly' : ''}>
-</div>
+                       
 
 <div style="grid-column: span 2; margin-top: 10px;">
     <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">UPLOAD PAN CARD (JPG/PDF) *</label>
