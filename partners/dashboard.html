@@ -494,19 +494,20 @@
 
     // 4. Trigger Animations on Load + Profile Check
     window.addEventListener('DOMContentLoaded', () => {
-        // --- STEP A: SECURITY CHECK (Pehle ye check karo) ---
+        // --- STEP A: SECURITY CHECK ---
         if (!localStorage.getItem('userToken')) {
             window.location.href = 'login.html';
-            return; // Aage ka code mat chalao
+            return; 
         }
 
         // --- STEP B: NAAM AUR PHOTO UPDATE KARO ---
-        const savedName = localStorage.getItem('username') || "Partner"; // Login page wala 'username'
+        // 'username' key wahi hai jo tumne login.html mein save ki hai
+        const savedName = localStorage.getItem('username') || "Partner"; 
         const userPhoto = localStorage.getItem('userPhoto');
         const nameElement = document.getElementById('userNameDisplay');
         const avatarElement = document.getElementById('headerAvatar');
 
-        // 1. Welcome Message mein naam dalo
+        // 1. Welcome Message mein naam (Abhi ID dikhegi, Backend fix hone par Full Name)
         if (nameElement) {
             nameElement.innerText = savedName;
         }
@@ -517,13 +518,14 @@
                 avatarElement.innerHTML = `<img src="${userPhoto}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
                 avatarElement.style.background = "transparent";
             } else {
-                // Initials nikalo (e.g. Ravindra Kumar -> RK)
+                // Agar naam "Ravindra Kumar" hoga toh "RK" dikhega
+                // Agar "ravindrasri1745" hai toh "RA" dikhega
                 const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
                 avatarElement.innerText = initials.substring(0, 2);
             }
         }
 
-        // --- STEP C: ANIMATIONS (Jo pehle se thi) ---
+        // --- STEP C: ANIMATIONS & OTHER CALLS ---
         const earningsDisplay = document.getElementById('lifetimeEarnings');
         if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
 
@@ -536,7 +538,6 @@
             });
         }, 500);
 
-        // Profile status check call
         checkProfileCompletion();
     });
     // 5. Responsive Header Adjustment (tumhara purana code – same)
