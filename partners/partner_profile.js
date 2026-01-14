@@ -51,7 +51,8 @@ if (s === "BLACKLISTED") {
         </div>`;
     return; 
 }
-
+// DOB ko input ke layak banane ke liye formatting
+const dobForInput = p.dob ? new Date(p.dob).toISOString().split('T')[0] : "";
 const isApproved = (s === "ACTIVE" || s === "APPROVED");
 // Iske baad aapka mainArea.innerHTML wala code shuru hoga...
     mainArea.innerHTML = `
@@ -85,10 +86,10 @@ const isApproved = (s === "ACTIVE" || s === "APPROVED");
                             <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">FULL NAME</label>
                             <input type="text" id="upd-name" class="btn btn-outline" style="width:100%; text-align:left; background: ${!isEditMode ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.08)'};" value="${p.fullName || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">DATE OF BIRTH</label>
-                            <input type="date" id="upd-dob" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.dob || ''}" ${!isEditMode ? 'readonly' : ''}>
-                        </div>
+                       <div>
+    <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">DATE OF BIRTH</label>
+    <input type="date" id="upd-dob" class="btn btn-outline" style="width:100%; text-align:left;" value="${dobForInput}" ${!isEditMode ? 'readonly' : ''}>
+</div>
 
                         <div>
                             <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">MOBILE NUMBER</label>
