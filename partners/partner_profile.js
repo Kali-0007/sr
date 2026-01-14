@@ -155,10 +155,12 @@ const isApproved = (s === "ACTIVE" || s === "APPROVED");
     </div>
 </div>
                         <div>
-                            <label style="font-size: 11px; color: var(--secondary-gold); font-weight: 600;">REFERRAL CODE</label>
-                            <input type="text" class="btn btn-outline" style="width:100%; text-align:left; border: 1px dashed var(--secondary-gold); color: var(--secondary-gold); font-weight: bold;" 
-                                value="${isApproved ? (p.referralCode || 'GENERATING...') : 'Unlock After Admin Approval'}" readonly>
-                        </div>
+    <label style="font-size: 11px; color: var(--secondary-gold); font-weight: 600;">REFERRAL CODE</label>
+    <input type="text" class="btn btn-outline" 
+           style="width:100%; text-align:left; border: 1px dashed var(--secondary-gold); color: var(--secondary-gold); font-weight: bold;" 
+           value="${(s === 'ACTIVE' || s === 'APPROVED') ? (p.referralCode || 'NOT ASSIGNED') : 'Unlock After Admin Approval'}" 
+           readonly>
+</div>
 
                         <div style="grid-column: span 2;">
                             <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">OFFICE / RESIDENTIAL ADDRESS</label>
