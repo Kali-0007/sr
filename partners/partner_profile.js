@@ -5,7 +5,7 @@ async function showProfile() {
     const mainArea = document.getElementById('mainContent');
     const token = localStorage.getItem('userToken');
 
-    mainArea.innerHTML = `<div class="glass-card" style="text-align:center; padding:100px 0;"><div class="spinner"></div><p>Fetching Your Profile Data...</p></div>`;
+    mainArea.innerHTML = `<div class="glass-card" style="text-align:center; padding:100px 0;"><div class="spinner"></div><p>Syncing Professional Profile...</p></div>`;
 
     try {
         const response = await fetch(`${API}?action=check-partner-profile-status&token=${token}`);
@@ -13,8 +13,12 @@ async function showProfile() {
 
         if (data.status === "success") {
             renderProfileUI(data.profile);
+        } else {
+            alert("Error: " + data.message);
         }
-    } catch (e) { alert("Session error!"); }
+    } catch (e) {
+        alert("Connection failed!");
+    }
 }
 
 function renderProfileUI(p) {
@@ -24,96 +28,101 @@ function renderProfileUI(p) {
 
     mainArea.innerHTML = `
         <div class="animate-fade-in" style="max-width: 950px; margin: 0 auto; padding-bottom: 50px;">
-            <h1 style="font-size: 26px; color: var(--primary-teal); margin-bottom: 20px; text-align:center;">Partner Control Center</h1>
-
-            <div class="glass-card" style="padding: 40px;">
+            <div class="glass-card" style="padding: 40px; border-top: 5px solid var(--primary-teal);">
                 <form id="profileForm">
+                    
                     <div style="text-align: center; margin-bottom: 40px;">
-                        <img src="${photoUrl}" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--primary-teal); padding: 5px; background: rgba(255,255,255,0.05);">
-                        <h2 style="margin-top:15px; letter-spacing:1px;">${p.fullName}</h2>
-                        <span style="color:var(--secondary-gold); font-size:12px; font-weight:700; text-transform:uppercase;">${p.profileStatus || 'Verification Pending'}</span>
+                        <div style="position: relative; display: inline-block;">
+                            <img src="${photoUrl}" id="profile-img-preview" 
+                                 style="width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--primary-teal); object-fit: cover; padding: 5px; background: rgba(255,255,255,0.05);">
+                            
+                            ${isEditMode ? `
+                                <label for="upd-photo" style="position: absolute; bottom: 8px; right: 8px; background: var(--primary-teal); color: white; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                    <span style="font-size: 18px;">✎</span>
+                                </label>
+                                <input type="file" id="upd-photo" style="display:none" accept="image/*" onchange="previewImage(this)">
+                            ` : ''}
+                        </div>
+                        <h2 style="margin-top:15px; font-size: 22px; color: #fff;">${p.fullName || 'Partner Name'}</h2>
+                        <div style="margin-top: 5px;">
+                            <span style="background: ${isApproved ? '#00ccbb33' : '#ffcc0033'}; color: ${isApproved ? 'var(--primary-teal)' : 'var(--secondary-gold)'}; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; border: 1px solid;">
+                                ${p.profileStatus || 'UNDER REVIEW'}
+                            </span>
+                        </div>
                     </div>
 
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px;">
+                        
                         <div>
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">FULL NAME</label>
-                            <input type="text" id="upd-name" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.fullName}" ${!isEditMode ? 'readonly' : ''}>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">FULL NAME</label>
+                            <input type="text" id="upd-name" class="btn btn-outline" style="width:100%; text-align:left; background: ${!isEditMode ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.08)'};" value="${p.fullName || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
                         <div>
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">MOBILE NUMBER</label>
-                            <input type="text" id="upd-mobile" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.mobile}" ${!isEditMode ? 'readonly' : ''}>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">DATE OF BIRTH</label>
+                            <input type="date" id="upd-dob" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.dob || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
 
                         <div>
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">PROFESSION</label>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">MOBILE NUMBER</label>
+                            <input type="text" id="upd-mobile" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.mobile || ''}" ${!isEditMode ? 'readonly' : ''}>
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">PROFESSION</label>
                             ${!isEditMode ? 
-                                `<input type="text" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.profession}" readonly>` :
+                                `<input type="text" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.profession || ''}" readonly>` :
                                 `<select id="upd-profession" class="btn btn-outline" style="width:100%; text-align:left; appearance:auto;" onchange="checkProfession(this.value)">
                                     <option value="Tax Consultant" ${p.profession === 'Tax Consultant' ? 'selected' : ''}>Tax Consultant</option>
                                     <option value="CA" ${p.profession === 'CA' ? 'selected' : ''}>Chartered Accountant (CA)</option>
                                     <option value="CS" ${p.profession === 'CS' ? 'selected' : ''}>Company Secretary (CS)</option>
                                     <option value="Advocate" ${p.profession === 'Advocate' ? 'selected' : ''}>Advocate</option>
+                                    <option value="Accountant" ${p.profession === 'Accountant' ? 'selected' : ''}>Accountant</option>
+                                    <option value="Other" ${p.profession === 'Other' ? 'selected' : ''}>Other</option>
                                 </select>`
                             }
                         </div>
+
                         <div id="membership-box" style="display: ${(p.profession === 'CA' || p.profession === 'CS') ? 'block' : 'none'};">
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">MEMBERSHIP NUMBER</label>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">MEMBERSHIP NUMBER</label>
                             <input type="text" id="upd-membership" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.membershipNumber || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
-
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">PAN NUMBER</label>
-                            <input type="text" id="upd-pan" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.panNumber}" ${!isEditMode ? 'readonly' : ''}>
-                        </div>
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">BANK NAME</label>
-                            <input type="text" id="upd-bank" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.bankName}" ${!isEditMode ? 'readonly' : ''}>
+                        <div style="grid-column: ${(p.profession === 'CA' || p.profession === 'CS') ? 'span 1' : 'span 1'};">
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">PAN CARD NUMBER</label>
+                            <input type="text" id="upd-pan" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.panNumber || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
 
                         <div>
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">ACCOUNT NUMBER</label>
-                            <input type="text" id="upd-acc" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.accountNumber}" ${!isEditMode ? 'readonly' : ''}>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">BANK NAME</label>
+                            <input type="text" id="upd-bank" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.bankName || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
                         <div>
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">IFSC CODE</label>
-                            <input type="text" id="upd-ifsc" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.ifscCode}" ${!isEditMode ? 'readonly' : ''}>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">ACCOUNT NUMBER</label>
+                            <input type="text" id="upd-acc" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.accountNumber || ''}" ${!isEditMode ? 'readonly' : ''}>
+                        </div>
+
+                        <div>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">IFSC CODE</label>
+                            <input type="text" id="upd-ifsc" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.ifscCode || ''}" ${!isEditMode ? 'readonly' : ''}>
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: var(--secondary-gold); font-weight: 600;">REFERRAL CODE</label>
+                            <input type="text" class="btn btn-outline" style="width:100%; text-align:left; border: 1px dashed var(--secondary-gold); color: var(--secondary-gold); font-weight: bold;" 
+                                value="${isApproved ? (p.referralCode || 'GENERATING...') : 'Unlock After Admin Approval'}" readonly>
                         </div>
 
                         <div style="grid-column: span 2;">
-                            <label style="font-size: 11px; color: var(--text-gray); letter-spacing: 1px;">OFFICE ADDRESS</label>
-                            <textarea id="upd-address" class="btn btn-outline" style="width:100%; text-align:left; min-height: 80px; padding-top:12px;" ${!isEditMode ? 'readonly' : ''}>${p.address}</textarea>
-                        </div>
-
-                        <div style="grid-column: span 2;">
-                            <label style="font-size: 11px; color: var(--secondary-gold); letter-spacing: 1px;">REFERRAL CODE (ACTIVATED AFTER APPROVAL)</label>
-                            <input type="text" class="btn btn-outline" style="width:100%; text-align:left; border: 1px dashed var(--secondary-gold); color:var(--secondary-gold); font-weight:bold;" 
-                                value="${isApproved ? (p.referralCode || 'GENERATING...') : 'Unlock Pending: Our team is verifying your profile'}" readonly>
+                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">OFFICE / RESIDENTIAL ADDRESS</label>
+                            <textarea id="upd-address" class="btn btn-outline" style="width:100%; text-align:left; min-height: 80px; padding-top: 12px; line-height: 1.5;" ${!isEditMode ? 'readonly' : ''}>${p.address || ''}</textarea>
                         </div>
                     </div>
 
-                    ${isEditMode ? `
-                    <div style="margin-top:25px; padding:20px; border: 1px dashed rgba(255,255,255,0.1); border-radius:12px; background:rgba(255,255,255,0.02);">
-                        <p style="font-size:13px; margin-bottom:10px; color:var(--primary-teal);">Required Documents:</p>
-                        <div style="display:flex; gap:20px;">
-                           <div>
-                               <label style="font-size:11px; display:block;">PAN CARD (PDF/JPG)</label>
-                               <input type="file" id="upd-pandoc" style="font-size:11px; margin-top:5px;">
-                           </div>
-                           <div>
-                               <label style="font-size:11px; display:block;">PROFILE PHOTO</label>
-                               <input type="file" id="upd-photo" style="font-size:11px; margin-top:5px;">
-                           </div>
-                        </div>
-                    </div>
-                    ` : ''}
-
-                    <div style="margin-top: 50px; display: flex; gap: 15px; justify-content: center;">
-                        ${!isEditMode ? 
-                            `<button type="button" onclick="toggleEdit(true)" class="btn btn-teal" style="padding: 15px 60px;">EDIT PROFILE</button>
-                             <button type="button" onclick="location.reload()" class="btn btn-outline" style="padding: 15px 40px;">CLOSE</button>` : 
-                            `<button type="submit" class="btn btn-teal" style="padding: 15px 60px;">SAVE CHANGES</button>
-                             <button type="button" onclick="toggleEdit(false)" class="btn btn-outline" style="padding: 15px 40px; color:var(--danger-red);">CANCEL</button>`
-                        }
+                    <div style="margin-top: 50px; display: flex; gap: 20px; justify-content: center;">
+                        ${!isEditMode ? `
+                            <button type="button" onclick="toggleEdit(true)" class="btn btn-teal" style="padding: 16px 70px; font-weight: bold; border-radius: 50px;">✎ EDIT PROFILE</button>
+                            <button type="button" onclick="location.reload()" class="btn btn-outline" style="padding: 16px 40px; border-radius: 50px;">CLOSE</button>
+                        ` : `
+                            <button type="submit" class="btn btn-teal" style="padding: 16px 70px; font-weight: bold; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,204,187,0.4);">SAVE CHANGES</button>
+                            <button type="button" onclick="toggleEdit(false)" class="btn btn-outline" style="padding: 16px 40px; color: #ff4d4d; border-radius: 50px;">CANCEL</button>
+                        `}
                     </div>
                 </form>
             </div>
@@ -121,6 +130,17 @@ function renderProfileUI(p) {
     `;
 
     if(isEditMode) attachSubmit();
+}
+
+// HELPER FUNCTIONS
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('profile-img-preview').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 function toggleEdit(mode) {
@@ -133,40 +153,57 @@ function checkProfession(val) {
     box.style.display = (val === 'CA' || val === 'CS') ? 'block' : 'none';
 }
 
-function attachSubmit() {
+async function attachSubmit() {
     document.getElementById('profileForm').onsubmit = async (e) => {
         e.preventDefault();
         const btn = e.target.querySelector('button[type="submit"]');
         const originalText = btn.innerText;
-        btn.innerText = "UPDATING...";
+        btn.innerText = "SAVING..."; 
         btn.disabled = true;
+
+        // Image Handling
+        const photoFile = document.getElementById('upd-photo')?.files[0];
+        let photoBase64 = null;
+        if (photoFile) {
+            photoBase64 = await new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.readAsDataURL(photoFile);
+            });
+        }
 
         const payload = {
             action: "update-partner-profile",
             token: localStorage.getItem('userToken'),
             fullName: document.getElementById('upd-name').value,
+            dob: document.getElementById('upd-dob').value,
             mobile: document.getElementById('upd-mobile').value,
             profession: document.getElementById('upd-profession').value,
-            panNumber: document.getElementById('upd-pan').value,
             membershipNumber: document.getElementById('upd-membership')?.value || "",
+            panNumber: document.getElementById('upd-pan').value,
             bankName: document.getElementById('upd-bank').value,
             accountNumber: document.getElementById('upd-acc').value,
             ifscCode: document.getElementById('upd-ifsc').value,
-            address: document.getElementById('upd-address').value
+            address: document.getElementById('upd-address').value,
+            photoBlob: photoBase64,
+            photoName: photoFile ? photoFile.name : null
         };
 
         try {
-            const res = await fetch(API, { method: 'POST', body: JSON.stringify(payload) });
+            const res = await fetch(API, { 
+                method: 'POST', 
+                body: JSON.stringify(payload) 
+            });
             const result = await res.json();
             if(result.status === "success") {
                 alert("Profile Updated Successfully!");
                 isEditMode = false;
                 showProfile();
             } else {
-                alert("Error: " + result.message);
+                alert("Update Error: " + result.message);
             }
-        } catch (e) { 
-            alert("Connection error! Please check your internet."); 
+        } catch (e) {
+            alert("Network Error!");
         } finally {
             btn.innerText = originalText;
             btn.disabled = false;
