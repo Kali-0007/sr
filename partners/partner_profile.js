@@ -67,19 +67,28 @@ function renderProfileUI(p) {
                             <input type="text" id="upd-mobile" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.mobile || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
                         <div>
-                            <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">PROFESSION</label>
-                            ${!isEditMode ? 
-                                `<input type="text" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.profession || ''}" readonly>` :
-                                `<select id="upd-profession" class="btn btn-outline" style="width:100%; text-align:left; appearance:auto;" onchange="checkProfession(this.value)">
-                                    <option value="Tax Consultant" ${p.profession === 'Tax Consultant' ? 'selected' : ''}>Tax Consultant</option>
-                                    <option value="CA" ${p.profession === 'CA' ? 'selected' : ''}>Chartered Accountant (CA)</option>
-                                    <option value="CS" ${p.profession === 'CS' ? 'selected' : ''}>Company Secretary (CS)</option>
-                                    <option value="Advocate" ${p.profession === 'Advocate' ? 'selected' : ''}>Advocate</option>
-                                    <option value="Accountant" ${p.profession === 'Accountant' ? 'selected' : ''}>Accountant</option>
-                                    <option value="Other" ${p.profession === 'Other' ? 'selected' : ''}>Other</option>
-                                </select>`
-                            }
-                        </div>
+    <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">PROFESSION</label>
+    ${!isEditMode ? 
+        `<input type="text" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.profession || ''}" readonly>` :
+        `<select id="upd-profession" class="btn btn-outline" 
+            style="width:100%; text-align:left; appearance:auto; background-color: #1a1a1a !important; color: #ffffff !important;" 
+            onchange="handleProfessionLogic(this.value)">
+            <option value="Tax Consultant" ${p.profession === 'Tax Consultant' ? 'selected' : ''}>Tax Consultant</option>
+            <option value="CA" ${p.profession === 'CA' ? 'selected' : ''}>Chartered Accountant (CA)</option>
+            <option value="CS" ${p.profession === 'CS' ? 'selected' : ''}>Company Secretary (CS)</option>
+            <option value="Advocate" ${p.profession === 'Advocate' ? 'selected' : ''}>Advocate</option>
+            <option value="Accountant" ${p.profession === 'Accountant' ? 'selected' : ''}>Accountant</option>
+            <option value="Other" ${p.profession === 'Other' ? 'selected' : ''}>Other (Please Specify)</option>
+        </select>`
+    }
+</div>
+
+<div id="other-profession-box" style="display: ${p.profession === 'Other' ? 'block' : 'none'}; grid-column: span 1;">
+    <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">PLEASE SPECIFY PROFESSION</label>
+    <input type="text" id="upd-other-spec" class="btn btn-outline" 
+        style="width:100%; text-align:left;" 
+        value="${p.otherProfession || ''}" ${!isEditMode ? 'readonly' : ''} placeholder="Mention your profession">
+</div>
 
                         <div id="membership-box" style="display: ${(p.profession === 'CA' || p.profession === 'CS') ? 'block' : 'none'};">
                             <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">MEMBERSHIP NUMBER</label>
@@ -209,4 +218,17 @@ async function attachSubmit() {
             btn.disabled = false;
         }
     };
+}
+function handleProfessionLogic(val) {
+    // 1. Membership box handle karein
+    const membershipBox = document.getElementById('membership-box');
+    if (membershipBox) {
+        membershipBox.style.display = (val === 'CA' || val === 'CS') ? 'block' : 'none';
+    }
+
+    // 2. Other Specify box handle karein
+    const otherBox = document.getElementById('other-profession-box');
+    if (otherBox) {
+        otherBox.style.display = (val === 'Other') ? 'block' : 'none';
+    }
 }
