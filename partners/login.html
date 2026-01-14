@@ -237,15 +237,27 @@ async function getSecurityData() {
     const text = await backendRes.text();
     const res = JSON.parse(text);
 
-    if(res.status === "success") {
+ if(res.status === "success") {
+      // 1. Storage mein data save karein
       localStorage.setItem('userToken', res.token);
-      localStorage.setItem('username', res.username);
+      
+      // 'res.name' backend se aayega, agar nahi mila toh 'res.username' use hoga
+      localStorage.setItem('username', res.name || res.username); 
+      
+      // Profile photo ka URL (agar backend se aaye)
+      localStorage.setItem('userPhoto', res.photo || ''); 
+      
       localStorage.setItem('userEmail', responsePayload.email);
       localStorage.setItem('isPartner', 'true');
       localStorage.setItem('referralCode', res.referralCode || '');
 
+      // 2. Success Message aur Redirect
       statusDiv.innerHTML = '<span style="color: #00ff9d;">Welcome Partner! Redirecting...</span>';
-      setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
+      
+      setTimeout(() => { 
+        window.location.href = "dashboard.html"; 
+      }, 1500);
+
     } else {
       statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
     }
