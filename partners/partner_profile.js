@@ -186,7 +186,7 @@ async function attachSubmit() {
         btn.innerText = "SAVING..."; 
         btn.disabled = true;
 
-        // Image Handling
+        // 1. Profile Image Handling
         const photoFile = document.getElementById('upd-photo')?.files[0];
         let photoBase64 = null;
         if (photoFile) {
@@ -197,65 +197,78 @@ async function attachSubmit() {
             });
         }
 
-        // Pehle PAN file ka base64 nikalna hoga (Upar photo ki tarah)
-const panFile = document.getElementById('upd-pan-file')?.files[0];
-let panBase64 = null;
-if (panFile) {
-    panBase64 = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.readAsDataURL(panFile);
-    });
-}
+        // 2. PAN Card File Handling
+        const panFile = document.getElementById('upd-pan-file')?.files[0];
+        let panBase64 = null;
+        if (panFile) {
+            panBase64 = await new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.readAsDataURL(panFile);
+            });
+        }
 
-const payload = {
-    action: "update-partner-profile",
-    token: localStorage.getItem('userToken'),
-    fullName: document.getElementById('upd-name').value,
-    dob: document.getElementById('upd-dob').value,
-    mobile: document.getElementById('upd-mobile').value,
-    profession: document.getElementById('upd-profession').value,
-    
-    // Naya Addition 1: Other Profession specify wala data
-    otherProfession: document.getElementById('upd-other-spec')?.value || "",
-    
-    membershipNumber: document.getElementById('upd-membership')?.value || "",
-    panNumber: document.getElementById('upd-pan').value,
-    
-    // Naya Addition 2: PAN File data
-    panBlob: panBase64,
-    panName: panFile ? panFile.name : null,
-    
-    bankName: document.getElementById('upd-bank').value,
-    accountNumber: document.getElementById('upd-acc').value,
-    ifscCode: document.getElementById('upd-ifsc').value,
-    address: document.getElementById('upd-address').value,
-    
-    photoBlob: photoBase64,
-    photoName: photoFile ? photoFile.name : null
-};
+        // 3. Data Payload Construction
+        const payload = {
+            action: "update-partner-profile",
+            token: localStorage.getItem('userToken'),
+            fullName: document.getElementById('upd-name').value,
+            dob: document.getElementById('upd-dob').value,
+            mobile: document.getElementById('upd-mobile').value,
+            profession: document.getElementById('upd-profession').value,
+            
+            // Other Profession data
+            otherProfession: document.getElementById('upd-other-spec')?.value || "",
+            
+            membershipNumber: document.getElementById('upd-membership')?.value || "",
+            panNumber: document.getElementById('upd-pan').value,
+            
+            // PAN File data
+            panBlob: panBase64,
+            panName: panFile ? panFile.name : null,
+            
+            bankName: document.getElementById('upd-bank').value,
+            accountNumber: document.getElementById('upd-acc').value,
+            ifscCode: document.getElementById('upd-ifsc').value,
+            address: document.getElementById('upd-address').value,
+            
+            // Photo data
+            photoBlob: photoBase64,
+            photoName: photoFile ? photoFile.name : null
+        };
 
+        // 4. API Request
         try {
             const res = await fetch(API, { 
                 method: 'POST', 
                 body: JSON.stringify(payload) 
             });
             const result = await res.json();
+            
             if(result.status === "success") {
                 alert("Profile Updated Successfully!");
+                
+                // Force Update Profile Image Circle if new photo URL is returned
+                if(result.newPhoto) {
+                    const imgPreview = document.getElementById('profile-img-preview');
+                    if(imgPreview) imgPreview.src = result.newPhoto + "?t=" + new Date().getTime();
+                }
+
                 isEditMode = false;
-                showProfile();
+                showProfile(); // Full UI Sync
             } else {
                 alert("Update Error: " + result.message);
             }
         } catch (e) {
-            alert("Network Error!");
+            console.error("Submission Error:", e);
+            alert("Network Error! Please check your connection.");
         } finally {
             btn.innerText = originalText;
             btn.disabled = false;
         }
     };
 }
+
 function handleProfessionLogic(val) {
     // 1. Membership box handle karein
     const membershipBox = document.getElementById('membership-box');
