@@ -73,9 +73,9 @@ const isApproved = (s === "ACTIVE" || s === "APPROVED");
                         </div>
                         <h2 style="margin-top:15px; font-size: 22px; color: #fff;">${p.fullName || 'Partner Name'}</h2>
                         <div style="margin-top: 5px;">
-                            <span style="background: ${isApproved ? '#00ccbb33' : '#ffcc0033'}; color: ${isApproved ? 'var(--primary-teal)' : 'var(--secondary-gold)'}; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; border: 1px solid;">
-                                ${p.profileStatus || 'UNDER REVIEW'}
-                            </span>
+                            <span style="background: ${badgeColor}33; color: ${badgeColor}; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; border: 1px solid ${badgeColor}; text-transform: uppercase;">
+    ● ${s || 'PENDING'}
+</span>
                         </div>
                     </div>
 
