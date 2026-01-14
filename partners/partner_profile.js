@@ -61,17 +61,29 @@ const isApproved = (s === "ACTIVE" || s === "APPROVED");
                 <form id="profileForm">
                     
                     <div style="text-align: center; margin-bottom: 40px;">
-                        <div style="position: relative; display: inline-block;">
-                            <img src="${photoUrl}" id="profile-img-preview" 
-                                 style="width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--primary-teal); object-fit: cover; padding: 5px; background: rgba(255,255,255,0.05);">
-                            
-                            ${isEditMode ? `
-                                <label for="upd-photo" style="position: absolute; bottom: 8px; right: 8px; background: var(--primary-teal); color: white; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                                    <span style="font-size: 18px;">✎</span>
-                                </label>
-                                <input type="file" id="upd-photo" style="display:none" accept="image/*" onchange="previewImage(this)">
-                            ` : ''}
-                        </div>
+    <div style="position: relative; display: inline-block;">
+        <img src="${photoUrl}" id="profile-img-preview" 
+             style="width: 140px; 
+                    height: 140px; 
+                    border-radius: 50%; 
+                    border: 4px solid var(--primary-teal); 
+                    object-fit: cover;         /* Photo ko box ke hisaab se crop karega */
+                    object-position: center;    /* Hamesha face center mein rakhega */
+                    aspect-ratio: 1 / 1;       /* Circle ko maintain rakhega */
+                    display: block;            /* Layout gaps khatam karega */
+                    padding: 5px; 
+                    background: rgba(255,255,255,0.05);
+                    box-shadow: 0 8px 20px rgba(0,0,0,0.4);">
+        
+        ${isEditMode ? `
+            <label for="upd-photo" style="position: absolute; bottom: 8px; right: 8px; background: var(--primary-teal); color: white; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.2s;">
+                <span style="font-size: 18px;">✎</span>
+            </label>
+            <input type="file" id="upd-photo" style="display:none" accept="image/*" onchange="previewImage(this)">
+        ` : ''}
+    </div>
+    <h2 style="margin-top:15px; font-size: 22px; color: #fff;">${p.fullName || 'Partner Name'}</h2>
+    </div>
                         <h2 style="margin-top:15px; font-size: 22px; color: #fff;">${p.fullName || 'Partner Name'}</h2>
                         <div style="margin-top: 5px;">
                             <span style="background: ${badgeColor}33; color: ${badgeColor}; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; border: 1px solid ${badgeColor}; text-transform: uppercase;">
