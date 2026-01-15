@@ -485,30 +485,20 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
 
     // ==================== NAYA: Profile Completion Check ====================
-  async function checkProfileCompletion() {
+ async function checkProfileCompletion() {
     const token = localStorage.getItem('userToken');
-
-    // 1. Agar browser mein token hi nahi hai, toh seedha login par bhejo
-    if (!token) {
-        console.warn("No token found, redirecting to login");
-        window.location.href = 'login.html';
-        return;
-    }
+    if (!token) { window.location.href = 'login.html'; return; }
 
     try {
         const response = await fetch(API_URL, {
             method: "POST",
             redirect: "follow",
-            body: JSON.stringify({
-                action: "check-partner-profile-status",
-                token: token
-            })
+            body: JSON.stringify({ action: "check-partner-profile-status", token: token })
         });
 
         const text = await response.text();
         const data = JSON.parse(text);
 
-        // --- Auto-Logout Logic ---
         if (data.status === "error" && data.message === "Invalid session") {
             alert("Session expired. Please login again.");
             localStorage.clear();
@@ -516,109 +506,83 @@
             return;
         }
 
+        // --- DUMMY ANIMATION (Bina Chhede) ---
+        const earningsDisplay = document.getElementById('lifetimeEarnings');
+        if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
+
         const banner = document.getElementById('payoutBanner');
         const referralPill = document.getElementById('referralPill'); 
         const codeDisplay = document.getElementById('partnerCodeDisplay');
 
         if (data.status === "success") {
-            // Status uthao aur check karo (Case sensitive na ho isliye toUpperCase use kiya hai)
-            const status = (data.profile.profileStatus || "").toUpperCase();
+            // BACKEND CHECK: Confirm karo ki backend 'profileStatus' hi bhej raha hai
+            const status = (data.profile.profileStatus || "").toUpperCase().trim();
 
-            // --- CONDITION: Sirf APPROVED ya ACTIVE par dikhao ---
             if (status === "APPROVED" || status === "ACTIVE") {
-                
-                // 1. Banner hide karo
                 if (banner) banner.style.display = 'none';
-                
-                // 2. Referral Code dikhao aur update karo
                 if (referralPill) referralPill.style.display = 'flex';
                 if (codeDisplay) {
-                    codeDisplay.innerHTML = `
-                        ${data.profile.referralCode}
-                        <span id="tooltip" class="tooltip">Copied!</span>
-                    `;
+                    codeDisplay.innerHTML = `${data.profile.referralCode} <span id="tooltip" class="tooltip">Copied!</span>`;
                 }
             } else {
-                // Agar status Pending hai ya kuch aur (Not Approved)
-                
-                // 1. Banner dikhao
                 if (banner) banner.style.display = 'block';
-                
-                // 2. Referral Code dabba chhupa do
                 if (referralPill) referralPill.style.display = 'none';
             }
-        } else {
-            // Backend error logic
-            if (banner) banner.style.display = 'block';
-            if (referralPill) referralPill.style.display = 'none';
         }
     } catch (error) {
-        console.error("Profile status check failed:", error);
-        const banner = document.getElementById('payoutBanner');
-        if (banner) banner.style.display = 'block';
+        console.error("Profile check failed:", error);
     }
 }
 
-    // 4. Trigger Animations on Load + Profile Check
-    window.addEventListener('DOMContentLoaded', () => {
-        // --- STEP A: SECURITY CHECK ---
-        if (!localStorage.getItem('userToken')) {
-            window.location.href = 'login.html';
-            return; 
-        }
+window.addEventListener('DOMContentLoaded', () => {
+    if (!localStorage.getItem('userToken')) {
+        window.location.href = 'login.html';
+        return; 
+    }
 
-        // --- STEP B: NAAM, PHOTO AUR REFERRAL CODE UPDATE KARO ---
-       // STEP B: DOMContentLoaded ke andar sirf naam aur photo rakho
-const savedName = localStorage.getItem('username') || "Partner"; 
-const userPhoto = localStorage.getItem('userPhoto');
+    const savedName = localStorage.getItem('username') || "Partner"; 
+    const userPhoto = localStorage.getItem('userPhoto');
 
-// referralCode 
+    const nameElement = document.getElementById('userNameDisplay');
+    const avatarElement = document.getElementById('headerAvatar');
 
-       // 2. HTML Elements ko pakdo (Sirf wahi jo bina check ke dikhane hain)
-const nameElement = document.getElementById('userNameDisplay');
-const avatarElement = document.getElementById('headerAvatar');
+    // 1. Naam Update
+    if (nameElement) nameElement.innerText = savedName;
 
-// partner
-
-        // 3. Welcome Message update karo
-        if (nameElement) {
-            nameElement.innerText = savedName;
-        }
-
-        // 4. Referral Code Pill update karo (Column I wala data)
-        if (partnerCodeElement) {
-            partnerCodeElement.innerHTML = `
-                ${savedReferralCode}
-                <span id="tooltip" class="tooltip">Copied!</span>
-            `;
-        }
-
-        // 5. Avatar/Photo update karo
-        if (avatarElement) {
-            if (userPhoto && userPhoto !== "") {
+    // 2. Photo Update (FIXED LOGIC)
+    if (avatarElement) {
+        if (userPhoto && userPhoto !== "" && userPhoto !== "null") {
+            // Agar avatarElement ek <img> tag hai:
+            if(avatarElement.tagName === 'IMG') {
+                avatarElement.src = userPhoto;
+            } else {
+                // Agar avatarElement ek div hai, toh uske andar image dalo
                 avatarElement.innerHTML = `<img src="${userPhoto}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
                 avatarElement.style.background = "transparent";
-            } else {
-                // Initials logic
-                const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
-                avatarElement.innerText = initials.substring(0, 2);
             }
+        } else {
+            const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
+            avatarElement.innerText = initials.substring(0, 2);
         }
-        // --- STEP C: ANIMATIONS & OTHER CALLS ---
-        const earningsDisplay = document.getElementById('lifetimeEarnings');
-        if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
+    }
 
-        const bars = document.querySelectorAll('.bar');
-        setTimeout(() => {
-            bars.forEach(bar => {
-                const height = bar.style.height;
-                bar.style.height = '0';
-                setTimeout(() => bar.style.height = height, 100);
-            });
-        }, 500);
+    // --- DUMMY EARNINGS ANIMATION ---
+    const earningsDisplay = document.getElementById('lifetimeEarnings');
+    if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
 
-        checkProfileCompletion();
-    });
+    // Graph Bars Animation
+    const bars = document.querySelectorAll('.bar');
+    setTimeout(() => {
+        bars.forEach(bar => {
+            const height = bar.style.height;
+            bar.style.height = '0';
+            setTimeout(() => bar.style.height = height, 100);
+        });
+    }, 500);
+
+    // Profile Status Check Call
+    checkProfileCompletion();
+});
     // 5. Responsive Header Adjustment (tumhara purana code – same)
     window.addEventListener('scroll', () => {
         const header = document.querySelector('header');
