@@ -450,6 +450,19 @@
     });
 }
 
+        function shareOnWhatsApp() {
+    // 1. Storage se asli referral code uthao
+    const refCode = localStorage.getItem('referralCode') || "PARTNER";
+    
+    // 2. Message taiyar karo (Aap is text ko badal sakte hain)
+    const message = `Hi! Join TaxEasePro using my code ${refCode} to simplify your business taxes.`;
+    
+    // 3. WhatsApp ka final URL banao
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    
+    // 4. Naye tab mein WhatsApp kholo
+    window.open(whatsappUrl, '_blank');
+}
     // 2. Count-up Animation for Earnings (tumhara purana code)
     function animateValue(obj, start, end, duration) {
         let startTimestamp = null;
