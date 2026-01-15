@@ -339,55 +339,35 @@
                 <button class="btn btn-outline" style="width: 100%; margin-top: 20px;">View Full History</button>
             </div>
 
-            <div class="glass-card">
-                <h3>Recent Referrals</h3>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Client ID</th>
-                                <th>Date</th>
-                                <th>Commission</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>TXN-***42</td>
-                                <td>10 Jan 2026</td>
-                                <td>₹1,200</td>
-                                <td><span class="status-badge status-pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>TXN-***18</td>
-                                <td>08 Jan 2026</td>
-                                <td>₹2,500</td>
-                                <td><span class="status-badge status-paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>TXN-***99</td>
-                                <td>05 Jan 2026</td>
-                                <td>₹900</td>
-                                <td><span class="status-badge status-paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>TXN-***23</td>
-                                <td>02 Jan 2026</td>
-                                <td>₹4,000</td>
-                                <td><span class="status-badge status-paid">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>TXN-***04</td>
-                                <td>30 Dec 2025</td>
-                                <td>₹1,500</td>
-                                <td><span class="status-badge status-paid">Paid</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <button class="btn btn-outline" style="width: 100%; margin-top: 20px;">View All Referrals</button>
-            </div>
-
+          <div class="glass-card">
+    <h3>Recent Referrals</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Client ID</th>
+                    <th>Date</th>
+                    <th>Commission</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="referralTableBody">
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px; color: #ffd700;">
+                        Fetching latest records...
+                    </td>
+                </tr>
+                <tr style="opacity: 0.3;">
+                    <td>TXN-***42</td>
+                    <td>10 Jan 2026</td>
+                    <td>₹1,200</td>
+                    <td><span class="status-badge status-pending">Pending</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button class="btn btn-outline" style="width: 100%; margin-top: 20px;">View All Referrals</button>
+</div>
             <div class="actions-stack">
                 <button class="btn btn-teal action-btn" onclick="copyCode()">
                     <svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
