@@ -486,16 +486,35 @@
             return;
         }
 
-        // --- DUMMY ANIMATION (Bina Chhede) ---
+        // --- DUMMY ANIMATION (Hamesha Chalti Rahegi) ---
         const earningsDisplay = document.getElementById('lifetimeEarnings');
         if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
 
         const banner = document.getElementById('payoutBanner');
         const referralPill = document.getElementById('referralPill'); 
         const codeDisplay = document.getElementById('partnerCodeDisplay');
+        const tableBody = document.getElementById('referralTableBody'); 
 
         if (data.status === "success") {
-            // BACKEND CHECK: Confirm karo ki backend 'profileStatus' hi bhej raha hai
+            // --- 1. TABLE DATA POPULATE KARO ---
+            if (data.referrals && data.referrals.length > 0 && tableBody) {
+                tableBody.innerHTML = ''; // Loading message hataya
+                data.referrals.forEach(ref => {
+                    const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td>${ref.clientId}</td>
+                            <td>${ref.date}</td>
+                            <td>₹${ref.commission}</td>
+                            <td><span class="status-badge ${statusClass}">${ref.status}</span></td>
+                        </tr>
+                    `;
+                });
+            } else if (tableBody) {
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 20px;">No referrals found yet.</td></tr>';
+            }
+
+            // --- 2. STATUS CHECK (ACTIVE/APPROVED) ---
             const status = (data.profile.profileStatus || "").toUpperCase().trim();
 
             if (status === "APPROVED" || status === "ACTIVE") {
@@ -514,7 +533,9 @@
     }
 }
 
+// Sabse important part - Page load hote hi sab chalna chahiye
 window.addEventListener('DOMContentLoaded', () => {
+    // 1. Security Check
     if (!localStorage.getItem('userToken')) {
         window.location.href = 'login.html';
         return; 
@@ -526,17 +547,15 @@ window.addEventListener('DOMContentLoaded', () => {
     const nameElement = document.getElementById('userNameDisplay');
     const avatarElement = document.getElementById('headerAvatar');
 
-    // 1. Naam Update
+    // 2. Naam Update
     if (nameElement) nameElement.innerText = savedName;
 
-    // 2. Photo Update (FIXED LOGIC)
+    // 3. Photo Update
     if (avatarElement) {
         if (userPhoto && userPhoto !== "" && userPhoto !== "null") {
-            // Agar avatarElement ek <img> tag hai:
             if(avatarElement.tagName === 'IMG') {
                 avatarElement.src = userPhoto;
             } else {
-                // Agar avatarElement ek div hai, toh uske andar image dalo
                 avatarElement.innerHTML = `<img src="${userPhoto}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
                 avatarElement.style.background = "transparent";
             }
@@ -546,11 +565,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- DUMMY EARNINGS ANIMATION ---
-    const earningsDisplay = document.getElementById('lifetimeEarnings');
-    if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
-
-    // Graph Bars Animation
+    // 4. Bars Animation
     const bars = document.querySelectorAll('.bar');
     setTimeout(() => {
         bars.forEach(bar => {
@@ -560,7 +575,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }, 500);
 
-    // Profile Status Check Call
+    // 5. Profile & Table Status Check
     checkProfileCompletion();
 });
     // 5. Responsive Header Adjustment (tumhara purana code – same)
