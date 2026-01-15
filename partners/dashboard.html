@@ -485,7 +485,7 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
 
     // ==================== NAYA: Profile Completion Check ====================
-   async function checkProfileCompletion() {
+  async function checkProfileCompletion() {
     const token = localStorage.getItem('userToken');
 
     // 1. Agar browser mein token hi nahi hai, toh seedha login par bhejo
@@ -508,7 +508,7 @@
         const text = await response.text();
         const data = JSON.parse(text);
 
-        // --- YAHAN HAI MAIN JAADU (Auto-Logout Logic) ---
+        // --- Auto-Logout Logic ---
         if (data.status === "error" && data.message === "Invalid session") {
             alert("Session expired. Please login again.");
             localStorage.clear();
@@ -517,16 +517,20 @@
         }
 
         const banner = document.getElementById('payoutBanner');
-        // Referral code wale elements ko pakdo
         const referralPill = document.getElementById('referralPill'); 
         const codeDisplay = document.getElementById('partnerCodeDisplay');
 
         if (data.status === "success") {
-            if (data.profileComplete === true) {
-                // --- PROFILE COMPLETE HAI ---
-                if (banner) banner.style.display = 'none'; // Banner hide
+            // Status uthao aur check karo (Case sensitive na ho isliye toUpperCase use kiya hai)
+            const status = (data.profile.profileStatus || "").toUpperCase();
+
+            // --- CONDITION: Sirf APPROVED ya ACTIVE par dikhao ---
+            if (status === "APPROVED" || status === "ACTIVE") {
                 
-                // Referral Code dikhao aur update karo
+                // 1. Banner hide karo
+                if (banner) banner.style.display = 'none';
+                
+                // 2. Referral Code dikhao aur update karo
                 if (referralPill) referralPill.style.display = 'flex';
                 if (codeDisplay) {
                     codeDisplay.innerHTML = `
@@ -535,14 +539,16 @@
                     `;
                 }
             } else {
-                // --- PROFILE INCOMPLETE HAI ---
-                if (banner) banner.style.display = 'block'; // Banner show
+                // Agar status Pending hai ya kuch aur (Not Approved)
                 
-                // Referral Code wala dabba chhupa do
+                // 1. Banner dikhao
+                if (banner) banner.style.display = 'block';
+                
+                // 2. Referral Code dabba chhupa do
                 if (referralPill) referralPill.style.display = 'none';
             }
         } else {
-            // Backend error → default banner show (safety)
+            // Backend error logic
             if (banner) banner.style.display = 'block';
             if (referralPill) referralPill.style.display = 'none';
         }
