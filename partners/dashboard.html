@@ -488,46 +488,59 @@
 
     // ==================== NAYA: Profile Completion Check ====================
     async function checkProfileCompletion() {
-        const token = localStorage.getItem('userToken');
-        if (!token) {
-            console.warn("No token found, skipping profile check");
-            return;
+    const token = localStorage.getItem('userToken');
+
+    // 1. Agar browser mein token hi nahi hai, toh seedha login par bhejo
+    if (!token) {
+        console.warn("No token found, redirecting to login");
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            redirect: "follow",
+            body: JSON.stringify({
+                action: "check-partner-profile-status",
+                token: token
+            })
+        });
+
+        const text = await response.text();
+        const data = JSON.parse(text);
+
+        // --- YAHAN HAI MAIN JAADU (Auto-Logout Logic) ---
+        // Agar backend ne kaha "Invalid session" (Row deleted hai)
+        if (data.status === "error" && data.message === "Invalid session") {
+            alert("Session expired. Please login again."); // User ko batao
+            localStorage.clear(); // Sab saaf karo
+            window.location.href = 'login.html'; // Bahar nikalo
+            return; // Yahi ruk jao
         }
+        // ------------------------------------------------
 
-        try {
-            const response = await fetch(API_URL, {
-                method: "POST",
-                redirect: "follow",
-                body: JSON.stringify({
-                    action: "check-partner-profile-status",
-                    token: token
-                })
-            });
+        const banner = document.getElementById('payoutBanner');
 
-            const text = await response.text();
-            const data = JSON.parse(text);
-
-            const banner = document.getElementById('payoutBanner');
-
-            if (data.status === "success") {
-                if (data.profileComplete === true) {
-                    // Profile complete → banner hide
-                    if (banner) banner.style.display = 'none';
-                } else {
-                    // Incomplete → banner show
-                    if (banner) banner.style.display = 'block';
-                }
+        if (data.status === "success") {
+            if (data.profileComplete === true) {
+                // Profile complete → banner hide
+                if (banner) banner.style.display = 'none';
             } else {
-                // Backend error → default banner show (safety)
+                // Incomplete → banner show
                 if (banner) banner.style.display = 'block';
             }
-        } catch (error) {
-            console.error("Profile status check failed:", error);
-            // Network error → banner show kar do taaki user aware rahe
-            const banner = document.getElementById('payoutBanner');
+        } else {
+            // Backend error → default banner show (safety)
             if (banner) banner.style.display = 'block';
         }
+    } catch (error) {
+        console.error("Profile status check failed:", error);
+        // Network error → banner show kar do taaki user aware rahe
+        const banner = document.getElementById('payoutBanner');
+        if (banner) banner.style.display = 'block';
     }
+}
 
     // 4. Trigger Animations on Load + Profile Check
     window.addEventListener('DOMContentLoaded', () => {
