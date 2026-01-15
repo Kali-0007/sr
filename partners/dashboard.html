@@ -500,31 +500,41 @@
             return; 
         }
 
-        // --- STEP B: NAAM AUR PHOTO UPDATE KARO ---
-        // 'username' key wahi hai jo tumne login.html mein save ki hai
+        // --- STEP B: NAAM, PHOTO AUR REFERRAL CODE UPDATE KARO ---
+        // 1. Data fetch karo (Jo humne Login ke time save kiya tha)
         const savedName = localStorage.getItem('username') || "Partner"; 
         const userPhoto = localStorage.getItem('userPhoto');
+        const savedReferralCode = localStorage.getItem('referralCode') || "TAXEASE-0000";
+
+        // 2. HTML Elements ko pakdo
         const nameElement = document.getElementById('userNameDisplay');
         const avatarElement = document.getElementById('headerAvatar');
+        const partnerCodeElement = document.getElementById('partnerCodeDisplay');
 
-        // 1. Welcome Message mein naam (Abhi ID dikhegi, Backend fix hone par Full Name)
+        // 3. Welcome Message update karo
         if (nameElement) {
             nameElement.innerText = savedName;
         }
 
-        // 2. Avatar/Photo update karo
+        // 4. Referral Code Pill update karo (Column I wala data)
+        if (partnerCodeElement) {
+            partnerCodeElement.innerHTML = `
+                ${savedReferralCode}
+                <span id="tooltip" class="tooltip">Copied!</span>
+            `;
+        }
+
+        // 5. Avatar/Photo update karo
         if (avatarElement) {
             if (userPhoto && userPhoto !== "") {
                 avatarElement.innerHTML = `<img src="${userPhoto}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
                 avatarElement.style.background = "transparent";
             } else {
-                // Agar naam "Ravindra Kumar" hoga toh "RK" dikhega
-                // Agar "ravindrasri1745" hai toh "RA" dikhega
+                // Initials logic
                 const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
                 avatarElement.innerText = initials.substring(0, 2);
             }
         }
-
         // --- STEP C: ANIMATIONS & OTHER CALLS ---
         const earningsDisplay = document.getElementById('lifetimeEarnings');
         if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
