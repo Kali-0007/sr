@@ -419,17 +419,36 @@
     </main>
 
     <script>
-    // 1. Copy Code Functionality (tumhara purana code – same rakha)
-    function copyCode() {
-        const code = "TAXEASE-RK8292";
-        navigator.clipboard.writeText(code).then(() => {
-            const tooltip = document.getElementById('tooltip');
-            tooltip.classList.add('show');
-            setTimeout(() => {
-                tooltip.classList.remove('show');
-            }, 2000);
-        });
+   function copyCode() {
+    // 1. LocalStorage se asli Referral Code uthao (Column I wala)
+    const codeToCopy = localStorage.getItem('referralCode');
+    
+    // Agar code nahi mila toh alert dikhao (Safety check)
+    if (!codeToCopy) {
+        alert("Referral code not found. Please re-login.");
+        return;
     }
+
+    // 2. Clipboard mein copy karne ka process
+    navigator.clipboard.writeText(codeToCopy).then(() => {
+        // 3. Tooltip (Jo "Copied!" likha aata hai) usey active karo
+        const tooltip = document.getElementById('tooltip');
+        if (tooltip) {
+            tooltip.style.visibility = 'visible';
+            tooltip.style.opacity = '1';
+            
+            // 2 second baad tooltip ko wapas chhupa do
+            setTimeout(() => {
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.opacity = '0';
+            }, 2000);
+        }
+    }).catch(err => {
+        // Agar browser copy allow na kare
+        console.error('Copy fail ho gaya:', err);
+        alert("Failed to copy code: " + codeToCopy);
+    });
+}
 
     // 2. Count-up Animation for Earnings (tumhara purana code)
     function animateValue(obj, start, end, duration) {
