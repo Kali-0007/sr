@@ -551,10 +551,11 @@
         }
 
         // --- STEP B: NAAM, PHOTO AUR REFERRAL CODE UPDATE KARO ---
-        // 1. Data fetch karo (Jo humne Login ke time save kiya tha)
-        const savedName = localStorage.getItem('username') || "Partner"; 
-        const userPhoto = localStorage.getItem('userPhoto');
-        const savedReferralCode = localStorage.getItem('referralCode') || "TAXEASE-XXXX";
+       // STEP B: DOMContentLoaded ke andar sirf naam aur photo rakho
+const savedName = localStorage.getItem('username') || "Partner"; 
+const userPhoto = localStorage.getItem('userPhoto');
+
+// referralCode 
 
         // 2. HTML Elements ko pakdo
         const nameElement = document.getElementById('userNameDisplay');
