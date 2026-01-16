@@ -589,11 +589,15 @@ window.addEventListener('DOMContentLoaded', () => {
             header.style.boxShadow = 'none';
         }
     });
-        // Logout Function
+       // Logout Function
 function logoutUser() {
     if (confirm("Are you sure you want to log out?")) {
-        localStorage.clear(); // Saara session data saaf
-        window.location.href = "login.html"; // Login page par bhej do
+        // 1. Saara data saaf karo
+        localStorage.clear(); 
+        sessionStorage.clear(); // Extra safety ke liye
+
+        // 2. History replace karo taaki Back button kaam na kare
+        window.location.replace("login.html"); 
     }
 }
 </script>
