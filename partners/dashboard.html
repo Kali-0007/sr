@@ -497,20 +497,34 @@
             return;
         }
 // 1. Badi wali Lifetime Earnings
-// --- REAL DATA ASSIGNMENT ---
+// 1. Lifetime Earnings (Bada Card) - YE SAHI HAI
 const earningsDisplay = document.getElementById('lifetimeEarnings');
 if(earningsDisplay && response.totalEarnings) {
-    // Ab ye 124500 ki jagah Sheet se aaya asli total dikhayega
     animateValue(earningsDisplay, 0, parseFloat(response.totalEarnings), 1500);
 }
 
-// 2. Referral Code upar aur card mein
+// 2. Referral Code (Pill aur Display) - YE BHI SAHI HAI
 const referralPill = document.getElementById('referralPill'); 
 const codeDisplay = document.getElementById('partnerCodeDisplay');
 if(codeDisplay) codeDisplay.innerText = response.profile.referralCode;
 if(referralPill) referralPill.innerText = response.profile.referralCode;
 
-// 3. Table Body (Ye toh aapka pehle se hi loop mein set hoga)
+// --- AB YE DO CHEEZEIN AUR JOD LO ---
+
+// 4. This Month Earnings (Small Card)
+const monthDisplay = document.getElementById('thisMonthEarnings');
+if(monthDisplay && response.thisMonthEarnings) {
+    animateValue(monthDisplay, 0, parseFloat(response.thisMonthEarnings), 1500);
+}
+
+// 5. Total Referrals Count (Small Card)
+const totalRefDisplay = document.getElementById('totalReferralsCount');
+if(totalRefDisplay && response.referrals) {
+    // Array ki length hi count hai
+    animateValue(totalRefDisplay, 0, response.referrals.length, 1000);
+}
+
+// 3. Table Body (Aapka purana code)
 const tableBody = document.getElementById('referralTableBody');
         if (data.status === "success") {
             // --- 1. TABLE DATA POPULATE KARO ---
