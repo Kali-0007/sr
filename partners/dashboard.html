@@ -304,11 +304,16 @@
                 <div class="lifetime-label">Lifetime Earnings</div>
                 <div class="lifetime-amount" id="lifetimeEarnings">₹0</div>
                 
-                <div class="stats-grid">
-                    <div class="glass-card stat-card">
-                        <h4>This Month Earnings</h4>
-                        <p>₹12,300</p>
-                    </div>
+               <div class="glass-card stat-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h4 style="margin: 0;">Monthly Earnings</h4>
+        <select id="monthFilter" onchange="updateMonthlyDisplay(window.globalReferralList)" 
+            style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; font-size: 11px; padding: 2px 4px; cursor: pointer; outline: none;">
+            <option value="">Loading...</option>
+        </select>
+    </div>
+    <p id="thisMonthEarnings" style="font-size: 1.8rem; font-weight: bold; margin: 0;">₹0</p>
+</div>
                     <div class="glass-card stat-card">
                         <h4>Total Referrals</h4>
                         <p>47</p>
@@ -615,5 +620,6 @@ function logoutUser() {
 }
 </script>
     <script src="partner_profile.js"></script>
+    <script src="monthlyStats.js"></script>
 </body>
 </html>
