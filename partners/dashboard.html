@@ -497,8 +497,12 @@
             return;
         }
 // 1. Badi wali Lifetime Earnings
+// --- REAL DATA ASSIGNMENT ---
 const earningsDisplay = document.getElementById('lifetimeEarnings');
-if(earningsDisplay) animateValue(earningsDisplay, 0, parseFloat(response.totalEarnings) || 0, 1500);
+if(earningsDisplay && response.totalEarnings) {
+    // Ab ye 124500 ki jagah Sheet se aaya asli total dikhayega
+    animateValue(earningsDisplay, 0, parseFloat(response.totalEarnings), 1500);
+}
 
 // 2. Referral Code upar aur card mein
 const referralPill = document.getElementById('referralPill'); 
