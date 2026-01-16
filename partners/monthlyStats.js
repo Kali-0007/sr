@@ -34,30 +34,33 @@ function updateMonthlyDisplay(referralList) {
     const display = document.getElementById('thisMonthEarnings');
     if (!filterSelect || !display || !filterSelect.value) return;
 
-    // Filter value se Year aur Month nikalna
-    const [year, month] = filterSelect.value.split('-').map(Number);
+    const selectedValue = filterSelect.value; // Example: "2026-1"
     let monthlyGross = 0;
 
     referralList.forEach(order => {
-        const orderDate = new Date(order.date);
-        // JS mein getMonth() 0-11 hota hai, isliye +1 karke match karenge
-        if ((orderDate.getMonth() + 1) === month && orderDate.getFullYear() === year) {
-            // Ab hum 'gross' use kar rahe hain
+        const d = new Date(order.date);
+        // Date ko dropdown ke format "YYYY-M" mein convert kar rahe hain
+        const orderMonthYear = `${d.getFullYear()}-${d.getMonth() + 1}`;
+        
+        if (orderMonthYear === selectedValue) {
             monthlyGross += parseFloat(order.gross || 0);
         }
     });
 
-    // TDS aur Net calculate karein
     const tds = monthlyGross * 0.05;
     const net = monthlyGross - tds;
 
-    // Display update (Gross, TDS aur Net ke saath professional look)
-    display.innerHTML = `
-        <div style="font-size: 0.8rem; opacity: 0.8;">Gross: ₹${monthlyGross.toLocaleString('en-IN')}</div>
-        <div style="font-size: 0.8rem; color: #ff6b6b;">TDS (5%): -₹${tds.toLocaleString('en-IN')}</div>
-        <div style="font-size: 1.5rem; font-weight: 700; color: #2ecc71; margin-top: 5px;">
-            ₹${net.toLocaleString('en-IN')}
-        </div>
-        <div style="font-size: 0.7rem; opacity: 0.6;">Net Payable</div>
-    `;
+    if (monthlyGross > 0) {
+        display.innerHTML = `
+            <div style="font-size: 0.8rem; opacity: 0.8;">Gross: ₹${monthlyGross.toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
+            <div style="font-size: 0.8rem; color: #ff6b6b;">TDS (5%): -₹${tds.toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #2ecc71; margin-top: 5px;">
+                ₹${net.toLocaleString('en-IN', {minimumFractionDigits: 2})}
+            </div>
+            <div style="font-size: 0.7rem; opacity: 0.6;">Net Payable</div>
+        `;
+    } else {
+        display.innerHTML = `<div style="font-size: 1.5rem; font-weight: 700; color: #aaa; margin-top: 10px;">₹0.00</div>
+                             <div style="font-size: 0.7rem; opacity: 0.6;">No earnings this month</div>`;
+    }
 }
