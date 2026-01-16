@@ -365,14 +365,16 @@
     <h3>Recent Referrals</h3>
     <div class="table-wrapper">
         <table>
-            <thead>
-                <tr>
-                    <th>Client ID</th>
-                    <th>Date</th>
-                    <th>Commission</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
+           <thead>
+  <tr>
+    <th>Client ID</th>
+    <th>Date</th>
+    <th>Gross (₹)</th>
+    <th>TDS (5%)</th>
+    <th>Net (₹)</th>
+    <th>Status</th>
+  </tr>
+</thead>
             <tbody id="referralTableBody">
                 <tr>
                     <td colspan="4" style="text-align: center; padding: 20px; color: #ffd700;">
@@ -523,10 +525,14 @@
                 tableBody.innerHTML = ''; // Loading message hataya
                 data.referrals.forEach(ref => {
                     const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
-                    tableBody.innerHTML += `
+                   // Dashboard.js ke andar row generate karne wala part
+tableBody.innerHTML += `
     <tr>
         <td>${ref.clientId}</td>
-        <td>${ref.displayDate}</td> <td>₹${ref.commission}</td>
+        <td>${ref.displayDate}</td>
+        <td>₹${ref.gross}</td>
+        <td style="color: #ff4d4d;">-₹${ref.tds}</td>
+        <td style="font-weight: bold; color: #2ecc71;">₹${ref.net}</td>
         <td><span class="status-badge ${statusClass}">${ref.status}</span></td>
     </tr>
 `;
