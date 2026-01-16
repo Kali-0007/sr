@@ -488,42 +488,38 @@
 
         if (data.status === "success") {
             // --- 1. TABLE DATA POPULATE KARO ---
-        if (data.referrals && data.referrals.length > 0 && tableBody) {
-            tableBody.innerHTML = ''; // Loading message hataya
-            data.referrals.forEach(ref => {
-                const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
-                // ... aapka table row insert karne wala code yahan rahega ...
-            });
-        }
+        // --- 1. TABLE DATA POPULATE KARO ---
+if (data.referrals && data.referrals.length > 0 && tableBody) {
+    tableBody.innerHTML = ''; // Loading message hataya
+    data.referrals.forEach(ref => {
+        const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
+        
+        tableBody.innerHTML += `
+            <tr>
+                <td>${ref.clientId}</td>
+                <td>${ref.displayDate}</td>
+                <td>₹${ref.gross}</td>
+                <td style="color: #ff4d4d;">-₹${ref.tds}</td>
+                <td style="font-weight: bold; color: #2ecc71;">₹${ref.net}</td>
+                <td><span class="status-badge ${statusClass}">${ref.status}</span></td>
+            </tr>
+        `;
+    }); // Loop yahan khatam hua
+} else if (tableBody) {
+    tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No referrals found yet.</td></tr>';
+}
 
-        // --- 2. LIFETIME GROSS ANIMATION (YAHAN ADD KARO) ---
-        if (data.totalEarnings) {
-            updateLifetimeGross(data.totalEarnings); 
-        }
-                   // Dashboard.js ke andar row generate karne wala part
-tableBody.innerHTML += `
-    <tr>
-        <td>${ref.clientId}</td>
-        <td>${ref.displayDate}</td>
-        <td>₹${ref.gross}</td>
-        <td style="color: #ff4d4d;">-₹${ref.tds}</td>
-        <td style="font-weight: bold; color: #2ecc71;">₹${ref.net}</td>
-        <td><span class="status-badge ${statusClass}">${ref.status}</span></td>
-    </tr>
-`;
-                });
-            } else if (tableBody) {
-                tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 20px;">No referrals found yet.</td></tr>';
-            }
-// --- MONTHLY EARNINGS CARD CONNECT ---
+// --- 2. LIFETIME GROSS ANIMATION (Loop ke bahar) ---
+if (data.totalEarnings) {
+    updateLifetimeGross(data.totalEarnings); 
+}
+
+// --- 3. MONTHLY EARNINGS CARD CONNECT ---
 if (data.status === "success") {
-    // 1. Data ko global save karo taaki dropdown change hone par access mil sake
     window.globalReferralList = data.referrals || [];
     
-    // 2. Monthly Filter setup karo (Dropdown bharna aur calculation shuru karna)
     if (typeof setupMonthlyFilter === "function") {
-        // Hum backend se 'joiningDate' bhejenge, abhi ke liye placeholder
-        const joinDate = data.profile.joiningDate || new Date().toISOString(); 
+        const joinDate = (data.profile && data.profile.joiningDate) ? data.profile.joiningDate : new Date().toISOString(); 
         setupMonthlyFilter(joinDate, data.referrals || []);
     }
 }
