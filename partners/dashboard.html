@@ -346,10 +346,9 @@
         <p id="thisMonthEarnings" style="font-size: 1.8rem; font-weight: bold; margin: 0;">₹0</p>
     </div>
 
-    <div class="glass-card stat-card">
-        <h4>Total Referrals</h4>
-        <p>47</p>
-    </div>
+   <div class="glass-card stat-card">
+    <h4>Total Referrals</h4>
+    <p id="totalReferrals">0</p> </div>
 
     <div class="glass-card stat-card">
         <h4>Active Clients</h4>
@@ -530,6 +529,10 @@
         // --- 1. TABLE DATA POPULATE KARO ---
 if (data.referrals && data.referrals.length > 0 && tableBody) {
     tableBody.innerHTML = ''; // Loading message hataya
+
+    // NAYI LINE: Total Referrals wale card ko update karo
+    document.getElementById('totalReferrals').innerText = data.referrals.length;
+
     data.referrals.forEach(ref => {
         const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
         
@@ -545,6 +548,10 @@ if (data.referrals && data.referrals.length > 0 && tableBody) {
         `;
     }); // Loop yahan khatam hua
 } else if (tableBody) {
+    // Agar koi referral nahi hai, toh card mein 0 dikhao
+    if(document.getElementById('totalReferrals')) {
+        document.getElementById('totalReferrals').innerText = '0';
+    }
     tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No referrals found yet.</td></tr>';
 }
 
