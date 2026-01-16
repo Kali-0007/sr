@@ -305,14 +305,12 @@
                 <div class="lifetime-amount" id="lifetimeEarnings">₹0</div>
                 
                 <div class="stats-grid">
+                   <div class="glass-card stat-card">
+    <h4>This Month Earnings</h4>
+    <p id="thisMonthEarnings">₹0</p> </div>
                     <div class="glass-card stat-card">
-                        <h4>This Month Earnings</h4>
-                        <p>₹12,300</p>
-                    </div>
-                    <div class="glass-card stat-card">
-                        <h4>Total Referrals</h4>
-                        <p>47</p>
-                    </div>
+    <h4>Total Referrals</h4>
+    <p id="totalReferrals">0</p> </div>
                     <div class="glass-card stat-card">
                         <h4>Active Clients</h4>
                         <p>112</p>
@@ -498,16 +496,18 @@
             window.location.href = 'login.html';
             return;
         }
+// 1. Badi wali Lifetime Earnings
+const earningsDisplay = document.getElementById('lifetimeEarnings');
+if(earningsDisplay) animateValue(earningsDisplay, 0, parseFloat(response.totalEarnings) || 0, 1500);
 
-        // --- DUMMY ANIMATION (Hamesha Chalti Rahegi) ---
-        const earningsDisplay = document.getElementById('lifetimeEarnings');
-        if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
+// 2. Referral Code upar aur card mein
+const referralPill = document.getElementById('referralPill'); 
+const codeDisplay = document.getElementById('partnerCodeDisplay');
+if(codeDisplay) codeDisplay.innerText = response.profile.referralCode;
+if(referralPill) referralPill.innerText = response.profile.referralCode;
 
-        const banner = document.getElementById('payoutBanner');
-        const referralPill = document.getElementById('referralPill'); 
-        const codeDisplay = document.getElementById('partnerCodeDisplay');
-        const tableBody = document.getElementById('referralTableBody'); 
-
+// 3. Table Body (Ye toh aapka pehle se hi loop mein set hoga)
+const tableBody = document.getElementById('referralTableBody');
         if (data.status === "success") {
             // --- 1. TABLE DATA POPULATE KARO ---
             if (data.referrals && data.referrals.length > 0 && tableBody) {
