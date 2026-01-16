@@ -524,13 +524,12 @@
                 data.referrals.forEach(ref => {
                     const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
                     tableBody.innerHTML += `
-                        <tr>
-                            <td>${ref.clientId}</td>
-                            <td>${ref.date}</td>
-                            <td>₹${ref.commission}</td>
-                            <td><span class="status-badge ${statusClass}">${ref.status}</span></td>
-                        </tr>
-                    `;
+    <tr>
+        <td>${ref.clientId}</td>
+        <td>${ref.displayDate}</td> <td>₹${ref.commission}</td>
+        <td><span class="status-badge ${statusClass}">${ref.status}</span></td>
+    </tr>
+`;
                 });
             } else if (tableBody) {
                 tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 20px;">No referrals found yet.</td></tr>';
