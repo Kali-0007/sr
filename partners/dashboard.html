@@ -361,31 +361,25 @@
                 <button class="btn btn-outline" style="width: 100%; margin-top: 20px;">View Full History</button>
             </div>
 
-          <div class="glass-card">
+          <div class="glass-card" style="grid-column: 1 / -1; margin-bottom: 20px;">
     <h3>Recent Referrals</h3>
-    <div class="table-wrapper">
-        <table>
-           <thead>
-  <tr>
-    <th>Client ID</th>
-    <th>Date</th>
-    <th>Gross (₹)</th>
-    <th>TDS (5%)</th>
-    <th>Net (₹)</th>
-    <th>Status</th>
-  </tr>
-</thead>
+    <div class="table-wrapper" style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Client ID</th>
+                    <th>Date</th>
+                    <th>Gross (₹)</th>
+                    <th>TDS (5%)</th>
+                    <th>Net (₹)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
             <tbody id="referralTableBody">
                 <tr>
-                    <td colspan="4" style="text-align: center; padding: 20px; color: #ffd700;">
+                    <td colspan="6" style="text-align: center; padding: 30px; color: #ffd700;">
                         Fetching latest records...
                     </td>
-                </tr>
-                <tr style="opacity: 0.3;">
-                    <td>TXN-***42</td>
-                    <td>10 Jan 2026</td>
-                    <td>₹1,200</td>
-                    <td><span class="status-badge status-pending">Pending</span></td>
                 </tr>
             </tbody>
         </table>
