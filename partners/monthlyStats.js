@@ -32,18 +32,32 @@ function setupMonthlyFilter(joiningDateStr, fullReferralList) {
 function updateMonthlyDisplay(referralList) {
     const filterSelect = document.getElementById('monthFilter');
     const display = document.getElementById('thisMonthEarnings');
-    if (!filterSelect || !display) return;
+    if (!filterSelect || !display || !filterSelect.value) return;
 
-    const [selectedYear, selectedMonth] = filterSelect.value.split('-').map(Number);
-    let monthlyTotal = 0;
+    // Filter value se Year aur Month nikalna
+    const [year, month] = filterSelect.value.split('-').map(Number);
+    let monthlyGross = 0;
 
     referralList.forEach(order => {
-        const orderDate = new Date(order.date); 
-        if (orderDate.getMonth() === selectedMonth && orderDate.getFullYear() === selectedYear) {
-            monthlyTotal += parseFloat(order.commission);
+        const orderDate = new Date(order.date);
+        // JS mein getMonth() 0-11 hota hai, isliye +1 karke match karenge
+        if ((orderDate.getMonth() + 1) === month && orderDate.getFullYear() === year) {
+            // Ab hum 'gross' use kar rahe hain
+            monthlyGross += parseFloat(order.gross || 0);
         }
     });
 
-    // Value update with animation
-    display.innerText = `₹${monthlyTotal.toLocaleString('en-IN')}`;
+    // TDS aur Net calculate karein
+    const tds = monthlyGross * 0.05;
+    const net = monthlyGross - tds;
+
+    // Display update (Gross, TDS aur Net ke saath professional look)
+    display.innerHTML = `
+        <div style="font-size: 0.8rem; opacity: 0.8;">Gross: ₹${monthlyGross.toLocaleString('en-IN')}</div>
+        <div style="font-size: 0.8rem; color: #ff6b6b;">TDS (5%): -₹${tds.toLocaleString('en-IN')}</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #2ecc71; margin-top: 5px;">
+            ₹${net.toLocaleString('en-IN')}
+        </div>
+        <div style="font-size: 0.7rem; opacity: 0.6;">Net Payable</div>
+    `;
 }
