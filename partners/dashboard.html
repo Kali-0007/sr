@@ -240,6 +240,19 @@
             .partner-code-pill { width: 100%; justify-content: center; }
         }
     </style>
+    <script>
+        // 1. Back button dabate hi agar cache se page aaye toh reload karo
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                window.location.reload();
+            }
+        });
+
+        // 2. Dashbord dikhne se pehle hi check karo token hai ya nahi
+        if (!localStorage.getItem('userToken')) {
+            window.location.replace('login.html');
+        }
+    </script>
 </head>
 <body>
 <header>
