@@ -1,45 +1,60 @@
-// monthlyStats.js - Separate logic for Monthly Earnings Card
+// monthlyStats.js - Complete Logic for Monthly Earnings Card
 console.log("MonthlyStats.js file load ho gayi hai!");
+
+/**
+ * 1. Dropdown Setup: Partner ki joining se aaj tak ke mahine bharta hai
+ */
 function setupMonthlyFilter(joiningDateStr, fullReferralList) {
     const filterSelect = document.getElementById('monthFilter');
     if (!filterSelect) return;
 
+    // Dates parse karo
     const joiningDate = new Date(joiningDateStr);
     const today = new Date();
     
-    filterSelect.innerHTML = ''; // Purane options saaf karo
+    filterSelect.innerHTML = ''; // Purane options hatao
 
+    // Aaj se shuru karke peeche joining date tak jao
     let current = new Date(today.getFullYear(), today.getMonth(), 1);
     const start = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), 1);
 
-    // Dropdown mein options bharo (Joining se lekar Aaj tak)
     while (current >= start) {
         const monthLabel = current.toLocaleString('default', { month: 'long', year: 'numeric' });
-        const monthVal = `${current.getFullYear()}-${current.getMonth()}`;
+        
+        // Month Value Format: YYYY-M (e.g., 2026-1)
+        const monthVal = `${current.getFullYear()}-${current.getMonth() + 1}`; 
         
         const option = document.createElement('option');
         option.value = monthVal;
         option.text = monthLabel;
         filterSelect.appendChild(option);
 
+        // Ek mahina peeche jao
         current.setMonth(current.getMonth() - 1);
     }
+
+    // Dropdown change hone par recalculate kare
+    filterSelect.onchange = () => updateMonthlyDisplay(fullReferralList);
 
     // Pehli baar load hone par current month ka data dikhao
     updateMonthlyDisplay(fullReferralList);
 }
 
+/**
+ * 2. Display Logic: Selected mahine ka calculation aur UI update
+ */
 function updateMonthlyDisplay(referralList) {
     const filterSelect = document.getElementById('monthFilter');
     const display = document.getElementById('thisMonthEarnings');
+    
     if (!filterSelect || !display || !filterSelect.value) return;
 
-    const selectedValue = filterSelect.value; // Example: "2026-1"
+    const selectedValue = filterSelect.value; 
     let monthlyGross = 0;
 
+    // Saare referrals mein se selected mahine ke orders dhundo
     referralList.forEach(order => {
         const d = new Date(order.date);
-        // Date ko dropdown ke format "YYYY-M" mein convert kar rahe hain
         const orderMonthYear = `${d.getFullYear()}-${d.getMonth() + 1}`;
         
         if (orderMonthYear === selectedValue) {
@@ -47,20 +62,24 @@ function updateMonthlyDisplay(referralList) {
         }
     });
 
+    // Tax aur Net Hisaab
     const tds = monthlyGross * 0.05;
     const net = monthlyGross - tds;
 
+    // UI Rendering
     if (monthlyGross > 0) {
         display.innerHTML = `
-            <div style="font-size: 0.8rem; opacity: 0.8;">Gross: ₹${monthlyGross.toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
-            <div style="font-size: 0.8rem; color: #ff6b6b;">TDS (5%): -₹${tds.toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
-            <div style="font-size: 1.5rem; font-weight: 700; color: #2ecc71; margin-top: 5px;">
+            <div style="font-size: 0.8rem; opacity: 0.8; color: #fff;">Gross: ₹${monthlyGross.toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
+            <div style="font-size: 0.8rem; color: #ff6b6b; margin: 4px 0;">TDS (5%): -₹${tds.toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
+            <div style="font-size: 1.6rem; font-weight: 700; color: #2ecc71;">
                 ₹${net.toLocaleString('en-IN', {minimumFractionDigits: 2})}
             </div>
-            <div style="font-size: 0.7rem; opacity: 0.6;">Net Payable</div>
+            <div style="font-size: 0.7rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;">Net Payable</div>
         `;
     } else {
-        display.innerHTML = `<div style="font-size: 1.5rem; font-weight: 700; color: #aaa; margin-top: 10px;">₹0.00</div>
-                             <div style="font-size: 0.7rem; opacity: 0.6;">No earnings this month</div>`;
+        display.innerHTML = `
+            <div style="font-size: 1.6rem; font-weight: 700; color: #aaa; margin-top: 10px;">₹0.00</div>
+            <div style="font-size: 0.7rem; opacity: 0.6;">No earnings this month</div>
+        `;
     }
 }
