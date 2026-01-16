@@ -490,10 +490,18 @@
 
         if (data.status === "success") {
             // --- 1. TABLE DATA POPULATE KARO ---
-            if (data.referrals && data.referrals.length > 0 && tableBody) {
-                tableBody.innerHTML = ''; // Loading message hataya
-                data.referrals.forEach(ref => {
-                    const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
+        if (data.referrals && data.referrals.length > 0 && tableBody) {
+            tableBody.innerHTML = ''; // Loading message hataya
+            data.referrals.forEach(ref => {
+                const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
+                // ... aapka table row insert karne wala code yahan rahega ...
+            });
+        }
+
+        // --- 2. LIFETIME GROSS ANIMATION (YAHAN ADD KARO) ---
+        if (data.totalEarnings) {
+            updateLifetimeGross(data.totalEarnings); 
+        }
                    // Dashboard.js ke andar row generate karne wala part
 tableBody.innerHTML += `
     <tr>
