@@ -535,7 +535,18 @@
             } else if (tableBody) {
                 tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 20px;">No referrals found yet.</td></tr>';
             }
-
+// --- MONTHLY EARNINGS CARD CONNECT ---
+if (data.status === "success") {
+    // 1. Data ko global save karo taaki dropdown change hone par access mil sake
+    window.globalReferralList = data.referrals || [];
+    
+    // 2. Monthly Filter setup karo (Dropdown bharna aur calculation shuru karna)
+    if (typeof setupMonthlyFilter === "function") {
+        // Hum backend se 'joiningDate' bhejenge, abhi ke liye placeholder
+        const joinDate = data.profile.joiningDate || new Date().toISOString(); 
+        setupMonthlyFilter(joinDate, data.referrals || []);
+    }
+}
             // --- 2. STATUS CHECK (ACTIVE/APPROVED) ---
             const status = (data.profile.profileStatus || "").toUpperCase().trim();
 
