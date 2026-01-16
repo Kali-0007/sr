@@ -501,7 +501,11 @@
         // --- DUMMY ANIMATION (Hamesha Chalti Rahegi) ---
         const earningsDisplay = document.getElementById('lifetimeEarnings');
         if(earningsDisplay) animateValue(earningsDisplay, 0, 124500, 1500);
-
+// This Month Earnings Card update
+const monthDisplay = document.getElementById('thisMonthEarnings');
+if(monthDisplay && response.thisMonthEarnings) {
+    animateValue(monthDisplay, 0, parseFloat(response.thisMonthEarnings), 1500);
+}
         const banner = document.getElementById('payoutBanner');
         const referralPill = document.getElementById('referralPill'); 
         const codeDisplay = document.getElementById('partnerCodeDisplay');
