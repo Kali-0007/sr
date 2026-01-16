@@ -213,10 +213,39 @@
         .status-paid { background: rgba(0, 196, 180, 0.1); color: var(--primary-teal); }
         .status-pending { background: rgba(212, 175, 55, 0.1); color: var(--secondary-gold); }
 
-        /* Column 3: Actions */
-        .actions-stack { display: flex; flex-direction: column; gap: 12px; }
-        .action-btn { width: 100%; justify-content: flex-start; padding: 16px; font-size: 14px; }
-        .action-btn svg { width: 20px; height: 20px; }
+       /* --- Vertical Action Buttons (4-inch width) --- */
+.actions-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
+    width: 320px; /* Ye desktop par lagbhag 4 inch rahega */
+}
+
+.action-btn {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start !important; /* Icon aur text left mein */
+    gap: 12px;
+    padding: 14px 20px !important;
+    font-size: 14px !important;
+    border-radius: 10px !important;
+    transition: var(--transition);
+}
+
+.action-btn svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0; /* Icon chhota nahi hoga */
+}
+
+/* Mobile par buttons ko full width kar denge taaki touch karne mein aasani ho */
+@media (max-width: 600px) {
+    .actions-stack {
+        width: 100%;
+    }
+}
 
         /* 5. Bottom Section */
         .footer-note {
