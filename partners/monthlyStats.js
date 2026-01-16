@@ -1,5 +1,5 @@
 // monthlyStats.js - Separate logic for Monthly Earnings Card
-
+console.log("MonthlyStats.js file load ho gayi hai!");
 function setupMonthlyFilter(joiningDateStr, fullReferralList) {
     const filterSelect = document.getElementById('monthFilter');
     if (!filterSelect) return;
