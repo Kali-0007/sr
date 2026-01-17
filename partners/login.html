@@ -237,21 +237,28 @@ async function getSecurityData() {
     const text = await backendRes.text();
     const res = JSON.parse(text);
 
- if(res.status === "success") {
-      // 1. Storage mein data save karein
+ if (res.status === "success") {
+      // 1. Sabse pehle Partner ID decide karo
+      const idToSave = res.partnerId || (res.profile && res.profile.partnerId) || responsePayload.email;
+      
+      // 2. Browser ki memory (LocalStorage) mein saara data save karo
+      localStorage.setItem('partnerId', idToSave); // <--- Sabse zaroori line
       localStorage.setItem('userToken', res.token);
-      
-      // 'res.name' backend se aayega, agar nahi mila toh 'res.username' use hoga
-      localStorage.setItem('username', res.name || res.username); 
-     const idToSave = res.partnerId || (res.profile && res.profile.partnerId) || responsePayload.email;
-      // Profile photo ka URL (agar backend se aaye)
-      localStorage.setItem('userPhoto', res.photo || ''); 
-      
       localStorage.setItem('userEmail', responsePayload.email);
       localStorage.setItem('isPartner', 'true');
-      localStorage.setItem('referralCode', res.referralCode || '');
 
-      // 2. Success Message aur Redirect
+      // Username handle karein (res.name ya profile ke andar se)
+      const displayName = res.name || res.username || (res.profile && res.profile.fullName) || "Partner";
+      localStorage.setItem('username', displayName);
+
+      // Referral code aur Photo save karein
+      localStorage.setItem('referralCode', res.referralCode || (res.profile && res.profile.referralCode) || '');
+      localStorage.setItem('userPhoto', res.photo || (res.profile && res.profile.photoLink) || '');
+
+      // Console mein verify karein (F12 dabane par dikhega)
+      console.log("Partner ID Saved Successfully:", idToSave);
+
+      // 3. Success Message dikha kar Redirect karein
       statusDiv.innerHTML = '<span style="color: #00ff9d;">Welcome Partner! Redirecting...</span>';
       
       setTimeout(() => { 
@@ -259,6 +266,7 @@ async function getSecurityData() {
       }, 1500);
 
     } else {
+      // Agar backend se error aaye
       statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
     }
   } catch (error) {
