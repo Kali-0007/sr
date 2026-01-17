@@ -350,12 +350,20 @@
     <h4>Total Referrals</h4>
     <p id="totalReferrals">0</p> </div>
 
-  <div class="glass-card stat-card">
-    <h4>TDS Deducted (FY 2024-25)</h4>
-    <p id="total-tds">₹0.00</p>
+ <div class="glass-card stat-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h4 id="tds-heading" style="margin: 0;">TDS Deducted</h4>
+        
+        <select id="fy-select" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; font-size: 0.75rem; padding: 2px 5px; cursor: pointer; outline: none;">
+            <option value="2025-26">FY 2025-26</option>
+            <option value="2024-25">FY 2024-25</option>
+        </select>
+    </div>
+
+    <p id="total-tds" style="font-size: 1.8rem; font-weight: bold; margin: 10px 0;">₹0.00</p>
     
     <div class="tds-info" style="text-align: left; margin-top: 10px; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-        <ul style="list-style: none; padding: 0; color: #e0e0e0;">
+        <ul style="list-style: none; padding: 0; color: #e0e0e0; line-height: 1.5;">
             <li style="margin-bottom: 8px;">
                 <strong>• Compliance:</strong> TDS is deducted at 5% under <b>Section 194-H</b> of the Income Tax Act as commission/brokerage.
             </li>
