@@ -243,7 +243,7 @@ async function getSecurityData() {
       
       // 'res.name' backend se aayega, agar nahi mila toh 'res.username' use hoga
       localStorage.setItem('username', res.name || res.username); 
-      
+      localStorage.setItem('partnerId', res.partnerId || res.id || '');
       // Profile photo ka URL (agar backend se aaye)
       localStorage.setItem('userPhoto', res.photo || ''); 
       
