@@ -239,7 +239,10 @@ async function getSecurityData() {
 
  if (res.status === "success") {
       // 1. Sabse pehle Partner ID decide karo
-      const idToSave = res.partnerId || (res.profile && res.profile.partnerId) || responsePayload.email;
+     const backendId = res.partnerId || (res.profile && res.profile.partnerId);
+      
+      // Agar ID undefined hai, tabhi Email lo, warna ID hi lo
+      const idToSave = backendId ? backendId : responsePayload.email;
       
       // 2. Browser ki memory (LocalStorage) mein saara data save karo
       localStorage.setItem('partnerId', idToSave); // <--- Sabse zaroori line
