@@ -6,44 +6,59 @@
 const PAYOUT_API_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec";
 
 async function loadPartnerFinancials() {
-    const partnerId = localStorage.getItem('partnerId'); 
+    // 1. Sabse pehle ID dhoondo (ID nahi toh Email backup)
+    let partnerId = localStorage.getItem('partnerId') || localStorage.getItem('userEmail'); 
+    
     const tdsElement = document.getElementById('total-tds');
-    const fyDropdown = document.getElementById('fy-select'); // Dropdown select element
+    const walletElement = document.getElementById('wallet-balance');
+    const fyDropdown = document.getElementById('fy-select');
 
+    // 2. Agar ID nahi mili, toh 1 second wait karke firse try karo (Auto-Retry)
     if (!partnerId) {
-        console.warn("Partner ID nahi mili.");
+        console.warn("Partner ID abhi nahi mili, 1 second mein dobara koshish karenge...");
+        setTimeout(loadPartnerFinancials, 1000); 
         return;
     }
 
-    // Dropdown se selected FY uthao (e.g., "2025-26")
+    // 3. Dropdown se selected FY uthao
     const selectedFY = fyDropdown ? fyDropdown.value : getCurrentFY();
 
     try {
         console.log(`Fetching data for Partner: ${partnerId}, FY: ${selectedFY}...`);
         
-        // --- YAHA CHANGE HAI: API ko ab FY bhi bhej rahe hain ---
-        const response = await fetch(`${PAYOUT_API_URL}?partnerId=${partnerId}&fy=${selectedFY}`);
+        // Loader dikhane ke liye (Optional but professional)
+        if (tdsElement && tdsElement.innerText === "₹0.00") {
+            tdsElement.innerText = "Loading...";
+        }
+
+        const response = await fetch(`${PAYOUT_API_URL}?partnerId=${encodeURIComponent(partnerId)}&fy=${encodeURIComponent(selectedFY)}`);
         
         if (!response.ok) throw new Error('Network response error');
         
         const data = await response.json();
         console.log("Financial Data Received:", data);
 
-        // 1. TDS Amount Update
+        // 4. TDS Amount Update (₹ formatting ke saath)
         if (tdsElement) {
             const totalTDS = data.totalTDS || 0;
             tdsElement.innerText = formatToINR(totalTDS);
         }
 
-        // 2. Wallet Balance Update
-        const walletElement = document.getElementById('wallet-balance');
-        if (walletElement && data.totalNet !== undefined) {
-            walletElement.innerText = formatToINR(data.totalNet);
+        // 5. Wallet/Net Balance Update
+        if (walletElement) {
+            const totalNet = data.totalNet || 0;
+            walletElement.innerText = formatToINR(totalNet);
+        }
+
+        // 6. Agar koi Payout History Table hai (Future use ke liye)
+        if (typeof updatePayoutTable === "function" && data.history) {
+            updatePayoutTable(data.history);
         }
 
     } catch (error) {
         console.error("Fetch Error:", error);
         if (tdsElement) tdsElement.innerText = "₹0";
+        if (walletElement) walletElement.innerText = "₹0";
     }
 }
 
