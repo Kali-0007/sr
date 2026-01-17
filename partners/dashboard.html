@@ -350,10 +350,21 @@
     <h4>Total Referrals</h4>
     <p id="totalReferrals">0</p> </div>
 
-    <div class="glass-card stat-card">
-        <h4>Active Clients</h4>
-        <p>112</p>
+  <div class="glass-card stat-card">
+    <h4>TDS Deducted (FY 2024-25)</h4>
+    <p id="total-tds">₹0.00</p>
+    
+    <div class="tds-info" style="text-align: left; margin-top: 10px; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+        <ul style="list-style: none; padding: 0; color: #e0e0e0;">
+            <li style="margin-bottom: 8px;">
+                <strong>• Compliance:</strong> TDS is deducted at 5% under <b>Section 194-H</b> of the Income Tax Act as commission/brokerage.
+            </li>
+            <li>
+                <strong>• Recovery:</strong> You can claim this amount as a tax refund while filing your <b>Income Tax Return (ITR)</b> at the end of the financial year.
+            </li>
+        </ul>
     </div>
+</div>
 
     <div class="glass-card stat-card">
         <h4>Next Payout</h4>
@@ -659,5 +670,6 @@ function logoutUser() {
     <script src="partner_profile.js"></script>
     <script src="monthlyStats.js"></script>
     <script src="lifetimeStats.js"></script>
+    <script src="js/payouts.js"></script>
 </body>
 </html>
