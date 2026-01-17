@@ -1,76 +1,80 @@
 /**
- * payouts.js
- * Partner Financials (TDS & Wallet) Fetching System
+ * payouts.js - Professional Financial Tracker
+ * Filter by Financial Year (FY)
  */
 
 const PAYOUT_API_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec";
 
 async function loadPartnerFinancials() {
-    // 1. LocalStorage se logged-in Partner ki ID uthana
     const partnerId = localStorage.getItem('partnerId'); 
     const tdsElement = document.getElementById('total-tds');
-    const tdsHeading = document.getElementById('tds-heading');
+    const fyDropdown = document.getElementById('fy-select'); // Dropdown select element
 
     if (!partnerId) {
-        console.warn("Partner ID nahi mili. Dashboard data fetch nahi ho sakta.");
+        console.warn("Partner ID nahi mili.");
         return;
     }
 
-    // 2. Dynamic Financial Year (FY) nikalna (e.g. FY 2025-26)
-    const now = new Date();
-    const currentMonth = now.getMonth() + 1; // JS months 0-11 hote hain
-    const currentYear = now.getFullYear();
-    let fyDisplay = "";
-
-    if (currentMonth >= 4) {
-        // April ya uske baad: Current Year - Next Year
-        fyDisplay = `${currentYear}-${(currentYear + 1).toString().slice(-2)}`;
-    } else {
-        // Jan-March: Previous Year - Current Year
-        fyDisplay = `${currentYear - 1}-${currentYear.toString().slice(-2)}`;
-    }
-
-    // Heading update karna (TDS Deducted FY 2025-26)
-    if (tdsHeading) {
-        tdsHeading.innerText = `TDS Deducted (FY ${fyDisplay})`;
-    }
+    // Dropdown se selected FY uthao (e.g., "2025-26")
+    const selectedFY = fyDropdown ? fyDropdown.value : getCurrentFY();
 
     try {
-        console.log(`Fetching financials for Partner: ${partnerId}...`);
+        console.log(`Fetching data for Partner: ${partnerId}, FY: ${selectedFY}...`);
         
-        // 3. API Call
-        const response = await fetch(`${PAYOUT_API_URL}?partnerId=${partnerId}`);
+        // --- YAHA CHANGE HAI: API ko ab FY bhi bhej rahe hain ---
+        const response = await fetch(`${PAYOUT_API_URL}?partnerId=${partnerId}&fy=${selectedFY}`);
         
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) throw new Error('Network response error');
         
         const data = await response.json();
         console.log("Financial Data Received:", data);
 
-        // 4. TDS Amount Update (Indian Currency Format)
+        // 1. TDS Amount Update
         if (tdsElement) {
             const totalTDS = data.totalTDS || 0;
-            tdsElement.innerText = new Intl.NumberFormat('en-IN', {
-                style: 'currency',
-                currency: 'INR',
-                maximumFractionDigits: 0
-            }).format(totalTDS);
+            tdsElement.innerText = formatToINR(totalTDS);
         }
 
-        // 5. Agar Wallet Balance card hai (Optional)
+        // 2. Wallet Balance Update
         const walletElement = document.getElementById('wallet-balance');
         if (walletElement && data.totalNet !== undefined) {
-            walletElement.innerText = new Intl.NumberFormat('en-IN', {
-                style: 'currency',
-                currency: 'INR',
-                maximumFractionDigits: 0
-            }).format(data.totalNet);
+            walletElement.innerText = formatToINR(data.totalNet);
         }
 
     } catch (error) {
-        console.error("TDS Fetch Error:", error);
+        console.error("Fetch Error:", error);
         if (tdsElement) tdsElement.innerText = "₹0";
     }
 }
 
-// Page load hote hi data fetch karein
-document.addEventListener('DOMContentLoaded', loadPartnerFinancials);
+// --- HELPER FUNCTIONS ---
+
+// 1. Current Financial Year nikalne ka logic
+function getCurrentFY() {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear();
+    return (month >= 4) ? `${year}-${(year + 1).toString().slice(-2)}` : `${year - 1}-${year.toString().slice(-2)}`;
+}
+
+// 2. Currency Formatting
+function formatToINR(amount) {
+    return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+    }).format(amount);
+}
+
+// --- EVENT LISTENERS ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Pehli baar data load karo
+    loadPartnerFinancials();
+
+    // 2. Agar dropdown change ho, toh dobara data fetch karo
+    const fyDropdown = document.getElementById('fy-select');
+    if (fyDropdown) {
+        fyDropdown.addEventListener('change', loadPartnerFinancials);
+    }
+});
