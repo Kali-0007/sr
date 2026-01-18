@@ -618,10 +618,10 @@ if (data.status === "success") {
         setupMonthlyFilter(joinDate, referrals);
     }
 
-    // NAYI LINE: Graph trigger karne ke liye
-    if (typeof renderGraph === "function") {
-        renderGraph(referrals);
-    }
+   // --- 4. ANALYTICS & GRAPH CONNECT ---
+if (typeof renderLiveAnalytics === "function") {
+    renderLiveAnalytics(referrals);
+}
 }
             // --- 2. STATUS CHECK (ACTIVE/APPROVED) ---
             const status = (data.profile.profileStatus || "").toUpperCase().trim();
