@@ -154,19 +154,22 @@
     }
 
     // --- 2. INITIALIZE NOTICE BOARD ---
+    // --- 2. INITIALIZE NOTICE BOARD ---
     function initNoticeBoard() {
     const container = document.getElementById('notice-board-wrapper');
     if (!container) return;
 
-    // Check ki kya hum Google environment mein hain
+    // 1. Modal ko sabse pehle banaiye, bina kisi condition ke
+    createNoticeModal();
+
+    // 2. Ab check kijiye Google API
     if (typeof google === 'undefined' || !google.script) {
         console.log("Google API load ho rahi hai... 1s mein retry karenge");
         setTimeout(initNoticeBoard, 1000);
         return;
     }
 
-    createNoticeModal();
-
+    // 3. Agar google mil gaya, tabhi data mangwaiye
     const urlParams = new URLSearchParams(window.location.search);
     const partnerId = urlParams.get('id') || "GUEST"; 
 
@@ -175,7 +178,8 @@
             if (noticesData && noticesData.length > 0) {
                 renderNoticesToUI(noticesData, container);
             } else {
-                container.style.display = 'none';
+                // Agar data nahi hai, toh container khali rakhein ya hide karein
+                container.innerHTML = ""; 
             }
         })
         .getPartnerNotices(partnerId);
