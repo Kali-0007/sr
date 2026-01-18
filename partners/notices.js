@@ -173,14 +173,22 @@
     const urlParams = new URLSearchParams(window.location.search);
     const partnerId = urlParams.get('id') || "GUEST"; 
 
+    // --- Data mangwane ka asli kaam ---
     google.script.run
         .withSuccessHandler(function(noticesData) {
+            console.log("SUCCESS: Backend se notices mil gaye:", noticesData);
+            
             if (noticesData && noticesData.length > 0) {
                 renderNoticesToUI(noticesData, container);
             } else {
-                // Agar data nahi hai, toh container khali rakhein ya hide karein
-                container.innerHTML = ""; 
+                console.warn("Backend se data toh aaya par notices khali (empty array) hain.");
+                container.style.display = 'none'; // Agar notice nahi hai toh board chhupa do
             }
+        })
+        .withFailureHandler(function(err) {
+            console.error("CRITICAL ERROR: Google Script backend fail ho gaya:", err);
+            // Error aane par user ko purana/dummy data dikha sakte hain taaki board khali na dikhe
+            container.style.display = 'none';
         })
         .getPartnerNotices(partnerId);
 }
