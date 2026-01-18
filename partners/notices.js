@@ -216,10 +216,8 @@
         }
     };
 
-    // Execution trigger
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initNoticeBoard);
-    } else {
+    // Purana execution trigger hata kar ye likhein:
+    setTimeout(function() {
         initNoticeBoard();
-    }
-})();
+    }, 1000); 
+})(); // Ye last ka bracket pehle se hoga wahi rehne dein
