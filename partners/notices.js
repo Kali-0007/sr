@@ -14,7 +14,7 @@
         }
 
         .sticky-note {
-            width: 340px; /* Width increased from 300px to 380px (~1 inch extra) */
+            width: 320px; /* Width increased from 300px to 380px (~1 inch extra) */
             height: 310px; 
             padding: 15px;
             background: #fff9c4; 
@@ -156,10 +156,11 @@
 
         const sortedNotices = [...noticesData].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        let listHTML = sortedNotices.map((n) => {
+       // 3. Render Items (Updated with Index for fix)
+        let listHTML = sortedNotices.map((n, index) => {
             const isNew = (new Date() - new Date(n.date)) < 24 * 60 * 60 * 1000;
             return `
-                <li class="notice-item" onclick="showFullNotice('${encodeURIComponent(n.text)}')">
+                <li class="notice-item" onclick="showFullNotice(${index})">
                     <span class="notice-bullet">•</span>
                     <div class="text-truncate">
                         ${isNew ? '<span class="new-badge">NEW</span>' : ''}
@@ -176,8 +177,10 @@
             </div>
         `;
 
-        window.showFullNotice = (encodedText) => {
-            document.getElementById('modalText').innerText = decodeURIComponent(encodedText);
+       window.showFullNotice = (idx) => {
+            // sortedNotices ko access karke text nikalna
+            const sortedNotices = [...noticesData].sort((a, b) => new Date(b.date) - new Date(a.date));
+            document.getElementById('modalText').innerText = sortedNotices[idx].text;
             document.getElementById('noticeModal').style.display = 'flex';
         };
     }
