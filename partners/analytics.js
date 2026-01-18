@@ -1,65 +1,108 @@
 /**
- * analytics.js - Professional Dual-Graph Module (Fixed Layout)
+ * analytics.js - Complete Professional Dashboard Analytics
+ * Handles: 3 Stats (Success, Avg, Total) + 2 Graphs (Income, Referral)
  */
 
+// Global instances taaki graphs refresh hote waqt purana data clean ho jaye
 let incomeChartInstance = null;
 let referralChartInstance = null;
 
+/**
+ * MAIN ENTRY POINT: Call this when data arrives from backend
+ */
 function renderLiveAnalytics(referralList) {
     if (!referralList || referralList.length === 0) {
+        console.warn("Analytics: No data available.");
         resetAnalyticsUI();
         return;
     }
 
+    // 1. Update 3 Stats: Conversion, Avg Earning, Total Orders
     updateStatTiles(referralList);
+
+    // 2. Process Data for Dual Graphs
     const graphData = processDualGraphData(referralList);
 
+    // 3. Draw both Charts
     drawIncomeChart(graphData.labels, graphData.incomeValues);
     drawReferralChart(graphData.labels, graphData.referralCounts);
 }
 
+/**
+ * LOGIC: Stats Calculation (3 Metrics)
+ */
 function updateStatTiles(list) {
     let totalOrders = list.length;
-    let completedOrders = list.filter(o => (o.status || "").toLowerCase() === 'completed' || (o.status || "").toLowerCase() === 'paid').length;
-    
-    const conversionRate = totalOrders > 0 ? ((completedOrders / totalOrders) * 100).toFixed(1) : "0";
+    let completedOrders = 0;
+    let totalNetEarnings = 0;
 
-    const elConv = document.getElementById('analytics-conversion');
-    const elOrder = document.getElementById('analytics-orders');
-
-    if (elConv) elConv.innerText = conversionRate + "%";
-    if (elOrder) elOrder.innerText = totalOrders;
-}
-
-function processDualGraphData(list) {
-    const monthlyMap = {};
     list.forEach(order => {
-        const d = new Date(order.date);
-        const monthLabel = d.toLocaleString('default', { month: 'short', year: 'numeric' });
-        if (!monthlyMap[monthLabel]) monthlyMap[monthLabel] = { income: 0, count: 0 };
-        
-        monthlyMap[monthLabel].count += 1;
         const status = (order.status || "").toLowerCase();
         if (status === 'completed' || status === 'paid') {
+            completedOrders++;
             const gross = parseFloat(order.gross || 0);
-            monthlyMap[monthLabel].income += (gross * 0.95); // 5% TDS deduct
+            // Calculation: Gross - 5% TDS
+            const net = gross * 0.95;
+            totalNetEarnings += net;
         }
     });
 
+    const conversionRate = totalOrders > 0 ? ((completedOrders / totalOrders) * 100).toFixed(1) : "0";
+    const avgEarning = completedOrders > 0 ? (totalNetEarnings / completedOrders).toFixed(0) : "0";
+
+    // UI Updates (Make sure these IDs exist in your HTML)
+    const elConv = document.getElementById('analytics-conversion');
+    const elOrder = document.getElementById('analytics-orders');
+    const elAvg = document.getElementById('analytics-avg');
+
+    if (elConv) elConv.innerText = conversionRate + "%";
+    if (elOrder) elOrder.innerText = totalOrders;
+    if (elAvg) elAvg.innerText = "₹" + parseInt(avgEarning).toLocaleString('en-IN');
+}
+
+/**
+ * LOGIC: Monthly Data Aggregation
+ */
+function processDualGraphData(list) {
+    const monthlyMap = {};
+
+    list.forEach(order => {
+        const d = new Date(order.date);
+        const monthLabel = d.toLocaleString('default', { month: 'short', year: 'numeric' });
+        
+        if (!monthlyMap[monthLabel]) {
+            monthlyMap[monthLabel] = { income: 0, count: 0 };
+        }
+
+        // Referral Rate: Count every referral
+        monthlyMap[monthLabel].count += 1;
+
+        // Income Rate: Only successful earnings
+        const status = (order.status || "").toLowerCase();
+        if (status === 'completed' || status === 'paid') {
+            const gross = parseFloat(order.gross || 0);
+            monthlyMap[monthLabel].income += (gross * 0.95);
+        }
+    });
+
+    // Sort labels chronologically if needed
+    const sortedLabels = Object.keys(monthlyMap);
+
     return {
-        labels: Object.keys(monthlyMap),
-        incomeValues: Object.values(monthlyMap).map(v => v.income),
-        referralCounts: Object.values(monthlyMap).map(v => v.count)
+        labels: sortedLabels,
+        incomeValues: sortedLabels.map(l => monthlyMap[l].income),
+        referralCounts: sortedLabels.map(l => monthlyMap[l].count)
     };
 }
 
 /**
- * FIXED INCOME CHART (Line)
+ * GRAPH 1: Income Trend (Line Chart)
  */
 function drawIncomeChart(labels, values) {
     const canvas = document.getElementById('incomeChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+
     if (incomeChartInstance) incomeChartInstance.destroy();
 
     incomeChartInstance = new Chart(ctx, {
@@ -67,14 +110,14 @@ function drawIncomeChart(labels, values) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Income',
+                label: 'Income (₹)',
                 data: values,
                 borderColor: '#00c4b4',
                 backgroundColor: 'rgba(0, 196, 180, 0.1)',
-                borderWidth: 2,
+                borderWidth: 2.5,
                 tension: 0.4,
                 fill: true,
-                pointRadius: 4,
+                pointRadius: 5,
                 pointBackgroundColor: '#00c4b4',
                 pointBorderColor: '#fff',
                 pointBorderWidth: 2
@@ -85,20 +128,21 @@ function drawIncomeChart(labels, values) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: '#64748b', font: { size: 10 } } },
-                x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } }
+                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
             }
         }
     });
 }
 
 /**
- * FIXED REFERRAL CHART (Bar)
+ * GRAPH 2: Referral Growth (Bar Chart)
  */
 function drawReferralChart(labels, values) {
     const canvas = document.getElementById('referralChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+
     if (referralChartInstance) referralChartInstance.destroy();
 
     referralChartInstance = new Chart(ctx, {
@@ -106,13 +150,12 @@ function drawReferralChart(labels, values) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Referrals',
+                label: 'New Leads',
                 data: values,
                 backgroundColor: '#d4af37',
                 borderRadius: 4,
-                // Isse bars zyada mote nahi honge agar data kam ho
-                barPercentage: 0.4,
-                maxBarThickness: 30 
+                barPercentage: 0.5,
+                maxBarThickness: 35
             }]
         },
         options: {
@@ -120,18 +163,19 @@ function drawReferralChart(labels, values) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                y: { 
-                    beginAtZero: true, 
-                    grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, 
-                    ticks: { color: '#64748b', font: { size: 10 }, stepSize: 1 } 
-                },
-                x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } }
+                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 }, stepSize: 1 } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
             }
         }
     });
 }
 
+/**
+ * RESET UI: If no data
+ */
 function resetAnalyticsUI() {
-    if (document.getElementById('analytics-conversion')) document.getElementById('analytics-conversion').innerText = "0%";
-    if (document.getElementById('analytics-orders')) document.getElementById('analytics-orders').innerText = "0";
+    ['analytics-conversion', 'analytics-orders', 'analytics-avg'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = id.includes('avg') ? "₹0" : (id.includes('conv') ? "0%" : "0");
+    });
 }
