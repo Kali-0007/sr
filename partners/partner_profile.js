@@ -104,8 +104,8 @@ function renderProfileUI(p) {
                                     style="width:100%; text-align:left; appearance:auto; background-color: #1a1a1a !important; color: #ffffff !important;" 
                                     onchange="handleProfessionLogic(this.value)">
                                     <option value="Tax Consultant" ${p.profession === 'Tax Consultant' ? 'selected' : ''}>Tax Consultant</option>
-                                    <option value="CHARTERED ACCOUNTANT" ${p.profession === 'CHARTERED ACCOUNTANT' ? 'selected' : ''}>Chartered Accountant </option>
-                                    <option value="COMPANY SECRETARY" ${p.profession === 'COMPANY SECRETARY' ? 'selected' : ''}>Company Secretary </option>
+                                    <option value="CA" ${p.profession === 'CA' ? 'selected' : ''}>Chartered Accountant (CA)</option>
+                                    <option value="CS" ${p.profession === 'CS' ? 'selected' : ''}>Company Secretary (CS)</option>
                                     <option value="Advocate" ${p.profession === 'Advocate' ? 'selected' : ''}>Advocate</option>
                                     <option value="Accountant" ${p.profession === 'Accountant' ? 'selected' : ''}>Accountant</option>
                                     <option value="Other" ${p.profession === 'Other' ? 'selected' : ''}>Other (Please Specify)</option>
@@ -118,7 +118,7 @@ function renderProfileUI(p) {
                             <input type="text" id="upd-other-spec" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.otherProfession || ''}" ${!isEditMode ? 'readonly' : ''} placeholder="Mention your profession">
                         </div>
 
-                        <div id="membership-box" style="display: ${(p.profession === 'CHARTERED ACCOUNTANT' || p.profession === 'COMPANY SECRETARY') ? 'block' : 'none'};">
+                        <div id="membership-box" style="display: ${(p.profession === 'CA' || p.profession === 'CS') ? 'block' : 'none'};">
                             <label style="font-size: 11px; color: var(--text-gray); font-weight: 600;">MEMBERSHIP NUMBER</label>
                             <input type="text" id="upd-membership" class="btn btn-outline" style="width:100%; text-align:left;" value="${p.membershipNumber || ''}" ${!isEditMode ? 'readonly' : ''}>
                         </div>
@@ -274,7 +274,7 @@ function handleProfessionLogic(val) {
     // 1. Membership box handle karein
     const membershipBox = document.getElementById('membership-box');
     if (membershipBox) {
-        membershipBox.style.display = (val === 'CHARTERED ACCOUNTANT' || val === 'COMPANY SECRETARY') ? 'block' : 'none';
+        membershipBox.style.display = (val === 'CA' || val === 'CS') ? 'block' : 'none';
     }
 
     // 2. Other Specify box handle karein
