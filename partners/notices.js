@@ -160,8 +160,8 @@
 
     // Check ki kya hum Google environment mein hain
     if (typeof google === 'undefined' || !google.script) {
-        console.warn("Google API load nahi hui. Shayad aap ise local chalane ki koshish kar rahe hain?");
-        container.style.display = 'none';
+        console.log("Google API load ho rahi hai... 1s mein retry karenge");
+        setTimeout(initNoticeBoard, 1000);
         return;
     }
 
