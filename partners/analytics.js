@@ -1,15 +1,14 @@
 /**
- * analytics.js - Professional Dashboard Analytics Module
- * Handles: Monthly Revenue Graph, Conversion Rate, Total Orders, and Avg Earnings
- * Layout: Designed for 75% width container
+ * analytics.js - Professional Dual-Graph Module
+ * Handles: Income Rate Chart, Referral Rate Chart, and Quick Stats
  */
 
-// Global variable to handle Chart instance
-let revenueChartInstance = null;
+// Global variables for Chart instances
+let incomeChartInstance = null;
+let referralChartInstance = null;
 
 /**
  * MAIN ENTRY POINT
- * Is function ko tab call karein jab backend se data (referralList) aa jaye.
  */
 function renderLiveAnalytics(referralList) {
     if (!referralList || referralList.length === 0) {
@@ -18,151 +17,147 @@ function renderLiveAnalytics(referralList) {
         return;
     }
 
-    // 1. Tiles Update Logic
+    // 1. Update Stats (Conversion & Total)
     updateStatTiles(referralList);
 
-    // 2. Data Processing for Graph
-    const graphData = processGraphData(referralList);
+    // 2. Process Data for both Graphs
+    const graphData = processDualGraphData(referralList);
 
-    // 3. Render/Update Chart
-    drawRevenueChart(graphData);
+    // 3. Draw both Charts
+    drawIncomeChart(graphData.labels, graphData.incomeValues);
+    drawReferralChart(graphData.labels, graphData.referralCounts);
 }
 
 /**
- * CALCULATE TILE STATS (Conversion, Orders, Avg Earnings)
+ * CALCULATE TILE STATS
  */
 function updateStatTiles(list) {
     let totalOrders = list.length;
     let completedOrders = 0;
-    let totalNetEarnings = 0;
 
     list.forEach(order => {
         const status = (order.status || "").toLowerCase();
         if (status === 'completed' || status === 'paid') {
             completedOrders++;
-            const gross = parseFloat(order.gross || 0);
-            // Dashboard standard: Net = Gross - 5% TDS
-            const net = gross - (gross * 0.05);
-            totalNetEarnings += net;
         }
     });
 
-    // Calculations
     const conversionRate = totalOrders > 0 ? ((completedOrders / totalOrders) * 100).toFixed(1) : "0";
-    const avgEarning = completedOrders > 0 ? (totalNetEarnings / completedOrders).toFixed(0) : "0";
 
-    // UI Updates
     const elConv = document.getElementById('analytics-conversion');
     const elOrder = document.getElementById('analytics-orders');
-    const elAvg = document.getElementById('analytics-avg');
 
     if (elConv) elConv.innerText = conversionRate + "%";
     if (elOrder) elOrder.innerText = totalOrders;
-    if (elAvg) elAvg.innerText = "₹" + parseInt(avgEarning).toLocaleString('en-IN');
 }
 
 /**
- * PROCESS DATA FOR MONTHLY TREND
+ * PROCESS DATA FOR DUAL TRENDS (Income & Count)
  */
-function processGraphData(list) {
+function processDualGraphData(list) {
     const monthlyMap = {};
 
-    // Grouping by Month
     list.forEach(order => {
-        if ((order.status || "").toLowerCase() === 'completed' || (order.status || "").toLowerCase() === 'paid') {
-            const d = new Date(order.date);
-            const monthLabel = d.toLocaleString('default', { month: 'short', year: 'numeric' });
-            
+        const d = new Date(order.date);
+        const monthLabel = d.toLocaleString('default', { month: 'short', year: 'numeric' });
+        
+        if (!monthlyMap[monthLabel]) {
+            monthlyMap[monthLabel] = { income: 0, count: 0 };
+        }
+
+        // Referral Rate: Count everything
+        monthlyMap[monthLabel].count += 1;
+
+        // Income Rate: Count only paid
+        const status = (order.status || "").toLowerCase();
+        if (status === 'completed' || status === 'paid') {
             const gross = parseFloat(order.gross || 0);
-            const net = gross - (gross * 0.05);
-            
-            monthlyMap[monthLabel] = (monthlyMap[monthLabel] || 0) + net;
+            const net = gross - (gross * 0.05); // 5% TDS Logic
+            monthlyMap[monthLabel].income += net;
         }
     });
 
-    // Prepare arrays for Chart.js
-    const labels = Object.keys(monthlyMap);
-    const dataValues = Object.values(monthlyMap);
-
-    return { labels, dataValues };
+    return {
+        labels: Object.keys(monthlyMap),
+        incomeValues: Object.values(monthlyMap).map(v => v.income),
+        referralCounts: Object.values(monthlyMap).map(v => v.count)
+    };
 }
 
 /**
- * DRAW THE CHART (CHART.JS)
+ * CHART 1: INCOME RATE (Line Chart)
  */
-function drawRevenueChart({ labels, dataValues }) {
-    const canvas = document.getElementById('revenueChart');
+function drawIncomeChart(labels, values) {
+    const canvas = document.getElementById('incomeChart');
     if (!canvas) return;
-    
     const ctx = canvas.getContext('2d');
 
-    // Destroy existing chart to prevent hover glitches
-    if (revenueChartInstance) {
-        revenueChartInstance.destroy();
-    }
+    if (incomeChartInstance) incomeChartInstance.destroy();
 
-    // Create New Chart
-    revenueChartInstance = new Chart(ctx, {
+    incomeChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Earnings (₹)',
-                data: dataValues,
-                borderColor: '#2ecc71', // Neon Green
-                backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                label: 'Income (₹)',
+                data: values,
+                borderColor: '#00c4b4',
+                backgroundColor: 'rgba(0, 196, 180, 0.1)',
                 borderWidth: 3,
-                tension: 0.4, // Curved line
+                tension: 0.4,
                 fill: true,
-                pointBackgroundColor: '#2ecc71',
-                pointRadius: 4,
-                pointHoverRadius: 7
+                pointRadius: 3
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    mode: 'index',
-                    intersect: false,
-                    backgroundColor: '#1e293b',
-                    titleColor: '#fff',
-                    bodyColor: '#2ecc71',
-                    padding: 10,
-                    callbacks: {
-                        label: function(context) {
-                            return ' Net: ₹' + context.parsed.y.toLocaleString('en-IN');
-                        }
-                    }
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                    ticks: { 
-                        color: '#94a3b8',
-                        callback: function(value) { return '₹' + value.toLocaleString('en-IN'); }
-                    }
-                },
-                x: {
-                    grid: { display: false },
-                    ticks: { color: '#94a3b8' }
-                }
+                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
             }
         }
     });
 }
 
 /**
- * RESET UI (Fallback)
+ * CHART 2: REFERRAL RATE (Bar Chart)
+ */
+function drawReferralChart(labels, values) {
+    const canvas = document.getElementById('referralChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    if (referralChartInstance) referralChartInstance.destroy();
+
+    referralChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'New Referrals',
+                data: values,
+                backgroundColor: '#d4af37',
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', stepSize: 1 } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            }
+        }
+    });
+}
+
+/**
+ * RESET UI
  */
 function resetAnalyticsUI() {
-    const ids = ['analytics-conversion', 'analytics-orders', 'analytics-avg'];
-    ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerText = id.includes('avg') ? "₹0" : "0%";
-    });
+    if (document.getElementById('analytics-conversion')) document.getElementById('analytics-conversion').innerText = "0%";
+    if (document.getElementById('analytics-orders')) document.getElementById('analytics-orders').innerText = "0";
 }
