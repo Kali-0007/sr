@@ -421,7 +421,7 @@
             Copy Referral Code
         </button>
         
-        <a href="javascript:void(0)" onclick="shareOnWhatsApp()" id="whatsappShareBtn" class="btn btn-outline action-btn" style="border-color: #25D366; color: #25D366;">
+        <a href="javascript:void(0)" onclick="shareOnWhatsApp()" id="whatsappShareBtn" class="btn btn-outline action-btn" style="border-color: #25D366; color: #25D366; text-decoration: none;">
             <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771z"/></svg>
             Share on WhatsApp
         </a>
@@ -440,33 +440,37 @@
             <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></svg>
             Contact Support
         </button>
+
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);">
+                <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Success Rate</span>
+                <span id="analytics-conversion" style="font-size: 18px; font-weight: 700; color: #2ecc71;">0%</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);">
+                <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Total Referrals</span>
+                <span id="analytics-orders" style="font-size: 18px; font-weight: 700; color: var(--text-white);">0</span>
+            </div>
+        </div>
     </div>
 
-<div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; border-left: 1px solid var(--glass-border); padding-left: 30px;">
+    <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 25px; border-left: 1px solid var(--glass-border); padding-left: 30px;">
         
         <div class="analytics-sub-card">
-            <h4 style="color: var(--primary-teal); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;">Earnings Trend</h4>
-            <div style="height: 180px; width: 100%; position: relative;">
-                <canvas id="revenueChart"></canvas>
+            <h4 style="color: var(--primary-teal); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 15px; text-transform: uppercase;">Income Rate (₹)</h4>
+            <div style="height: 160px; width: 100%; position: relative;">
+                <canvas id="incomeChart"></canvas>
             </div>
         </div>
 
         <div class="analytics-sub-card">
-            <h4 style="color: var(--secondary-gold); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;">Quick Stats</h4>
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);">
-                    <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Success Rate</span>
-                    <span id="analytics-conversion" style="font-size: 18px; font-weight: 700; color: #2ecc71;">0%</span>
-                </div>
-                <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);">
-                    <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Total Referrals</span>
-                    <span id="analytics-orders" style="font-size: 18px; font-weight: 700; color: var(--text-white);">0</span>
-                </div>
+            <h4 style="color: var(--secondary-gold); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 15px; text-transform: uppercase;">Referral Rate (Increase)</h4>
+            <div style="height: 160px; width: 100%; position: relative;">
+                <canvas id="referralChart"></canvas>
             </div>
         </div>
 
     </div>
-</div> ```
+</div>
 
 
         <footer class="footer-note">
