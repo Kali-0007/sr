@@ -1,92 +1,120 @@
 /**
- * notices.js - All-in-one Sticky Note Notice Board
- * Handles: Styling, Data fetching, and Rendering
+ * notices.js - Single Sticky Note with Bullets
  */
 
 (function() {
-    // 1. STYLES (CSS-in-JS) - Ise hum dynamic inject kar rahe hain
     const styles = `
         #notice-board-wrapper {
             display: flex;
-            gap: 20px;
-            padding: 10px;
-            overflow-x: auto;
-            max-width: 100%;
-            margin-top: 10px;
+            justify-content: flex-end;
+            padding-right: 20px;
         }
 
         .sticky-note {
-            width: 180px;
-            height: 180px;
+            width: 260px;
+            min-height: 160px;
             padding: 15px;
+            background: #fff9c4; /* Classic Yellow */
+            color: #5d4037;
+            box-shadow: 5px 5px 12px rgba(0,0,0,0.15);
+            transform: rotate(-1.5deg);
             position: relative;
-            font-family: 'Permanent Marker', cursive, sans-serif; /* Rough look ke liye */
-            box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .sticky-note:hover {
-            transform: scale(1.05) rotate(0deg) !important;
-            z-index: 10;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border-bottom-right-radius: 40px 5px; /* Subtle paper fold */
         }
 
         /* Tape Effect */
         .sticky-note::before {
             content: "";
             position: absolute;
-            top: -10px;
-            left: 30%;
-            width: 70px;
-            height: 25px;
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            top: -12px;
+            left: 35%;
+            width: 80px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
-        .note-yellow { background: #fff9c4; color: #5d4037; transform: rotate(-2deg); }
-        .note-blue   { background: #e0f7fa; color: #006064; transform: rotate(1.5deg); }
-        .note-green  { background: #f1f8e9; color: #33691e; transform: rotate(-1deg); }
+        .note-title { 
+            font-weight: 800; 
+            font-size: 0.85rem; 
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-        .note-title { font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; text-decoration: underline; }
-        .note-text { font-size: 0.8rem; line-height: 1.3; }
-        .note-date { font-size: 0.65rem; text-align: right; opacity: 0.7; }
+        .notice-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .notice-item {
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .notice-bullet { color: #d4af37; font-weight: bold; }
+
+        /* 2-Line Truncation Logic */
+        .text-truncate {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+
+        .read-more {
+            color: #007bff;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
     `;
 
-    // CSS ko head mein inject karna
     const styleSheet = document.createElement("style");
     styleSheet.innerText = styles;
     document.head.appendChild(styleSheet);
 
-    // 2. DATA (Abhi static hai, baad mein backend se replace hoga)
-    const dummyNotices = [
-        { title: "Payout Alert", text: "Kal sabhi ke referral commissions transfer ho jayenge. Check your bank! 💰", color: "yellow", date: "18 Jan" },
-        { title: "New Bonus", text: "5 Referrals = ₹500 Extra. Valid till Sunday only. 🔥", color: "blue", date: "17 Jan" },
-        { title: "Training", text: "Naya Marketing Kit Drive folder mein upload kar diya gaya hai. 📂", color: "green", date: "15 Jan" }
+    // Ye data backend se aayega
+    const noticesData = [
+        { text: "Kal sabhi ke referral commissions transfer ho jayenge. Check bank account properly." },
+        { text: "Refer 50 new clients and win a special Goa Trip package for 2 people." },
+        { text: "New marketing posters are now available in the kit section." }
     ];
 
-    // 3. RENDER LOGIC
     function initNoticeBoard() {
         const container = document.getElementById('notice-board-wrapper');
         if (!container) return;
 
-        container.innerHTML = dummyNotices.map(notice => `
-            <div class="sticky-note note-${notice.color}">
-                <div>
-                    <div class="note-title">${notice.title}</div>
-                    <div class="note-text">${notice.text}</div>
-                </div>
-                <div class="note-date">${notice.date}</div>
-            </div>
+        let listHTML = noticesData.map(n => `
+            <li class="notice-item">
+                <span class="notice-bullet">•</span>
+                <span>
+                    <span class="text-truncate">${n.text}</span>
+                    ${n.text.length > 50 ? '<span class="read-more">more...</span>' : ''}
+                </span>
+            </li>
         `).join('');
+
+        container.innerHTML = `
+            <div class="sticky-note">
+                <div class="note-title">📌 Important Notices</div>
+                <ul class="notice-list">
+                    ${listHTML}
+                </ul>
+            </div>
+        `;
     }
 
-    // Run when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initNoticeBoard);
-    } else {
-        initNoticeBoard();
-    }
+    window.addEventListener('DOMContentLoaded', initNoticeBoard);
 })();
