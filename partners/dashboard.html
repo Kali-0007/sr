@@ -442,12 +442,13 @@
         </button>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; border-left: 1px solid var(--glass-border); padding-left: 30px;">
+<div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; border-left: 1px solid var(--glass-border); padding-left: 30px;">
         
         <div class="analytics-sub-card">
             <h4 style="color: var(--primary-teal); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;">Earnings Trend</h4>
-            <div class="chart-container" id="earningsChart" style="height: 180px; display: flex; align-items: flex-end; gap: 15px;">
-                </div>
+            <div style="height: 180px; width: 100%; position: relative;">
+                <canvas id="revenueChart"></canvas>
+            </div>
         </div>
 
         <div class="analytics-sub-card">
@@ -455,17 +456,17 @@
             <div style="display: flex; flex-direction: column; gap: 15px;">
                 <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);">
                     <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Success Rate</span>
-                    <span style="font-size: 18px; font-weight: 700; color: #2ecc71;">85%</span>
+                    <span id="analytics-conversion" style="font-size: 18px; font-weight: 700; color: #2ecc71;">0%</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);">
-                    <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Top Service</span>
-                    <span style="font-size: 14px; font-weight: 600;">ITR Filing</span>
+                    <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Total Referrals</span>
+                    <span id="analytics-orders" style="font-size: 18px; font-weight: 700; color: var(--text-white);">0</span>
                 </div>
             </div>
         </div>
 
     </div>
-</div> </div> ```
+</div> ```
 
 
         <footer class="footer-note">
@@ -713,6 +714,7 @@ function logoutUser() {
     <script src="monthlyStats.js"></script>
     <script src="lifetimeStats.js"></script>
     <script src="payouts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="analytics.js"></script>
 </body>
 </html>
