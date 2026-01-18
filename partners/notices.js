@@ -14,8 +14,8 @@
         }
 
         .sticky-note {
-            width: 380px; /* Width increased from 300px to 380px (~1 inch extra) */
-            height: 330px; 
+            width: 340px; /* Width increased from 300px to 380px (~1 inch extra) */
+            height: 310px; 
             padding: 15px;
             background: #fff9c4; 
             color: #5d4037;
