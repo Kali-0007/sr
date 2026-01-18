@@ -155,26 +155,31 @@
 
     // --- 2. INITIALIZE NOTICE BOARD ---
     function initNoticeBoard() {
-        const container = document.getElementById('notice-board-wrapper');
-        if (!container) return;
+    const container = document.getElementById('notice-board-wrapper');
+    if (!container) return;
 
-        createNoticeModal(); // Modal setup
-
-        // Partner ID fetch logic (Apne hisaab se adjust karein)
-        const urlParams = new URLSearchParams(window.location.search);
-        const partnerId = urlParams.get('id') || "GUEST"; 
-
-        // Backend se data mangwana
-        google.script.run
-            .withSuccessHandler(function(noticesData) {
-                if (noticesData && noticesData.length > 0) {
-                    renderNoticesToUI(noticesData, container);
-                } else {
-                    container.style.display = 'none';
-                }
-            })
-            .getPartnerNotices(partnerId);
+    // Check ki kya hum Google environment mein hain
+    if (typeof google === 'undefined' || !google.script) {
+        console.warn("Google API load nahi hui. Shayad aap ise local chalane ki koshish kar rahe hain?");
+        container.style.display = 'none';
+        return;
     }
+
+    createNoticeModal();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const partnerId = urlParams.get('id') || "GUEST"; 
+
+    google.script.run
+        .withSuccessHandler(function(noticesData) {
+            if (noticesData && noticesData.length > 0) {
+                renderNoticesToUI(noticesData, container);
+            } else {
+                container.style.display = 'none';
+            }
+        })
+        .getPartnerNotices(partnerId);
+}
 
     // --- 3. RENDER UI ---
     function renderNoticesToUI(sortedNotices, container) {
