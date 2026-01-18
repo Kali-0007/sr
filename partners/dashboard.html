@@ -405,43 +405,69 @@
                 </tr>
             </tbody>
         </table>
-    </div> <div style="text-align: center; margin-top: 25px; margin-bottom: 10px;">
+    </div> 
+    <div style="text-align: center; margin-top: 25px; margin-bottom: 10px;">
         <button class="btn btn-outline" style="padding: 10px 30px; min-width: 200px;">
             View All Referrals
         </button>
     </div>
-</div> <div class="actions-stack">
-    <button class="btn btn-teal action-btn" onclick="copyCode()">
-        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-        Copy Referral Code
-    </button>
+</div> 
+
+<div class="glass-card" style="grid-column: 1 / -1; display: grid; grid-template-columns: 320px 1fr; gap: 30px; align-items: start; background: linear-gradient(135deg, rgba(0, 196, 180, 0.05) 0%, rgba(15, 15, 26, 0) 100%);">
     
-    <a href="javascript:void(0)" onclick="shareOnWhatsApp()" id="whatsappShareBtn" class="btn btn-outline action-btn" style="border-color: #25D366; color: #25D366;">
-        <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771z"/></svg>
-        Share on WhatsApp
-    </a>
-    
-    <a href="https://drive.google.com/drive/folders/1BCPThsfioQnd4MuRBTrvKLB0AtViFSkc?usp=sharing" 
-       target="_blank" 
-       class="btn btn-outline action-btn" 
-       style="border-color: #6f42c1; color: #6f42c1; text-decoration: none;">
-        <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;">
-            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-        </svg>
-        Marketing Kit
-    </a>
-    
-    <button class="btn btn-outline action-btn" onclick="showProfile()">
-        <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-        My Profile
-    </button>
-    
-    <button class="btn btn-outline action-btn">
-        <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></svg>
-        Contact Support
-    </button>
-</div>
-</div>
+    <div class="actions-stack" style="margin-top: 0;">
+        <button class="btn btn-teal action-btn" onclick="copyCode()">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            Copy Referral Code
+        </button>
+        
+        <a href="javascript:void(0)" onclick="shareOnWhatsApp()" id="whatsappShareBtn" class="btn btn-outline action-btn" style="border-color: #25D366; color: #25D366;">
+            <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771z"/></svg>
+            Share on WhatsApp
+        </a>
+        
+        <a href="https://drive.google.com/drive/folders/1BCPThsfioQnd4MuRBTrvKLB0AtViFSkc?usp=sharing" target="_blank" class="btn btn-outline action-btn" style="border-color: #6f42c1; color: #6f42c1; text-decoration: none;">
+            <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Marketing Kit
+        </a>
+        
+        <button class="btn btn-outline action-btn" onclick="showProfile()">
+            <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            My Profile
+        </button>
+        
+        <button class="btn btn-outline action-btn">
+            <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></svg>
+            Contact Support
+        </button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; border-left: 1px solid var(--glass-border); padding-left: 30px;">
+        
+        <div class="analytics-sub-card">
+            <h4 style="color: var(--primary-teal); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;">Earnings Trend</h4>
+            <div class="chart-container" id="earningsChart" style="height: 180px; display: flex; align-items: flex-end; gap: 15px;">
+                </div>
+        </div>
+
+        <div class="analytics-sub-card">
+            <h4 style="color: var(--secondary-gold); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;">Quick Stats</h4>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);">
+                    <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Success Rate</span>
+                    <span style="font-size: 18px; font-weight: 700; color: #2ecc71;">85%</span>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);">
+                    <span style="display: block; font-size: 11px; color: var(--text-gray); margin-bottom: 4px;">Top Service</span>
+                    <span style="font-size: 14px; font-weight: 600;">ITR Filing</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div> </div> ```
+
+
         <footer class="footer-note">
             <div class="testimonial">"TaxEasePro has been a game-changer for my consultancy. Earned ₹45,000 last month!"</div>
             <p>– Rajesh, CA Partner</p>
@@ -580,12 +606,20 @@ if (data.totalEarnings) {
 }
 
 // --- 3. MONTHLY EARNINGS CARD CONNECT ---
+// --- 3. MONTHLY EARNINGS & GRAPH CONNECT ---
 if (data.status === "success") {
-    window.globalReferralList = data.referrals || [];
+    const referrals = data.referrals || [];
+    window.globalReferralList = referrals; // Global save kiya taaki filter kaam kare
     
+    // Monthly Filter Setup
     if (typeof setupMonthlyFilter === "function") {
         const joinDate = (data.profile && data.profile.joiningDate) ? data.profile.joiningDate : new Date().toISOString(); 
-        setupMonthlyFilter(joinDate, data.referrals || []);
+        setupMonthlyFilter(joinDate, referrals);
+    }
+
+    // NAYI LINE: Graph trigger karne ke liye
+    if (typeof renderGraph === "function") {
+        renderGraph(referrals);
     }
 }
             // --- 2. STATUS CHECK (ACTIVE/APPROVED) ---
@@ -679,5 +713,6 @@ function logoutUser() {
     <script src="monthlyStats.js"></script>
     <script src="lifetimeStats.js"></script>
     <script src="payouts.js"></script>
+    <script src="analytics.js"></script>
 </body>
 </html>
