@@ -221,7 +221,5 @@
     };
 
     // Purana execution trigger hata kar ye likhein:
-    setTimeout(function() {
-        initNoticeBoard();
-    }, 1000); 
-})(); // Ye last ka bracket pehle se hoga wahi rehne dein
+initNoticeBoard();
+})();
