@@ -84,13 +84,37 @@
             display: none; justify-content: center; align-items: center; z-index: 10000;
         }
 
+       
         .big-sticky-note {
-            width: 480px; min-height: 320px; background: #fff9c4;
-            padding: 40px; box-shadow: 25px 25px 50px rgba(0,0,0,0.5);
-            transform: rotate(1deg); position: relative;
-            border-bottom-right-radius: 70px 15px;
+            width: 480px; 
+            min-height: 320px; 
+            background-color: #fdf5e6; 
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(0,0,0,0.03) 1px, transparent 0),
+                linear-gradient(to bottom, transparent 95%, rgba(0,0,0,0.05) 100%);
+            background-size: 20px 20px, 100% 30px;
+            padding: 45px; 
+            box-shadow: 
+                2px 2px 5px rgba(0,0,0,0.1),
+                15px 15px 35px rgba(0,0,0,0.3),
+                inset 0 0 50px rgba(0,0,0,0.02);
+            transform: rotate(1deg); 
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-bottom-right-radius: 80px 15px;
             animation: popIn 0.3s ease-out;
             outline: none;
+        }
+
+        /* --- Ye texture ke liye extra hai, ise niche add kar dein --- */
+        .big-sticky-note::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/felt.png');
+            opacity: 0.15;
+            pointer-events: none;
+            border-bottom-right-radius: 80px 15px;
         }
 
         @keyframes popIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1) rotate(1deg); opacity: 1; } }
