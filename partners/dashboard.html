@@ -748,5 +748,18 @@ function logoutUser() {
 <script src="lifetimeStats.js"></script>
 <script src="payouts.js"></script>
         <script src="notices.js"></script>
+    <script>
+  // Jab payouts apna kaam khatam kare, tab notices ko trigger karo
+  // Kyunki tab tak Google API confirm load ho chuki hoti hai
+  window.addEventListener('load', function() {
+      // 2 second ka delay sirf safety ke liye
+      setTimeout(function() {
+          if (typeof initNoticeBoard === 'function') {
+              console.log("Triggering Notice Board manually...");
+              initNoticeBoard();
+          }
+      }, 2000);
+  });
+</script>
 </body>
 </html>
