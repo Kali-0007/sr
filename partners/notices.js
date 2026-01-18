@@ -135,10 +135,8 @@
         { id: 3, text: "Training Video: Naya dashboard kaise use karein? Video 'Kit' section mein live hai.", date: "2026-01-16T09:00:00" }
     ];
 
-    function initNoticeBoard() {
-        const container = document.getElementById('notice-board-wrapper');
-        if (!container) return;
-
+    // --- 1. MODAL GENERATOR (Ek hi baar banega) ---
+    function createNoticeModal() {
         if(!document.getElementById('noticeModal')) {
             const modal = document.createElement('div');
             modal.id = "noticeModal";
@@ -153,17 +151,42 @@
             document.body.appendChild(modal);
             modal.onclick = (e) => { if(e.target === modal) modal.style.display = 'none'; };
         }
+    }
 
-        const sortedNotices = [...noticesData].sort((a, b) => new Date(b.date) - new Date(a.date));
+    // --- 2. INITIALIZE NOTICE BOARD ---
+    function initNoticeBoard() {
+        const container = document.getElementById('notice-board-wrapper');
+        if (!container) return;
 
-       // 3. Render Items (Updated with Index for fix)
+        createNoticeModal(); // Modal setup
+
+        // Partner ID fetch logic (Apne hisaab se adjust karein)
+        const urlParams = new URLSearchParams(window.location.search);
+        const partnerId = urlParams.get('id') || "GUEST"; 
+
+        // Backend se data mangwana
+        google.script.run
+            .withSuccessHandler(function(noticesData) {
+                if (noticesData && noticesData.length > 0) {
+                    renderNoticesToUI(noticesData, container);
+                } else {
+                    container.style.display = 'none';
+                }
+            })
+            .getPartnerNotices(partnerId);
+    }
+
+    // --- 3. RENDER UI ---
+    function renderNoticesToUI(sortedNotices, container) {
+        // Click ke liye data ko save karna
+        window.currentNotices = sortedNotices; 
+
         let listHTML = sortedNotices.map((n, index) => {
-            const isNew = (new Date() - new Date(n.date)) < 24 * 60 * 60 * 1000;
             return `
                 <li class="notice-item" onclick="showFullNotice(${index})">
                     <span class="notice-bullet">•</span>
                     <div class="text-truncate">
-                        ${isNew ? '<span class="new-badge">NEW</span>' : ''}
+                        ${n.isNew ? '<span class="new-badge">NEW</span>' : ''}
                         ${n.text}
                     </div>
                 </li>
@@ -176,15 +199,19 @@
                 <ul class="notice-list">${listHTML}</ul>
             </div>
         `;
-
-       window.showFullNotice = (idx) => {
-            // sortedNotices ko access karke text nikalna
-            const sortedNotices = [...noticesData].sort((a, b) => new Date(b.date) - new Date(a.date));
-            document.getElementById('modalText').innerText = sortedNotices[idx].text;
-            document.getElementById('noticeModal').style.display = 'flex';
-        };
     }
 
+    // --- 4. SHOW FULL NOTICE ---
+    window.showFullNotice = (idx) => {
+        const modal = document.getElementById('noticeModal');
+        const modalText = document.getElementById('modalText');
+        if(modal && modalText && window.currentNotices) {
+            modalText.innerText = window.currentNotices[idx].text;
+            modal.style.display = 'flex';
+        }
+    };
+
+    // Execution trigger
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initNoticeBoard);
     } else {
