@@ -749,17 +749,61 @@ function logoutUser() {
 <script src="payouts.js"></script>
         <script src="notices.js"></script>
     <script>
-  // Jab payouts apna kaam khatam kare, tab notices ko trigger karo
-  // Kyunki tab tak Google API confirm load ho chuki hoti hai
-  window.addEventListener('load', function() {
-      // 2 second ka delay sirf safety ke liye
-      setTimeout(function() {
-          if (typeof initNoticeBoard === 'function') {
-              console.log("Triggering Notice Board manually...");
-              initNoticeBoard();
-          }
-      }, 2000);
-  });
+(function() {
+    const styles = `
+        #notice-board-wrapper { display: flex; justify-content: flex-end; }
+        .sticky-note { width: 320px; min-height: 280px; padding: 15px; background: #fff9c4; color: #5d4037; box-shadow: 6px 6px 15px rgba(0,0,0,0.15); transform: rotate(-1.5deg); position: relative; border-bottom-right-radius: 50px 5px; display: flex; flex-direction: column; }
+        .note-title { font-weight: 800; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 5px; }
+        .notice-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; max-height: 200px; }
+        .notice-item { font-size: 0.85rem; margin-bottom: 10px; line-height: 1.4; display: flex; gap: 8px; cursor: pointer; color: #5d4037; }
+        .new-badge { background: #ff5252; color: white; font-size: 0.6rem; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
+        .text-truncate { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+    `;
+
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    function forceInitNotices() {
+        const container = document.getElementById('notice-board-wrapper');
+        if (!container) return;
+
+        // CHECK GOOGLE API DIRECTLY
+        if (typeof google === 'undefined' || !google.script || !google.script.run) {
+            console.log("Notices: Still waiting for Google API...");
+            setTimeout(forceInitNotices, 1000);
+            return;
+        }
+
+        const pId = localStorage.getItem('referralCode') || "GUEST";
+        
+        google.script.run
+            .withSuccessHandler(function(data) {
+                console.log("NOTICES LOADED:", data);
+                if (!data || data.length === 0) {
+                    data = [{text: "Welcome to your Partner Dashboard!", isNew: true}];
+                }
+                
+                let listHTML = data.map(n => `
+                    <li class="notice-item">
+                        <span>•</span>
+                        <div class="text-truncate">${n.isNew ? '<span class="new-badge">NEW</span> ' : ''}${n.text}</div>
+                    </li>`).join('');
+
+                container.innerHTML = `
+                    <div class="sticky-note">
+                        <div class="note-title">📌 Notices</div>
+                        <ul class="notice-list">${listHTML}</ul>
+                    </div>`;
+            })
+            .getPartnerNotices(pId);
+    }
+
+    // Trigger after 3 seconds confirm
+    window.addEventListener('load', () => {
+        setTimeout(forceInitNotices, 3000);
+    });
+})();
 </script>
 </body>
 </html>
