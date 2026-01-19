@@ -278,7 +278,7 @@
 window.triggerNoticeFetch = function() {
     const listContainer = document.querySelector('.nb-list');
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxpwzCFlL4-Bzqf9DdCm3-JGpTx5WPagyLye0Xj_WikFbyKZuOpIx2iKq0lLzGIC7MD/exec";
 
     fetch(`${SCRIPT_URL}?partnerId=${partnerId}`)
     .then(res => {
