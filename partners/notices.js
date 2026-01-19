@@ -36,23 +36,23 @@
         pointer-events: none;
       }
 
-            .nb-sticky {
-        pointer-events: auto;
-        width: ${CONFIG.NOTE_WIDTH}px;
-        height: ${CONFIG.NOTE_HEIGHT}px;
-        padding: 18px;
-        background: #d4f4e2;           /* very close to your linked image – pale mint green with soft tint */
-        color: #5d4037;
-        box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
-        transform: rotate(-1.8deg);
-        position: relative;
-        border-bottom-right-radius: 60px 8px;
-        display: flex;
-        flex-direction: column;
-        user-select: none;
-        -webkit-tap-highlight-color: transparent;
-        overflow: hidden;
-      }
+           .nb-sticky {
+  pointer-events: auto;
+  width: ${CONFIG.NOTE_WIDTH}px;
+  height: ${CONFIG.NOTE_HEIGHT}px;
+  padding: 18px;
+  background: #d4f4e2;           /* background same rakho – pale mint green */
+  color: #000000;                /* ← YAHAN BADAL DO: #5d4037 se #000000 (pure black) */
+  box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
+  transform: rotate(-1.8deg);
+  position: relative;
+  border-bottom-right-radius: 60px 8px;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+}
 
       .nb-sticky::after {
         content: "";
