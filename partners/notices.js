@@ -237,22 +237,44 @@
 
   // ── UI Render Functions ───────────────────────────────────────────────────
   const renderList = (container, notices) => {
-    if (!notices?.length) {
-      container.innerHTML = '<div class="nb-empty">No active notices at the moment.</div>';
-      return;
+  if (!notices?.length) {
+    container.innerHTML = '<div class="nb-empty">No active notices at the moment.</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  notices.forEach(n => {
+    const item = createElement('div', 'nb-item');
+
+    // Date ko properly format karo (DD-MM-YYYY), agar date nahi hai to blank
+    let dateDisplay = '';
+    if (n.date) {
+      try {
+        const d = new Date(n.date);
+        if (!isNaN(d.getTime())) {
+          dateDisplay = d.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          });
+        }
+      } catch (e) {
+        // agar invalid date ho to kuch mat dikhao
+      }
     }
 
-    container.innerHTML = '';
-    notices.forEach(n => {
-      const item = createElement('div', 'nb-item');
-      item.innerHTML = `
-        <span class="nb-new">${n.isNew ? 'NEW' : ''}</span>
-        <div class="nb-text">${escape(n.text)}</div>
-      `;
-      item.onclick = () => showModal(n);
-      container.appendChild(item);
-    });
-  };
+    item.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        ${n.isNew ? '<span class="nb-new">NEW</span>' : ''}
+        ${dateDisplay ? `<span style="font-size: 0.75rem; color: #666; font-weight: 500;">${dateDisplay}</span>` : ''}
+      </div>
+      <div class="nb-text">${escape(n.text)}</div>
+    `;
+
+    item.onclick = () => showModal(n);
+    container.appendChild(item);
+  });
+};
 
   const showModal = notice => {
     const overlay = createElement('div', 'nb-modal-overlay');
