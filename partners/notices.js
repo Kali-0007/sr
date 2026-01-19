@@ -36,12 +36,12 @@
         pointer-events: none;
       }
 
-          .nb-sticky {
+            .nb-sticky {
         pointer-events: auto;
         width: ${CONFIG.NOTE_WIDTH}px;
         height: ${CONFIG.NOTE_HEIGHT}px;
         padding: 18px;
-        background: #f0f7f0;           /* pale mint green – white ke bohot paas, calming tint */
+        background: #d4f4e2;           /* very close to your linked image – pale mint green with soft tint */
         color: #5d4037;
         box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
         transform: rotate(-1.8deg);
@@ -58,15 +58,15 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-        opacity: 0.12;                 /* beech ka sweet spot – texture dikhega lekin subtle rahega */
+        background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');  /* fibrous danedar texture jo match karta hai */
+        opacity: 0.14;                 /* visible grain without overpowering – beech ka perfect level */
         pointer-events: none;
         border-radius: inherit;
         z-index: -1;
-        mix-blend-mode: multiply;      /* yeh add karne se texture color mein better blend hota hai, flat nahi lagta */
+        mix-blend-mode: multiply;      /* texture naturally blend karega color mein, real paper feel aayega */
       }
 
-      /* Tape wala same */
+      /* Tape wala same rakho */
       .nb-sticky::before {
         content: "";
         position: absolute;
