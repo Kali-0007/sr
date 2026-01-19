@@ -307,14 +307,9 @@ window.triggerNoticeFetch = function() {
   // --- Updated Initialization Logic ---
   const initNoticeBoard = () => {
     injectStyles();
-
     const wrapper = document.getElementById(CONFIG.WRAPPER_ID);
-    if (!wrapper) {
-      console.warn('[Notices] Wrapper element not found');
-      return;
-    }
+    if (!wrapper) return;
 
-    // Board ka structure bana diya, lekin loadNotices yahan se nahi pukaarenge
     wrapper.innerHTML = `
       <div class="nb-sticky">
         <div class="nb-title">📌 Notices</div>
@@ -324,10 +319,9 @@ window.triggerNoticeFetch = function() {
         </div>
       </div>
     `;
-
-    console.log('[Notices] Board UI ready, waiting for Payouts trigger...');
+    // Ab yahan koi loadNotices() call nahi hai
+    console.log('[Notices] UI Created, waiting for Fetch...');
   };
-
   // DOM Load hone par sirf UI banaiye
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initNoticeBoard);
