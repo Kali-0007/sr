@@ -100,18 +100,17 @@
       .nb-list::-webkit-scrollbar { width: 5px; }
       .nb-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 10px; }
 
-      .nb-item {
-        font-size: 0.87rem;
-        line-height: 1.45;
-        margin-bottom: 12px;
-        display: flex;
-        gap: 8px;
-        cursor: pointer;
-        transition: color 0.18s ease;
-        padding: 4px 6px;
-        border-radius: 4px;
-      }
-
+     .nb-item {
+  font-size: 0.87rem;
+  line-height: 1.45;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  color: #000000;   // ← yeh rakho taaki text hamesha black rahe
+}
       .nb-item:hover { color: #000; background: rgba(0,0,0,0.03); }
 
       .nb-new {
