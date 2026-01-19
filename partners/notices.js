@@ -274,33 +274,34 @@
   // ── Fetch Logic with Retry & Protection ───────────────────────────────────
   // ── Fetch Logic with Dynamic API Capture ───────────────────────────────────
   const loadNotices = contentEl => {
-    // LocalStorage se sahi ID uthao
+    // 1. Partner ID sahi jagah se uthao (LocalStorage)
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
-    console.log('[Notices] Fetching for Partner ID:', partnerId);
+    console.log('[Notices] Starting fetch for:', partnerId);
 
     const attemptFetch = (retry = 0) => {
-      // HAR RETRY PAR GOOGLE API KO DHOONDO
+      // 2. IMPORTANT: Har retry par check karo ki Google API load hui ya nahi
       if (typeof google !== 'undefined' && google.script && google.script.run) {
-        gsRun = google.script.run; 
+        gsRun = google.script.run;
       }
 
       if (gsRun) {
-        console.log('[Notices] API Found! Calling Backend...');
+        console.log('[Notices] Connection established! Calling backend function...');
         gsRun
           .withSuccessHandler(data => {
-            console.log('[Notices] SUCCESS! Backend Data:', data);
+            console.log('[Notices] Data received from backend:', data);
             renderList(contentEl, data);
           })
           .withFailureHandler(err => {
             console.error('[Notices] Backend Error:', err);
             renderList(contentEl, CONFIG.FALLBACK_NOTICES);
           })
-          .getPartnerNotices(partnerId);
+          // 3. Aapka backend function call
+          .getPartnerNotices(partnerId); 
       } else if (retry < CONFIG.MAX_RETRIES) {
-        console.log(`[Notices] API not ready, retrying... (${retry + 1}/${CONFIG.MAX_RETRIES})`);
+        // Retry loop agar API nahi mili
         setTimeout(() => attemptFetch(retry + 1), CONFIG.RETRY_DELAY_MS);
       } else {
-        console.error('[Notices] API Connection Timeout');
+        console.error('[Notices] Timeout: Could not find google.script.run');
         renderList(contentEl, CONFIG.FALLBACK_NOTICES);
       }
     };
