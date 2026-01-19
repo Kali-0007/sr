@@ -304,6 +304,7 @@ window.triggerNoticeFetch = function() {
         });
 };
   // ── Initialization ────────────────────────────────────────────────────────
+  // --- Updated Initialization Logic ---
   const initNoticeBoard = () => {
     injectStyles();
 
@@ -313,6 +314,7 @@ window.triggerNoticeFetch = function() {
       return;
     }
 
+    // Board ka structure bana diya, lekin loadNotices yahan se nahi pukaarenge
     wrapper.innerHTML = `
       <div class="nb-sticky">
         <div class="nb-title">📌 Notices</div>
@@ -323,15 +325,14 @@ window.triggerNoticeFetch = function() {
       </div>
     `;
 
-    const listContainer = wrapper.querySelector('.nb-list');
-    loadNotices(listContainer);
+    console.log('[Notices] Board UI ready, waiting for Payouts trigger...');
   };
 
-  // Start
+  // DOM Load hone par sirf UI banaiye
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initNoticeBoard);
   } else {
     initNoticeBoard();
   }
 
-})();
+})(); // IIFE closing
