@@ -264,12 +264,14 @@
     }
 
     item.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-        ${n.isNew ? '<span class="nb-new">NEW</span>' : ''}
-        ${dateDisplay ? `<span style="font-size: 0.75rem; color: #666; font-weight: 500;">${dateDisplay}</span>` : ''}
-      </div>
-      <div class="nb-text">${escape(n.text)}</div>
-    `;
+  <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      ${n.isNew ? '<span class="nb-new">NEW</span>' : ''}
+      ${dateDisplay ? `<span style="font-size: 0.78rem; color: #555;">${dateDisplay}</span>` : ''}
+    </div>
+  </div>
+  <div class="nb-text">${escape(n.text)}</div>
+`;
 
     item.onclick = () => showModal(n);
     container.appendChild(item);
