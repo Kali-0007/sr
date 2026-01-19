@@ -276,6 +276,9 @@
 const partnerId = localStorage.getItem('referralCode') || 'GUEST';
 console.log('[Notices] Fetching for Partner ID:', partnerId);
     const attemptFetch = (retry = 0) => {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+    gsRun = google.script.run;
+  }
       if (gsRun) {
         gsRun
           .withSuccessHandler(data => {
