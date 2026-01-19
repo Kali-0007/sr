@@ -280,7 +280,7 @@ window.triggerNoticeFetch = function() {
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
     
     // Yahan apni NOTICES wali Apps Script ka Web App URL paste karein
-    const SCRIPT_URL = "APNA_NOTICES_SCRIPT_URL_YAHAN_DAALEIN";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec";
 
     console.log('[Notices] Fetching from separate Script...');
 
