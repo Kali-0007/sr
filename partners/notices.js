@@ -41,7 +41,7 @@
         width: ${CONFIG.NOTE_WIDTH}px;
         height: ${CONFIG.NOTE_HEIGHT}px;
         padding: 18px;
-        background: #e8f5e9;           /* very pale mint green – bohot halka, soft aur calming */
+       background: #00ff00 !important;  /* bright green – agar yeh dikhe to problem cache/specificity ka hai */
         color: #5d4037;
         box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
         transform: rotate(-1.8deg);
