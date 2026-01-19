@@ -273,8 +273,8 @@
 
   // ── Fetch Logic with Retry & Protection ───────────────────────────────────
   const loadNotices = contentEl => {
-    const partnerId = new URLSearchParams(location.search).get('id') || 'GUEST';
-
+const partnerId = localStorage.getItem('referralCode') || 'GUEST';
+console.log('[Notices] Fetching for Partner ID:', partnerId);
     const attemptFetch = (retry = 0) => {
       if (gsRun) {
         gsRun
