@@ -273,41 +273,28 @@
 
   // ── Fetch Logic with Retry & Protection ───────────────────────────────────
   // ── Fetch Logic with Dynamic API Capture ───────────────────────────────────
-  const loadNotices = contentEl => {
-    // 1. Partner ID sahi jagah se uthao (LocalStorage)
+  // Purana loadNotices aur attemptFetch hata kar ye likhein
+window.triggerNoticeFetch = function() {
+    const contentEl = document.querySelector('.nb-list');
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
-    console.log('[Notices] Starting fetch for:', partnerId);
+    
+    console.log('[Notices] Payouts ne dhakka diya! Fetching for:', partnerId);
 
-    const attemptFetch = (retry = 0) => {
-      // 2. IMPORTANT: Har retry par check karo ki Google API load hui ya nahi
-      if (typeof google !== 'undefined' && google.script && google.script.run) {
-        gsRun = google.script.run;
-      }
-
-      if (gsRun) {
-        console.log('[Notices] Connection established! Calling backend function...');
-        gsRun
-          .withSuccessHandler(data => {
-            console.log('[Notices] Data received from backend:', data);
-            renderList(contentEl, data);
-          })
-          .withFailureHandler(err => {
-            console.error('[Notices] Backend Error:', err);
-            renderList(contentEl, CONFIG.FALLBACK_NOTICES);
-          })
-          // 3. Aapka backend function call
-          .getPartnerNotices(partnerId); 
-      } else if (retry < CONFIG.MAX_RETRIES) {
-        // Retry loop agar API nahi mili
-        setTimeout(() => attemptFetch(retry + 1), CONFIG.RETRY_DELAY_MS);
-      } else {
-        console.error('[Notices] Timeout: Could not find google.script.run');
-        renderList(contentEl, CONFIG.FALLBACK_NOTICES);
-      }
-    };
-
-    attemptFetch();
-  };
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+            .withSuccessHandler(data => {
+                console.log('[Notices] Backend se data aa gaya:', data);
+                renderList(contentEl, data);
+            })
+            .withFailureHandler(err => {
+                console.error('[Notices] Backend fail:', err);
+                renderList(contentEl, CONFIG.FALLBACK_NOTICES);
+            })
+            .getPartnerNotices(partnerId);
+    } else {
+        console.error('[Notices] Still no Google API even after Payouts loaded.');
+    }
+};
 
   // ── Initialization ────────────────────────────────────────────────────────
   const initNoticeBoard = () => {
