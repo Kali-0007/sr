@@ -86,7 +86,7 @@
         margin-bottom: 10px;
         border-bottom: 1px dashed rgba(0,0,0,0.12);
         padding-bottom: 6px;
-        color: #3e2723;
+        color: #000000;
       }
 
       .nb-list {
@@ -211,7 +211,7 @@
       .nb-modal-title {
         font-size: 1.25rem;
         font-weight: 700;
-        color: #3e2723;
+        color: #000000;
         margin-bottom: 18px;
       }
 
