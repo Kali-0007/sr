@@ -272,37 +272,38 @@
   };
 
   // ── Fetch Logic with Retry & Protection ───────────────────────────────────
+  // ── Fetch Logic with Dynamic API Capture ───────────────────────────────────
   const loadNotices = contentEl => {
-const partnerId = localStorage.getItem('referralCode') || 'GUEST';
-console.log('[Notices] Fetching for Partner ID:', partnerId);
+    // LocalStorage se sahi ID uthao
+    const partnerId = localStorage.getItem('referralCode') || 'GUEST';
+    console.log('[Notices] Fetching for Partner ID:', partnerId);
+
     const attemptFetch = (retry = 0) => {
+      // HAR RETRY PAR GOOGLE API KO DHOONDO
       if (typeof google !== 'undefined' && google.script && google.script.run) {
-    gsRun = google.script.run;
-  }
+        gsRun = google.script.run; 
+      }
+
       if (gsRun) {
+        console.log('[Notices] API Found! Calling Backend...');
         gsRun
           .withSuccessHandler(data => {
-            console.log('[Notices] Loaded:', data?.length || 0, 'notices');
+            console.log('[Notices] SUCCESS! Backend Data:', data);
             renderList(contentEl, data);
           })
           .withFailureHandler(err => {
-            console.error('[Notices] Backend failed:', err);
+            console.error('[Notices] Backend Error:', err);
             renderList(contentEl, CONFIG.FALLBACK_NOTICES);
           })
           .getPartnerNotices(partnerId);
       } else if (retry < CONFIG.MAX_RETRIES) {
-        console.log(`[Notices] Waiting for google.script... (${retry+1}/${CONFIG.MAX_RETRIES})`);
+        console.log(`[Notices] API not ready, retrying... (${retry + 1}/${CONFIG.MAX_RETRIES})`);
         setTimeout(() => attemptFetch(retry + 1), CONFIG.RETRY_DELAY_MS);
       } else {
-        console.error('[Notices] Failed to connect after max retries');
+        console.error('[Notices] API Connection Timeout');
         renderList(contentEl, CONFIG.FALLBACK_NOTICES);
       }
     };
-
-    // First check if already captured
-    if (!gsRun && typeof google !== 'undefined' && google.script?.run) {
-      gsRun = google.script.run;
-    }
 
     attemptFetch();
   };
