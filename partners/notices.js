@@ -29,6 +29,9 @@
   // ── CSS Injection ─────────────────────────────────────────────────────────
   const injectStyles = () => {
     const style = document.createElement('style');
+   // ── CSS Injection (Optimized for Texture & Sorting) ────────────────────────
+  const injectStyles = () => {
+    const style = document.createElement('style');
     style.textContent = `
       #${CONFIG.WRAPPER_ID} {
         display: flex;
@@ -41,19 +44,20 @@
         width: ${CONFIG.NOTE_WIDTH}px;
         height: ${CONFIG.NOTE_HEIGHT}px;
         padding: 18px;
-        background: #fff9c4;
+        /* Subtle Yellow with Grainy Paper Texture */
+        background: #f4efc1 url('https://www.transparenttextures.com/patterns/handmade-paper.png');
         color: #5d4037;
-        box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
+        box-shadow: 4px 6px 15px rgba(0,0,0,0.15);
         transform: rotate(-1.8deg);
         position: relative;
         border-bottom-right-radius: 60px 8px;
         display: flex;
         flex-direction: column;
         user-select: none;
-        -webkit-tap-highlight-color: transparent;
+        border: 1px solid rgba(0,0,0,0.05);
       }
 
-      /* Tape */
+      /* Tape - Adjusted for realism */
       .nb-sticky::before {
         content: "";
         position: absolute;
@@ -61,20 +65,21 @@
         left: 38%;
         width: 90px;
         height: 30px;
-        background: rgba(255,255,255,0.45);
-        backdrop-filter: blur(1.5px);
-        border: 1px solid rgba(0,0,0,0.08);
+        background: rgba(255,255,255,0.3);
+        backdrop-filter: blur(2px);
+        border: 1px solid rgba(255,255,255,0.2);
         transform: rotate(-3deg);
       }
 
       .nb-title {
         font-weight: 800;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         text-transform: uppercase;
         margin-bottom: 10px;
-        border-bottom: 1px dashed rgba(0,0,0,0.12);
+        border-bottom: 1px dashed rgba(93, 64, 55, 0.2);
         padding-bottom: 6px;
         color: #3e2723;
+        letter-spacing: 0.5px;
       }
 
       .nb-list {
@@ -85,31 +90,28 @@
         flex-grow: 1;
       }
 
-      .nb-list::-webkit-scrollbar { width: 5px; }
-      .nb-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 10px; }
-
       .nb-item {
-        font-size: 0.87rem;
-        line-height: 1.45;
-        margin-bottom: 12px;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin-bottom: 10px;
         display: flex;
-        gap: 8px;
+        flex-direction: column; /* Isse Date Message ke niche aayegi */
         cursor: pointer;
-        transition: color 0.18s ease;
-        padding: 4px 6px;
+        padding: 6px;
         border-radius: 4px;
+        border-bottom: 1px solid rgba(0,0,0,0.04);
       }
 
-      .nb-item:hover { color: #000; background: rgba(0,0,0,0.03); }
+      .nb-item:hover { background: rgba(0,0,0,0.05); color: #000; }
 
-      .nb-new {
-        background: #e53935;
-        color: white;
-        font-size: 0.65rem;
-        padding: 2px 6px;
-        border-radius: 3px;
+      /* Recent Date Styling */
+      .nb-date-stamp {
+        font-size: 0.68rem;
+        color: #8d6e63;
         font-weight: bold;
-        margin-right: 6px;
+        text-align: right;
+        margin-top: 3px;
+        opacity: 0.8;
       }
 
       .nb-text {
@@ -120,94 +122,28 @@
         flex: 1;
       }
 
-      /* Loading & Empty */
-      .nb-loading, .nb-empty {
-        text-align: center;
-        padding: 40px 0;
-        color: #757575;
-        font-style: italic;
-        font-size: 0.9rem;
-      }
-
-      .nb-spinner {
-        width: 22px;
-        height: 22px;
-        border: 3px solid #ddd;
-        border-top: 3px solid #616161;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 0 auto 10px;
-      }
-
-      @keyframes spin { to { transform: rotate(360deg); } }
-
-      /* Modal */
-      .nb-modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.65);
-        backdrop-filter: blur(6px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        opacity: 0;
-        transition: opacity 0.25s;
-      }
-
-      .nb-modal-overlay.visible { opacity: 1; }
-
+      /* Modal / Big Note with Felt Texture */
       .nb-big-note {
         width: ${CONFIG.MODAL_WIDTH}px;
         max-width: 92vw;
         min-height: 340px;
-        background: #fdf5e6;
+        background: #fdf5e6 url('https://www.transparenttextures.com/patterns/felt.png');
         padding: 40px;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-        transform: rotate(1.2deg) scale(0.96);
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+        transform: rotate(1deg) scale(0.96);
+        transition: all 0.3s ease;
         position: relative;
         border-radius: 4px;
         border-bottom-right-radius: 90px 18px;
       }
 
-      .nb-big-note.visible { transform: rotate(1.2deg) scale(1); }
-
-      /* Felt texture simulation */
-      .nb-big-note::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: url('https://www.transparenttextures.com/patterns/felt.png');
-        opacity: 0.18;
-        pointer-events: none;
-        border-radius: inherit;
-      }
-
       .nb-close {
         position: absolute;
-        top: 18px;
-        right: 22px;
-        font-size: 32px;
+        top: 15px;
+        right: 20px;
+        font-size: 30px;
         cursor: pointer;
         color: #757575;
-        line-height: 1;
-      }
-
-      .nb-close:hover { color: #d32f2f; }
-
-      .nb-modal-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #3e2723;
-        margin-bottom: 18px;
-      }
-
-      .nb-modal-text {
-        font-size: 1.1rem;
-        line-height: 1.65;
-        color: #424242;
-        white-space: pre-wrap;
       }
     `;
     document.head.appendChild(style);
