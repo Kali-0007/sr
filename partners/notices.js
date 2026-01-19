@@ -278,9 +278,9 @@
 window.triggerNoticeFetch = function() {
     const listContainer = document.querySelector('.nb-list');
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec"; // <--- Is URL ko check karein
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec";
 
-   fetch(`${SCRIPT_URL}?partnerId=${partnerId}`)
+    fetch(`${SCRIPT_URL}?partnerId=${partnerId}`)
     .then(res => {
         if (!res.ok) throw new Error("HTTP error " + res.status);
         return res.json();
@@ -294,9 +294,10 @@ window.triggerNoticeFetch = function() {
     .catch(err => {
         console.error('[Notices] Error details:', err);
     });
-  // ── Initialization ────────────────────────────────────────────────────────
-  // --- Updated Initialization Logic ---
-  const initNoticeBoard = () => {
+}; // <--- YE BRACKET MISSING THA, ise lagana zaroori hai
+
+// ── Initialization ────────────────────────────────────────────────────────
+const initNoticeBoard = () => {
     injectStyles();
     const wrapper = document.getElementById(CONFIG.WRAPPER_ID);
     if (!wrapper) return;
@@ -311,15 +312,15 @@ window.triggerNoticeFetch = function() {
       </div>
     `;
     
-    // PAYOUTS KA WAIT NAHI - SEEDHA FETCH!
     console.log('[Notices] Starting fetch now...');
     window.triggerNoticeFetch(); 
-  };
-  // DOM Load hone par sirf UI banaiye
-  if (document.readyState === 'loading') {
+};
+
+// DOM Load hone par sirf UI banaiye
+if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initNoticeBoard);
-  } else {
+} else {
     initNoticeBoard();
-  }
+}
 
 })(); // IIFE closing
