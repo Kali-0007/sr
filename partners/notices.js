@@ -41,7 +41,7 @@
         width: ${CONFIG.NOTE_WIDTH}px;
         height: ${CONFIG.NOTE_HEIGHT}px;
         padding: 18px;
-        background: #fafafa;
+        background: #f1f8e9;
         color: #5d4037;
         box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
         transform: rotate(-1.8deg);
@@ -51,6 +51,7 @@
         flex-direction: column;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
+        overflow: hidden;
       }
 
       .nb-sticky::after {
@@ -58,7 +59,7 @@
         position: absolute;
         inset: 0;
         background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-        opacity: 0.15;
+        opacity: 0.10;
         pointer-events: none;
         border-radius: inherit;
       }
@@ -297,9 +298,9 @@ window.triggerNoticeFetch = function() {
     })
     .then(data => {
         console.log('[Notices] Success! Data received:', data);
-        if (Array.isArray(data)) {
-            data.sort((a, b) => new Date(b.date) - new Date(a.date));
-        }
+        if (Array.isArray(data)) {
+            data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
         if (typeof renderList === 'function') {
             renderList(listContainer, data);
         }
