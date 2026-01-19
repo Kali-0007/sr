@@ -263,10 +263,10 @@
       }
     }
 
-   item.innerHTML = `
-  <div style="position: relative; margin-bottom: 6px;">
-    ${n.isNew ? '<span class="nb-new" style="position: absolute; top: -4px; right: 0; font-size: 0.7rem; padding: 3px 7px;">NEW</span>' : ''}
-    ${dateDisplay ? `<div style="font-size: 0.78rem; color: #555; font-weight: 500;">${dateDisplay}</div>` : ''}
+  item.innerHTML = `
+  <div style="position: relative; margin-bottom: 8px;">
+    ${dateDisplay ? `<div style="font-size: 0.78rem; color: #555; font-weight: 500; padding-right: 60px;">${dateDisplay}</div>` : ''}
+    ${n.isNew ? '<span class="nb-new" style="position: absolute; top: 0; right: 0; font-size: 0.7rem; padding: 3px 7px; line-height: 1;">NEW</span>' : ''}
   </div>
   <div class="nb-text">${escape(n.text)}</div>
 `;
