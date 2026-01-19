@@ -747,19 +747,6 @@ function logoutUser() {
 <script src="monthlyStats.js"></script>
 <script src="lifetimeStats.js"></script>
 <script src="payouts.js"></script>
-        <script src="notices.js"></script>
-    <script>
-  // Jab Payouts load ho jaye (ya 2 sec baad), tab notices ko dhakka do
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      // Agar notice board loading par atka hai, toh use dobara trigger karo
-      if (typeof google !== 'undefined' && google.script) {
-         console.log("Forcing Notice Board refresh with Google API...");
-         // notices.js ko pukaarne ka tareeka agar wo anonymous function mein hai:
-         // Kyunki aapne IIFE (function(){})() use kiya hai, wo bahar se call nahi hoga.
-      }
-    }, 3000);
-  });
-</script>
+       
 </body>
 </html>
