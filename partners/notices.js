@@ -38,23 +38,22 @@
       }
 
       .nb-sticky {
-        pointer-events: auto;
-        width: ${CONFIG.NOTE_WIDTH}px;
-        height: ${CONFIG.NOTE_HEIGHT}px;
-        padding: 18px;
-        /* FIX 1: Brightness kam ki aur Handmade Paper texture dala */
-        background: #f4efc1 url('https://www.transparenttextures.com/patterns/handmade-paper.png');
-        color: #5d4037;
-        box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
-        transform: rotate(-1.8deg);
-        position: relative;
-        border-bottom-right-radius: 60px 8px;
-        display: flex;
-        flex-direction: column;
-        user-select: none;
-        -webkit-tap-highlight-color: transparent;
-        border: 1px solid rgba(0,0,0,0.05);
-      }
+  pointer-events: auto;
+  width: ${CONFIG.NOTE_WIDTH}px;
+  height: ${CONFIG.NOTE_HEIGHT}px;
+  padding: 18px;
+  /* Brightness kam ki (#f4efc1) aur CSS se noise dala */
+  background-color: #f4efc1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.95;
+  color: #5d4037;
+  box-shadow: 4px 5px 10px rgba(0,0,0,0.1);
+  transform: rotate(-1.5deg);
+  position: relative;
+  border-bottom-right-radius: 60px 8px;
+  display: flex;
+  flex-direction: column;
+}
 
       /* Tape: Pehle se thoda zyada "Translucent" */
       .nb-sticky::before {
@@ -227,23 +226,28 @@
   const escape = str => String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[m]));
 
   // ── UI Render Functions ───────────────────────────────────────────────────
-  const renderList = (container, notices) => {
-    if (!notices?.length) {
-      container.innerHTML = '<div class="nb-empty">No active notices at the moment.</div>';
-      return;
-    }
+  const renderList = (container, data) => {
+  if (!data || !data.notices || data.notices.length === 0) {
+    container.innerHTML = '<div class="nb-empty">No notices.</div>';
+    return;
+  }
 
-    container.innerHTML = '';
-    notices.forEach(n => {
-      const item = createElement('div', 'nb-item');
-      item.innerHTML = `
-        <span class="nb-new">${n.isNew ? 'NEW' : ''}</span>
-        <div class="nb-text">${escape(n.text)}</div>
-      `;
-      item.onclick = () => showModal(n);
-      container.appendChild(item);
-    });
-  };
+  // FIX: Naya wala upar lane ke liye reverse kiya
+  const sorted = [...data.notices].reverse();
+
+  container.innerHTML = '';
+  sorted.forEach(n => {
+    const item = document.createElement('div');
+    item.className = 'nb-item';
+    // FIX: Yahan Title ke saath Date bhi add ki hai
+    item.innerHTML = `
+      <div class="nb-text" style="font-weight:bold;">${escape(n.title)}</div>
+      <div style="font-size: 0.7rem; color: #8d6e63; text-align: right; margin-top: 4px;">📅 ${n.date || ''}</div>
+    `;
+    item.onclick = () => showModal(n);
+    container.appendChild(item);
+  });
+};
 
   const showModal = notice => {
     const overlay = createElement('div', 'nb-modal-overlay');
