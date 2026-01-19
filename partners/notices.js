@@ -36,12 +36,12 @@
         pointer-events: none;
       }
 
-      .nb-sticky {
+           .nb-sticky {
         pointer-events: auto;
         width: ${CONFIG.NOTE_WIDTH}px;
         height: ${CONFIG.NOTE_HEIGHT}px;
         padding: 18px;
-        background: #fff9c4;
+        background: #e8f5e9;           /* very pale mint green – bohot halka, soft aur calming */
         color: #5d4037;
         box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
         transform: rotate(-1.8deg);
@@ -51,9 +51,22 @@
         flex-direction: column;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
+        overflow: hidden;              /* texture bahar na nikle */
       }
 
-      /* Tape */
+      /* Danedar texture – subtle fibrous paper feel */
+      .nb-sticky::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+        opacity: 0.09;                 /* halka rakhna taaki overpower na kare */
+        pointer-events: none;
+        border-radius: inherit;
+        z-index: -1;
+      }
+
+      /* Tape – same rakha hai, sirf position adjust kiya agar chahiye to */
       .nb-sticky::before {
         content: "";
         position: absolute;
@@ -66,7 +79,6 @@
         border: 1px solid rgba(0,0,0,0.08);
         transform: rotate(-3deg);
       }
-
       .nb-title {
         font-weight: 800;
         font-size: 0.9rem;
