@@ -319,12 +319,18 @@ window.triggerNoticeFetch = function() {
         if (!res.ok) throw new Error("HTTP error " + res.status);
         return res.json();
     })
-    .then(data => {
-        console.log('[Notices] Success! Data received:', data);
-        if (typeof renderList === 'function') {
-            renderList(listContainer, data);
-        }
-    })
+   .then(data => {
+    console.log('[Notices] Success! Data received:', data);
+    
+    // Newest date wala upar aayega (automatic sorting)
+    if (Array.isArray(data)) {
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+    
+    if (typeof renderList === 'function') {
+        renderList(listContainer, data);
+    }
+})
     .catch(err => {
         console.error('[Notices] Error details:', err);
     });
