@@ -278,30 +278,17 @@
 window.triggerNoticeFetch = function() {
     const listContainer = document.querySelector('.nb-list');
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
-    
-    // Yahan apni NOTICES wali Apps Script ka Web App URL paste karein
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec";
-
-    console.log('[Notices] Fetching from separate Script...');
+    const SCRIPT_URL = "APNA_NOTICES_SCRIPT_URL_DAALEIN"; // <--- Is URL ko check karein
 
     fetch(`${SCRIPT_URL}?partnerId=${partnerId}`)
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-        })
+        .then(res => res.json())
         .then(data => {
-            console.log('[Notices] Success! Data received:', data);
+            console.log('[Notices] Success! Data:', data);
             if (typeof renderList === 'function') {
                 renderList(listContainer, data);
             }
         })
-        .catch(err => {
-            console.error('[Notices] Fetch failed:', err);
-            // Agar error aaye toh fallback dikhao
-            if (typeof renderList === 'function') {
-                renderList(listContainer, CONFIG.FALLBACK_NOTICES);
-            }
-        });
+        .catch(err => console.error('[Notices] Error:', err));
 };
   // ── Initialization ────────────────────────────────────────────────────────
   // --- Updated Initialization Logic ---
@@ -319,8 +306,10 @@ window.triggerNoticeFetch = function() {
         </div>
       </div>
     `;
-    // Ab yahan koi loadNotices() call nahi hai
-    console.log('[Notices] UI Created, waiting for Fetch...');
+    
+    // PAYOUTS KA WAIT NAHI - SEEDHA FETCH!
+    console.log('[Notices] Starting fetch now...');
+    window.triggerNoticeFetch(); 
   };
   // DOM Load hone par sirf UI banaiye
   if (document.readyState === 'loading') {
