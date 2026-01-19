@@ -278,18 +278,22 @@
 window.triggerNoticeFetch = function() {
     const listContainer = document.querySelector('.nb-list');
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
-    const SCRIPT_URL = "APNA_NOTICES_SCRIPT_URL_DAALEIN"; // <--- Is URL ko check karein
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec"; // <--- Is URL ko check karein
 
-    fetch(`${SCRIPT_URL}?partnerId=${partnerId}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log('[Notices] Success! Data:', data);
-            if (typeof renderList === 'function') {
-                renderList(listContainer, data);
-            }
-        })
-        .catch(err => console.error('[Notices] Error:', err));
-};
+   fetch(`${SCRIPT_URL}?partnerId=${partnerId}`)
+    .then(res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+    })
+    .then(data => {
+        console.log('[Notices] Success! Data received:', data);
+        if (typeof renderList === 'function') {
+            renderList(listContainer, data);
+        }
+    })
+    .catch(err => {
+        console.error('[Notices] Error details:', err);
+    });
   // ── Initialization ────────────────────────────────────────────────────────
   // --- Updated Initialization Logic ---
   const initNoticeBoard = () => {
