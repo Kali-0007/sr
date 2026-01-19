@@ -10,7 +10,7 @@
     WRAPPER_ID: 'notice-board-wrapper',
     MAX_RETRIES: 7,
     RETRY_DELAY_MS: 1400,
-    NOTE_WIDTH: 320,
+    NOTE_WIDTH: 300,
     NOTE_HEIGHT: 310,
     MODAL_WIDTH: 480,
     FALLBACK_NOTICES: [
