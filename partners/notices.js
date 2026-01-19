@@ -263,16 +263,13 @@
       }
     }
 
-    item.innerHTML = `
-  <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      ${n.isNew ? '<span class="nb-new">NEW</span>' : ''}
-      ${dateDisplay ? `<span style="font-size: 0.78rem; color: #555;">${dateDisplay}</span>` : ''}
-    </div>
+   item.innerHTML = `
+  <div style="position: relative; margin-bottom: 6px;">
+    ${n.isNew ? '<span class="nb-new" style="position: absolute; top: -4px; right: 0; font-size: 0.7rem; padding: 3px 7px;">NEW</span>' : ''}
+    ${dateDisplay ? `<div style="font-size: 0.78rem; color: #555; font-weight: 500;">${dateDisplay}</div>` : ''}
   </div>
   <div class="nb-text">${escape(n.text)}</div>
 `;
-
     item.onclick = () => showModal(n);
     container.appendChild(item);
   });
