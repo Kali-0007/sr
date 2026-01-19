@@ -274,32 +274,29 @@
   // ── Fetch Logic with Retry & Protection ───────────────────────────────────
   // ── Fetch Logic with Dynamic API Capture ───────────────────────────────────
   // Purana loadNotices aur attemptFetch hata kar ye likhein
-window.triggerNoticeFetch = function() {
-    const contentEl = document.querySelector('.nb-list');
+// notices.js mein is function ko isse replace karein
+window.triggerNoticeFetch = function(passedGoogle) {
+    const listContainer = document.querySelector('.nb-list');
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
     
-    console.log('[Notices] Payouts trigger received for:', partnerId);
-
-    // Sabse robust tareeka API dhoondne ka
-    const gas = (typeof google !== 'undefined' && google.script) ? google.script.run : 
-                (window.google && window.google.script) ? window.google.script.run : null;
+    // Agar payouts ne google bheja hai toh wo use karo, warna khud dhoondo
+    const gas = (passedGoogle && passedGoogle.script) ? passedGoogle.script.run : 
+                (typeof google !== 'undefined' && google.script) ? google.script.run : null;
 
     if (gas) {
+        console.log('[Notices] API received from Payouts! Fetching data...');
         gas.withSuccessHandler(data => {
-                console.log('[Notices] Success! Data:', data);
-                renderList(contentEl, data);
-            })
-            .withFailureHandler(err => {
-                console.error('[Notices] Error:', err);
-                renderList(contentEl, CONFIG.FALLBACK_NOTICES);
-            })
-            .getPartnerNotices(partnerId);
+            console.log('[Notices] Latest Data Received:', data);
+            if (typeof renderList === 'function') {
+                renderList(listContainer, data);
+            }
+        })
+        .getPartnerNotices(partnerId);
     } else {
-        console.warn('[Notices] API not found yet, retrying once in 1s...');
-        setTimeout(window.triggerNoticeFetch, 1000); // 1 sec baad auto-retry
+        console.warn('[Notices] No API found, retrying...');
+        setTimeout(() => window.triggerNoticeFetch(passedGoogle), 1000);
     }
 };
-
   // ── Initialization ────────────────────────────────────────────────────────
   const initNoticeBoard = () => {
     injectStyles();
