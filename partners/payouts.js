@@ -39,10 +39,8 @@ async function loadPartnerFinancials() {
         // payouts.js mein:
 // payouts.js mein success handler ke andar
 console.log("Financial Data Received:", data);
-
 if (window.triggerNoticeFetch) {
-    // Apni working API (google) ko notices ko pass kar do
-    window.triggerNoticeFetch(google); 
+    window.triggerNoticeFetch();
 }
 
         // 4. TDS Amount Update (₹ formatting ke saath)
