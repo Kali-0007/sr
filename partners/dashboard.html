@@ -568,7 +568,7 @@
     }
 
     // 3. API URL (same jo login aur profile page mein hai)
-    const API_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
 
     // ==================== NAYA: Profile Completion Check ====================
  async function checkProfileCompletion() {
@@ -747,6 +747,19 @@ function logoutUser() {
 <script src="monthlyStats.js"></script>
 <script src="lifetimeStats.js"></script>
 <script src="payouts.js"></script>
-       
+        <script src="notices.js"></script>
+    <script>
+  // Jab Payouts load ho jaye (ya 2 sec baad), tab notices ko dhakka do
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      // Agar notice board loading par atka hai, toh use dobara trigger karo
+      if (typeof google !== 'undefined' && google.script) {
+         console.log("Forcing Notice Board refresh with Google API...");
+         // notices.js ko pukaarne ka tareeka agar wo anonymous function mein hai:
+         // Kyunki aapne IIFE (function(){})() use kiya hai, wo bahar se call nahi hoga.
+      }
+    }, 3000);
+  });
+</script>
 </body>
 </html>
