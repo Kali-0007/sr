@@ -26,9 +26,7 @@
     console.log('[Notices] google.script captured successfully at init');
   }
 
-  // ── CSS Injection ─────────────────────────────────────────────────────────
-  const injectStyles = () => {
-    const style = document.createElement('style');
+
  // ── CSS Injection ─────────────────────────────────────────────────────────
   const injectStyles = () => {
     const style = document.createElement('style');
