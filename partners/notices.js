@@ -275,27 +275,33 @@
   // ── Fetch Logic with Dynamic API Capture ───────────────────────────────────
   // Purana loadNotices aur attemptFetch hata kar ye likhein
 // notices.js mein is function ko isse replace karein
-window.triggerNoticeFetch = function(passedGoogle) {
+window.triggerNoticeFetch = function() {
     const listContainer = document.querySelector('.nb-list');
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
     
-    // Agar payouts ne google bheja hai toh wo use karo, warna khud dhoondo
-    const gas = (passedGoogle && passedGoogle.script) ? passedGoogle.script.run : 
-                (typeof google !== 'undefined' && google.script) ? google.script.run : null;
+    // Yahan apni NOTICES wali Apps Script ka Web App URL paste karein
+    const SCRIPT_URL = "APNA_NOTICES_SCRIPT_URL_YAHAN_DAALEIN";
 
-    if (gas) {
-        console.log('[Notices] API received from Payouts! Fetching data...');
-        gas.withSuccessHandler(data => {
-            console.log('[Notices] Latest Data Received:', data);
+    console.log('[Notices] Fetching from separate Script...');
+
+    fetch(`${SCRIPT_URL}?partnerId=${partnerId}`)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            console.log('[Notices] Success! Data received:', data);
             if (typeof renderList === 'function') {
                 renderList(listContainer, data);
             }
         })
-        .getPartnerNotices(partnerId);
-    } else {
-        console.warn('[Notices] No API found, retrying...');
-        setTimeout(() => window.triggerNoticeFetch(passedGoogle), 1000);
-    }
+        .catch(err => {
+            console.error('[Notices] Fetch failed:', err);
+            // Agar error aaye toh fallback dikhao
+            if (typeof renderList === 'function') {
+                renderList(listContainer, CONFIG.FALLBACK_NOTICES);
+            }
+        });
 };
   // ── Initialization ────────────────────────────────────────────────────────
   const initNoticeBoard = () => {
