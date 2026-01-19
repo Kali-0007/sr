@@ -26,8 +26,7 @@
     console.log('[Notices] google.script captured successfully at init');
   }
 
-
- // ── CSS Injection ─────────────────────────────────────────────────────────
+  // ── CSS Injection ─────────────────────────────────────────────────────────
   const injectStyles = () => {
     const style = document.createElement('style');
     style.textContent = `
@@ -38,24 +37,23 @@
       }
 
       .nb-sticky {
-  pointer-events: auto;
-  width: ${CONFIG.NOTE_WIDTH}px;
-  height: ${CONFIG.NOTE_HEIGHT}px;
-  padding: 18px;
-  /* Brightness kam ki (#f4efc1) aur CSS se noise dala */
-  background-color: #f4efc1;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.95;
-  color: #5d4037;
-  box-shadow: 4px 5px 10px rgba(0,0,0,0.1);
-  transform: rotate(-1.5deg);
-  position: relative;
-  border-bottom-right-radius: 60px 8px;
-  display: flex;
-  flex-direction: column;
-}
+        pointer-events: auto;
+        width: ${CONFIG.NOTE_WIDTH}px;
+        height: ${CONFIG.NOTE_HEIGHT}px;
+        padding: 18px;
+        background: #fff9c4;
+        color: #5d4037;
+        box-shadow: 5px 7px 15px rgba(0,0,0,0.18);
+        transform: rotate(-1.8deg);
+        position: relative;
+        border-bottom-right-radius: 60px 8px;
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
 
-      /* Tape: Pehle se thoda zyada "Translucent" */
+      /* Tape */
       .nb-sticky::before {
         content: "";
         position: absolute;
@@ -63,7 +61,7 @@
         left: 38%;
         width: 90px;
         height: 30px;
-        background: rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.45);
         backdrop-filter: blur(1.5px);
         border: 1px solid rgba(0,0,0,0.08);
         transform: rotate(-3deg);
@@ -95,21 +93,11 @@
         line-height: 1.45;
         margin-bottom: 12px;
         display: flex;
-        flex-direction: column; /* FIX 2: Date ko title ke neeche dikhane ke liye */
-        gap: 2px;
+        gap: 8px;
         cursor: pointer;
         transition: color 0.18s ease;
         padding: 4px 6px;
         border-radius: 4px;
-      }
-
-      /* FIX 3: Date ki styling */
-      .nb-item-date {
-        font-size: 0.7rem;
-        font-weight: bold;
-        color: #8d6e63;
-        text-align: right;
-        margin-top: 2px;
       }
 
       .nb-item:hover { color: #000; background: rgba(0,0,0,0.03); }
@@ -122,7 +110,6 @@
         border-radius: 3px;
         font-weight: bold;
         margin-right: 6px;
-        align-self: flex-start;
       }
 
       .nb-text {
@@ -174,7 +161,7 @@
         width: ${CONFIG.MODAL_WIDTH}px;
         max-width: 92vw;
         min-height: 340px;
-        background: #fdf5e6 url('https://www.transparenttextures.com/patterns/felt.png');
+        background: #fdf5e6;
         padding: 40px;
         box-shadow: 0 12px 40px rgba(0,0,0,0.35);
         transform: rotate(1.2deg) scale(0.96);
@@ -185,6 +172,17 @@
       }
 
       .nb-big-note.visible { transform: rotate(1.2deg) scale(1); }
+
+      /* Felt texture simulation */
+      .nb-big-note::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('https://www.transparenttextures.com/patterns/felt.png');
+        opacity: 0.18;
+        pointer-events: none;
+        border-radius: inherit;
+      }
 
       .nb-close {
         position: absolute;
@@ -226,28 +224,23 @@
   const escape = str => String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[m]));
 
   // ── UI Render Functions ───────────────────────────────────────────────────
-  const renderList = (container, data) => {
-  if (!data || !data.notices || data.notices.length === 0) {
-    container.innerHTML = '<div class="nb-empty">No notices.</div>';
-    return;
-  }
+  const renderList = (container, notices) => {
+    if (!notices?.length) {
+      container.innerHTML = '<div class="nb-empty">No active notices at the moment.</div>';
+      return;
+    }
 
-  // FIX: Naya wala upar lane ke liye reverse kiya
-  const sorted = [...data.notices].reverse();
-
-  container.innerHTML = '';
-  sorted.forEach(n => {
-    const item = document.createElement('div');
-    item.className = 'nb-item';
-    // FIX: Yahan Title ke saath Date bhi add ki hai
-    item.innerHTML = `
-      <div class="nb-text" style="font-weight:bold;">${escape(n.title)}</div>
-      <div style="font-size: 0.7rem; color: #8d6e63; text-align: right; margin-top: 4px;">📅 ${n.date || ''}</div>
-    `;
-    item.onclick = () => showModal(n);
-    container.appendChild(item);
-  });
-};
+    container.innerHTML = '';
+    notices.forEach(n => {
+      const item = createElement('div', 'nb-item');
+      item.innerHTML = `
+        <span class="nb-new">${n.isNew ? 'NEW' : ''}</span>
+        <div class="nb-text">${escape(n.text)}</div>
+      `;
+      item.onclick = () => showModal(n);
+      container.appendChild(item);
+    });
+  };
 
   const showModal = notice => {
     const overlay = createElement('div', 'nb-modal-overlay');
