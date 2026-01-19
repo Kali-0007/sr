@@ -34,14 +34,9 @@ async function loadPartnerFinancials() {
         const response = await fetch(`${PAYOUT_API_URL}?partnerId=${encodeURIComponent(partnerId)}&fy=${encodeURIComponent(selectedFY)}`);
         
         if (!response.ok) throw new Error('Network response error');
-        
         const data = await response.json();
-        // payouts.js mein:
-// payouts.js mein success handler ke andar
-console.log("Financial Data Received:", data);
-if (window.triggerNoticeFetch) {
-    window.triggerNoticeFetch();
-}
+        console.log("Financial Data Received:", data);
+
 
         // 4. TDS Amount Update (₹ formatting ke saath)
         if (tdsElement) {
