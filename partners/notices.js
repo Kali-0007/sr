@@ -278,21 +278,25 @@ window.triggerNoticeFetch = function() {
     const contentEl = document.querySelector('.nb-list');
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
     
-    console.log('[Notices] Payouts ne dhakka diya! Fetching for:', partnerId);
+    console.log('[Notices] Payouts trigger received for:', partnerId);
 
-    if (typeof google !== 'undefined' && google.script && google.script.run) {
-        google.script.run
-            .withSuccessHandler(data => {
-                console.log('[Notices] Backend se data aa gaya:', data);
+    // Sabse robust tareeka API dhoondne ka
+    const gas = (typeof google !== 'undefined' && google.script) ? google.script.run : 
+                (window.google && window.google.script) ? window.google.script.run : null;
+
+    if (gas) {
+        gas.withSuccessHandler(data => {
+                console.log('[Notices] Success! Data:', data);
                 renderList(contentEl, data);
             })
             .withFailureHandler(err => {
-                console.error('[Notices] Backend fail:', err);
+                console.error('[Notices] Error:', err);
                 renderList(contentEl, CONFIG.FALLBACK_NOTICES);
             })
             .getPartnerNotices(partnerId);
     } else {
-        console.error('[Notices] Still no Google API even after Payouts loaded.');
+        console.warn('[Notices] API not found yet, retrying once in 1s...');
+        setTimeout(window.triggerNoticeFetch, 1000); // 1 sec baad auto-retry
     }
 };
 
