@@ -295,7 +295,6 @@ window.triggerNoticeFetch = function() {
         console.error('[Notices] Error details:', err);
     });
 }; // <--- YE BRACKET MISSING THA, ise lagana zaroori hai
-
 // ── Initialization ────────────────────────────────────────────────────────
 const initNoticeBoard = () => {
     injectStyles();
