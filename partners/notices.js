@@ -309,27 +309,29 @@ window.triggerNoticeFetch = function() {
     const partnerId = localStorage.getItem('referralCode') || 'GUEST';
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyG0daMQuX_Ks3SAVABpHGTmz_AvB2l3eOZ5jcjwLNGxVyHf4-foMuo_LlShxpuRRY86g/exec";
 
-    fetch(`${SCRIPT_URL}?partnerId=${partnerId}`)
+    // DHAYAN SE DEKHO: Yahan humne &action=getNotices add kiya hai
+    fetch(`${SCRIPT_URL}?partnerId=${partnerId}&action=getNotices`)
     .then(res => {
         if (!res.ok) throw new Error("HTTP error " + res.status);
         return res.json();
     })
-   .then(data => {
-    console.log('[Notices] Success! Data received:', data);
-    
-    // Newest date wala upar aayega (automatic sorting)
-    if (Array.isArray(data)) {
-        data.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }
-    
-    if (typeof renderList === 'function') {
-        renderList(listContainer, data);
-    }
-})
+    .then(data => {
+        console.log('[Notices] Success! Data received:', data);
+        
+        // Backend se agar array mil raha hai tabhi sort aur render karein
+        if (Array.isArray(data)) {
+            data.sort((a, b) => new Date(b.date) - new Date(a.date));
+            renderList(listContainer, data);
+        } else {
+            console.error('[Notices] Expected array but got:', data);
+            listContainer.innerHTML = '<div class="nb-empty">No active notices found.</div>';
+        }
+    })
     .catch(err => {
         console.error('[Notices] Error details:', err);
+        listContainer.innerHTML = '<div class="nb-empty">Failed to load notices.</div>';
     });
-}; // <--- YE BRACKET MISSING THA, ise lagana zaroori hai
+};
 // ── Initialization ────────────────────────────────────────────────────────
 const initNoticeBoard = () => {
     injectStyles();
