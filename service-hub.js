@@ -237,7 +237,7 @@ loadNotices: async function() {
 
         const modalHtml = `
             <div id="detailsModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:center; z-index:10000; backdrop-filter:blur(8px); animation: fadeIn 0.2s ease;">
-                <div style="background:#0f172a; width:90%; max-width:400px; border-radius:20px; border:1px solid #334155; overflow:hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+                <div style="background:var(--panel-bg); width:90%; max-width:400px; border-radius:20px; border:1px solid #334155; overflow:hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
                     <div style="padding:20px; border-bottom:1px solid #1e293b; display:flex; justify-content:space-between; align-items:center; background: rgba(255,255,255,0.02);">
                         <div>
                             <h3 style="color:#fff; margin:0; font-size:16px; font-weight:700;">${service.serviceName}</h3>
@@ -263,12 +263,12 @@ loadNotices: async function() {
     showSecurityVault: function() {
         const vaultHtml = `
             <div id="securityModal" style="display:flex; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items:center; justify-content:center; padding: 20px;">
-                <div style="background:#0d1117; max-width: 480px; width:100%; border-radius:16px; border: 1px solid #30363d; overflow:hidden; animation: slideUp 0.3s ease;">
+               <div style="background: var(--panel-bg); max-width: 480px; width:100%; border-radius:16px; border: 1px solid #30363d; overflow:hidden; animation: slideUp 0.3s ease;">
                     
-                    <div style="padding: 30px 25px; text-align: center; background: linear-gradient(to bottom, #161b22, #0d1117);">
+                    <div style="padding: 30px 25px; text-align: center; background: linear-gradient(to bottom, var(--panel-bg), var(--bg-main));">
                         <div style="font-size: 50px; margin-bottom: 15px;">🛡️</div>
                         <h2 style="color:#fff; margin:0; font-size: 22px; font-weight: 700;">Data Privacy Commitment</h2>
-                        <p style="color:#8b949e; font-size:14px; margin-top:8px;">How TaxEasePro secures your sensitive information</p>
+                        <p style="color:var(--text-grey); font-size:14px; margin-top:8px;">How TaxEasePro secures your sensitive information</p>
                     </div>
 
                     <div style="padding: 10px 30px 30px 30px;">
