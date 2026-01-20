@@ -719,11 +719,21 @@ header .logo:hover img {
             <div id="activityList" style="color: #888; font-size: 13px;">Fetching latest updates...</div>
         </div>
         
-        <div class="stat-card" style="background: linear-gradient(145deg, #1a1a1a, #252525);">
-            <h3 style="color: #fff;">Quick Actions</h3>
-            <button onclick="document.querySelector('[data-tab=\'upload\']').click()" class="service-btn" style="margin-bottom: 10px; background: #333; color: #fff;">📤 Upload Documents</button>
-            <button onclick="document.querySelector('[data-tab=\'support\']').click()" class="service-btn" style="background: var(--secondary);">🎧 Contact Expert</button>
-        </div>
+        <div class="stat-card" style="background: var(--panel-bg); border: 1px solid var(--border);">
+    <h3 style="color: var(--text-main);">Quick Actions</h3>
+    
+    <button onclick="document.querySelector('[data-tab=\'upload\']').click()" 
+            class="service-btn" 
+            style="margin-bottom: 10px; background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border);">
+        📤 Upload Documents
+    </button>
+    
+    <button onclick="document.querySelector('[data-tab=\'support\']').click()" 
+            class="service-btn" 
+            style="background: var(--secondary); color: #fff;">
+        🎧 Contact Expert
+    </button>
+</div>
     </div>
 </div>
 
