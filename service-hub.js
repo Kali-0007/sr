@@ -61,34 +61,38 @@ const serviceHub = {
     },
 
     renderTable: function() {
-        const container = document.getElementById('dynamicServiceContent');
-        if (!container) return;
+    const container = document.getElementById('dynamicServiceContent');
+    if (!container) return;
 
-        container.innerHTML = `
-            <div class="service-hub-header" style="margin-bottom: 20px; margin-top: 20px;">
-                <h2 style="font-size: 20px; color: #fff;">Service Trackers (${this.allServices.length})</h2>
+    // Latest order sabse upar dikhane ke liye logic
+    const sortedServices = [...this.allServices].reverse();
+
+    container.innerHTML = `
+        <div class="service-hub-header" style="margin-bottom: 20px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="font-size: 20px; color: #fff;">Service Trackers (${this.allServices.length})</h2>
+            <span style="font-size: 11px; color: #38bdf8; background: rgba(56,189,248,0.1); padding: 4px 10px; border-radius: 20px;">Latest Updates First</span>
+        </div>
+        
+        <div style="background: var(--panel-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden;">
+            <div style="max-height: 480px; overflow-y: auto; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #334155 transparent;">
+                <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: left;">
+                    <thead style="position: sticky; top: 0; z-index: 100; background: #1e293b;">
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Service Name</th>
+                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Status</th>
+                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Progress</th>
+                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Next Due</th>
+                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; text-align: center; letter-spacing: 1px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${sortedServices.map(service => this.generateRowHtml(service)).join('')}
+                    </tbody>
+                </table>
             </div>
-            
-            <div style="background: var(--panel-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: left;">
-                        <thead>
-                            <tr style="background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border);">
-                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase;">Service Name</th>
-                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase;">Status</th>
-                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase;">Progress</th>
-                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase;">Next Due</th>
-                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase; text-align: center;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${this.allServices.map(service => this.generateRowHtml(service)).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        `;
-    },
+        </div>
+    `;
+},
 
     generateRowHtml: function(service) {
         let statusColor = '#ffa500'; 
