@@ -3,7 +3,7 @@
  */
 
 // APNA WEB APP URL YAHA DALEIN
-const API_URL = 'https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwtClA1mmRpEO154x20nahYGhDAN83ODXPE1jhzJs65aqkCnMEldsmwFoTyTF44Rp3j/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
     initUploadSystem();
