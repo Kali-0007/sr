@@ -1,5 +1,5 @@
 let startTime = Date.now(); // Page khulte hi timer shuru
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRZ-hqly1jTRzI9ZtUu4p6fHIprzSizA_0n5R4ztt0drHk_PKbABA52G8IgmttL_U/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwtClA1mmRpEO154x20nahYGhDAN83ODXPE1jhzJs65aqkCnMEldsmwFoTyTF44Rp3j/exec";
 // --- NEW: Helper to get security fingerprint ---
 async function getSecurityData() {
     let ip = "Unknown";
