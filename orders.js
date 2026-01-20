@@ -11,24 +11,24 @@ async function fetchMyOrders() {
     const ordersTab = document.getElementById('orders');
     if (ordersTab) ordersTab.style.display = 'block';
 
-    // Base Table HTML
+    // Base Table HTML (Hardcoded colors replaced with Variables)
     root.innerHTML = `
         <div class="orders-container" style="padding:20px;">
-            <h2 style="color:#fff; margin-bottom:15px;">My Orders</h2>
+            <h2 style="color: var(--text-main); margin-bottom:15px;">My Orders</h2>
             <div style="overflow-x:auto;">
-                <table style="width:100%; border-collapse:collapse; color:#fff; background:#1e293b; border-radius:8px; border:1px solid #334155;">
+                <table style="width:100%; border-collapse:collapse; color: var(--text-main); background: var(--panel-bg); border-radius:8px; border:1px solid var(--border); overflow: hidden;">
                     <thead>
-                        <tr style="background:#0f172a; text-align:left;">
-                            <th style="padding:12px;">Date</th>
-                            <th style="padding:12px;">Service</th>
-                            <th style="padding:12px;">Amount</th>
-                            <th style="padding:12px;">Status</th>
-                            <th style="padding:12px;">Order ID</th>
-                            <th style="padding:12px; text-align:center;">Invoice</th>
+                        <tr style="background: var(--bg-main); text-align:left;">
+                            <th style="padding:12px; color: var(--text-grey); font-size: 13px;">Date</th>
+                            <th style="padding:12px; color: var(--text-grey); font-size: 13px;">Service</th>
+                            <th style="padding:12px; color: var(--text-grey); font-size: 13px;">Amount</th>
+                            <th style="padding:12px; color: var(--text-grey); font-size: 13px;">Status</th>
+                            <th style="padding:12px; color: var(--text-grey); font-size: 13px;">Order ID</th>
+                            <th style="padding:12px; text-align:center; color: var(--text-grey); font-size: 13px;">Invoice</th>
                         </tr>
                     </thead>
                     <tbody id="orders-body">
-                        <tr><td colspan="6" style="padding:40px; text-align:center; color:#94a3b8;">Loading...</td></tr>
+                        <tr><td colspan="6" style="padding:40px; text-align:center; color: var(--text-grey);">Loading...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -36,7 +36,6 @@ async function fetchMyOrders() {
     `;
 
     try {
-        // FETCH CALL (NO-CORS HATA DIYA HAI)
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             body: JSON.stringify({
@@ -45,33 +44,36 @@ async function fetchMyOrders() {
             })
         });
 
-        // Response check
         const data = await response.json();
-        console.log("Data Received:", data); // Check in console
-
         const tbody = document.getElementById('orders-body');
 
         if (data.status === "success" && data.orders.length > 0) {
             tbody.innerHTML = ''; 
             data.orders.forEach(order => {
-                let color = (order.status === "Completed") ? "#4ade80" : "#facc15";
+                // Status colors (Modern light/dark friendly)
+                let statusColor = (order.status === "Completed") ? "#00ff88" : "#facc15";
+                
                 tbody.innerHTML += `
-                    <tr style="border-bottom:1px solid #334155;">
-                        <td style="padding:12px;">${order.date}</td>
-                        <td style="padding:12px; font-weight:bold;">${order.service}</td>
-                        <td style="padding:12px;">₹${order.amount}</td>
-                        <td style="padding:12px;"><span style="color:${color}; border:1px solid ${color}; padding:2px 6px; border-radius:4px; font-size:12px;">${order.status}</span></td>
-                        <td style="padding:12px; font-size:11px; color:#94a3b8;">${order.orderId}</td>
-                        <td style="padding:12px; text-align:center;">
-                            ${order.invoiceUrl ? `<a href="${order.invoiceUrl}" target="_blank">📥</a>` : "N/A"}
+                    <tr style="border-bottom:1px solid var(--border); transition: 0.2s;" onmouseover="this.style.background='rgba(56, 189, 248, 0.03)'" onmouseout="this.style.background='transparent'">
+                        <td style="padding:12px; font-size: 13px;">${order.date}</td>
+                        <td style="padding:12px; font-weight:bold; font-size: 13px;">${order.service}</td>
+                        <td style="padding:12px; font-size: 13px;">₹${order.amount}</td>
+                        <td style="padding:12px;">
+                            <span style="color:${statusColor}; border:1px solid ${statusColor}; padding:2px 8px; border-radius:12px; font-size:10px; font-weight: 700; text-transform: uppercase;">
+                                ${order.status}
+                            </span>
+                        </td>
+                        <td style="padding:12px; font-size:11px; color: var(--text-grey);">${order.orderId}</td>
+                        <td style="padding:12px; text-align:center; font-size: 18px;">
+                            ${order.invoiceUrl ? `<a href="${order.invoiceUrl}" target="_blank" style="text-decoration:none;">📥</a>` : "<span style='font-size:12px; color:var(--text-grey)'>N/A</span>"}
                         </td>
                     </tr>`;
             });
         } else {
-            tbody.innerHTML = '<tr><td colspan="6" style="padding:40px; text-align:center;">No orders found.</td></tr>';
+            tbody.innerHTML = `<tr><td colspan="6" style="padding:40px; text-align:center; color: var(--text-grey);">No orders found.</td></tr>`;
         }
     } catch (err) {
         console.error("Critical Error:", err);
-        document.getElementById('orders-body').innerHTML = '<tr><td colspan="6" style="padding:20px; text-align:center; color:#f87171;">Data load nahi ho paya. URL check karein.</td></tr>';
+        document.getElementById('orders-body').innerHTML = `<tr><td colspan="6" style="padding:20px; text-align:center; color:#f87171;">Data load nahi ho paya. URL check karein.</td></tr>`;
     }
 }
