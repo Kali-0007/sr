@@ -36,63 +36,59 @@ const serviceHub = {
         const statContainer = document.getElementById('statCardsContainer');
         if (!statContainer) return;
 
-        // Dynamic Stats: Pehli 3 services aur total count
         const displayServices = this.allServices.slice(0, 3);
         let statsHtml = '';
 
         displayServices.forEach(s => {
             statsHtml += `
-                <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:20px; border-radius:12px;">
-                    <h3 style="font-size:11px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px;">${s.serviceName}</h3>
-                    <div class="value" style="font-size:20px; color:#ffffff; font-weight:800; margin:8px 0;">${s.status}</div>
-                    <div class="sub-text" style="font-size:12px; color:rgba(255,255,255,0.7);">📅 ${s.deadline}</div>
+                <div class="stat-card" style="background: var(--panel-bg); border: 1px solid var(--border); padding:20px; border-radius:12px;">
+                    <h3 style="font-size:11px; color: var(--accent); text-transform:uppercase; margin:0; letter-spacing:1px;">${s.serviceName}</h3>
+                    <div class="value" style="font-size:20px; color: var(--text-main); font-weight:800; margin:8px 0;">${s.status}</div>
+                    <div class="sub-text" style="font-size:12px; color: var(--text-grey);">📅 ${s.deadline}</div>
                 </div>
             `;
         });
 
         statsHtml += `
-            <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:20px; border-radius:12px;">
-                <h3 style="font-size:11px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px;">Total Active</h3>
-                <div class="value" style="font-size:24px; color:#ffffff; font-weight:800; margin:8px 0;">${this.allServices.length}</div>
-                <div class="sub-text" style="font-size:12px; color:rgba(255,255,255,0.7);">Services Tracked</div>
+            <div class="stat-card" style="background: var(--panel-bg); border: 1px solid var(--border); padding:20px; border-radius:12px;">
+                <h3 style="font-size:11px; color: var(--accent); text-transform:uppercase; margin:0; letter-spacing:1px;">Total Active</h3>
+                <div class="value" style="font-size:24px; color: var(--text-main); font-weight:800; margin:8px 0;">${this.allServices.length}</div>
+                <div class="sub-text" style="font-size:12px; color: var(--text-grey);">Services Tracked</div>
             </div>
         `;
         statContainer.innerHTML = statsHtml;
     },
 
-    renderTable: function() {
-    const container = document.getElementById('dynamicServiceContent');
-    if (!container) return;
+   renderTable: function() {
+        const container = document.getElementById('dynamicServiceContent');
+        if (!container) return;
+        const sortedServices = [...this.allServices].reverse();
 
-    // Latest order sabse upar dikhane ke liye logic
-    const sortedServices = [...this.allServices].reverse();
-
-    container.innerHTML = `
-        <div class="service-hub-header" style="margin-bottom: 20px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-            <h2 style="font-size: 20px; color: #fff;">Service Trackers (${this.allServices.length})</h2>
-            <span style="font-size: 11px; color: #38bdf8; background: rgba(56,189,248,0.1); padding: 4px 10px; border-radius: 20px;">Latest Updates First</span>
-        </div>
-        
-        <div style="background: var(--panel-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden;">
-            <div style="max-height: 480px; overflow-y: auto; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #334155 transparent;">
-                <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: left;">
-                    <thead style="position: sticky; top: 0; z-index: 100; background: #1e293b;">
-                        <tr style="border-bottom: 1px solid var(--border);">
-                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Service Name</th>
-                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Status</th>
-                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Progress</th>
-                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Next Due</th>
-                            <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; text-align: center; letter-spacing: 1px;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${sortedServices.map(service => this.generateRowHtml(service)).join('')}
-                    </tbody>
-                </table>
+        container.innerHTML = `
+            <div class="service-hub-header" style="margin-bottom: 20px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="font-size: 20px; color: var(--text-main);">Service Trackers (${this.allServices.length})</h2>
+                <span style="font-size: 11px; color: var(--accent); background: rgba(56,189,248,0.1); padding: 4px 10px; border-radius: 20px;">Latest Updates First</span>
             </div>
-        </div>
-    `;
-},
+            <div style="background: var(--panel-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 15px var(--card-shadow); overflow: hidden;">
+                <div style="max-height: 480px; overflow-y: auto; overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: left;">
+                        <thead style="position: sticky; top: 0; z-index: 100; background: var(--panel-bg);">
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase;">Service Name</th>
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase;">Status</th>
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase;">Progress</th>
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase;">Next Due</th>
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 11px; text-transform: uppercase; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${sortedServices.map(service => this.generateRowHtml(service)).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    },
 
     generateRowHtml: function(service) {
         let statusColor = '#ffa500'; 
