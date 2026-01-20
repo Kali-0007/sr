@@ -115,9 +115,9 @@ const serviceHub = {
                 </td>
                 <td style="padding: 15px; color: var(--text-main); font-size: 13px;">📅 ${service.deadline}</td>
                 <td style="padding: 15px; text-align: center;">
-                    <button class="service-btn" style="background: var(--secondary); color: white; border: none; padding: 6px 14px; border-radius: 6px; font-size: 11px; cursor: pointer;">
-                        Details
-                    </button>
+                    <button onclick="serviceHub.showDetails('${encodeURIComponent(JSON.stringify(service))}')" class="service-btn" style="background: var(--secondary); color: white; border: none; padding: 6px 14px; border-radius: 6px; font-size: 11px; cursor: pointer;">
+    Details
+</button>
                 </td>
             </tr>
         `;
