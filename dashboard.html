@@ -7,20 +7,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Base Colors - Deep Blue-Charcoal Blend */
-    --bg-dark: #0f111a;       /* Pure black ki jagah ye midnight blue-ish charcoal hai */
-    --panel-bg: #161a27;      /* Cards ke liye halka sa light shade background se */
-    
-    /* Neon Accents - Green and Cyber Blue */
-    --primary: #00ff9d;       /* Neon Green (Vibrant) */
-    --secondary: #6366f1;     /* Indigo (Blend ke liye) */
-    --accent: #00d4ff;        /* Cyber Blue */
-    
-    /* Typography & Borders */
-    --text-main: #e2e8f0;     /* Soft white jo aankhon ko chubhega nahi */
-    --text-grey: #94a3b8;     /* Slate grey details ke liye */
-    --border: rgba(255, 255, 255, 0.08); /* Transparent borders (Premium feel) */
-}
+    /* Dark Theme (Default) */
+    --bg-main: #0f111a;
+    --panel-bg: #161a27;
+    --text-main: #e2e8f0;
+    --text-grey: #94a3b8;
+    --border: rgba(255, 255, 255, 0.08);
+    --primary: #00ff9d;
+    --secondary: #6366f1;
+    --accent: #00d4ff;
+  }
+
+  [data-theme="light"] {
+    /* Light Theme */
+    --bg-main: #f8fafc;
+    --panel-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-grey: #64748b;
+    --border: #e2e8f0;
+    --primary: #059669; /* Thoda dark green light mode ke liye */
+    --secondary: #4f46e5;
+    --accent: #0284c7;
+  }
+
+  /* Body mein transition add karein smooth change ke liye */
+  body {
+    background: var(--bg-main) !important;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
 
 body {
     margin: 0;
@@ -630,7 +644,9 @@ header .logo:hover img {
 </div>
 
   <div class="header-right">
-
+<button onclick="toggleTheme()" style="background: var(--panel-bg); border: 1px solid var(--border); color: var(--text-main); cursor: pointer; padding: 8px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600;">
+      <span id="themeIcon">☀️</span>
+  </button>
   <div class="user-welcome" style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center; line-height: 1.1; margin-right: 20px;">
     <span id="greetingText" style="color: #8b949e; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 4px;">GOOD EVENING,</span> 
     
@@ -1107,5 +1123,27 @@ function showTicker(message) {
 <script src="service-hub.js"></script>
   <script src="orders.js"></script>
 <script src="footer.js"></script>
+  <script>
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    html.setAttribute('data-theme', targetTheme);
+    localStorage.setItem('dashboard-theme', targetTheme);
+    
+    // Icon badalne ke liye
+    const icon = document.getElementById('themeIcon');
+    icon.innerHTML = targetTheme === 'light' ? '🌙' : '☀️';
+}
+
+// Page load hote hi purani setting check karein
+(function() {
+    const savedTheme = localStorage.getItem('dashboard-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    const icon = document.getElementById('themeIcon');
+    if(icon) icon.innerHTML = savedTheme === 'light' ? '🌙' : '☀️';
+})();
+</script>
 </body>
 </html>
