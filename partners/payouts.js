@@ -3,7 +3,7 @@
  * Filter by Financial Year (FY)
  */
 
-const PAYOUT_API_URL = "https://script.google.com/macros/s/AKfycbz1Hf6dnhvcVbzTty_tAL_ymo0I3Jcc5FlWYmqWtnQlKX3jxNVyXWcHFloKYvNOyAGe/exec";
+const PAYOUT_API_URL = "https://script.google.com/macros/library/d/1LhxtUyjMm1tTKmCCbAQkFRXii4HnGkCG_-Qp60hMNnFSWeMpQKfjPeB7/122";
 
 async function loadPartnerFinancials() {
     // 1. Sabse pehle ID dhoondo (ID nahi toh Email backup)
