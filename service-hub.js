@@ -295,3 +295,4 @@ showSecurityVault: function() {
     `;
     document.body.insertAdjacentHTML('beforeend', vaultHtml);
 },
+};
