@@ -207,6 +207,58 @@ loadNotices: async function() {
         activityList.innerHTML = activities.length > 0 ? activities.join('') : 
             `<div style="color: var(--text-grey); text-align: center; padding: 30px; font-size: 14px;">No active orders or activity yet.</div>`;
     },
+    // ... renderActivity ke khatam hone ke baad yahan se paste karein ...
+    showDetails: function(serviceStr) {
+        const service = JSON.parse(decodeURIComponent(serviceStr));
+        
+        // Progress ke hisaab se steps ko "Done" dikhane ka logic
+        const stepsHtml = service.labels.map((step, index) => {
+            const stepWeight = 100 / service.labels.length;
+            const isDone = service.progress >= (index + 1) * stepWeight || service.progress === 100;
+            const isCurrent = !isDone && (service.progress >= index * stepWeight);
+
+            return `
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; position: relative;">
+                    ${index < service.labels.length - 1 ? `<div style="position: absolute; left: 12px; top: 24px; width: 2px; height: 20px; background: ${service.progress > (index+1)*stepWeight ? '#00ff88' : '#334155'};"></div>` : ''}
+                    
+                    <div style="width: 26px; height: 26px; border-radius: 50%; background: ${isDone ? '#00ff88' : isCurrent ? '#38bdf8' : '#1e293b'}; border: 2px solid ${isDone ? '#00ff88' : '#334155'}; display: flex; align-items: center; justify-content: center; font-size: 11px; color: ${isDone ? '#000' : '#fff'}; z-index: 2; font-weight: bold;">
+                        ${isDone ? '✓' : index + 1}
+                    </div>
+                    
+                    <div style="flex: 1;">
+                        <div style="color: ${isDone || isCurrent ? '#fff' : '#64748b'}; font-size: 14px; font-weight: 600; margin-top: 3px;">${step}</div>
+                        <div style="color: ${isCurrent ? '#38bdf8' : '#475569'}; font-size: 11px; margin-top: 2px;">
+                            ${isDone ? 'Completed' : isCurrent ? 'In Progress...' : 'Waiting to start'}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        const modalHtml = `
+            <div id="detailsModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:center; z-index:10000; backdrop-filter:blur(8px); animation: fadeIn 0.2s ease;">
+                <div style="background:#0f172a; width:90%; max-width:400px; border-radius:20px; border:1px solid #334155; overflow:hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+                    <div style="padding:20px; border-bottom:1px solid #1e293b; display:flex; justify-content:space-between; align-items:center; background: rgba(255,255,255,0.02);">
+                        <div>
+                            <h3 style="color:#fff; margin:0; font-size:16px; font-weight:700;">${service.serviceName}</h3>
+                            <p style="margin:0; font-size:11px; color:#38bdf8;">Track your application status</p>
+                        </div>
+                        <button onclick="document.getElementById('detailsModal').remove()" style="background:#1e293b; border:none; color:#94a3b8; width:30px; height:30px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px;">&times;</button>
+                    </div>
+                    <div style="padding:30px 25px;">
+                        ${stepsHtml}
+                    </div>
+                    <div style="padding:15px 25px; background:rgba(56, 189, 248, 0.05); border-top:1px solid #1e293b; display:flex; justify-content:center;">
+                        <span style="color:#38bdf8; font-size:12px; font-weight:500;">
+                            <i class="far fa-calendar-alt"></i> Estimated Completion: ${service.deadline}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+    },
+    // ... iske niche showSecurityVault start ho jayega ...
 // Isse Security Shield ka popup handle hoga
     showSecurityVault: function() {
         const vaultHtml = `
