@@ -3,12 +3,12 @@ const serviceHub = {
     API_URL: "https://script.google.com/macros/s/AKfycbwtClA1mmRpEO154x20nahYGhDAN83ODXPE1jhzJs65aqkCnMEldsmwFoTyTF44Rp3j/exec",
 
     init: async function() {
-        // --- Sabse pehle Greeting update karein ---
+        // Greeting Logic
         const hours = new Date().getHours();
         let greet = (hours < 12) ? "Good Morning," : (hours < 16) ? "Good Afternoon," : "Good Evening,";
         const greetEl = document.getElementById('greetingText');
         if (greetEl) greetEl.innerText = greet;
-        // ------------------------------------------
+
         const container = document.getElementById('dynamicServiceContent'); 
         if (!container) return;
         
@@ -16,18 +16,16 @@ const serviceHub = {
         if (!token) return;
 
         try {
+            // Backend ko wahi purana request jayega (No change in Backend)
             const response = await fetch(`${this.API_URL}?action=get-service-hub&token=${encodeURIComponent(token)}`);
             const data = await response.json();
 
             if (data.status === 'success' && data.services) {
                 this.allServices = data.services;
                 this.renderStats();    
-                this.renderCards();    
+                this.renderTable(); // renderCards ki jagah renderTable bulayenge
                 this.renderActivity(); 
-                
-                // --- YE WALI LINE ZAROOR ADD KAREIN ---
-                this.loadNotices(); 
-                // --------------------------------------
+                if (typeof this.loadNotices === 'function') this.loadNotices(); 
             }
         } catch (err) {
             console.error("Service Hub Error:", err);
@@ -38,82 +36,91 @@ const serviceHub = {
         const statContainer = document.getElementById('statCardsContainer');
         if (!statContainer) return;
 
-        const itr = this.allServices.find(s => s.serviceName.toLowerCase().includes('itr')) || {status: 'Not Opted', deadline: 'N/A'};
-        const gst = this.allServices.find(s => s.serviceName.toLowerCase().includes('gst')) || {status: 'Not Opted', deadline: 'N/A'};
-        
-     statContainer.innerHTML = `
-    <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-        <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">ITR Status</h3>
-        <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">${itr.status}</div>
-        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">📅 Due Date: ${itr.deadline}</div>
-    </div>
-    <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-        <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">GST Status</h3>
-        <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">${gst.status}</div>
-        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">📅 Next: ${gst.deadline}</div>
-    </div>
-    <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-        <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">Total Services</h3>
-        <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">${this.allServices.length}</div>
-        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">⭐ Active Now</div>
-    </div>
-    <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:22px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-        <h3 style="font-size:13px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px; font-weight:700;">Storage</h3>
-        <div class="value" style="font-size:26px; color:#ffffff; font-weight:800; margin:12px 0;">Cloud</div>
-        <div class="sub-text" style="font-size:14px; color:#ffffff; font-weight:600; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; display:inline-block;">🛡️ Secured Docs</div>
-    </div>
-`;
+        // Dynamic Stats: Pehli 3 services aur total count
+        const displayServices = this.allServices.slice(0, 3);
+        let statsHtml = '';
+
+        displayServices.forEach(s => {
+            statsHtml += `
+                <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:20px; border-radius:12px;">
+                    <h3 style="font-size:11px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px;">${s.serviceName}</h3>
+                    <div class="value" style="font-size:20px; color:#ffffff; font-weight:800; margin:8px 0;">${s.status}</div>
+                    <div class="sub-text" style="font-size:12px; color:rgba(255,255,255,0.7);">📅 ${s.deadline}</div>
+                </div>
+            `;
+        });
+
+        statsHtml += `
+            <div class="stat-card" style="background:#1e293b; border:1px solid #334155; padding:20px; border-radius:12px;">
+                <h3 style="font-size:11px; color:#38bdf8; text-transform:uppercase; margin:0; letter-spacing:1px;">Total Active</h3>
+                <div class="value" style="font-size:24px; color:#ffffff; font-weight:800; margin:8px 0;">${this.allServices.length}</div>
+                <div class="sub-text" style="font-size:12px; color:rgba(255,255,255,0.7);">Services Tracked</div>
+            </div>
+        `;
+        statContainer.innerHTML = statsHtml;
     },
 
-    renderCards: function() {
+    renderTable: function() {
         const container = document.getElementById('dynamicServiceContent');
         if (!container) return;
 
         container.innerHTML = `
             <div class="service-hub-header" style="margin-bottom: 20px; margin-top: 20px;">
-                <h2 style="font-size: 20px; color: #fff;">Service Trackers</h2>
+                <h2 style="font-size: 20px; color: #fff;">Service Trackers (${this.allServices.length})</h2>
             </div>
-            <div id="servicesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
-                ${this.allServices.map(service => this.generateCardHtml(service)).join('')}
+            
+            <div style="background: var(--panel-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: left;">
+                        <thead>
+                            <tr style="background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border);">
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase;">Service Name</th>
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase;">Status</th>
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase;">Progress</th>
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase;">Next Due</th>
+                                <th style="padding: 15px; color: var(--text-grey); font-size: 12px; text-transform: uppercase; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${this.allServices.map(service => this.generateRowHtml(service)).join('')}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         `;
     },
 
-    generateCardHtml: function(service) {
-        let statusColor = '#ffa500'; // Default: Orange
+    generateRowHtml: function(service) {
+        let statusColor = '#ffa500'; 
         const st = (service.status || '').toLowerCase();
-        if(st.includes('progress')) statusColor = 'var(--secondary)'; // Indigo/Blue
-        if(st.includes('filed') || st.includes('complete')) statusColor = 'var(--primary)'; // Neon Green
+        if(st.includes('progress')) statusColor = '#38bdf8'; 
+        if(st.includes('filed') || st.includes('complete')) statusColor = '#00ff88';
 
         return `
-            <div class="stat-card" style="background: var(--panel-bg); border: 1px solid var(--border); padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
-                    <div>
-                        <span style="background: ${statusColor}15; color: ${statusColor}; font-size: 10px; font-weight: bold; padding: 4px 12px; border-radius: 20px; border: 1px solid ${statusColor}33; text-transform: uppercase;">
-                            ${service.status}
-                        </span>
-                        <h3 style="color: var(--text-main); margin-top: 12px; font-size: 18px; font-weight: 600;">${service.serviceName}</h3>
+            <tr style="border-bottom: 1px solid var(--border); transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <td style="padding: 15px; color: var(--text-main); font-weight: 500;">${service.serviceName}</td>
+                <td style="padding: 15px;">
+                    <span style="display: flex; align-items: center; gap: 8px; color: ${statusColor}; font-size: 12px; font-weight: bold;">
+                        <span style="width: 6px; height: 6px; background: ${statusColor}; border-radius: 50%;"></span>
+                        ${service.status}
+                    </span>
+                </td>
+                <td style="padding: 15px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 80px; height: 5px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden;">
+                            <div style="width: ${service.progress}%; height: 100%; background: ${statusColor}; transition: width 0.5s;"></div>
+                        </div>
+                        <span style="font-size: 11px; color: var(--text-grey);">${service.progress}%</span>
                     </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 24px; font-weight: bold; color: var(--text-main);">${service.progress}%</div>
-                        <div style="font-size: 10px; color: var(--text-grey); text-transform: uppercase; letter-spacing: 1px;">Done</div>
-                    </div>
-                </div>
-                
-                <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; margin: 25px 0; overflow: hidden;">
-                    <div style="width: ${service.progress}%; height: 100%; background: linear-gradient(90deg, ${statusColor}, var(--accent)); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);"></div>
-                </div>
-                
-                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <div style="font-size: 10px; color: var(--text-grey); text-transform: uppercase;">Next Due Date</div>
-                        <div style="font-size: 13px; color: var(--text-main); font-weight: 500;">📅 ${service.deadline}</div>
-                    </div>
-                    <button class="service-btn" style="background: var(--secondary); color: white; border: none; padding: 8px 18px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.3s;">
+                </td>
+                <td style="padding: 15px; color: var(--text-main); font-size: 13px;">📅 ${service.deadline}</td>
+                <td style="padding: 15px; text-align: center;">
+                    <button class="service-btn" style="background: var(--secondary); color: white; border: none; padding: 6px 14px; border-radius: 6px; font-size: 11px; cursor: pointer;">
                         Details
                     </button>
-                </div>
-            </div>`;
+                </td>
+            </tr>
+        `;
     },
 // Is function ko serviceHub object ke andar kahin bhi daal dein
 loadNotices: async function() {
