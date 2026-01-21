@@ -91,31 +91,35 @@ const supportHub = {
     },
 
     // UI FIX: Response card ko theme-ready banaya
-    showResponse: function(userQuery, adminReply) {
-        const card = document.getElementById('adminResponseCard');
-        const queryDisplay = document.getElementById('userQueryDisplay');
-        const replyDisplay = document.getElementById('supportResponseText'); 
-        
-        if (card && adminReply && adminReply.trim() !== "" && adminReply !== "—") {
-            // Apply Theme-based styling to the card
-            card.style.background = "var(--panel-bg)";
-            card.style.border = "1px solid var(--border)";
-            card.style.borderRadius = "12px";
-            card.style.padding = "20px";
-            card.style.display = 'block';
-            card.style.boxShadow = "0 4px 15px var(--card-shadow)";
+   showResponse: function(userQuery, adminReply) {
+    const card = document.getElementById('adminResponseCard');
+    const queryDisplay = document.getElementById('userQueryDisplay');
+    const replyDisplay = document.getElementById('supportResponseText'); 
+    
+    if (card && adminReply && adminReply.trim() !== "" && adminReply !== "—") {
+        card.style.display = 'block';
+        card.style.background = "var(--panel-bg)";
+        card.style.border = "1px solid var(--border)";
+        card.style.borderRadius = "12px";
+        card.style.padding = "20px";
+        card.style.boxShadow = "0 4px 15px var(--card-shadow)";
 
-            if(queryDisplay) {
-                queryDisplay.innerText = userQuery || "Recent Support Ticket"; 
-                queryDisplay.style.color = "var(--text-grey)";
-            }
-            if(replyDisplay) {
-                replyDisplay.innerText = adminReply;
-                replyDisplay.style.color = "var(--text-main)";
-            }
-            console.log("Support Hub: Admin response rendered with Theme Variables.");
-        } else {
-            if(card) card.style.display = 'none';
+        if(queryDisplay) {
+            queryDisplay.innerText = userQuery || "Recent Support Ticket"; 
+            // Isko thoda dark gray rakha hai
+            queryDisplay.style.setProperty('color', 'var(--text-grey)', 'important');
         }
+        
+        if(replyDisplay) {
+            replyDisplay.innerText = adminReply;
+            // FIX: Yahan text-main use ho raha hai, jo Day theme mein Black hona chahiye
+            replyDisplay.style.setProperty('color', 'var(--text-main)', 'important');
+            replyDisplay.style.fontWeight = "600"; // Black ko thoda bold kiya taaki saaf dikhe
+            replyDisplay.style.lineHeight = "1.5";
+        }
+        console.log("Support Hub: Admin response fixed with bold black text.");
+    } else {
+        if(card) card.style.display = 'none';
     }
+}
 };
