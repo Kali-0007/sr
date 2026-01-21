@@ -1,5 +1,5 @@
 /**
- * TaxEasePro Support Hub - Fixed Version
+ * TaxEasePro Support Hub - Theme & Fixed Version
  */
 const supportHub = {
     config: {
@@ -38,7 +38,7 @@ const supportHub = {
         }
     },
 
-    submitTicket: function(e) { // 'e' add kiya hai safety ke liye
+    submitTicket: function(e) {
         const queryField = document.getElementById('userSupportQuery');
         if(!queryField) return;
         
@@ -51,7 +51,6 @@ const supportHub = {
             return;
         }
 
-        // Safe Button Handling: Agar event nahi bhi hai toh crash nahi hoga
         const btn = e ? e.target : document.querySelector('button[onclick*="submitTicket"]');
         let originalText = "Submit";
         if(btn) {
@@ -91,18 +90,32 @@ const supportHub = {
         });
     },
 
+    // UI FIX: Response card ko theme-ready banaya
     showResponse: function(userQuery, adminReply) {
         const card = document.getElementById('adminResponseCard');
         const queryDisplay = document.getElementById('userQueryDisplay');
         const replyDisplay = document.getElementById('supportResponseText'); 
         
         if (card && adminReply && adminReply.trim() !== "" && adminReply !== "—") {
-            if(queryDisplay) queryDisplay.innerText = userQuery || "Recent Support Ticket"; 
-            if(replyDisplay) replyDisplay.innerText = adminReply;
+            // Apply Theme-based styling to the card
+            card.style.background = "var(--panel-bg)";
+            card.style.border = "1px solid var(--border)";
+            card.style.borderRadius = "12px";
+            card.style.padding = "20px";
             card.style.display = 'block';
-            console.log("Support Hub: Admin response rendered.");
+            card.style.boxShadow = "0 4px 15px var(--card-shadow)";
+
+            if(queryDisplay) {
+                queryDisplay.innerText = userQuery || "Recent Support Ticket"; 
+                queryDisplay.style.color = "var(--text-grey)";
+            }
+            if(replyDisplay) {
+                replyDisplay.innerText = adminReply;
+                replyDisplay.style.color = "var(--text-main)";
+            }
+            console.log("Support Hub: Admin response rendered with Theme Variables.");
         } else {
             if(card) card.style.display = 'none';
         }
     }
-}; // Object closing
+};
