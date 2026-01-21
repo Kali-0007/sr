@@ -38,14 +38,24 @@ const supportHub = {
         }
     },
 
-    submitTicket: function(e) {
+   submitTicket: function(e) {
         const queryField = document.getElementById('userSupportQuery');
         if(!queryField) return;
         
         const query = queryField.value.trim();
         const userName = document.getElementById('firstNameDisplay')?.textContent || "Unknown User";
-        const userEmail = localStorage.getItem('userEmail') || "Guest"; 
+        
+        // 1. Pehle Email uthao
+        const userEmail = localStorage.getItem('userEmail'); 
 
+        // 2. Check karo ki email hai ya nahi, agar nahi toh rok do
+        if (!userEmail || userEmail === "Guest" || userEmail === "") {
+            alert("Session expired! Please Login again to submit a ticket.");
+            window.location.href = "../login.html"; 
+            return;
+        }
+
+        // 3. Query check karo
         if (!query) {
             alert("Please enter your query before submitting.");
             return;
