@@ -104,18 +104,20 @@ const supportHub = {
         card.style.padding = "20px";
         card.style.boxShadow = "0 4px 15px var(--card-shadow)";
 
-        if(queryDisplay) {
+       if(queryDisplay) {
             queryDisplay.innerText = userQuery || "Recent Support Ticket"; 
-            // Isko thoda dark gray rakha hai
+            // Isko thoda Dark rakha hai taaki differentiate ho sake
             queryDisplay.style.setProperty('color', 'var(--text-grey)', 'important');
+            queryDisplay.style.fontSize = "12px";
         }
         
         if(replyDisplay) {
             replyDisplay.innerText = adminReply;
-            // FIX: Yahan text-main use ho raha hai, jo Day theme mein Black hona chahiye
+            // FIX: Yahan direct var use karo, aur CSS check karo ki Day me ye #000000 ho
             replyDisplay.style.setProperty('color', 'var(--text-main)', 'important');
-            replyDisplay.style.fontWeight = "600"; // Black ko thoda bold kiya taaki saaf dikhe
-            replyDisplay.style.lineHeight = "1.5";
+            replyDisplay.style.fontWeight = "700"; // Isko 600 se 700 (Extra Bold) kar diya
+            replyDisplay.style.lineHeight = "1.6";
+            replyDisplay.style.fontSize = "14px";
         }
         console.log("Support Hub: Admin response fixed with bold black text.");
     } else {
