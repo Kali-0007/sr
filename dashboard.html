@@ -816,11 +816,13 @@ header .logo:hover img {
     
     <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-            <span style="font-size: 14px;">❓</span>
-            <h4 style="color: rgba(255,255,255,0.6); margin: 0; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;">Your Last Query</h4>
-        </div>
-        <p id="userQueryDisplay" style="color: #ccc; margin: 0; font-size: 14px; line-height: 1.4; font-style: italic;"></p>
-    </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+    <span style="font-size: 14px;">❓</span>
+    <h4 style="color: var(--text-grey); margin: 0; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;">
+        Your Last Query
+    </h4>
+</div>
+<p id="userQueryDisplay" style="color: var(--text-main); margin: 0; font-size: 14px; line-height: 1.4; font-style: italic; opacity: 0.9;"></p>
 
     <div style="display: flex; align-items: flex-start; gap: 15px;">
         <div style="font-size: 20px; filter: drop-shadow(0 0 5px var(--accent));">🎙️</div>
