@@ -203,33 +203,33 @@ document.write(`
 
     <div class="footer-col">
       <h4>Income Tax</h4>
-      <a href="services.html">ITR Filing</a>
-      <a href="services.html">Business ITR</a>
-      <a href="services.html">Notice Reply</a>
-      <a href="calculator.html#calculator">Tax Calculator</a>
+      <a href="/sr/services.html">ITR Filing</a>
+      <a href="/sr/services.html">Business ITR</a>
+      <a href="/sr/services.html">Notice Reply</a>
+      <a href="/sr/calculator.html#calculator">Tax Calculator</a>
     </div>
 
     <div class="footer-col">
       <h4>GST Services</h4>
-      <a href="services.html">GST Registration</a>
-      <a href="services.html">Monthly Returns</a>
-      <a href="services.html">GST Revocation</a>
+      <a href="/sr/services.html">GST Registration</a>
+      <a href="/sr/services.html">Monthly Returns</a>
+      <a href="/sr/services.html">GST Revocation</a>
     </div>
 
     <div class="footer-col">
       <h4>Registration</h4>
-      <a href="services.html">MSME Registration</a>
-      <a href="services.html">Private Limited Company</a>
-      <a href="services.html">Digital Signature</a>
+      <a href="/sr/services.html">MSME Registration</a>
+      <a href="/sr/services.html">Private Limited Company</a>
+      <a href="/sr/services.html">Digital Signature</a>
     </div>
 <div class="footer-col">
       <h4>Resources</h4>
-      <a href="faqs.html">FAQ</a>
+      <a href="/sr/faqs.html">FAQ</a>
       <a href="/sr/blogs.html">Blogs</a>
      <a href="/sr/partners/">Partner Program</a>
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="terms-of-service.html">Terms of Service</a>
-      <a href="refund-policy.html">Refund Policy</a>
+      <a href="/sr/privacy-policy.html">Privacy Policy</a>
+      <a href="/sr/terms-of-service.html">Terms of Service</a>
+      <a href="/sr/refund-policy.html">Refund Policy</a>
     </div>
     <div class="footer-col">
       <h4>Get in Touch</h4>
