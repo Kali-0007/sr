@@ -848,64 +848,64 @@ header .logo:hover img {
 </div>
 
 <div id="editModal" class="modal">
-  <div class="modal-content">
+  <div class="modal-content" style="background: var(--panel-bg); color: var(--text-main);">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
-        <h3 style="color:#fff; margin:0; font-size: 20px;">Update Profile Details</h3>
-        <span id="closeModalBtn" style="cursor:pointer; color:var(--text-grey); font-size: 28px; line-height: 1;">&times;</span>
+        <h3 style="color: var(--text-main); margin:0; font-size: 20px;">Update Profile Details</h3>
+        <span id="closeModalBtn" style="cursor:pointer; color: var(--text-grey); font-size: 28px; line-height: 1;">&times;</span>
     </div>
     
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
         <div>
             <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase; letter-spacing: 0.5px;">Username</label>
-            <input type="text" id="editUsername" readonly style="background: rgba(255,255,255,0.03); color: var(--text-grey); cursor: not-allowed;">
+            <input type="text" id="editUsername" readonly style="background: var(--bg-main); color: var(--text-grey); cursor: not-allowed; border: 1px solid var(--border);">
         </div>
         <div>
             <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase; letter-spacing: 0.5px;">Email</label>
-            <input type="email" id="editEmail" readonly style="background: rgba(255,255,255,0.03); color: var(--text-grey); cursor: not-allowed;">
+            <input type="email" id="editEmail" readonly style="background: var(--bg-main); color: var(--text-grey); cursor: not-allowed; border: 1px solid var(--border);">
         </div>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
         <div>
             <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase;">First Name</label>
-            <input type="text" id="editFirstName" placeholder="First Name">
+            <input type="text" id="editFirstName" placeholder="First Name" style="background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border);">
         </div>
         <div>
             <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase;">Surname</label>
-            <input type="text" id="editSurname" placeholder="Surname">
+            <input type="text" id="editSurname" placeholder="Surname" style="background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border);">
         </div>
     </div>
 
     <div style="margin-top: 5px;">
         <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase;">Mobile Number</label>
-        <input type="text" id="editMobile" placeholder="Enter mobile number">
+        <input type="text" id="editMobile" placeholder="Enter mobile number" style="background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border);">
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
         <div>
             <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase;">City</label>
-            <input type="text" id="editCity" placeholder="City">
+            <input type="text" id="editCity" placeholder="City" style="background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border);">
         </div>
         <div>
             <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase;">State</label>
-            <input type="text" id="editState" placeholder="State">
+            <input type="text" id="editState" placeholder="State" style="background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border);">
         </div>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
         <div>
             <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase;">Country</label>
-            <input type="text" id="editCountry" placeholder="Country">
+            <input type="text" id="editCountry" placeholder="Country" style="background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border);">
         </div>
         <div>
             <label style="font-size: 11px; color: var(--text-grey); text-transform: uppercase;">Pincode</label>
-            <input type="text" id="editPincode" placeholder="Pincode">
+            <input type="text" id="editPincode" placeholder="Pincode" style="background: var(--bg-main); color: var(--text-main); border: 1px solid var(--border);">
         </div>
     </div>
 
-    <div class="modal-footer">
-        <button id="saveProfileBtn" class="service-btn" style="flex: 2; height: 45px;">Save Changes</button>
-        <button id="closeModalBtnSecondary" class="service-btn" style="background: rgba(255,255,255,0.05); color: #fff; flex: 1; border: 1px solid var(--border); height: 45px;">Cancel</button>
+    <div class="modal-footer" style="background: var(--panel-bg); border-top: 1px solid var(--border);">
+        <button id="saveProfileBtn" class="service-btn" style="flex: 2; height: 45px; background: var(--secondary); color: #fff;">Save Changes</button>
+        <button id="closeModalBtnSecondary" class="service-btn" style="background: var(--bg-main); color: var(--text-main); flex: 1; border: 1px solid var(--border); height: 45px;">Cancel</button>
     </div>
   </div>
 </div>
