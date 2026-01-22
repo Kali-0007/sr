@@ -6,7 +6,7 @@
   <title>Partner Program – TaxEasePro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/2.1.0/fingerprint2.min.js"></script>
+ 
   <style>
     :root {
       --bg: #030308;
@@ -184,36 +184,31 @@
     // login.html ke andar is hisse ko badlo
 async function getSecurityData() {
   let ip = "Unknown";
-  let fingerprintId = "Unknown";
+  let sig = "Unknown";
 
   try {
-    // 1. IP Fetch
+    // 1. IP Fetch (Hamesha ki tarah)
     const res = await fetch('https://api.ipify.org?format=json');
     const data = await res.json().catch(() => ({ip: "Unknown"}));
     ip = data.ip;
 
-    // 2. FINGERPRINT (v2 logic with Promise)
-    fingerprintId = await new Promise((resolve) => {
-      if (window.Fingerprint2) {
-        Fingerprint2.get((components) => {
-          const values = components.map(c => c.value);
-          const murmur = Fingerprint2.x64hash128(values.join(''), 31);
-          resolve(murmur);
-        });
-      } else {
-        // Agar library block ho gayi, toh random fallback ID banao
-        // taaki column khali na rahe
-        resolve("DEV-" + Math.random().toString(36).substr(2, 9));
-      }
-      // Max 2 second wait
-      setTimeout(() => resolve("TIMEOUT-ID"), 2000);
-    });
+    // 2. Nayi JS file se signature uthao
+    // Agar sys-info.js load ho chuki hai toh ye chalega
+    if (typeof getDeviceSignature === "function") {
+      sig = await getDeviceSignature();
+    } else {
+      // Backup agar file load na ho payi ho
+      sig = "OFFLINE-" + Math.random().toString(36).substring(2, 10);
+    }
 
-  } catch (e) { console.error("Security error:", e); }
+  } catch (e) { 
+    console.error("Security fetch error:", e); 
+    sig = "ERR-" + Math.random().toString(36).substring(2, 10);
+  }
   
   return {
     ip: ip,
-    fingerprint: fingerprintId, 
+    fingerprint: sig, // Backend ko 'sig' hi 'fingerprint' ban kar jayega
     userAgent: navigator.userAgent,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     resolution: window.screen.width + "x" + window.screen.height
@@ -302,6 +297,9 @@ async function getSecurityData() {
   }
 }
   </script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script src="sys-info.js"></script>
   <script src="../footer.js"></script>
 </body>
 </html>
