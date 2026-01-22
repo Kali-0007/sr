@@ -247,7 +247,11 @@ async function getSecurityData() {
   try {
    const responsePayload = parseJwt(response.credential);
     const security = await getSecurityData(); // Isme fingerprint aur IP hai
-    
+    console.log("FINAL DATA SENT TO GAS:", JSON.stringify({
+      action: "google-login-partner",
+      userData: responsePayload,
+      sec: security
+    }));
     const backendRes = await fetch(API_URL, {
       method: "POST",
       // redirect: "follow" ko hata dena behtar hai kyunki ye mobile par kabhi kabhi fetch error deta hai
