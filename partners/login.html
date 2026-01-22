@@ -245,19 +245,9 @@ async function getSecurityData() {
   
   try {
     const responsePayload = parseJwt(response.credential);
-    const security = await getSecurityData(); // Fingerprint yahan generate hota hai
+    const security = await getSecurityData(); 
 
-    // --- DEBUGGING START ---
-    // Ye popup aapko batayega ki fingerprint mila ya nahi
-    alert("CHECKING DATA:\n\nIP: " + security.ip + "\nFingerprint: " + security.fingerprint);
-    
-    console.log("FINAL DATA SENT TO GAS:", JSON.stringify({
-      action: "google-login-partner",
-      userData: responsePayload,
-      sec: security
-    }));
-    // --- DEBUGGING END ---
-
+    // Ab humne alert aur debugging logs hata diye hain taaki flow fast ho
     const backendRes = await fetch(API_URL, {
       method: "POST",
       body: JSON.stringify({
@@ -272,24 +262,27 @@ async function getSecurityData() {
     const res = JSON.parse(text);
 
     if (res.status === "success") {
-      // Data save karne ka logic
+      // 1. Local storage mein important data save karein
       localStorage.setItem('partnerId', res.partnerId || responsePayload.email); 
       localStorage.setItem('userToken', res.token);
       localStorage.setItem('userEmail', responsePayload.email);
+      localStorage.setItem('isPartner', 'true');
       
-      statusDiv.innerHTML = '<span style="color: #00ff9d;">Success! Data Sent.</span>';
+      // Username aur Profile pic agar dashboard par dikhani hai
+      localStorage.setItem('username', responsePayload.name || "Partner");
+      localStorage.setItem('userPhoto', responsePayload.picture || "");
+
+      statusDiv.innerHTML = '<span style="color: #00ff9d;">Login Successful! Redirecting...</span>';
       
-      // TESTING KE LIYE: Is niche wali line ko abhi comment rakha hai taaki page redirect na ho
-      // window.location.href = "dashboard.html"; 
-      
-      alert("Backend se response aa gaya hai! Dashboard redirect abhi roka gaya hai taaki aap console check kar sakein.");
+      // 2. Dashboard par bhej do (Ab ye line active hai)
+      window.location.href = "dashboard.html"; 
 
     } else {
       statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
     }
   } catch (error) {
     console.error("Login Error:", error);
-    statusDiv.innerHTML = '<span style="color: #ff6b6b;">Connection error.</span>';
+    statusDiv.innerHTML = '<span style="color: #ff6b6b;">Connection error. Please try again.</span>';
   }
 }
   </script>
