@@ -184,23 +184,32 @@
     return JSON.parse(jsonPayload);
   }
 
-  async function getSecurityData() {
+ async function getSecurityData() {
     let ip = "Unknown";
     let fingerprintId = "Unknown";
     try {
+      // 1. IP Fetch
       const res = await fetch('https://api.ipify.org?format=json');
       const data = await res.json();
       ip = data.ip;
 
-      const fp = await FingerprintJS.load();
-      const result = await fp.get();
-      fingerprintId = result.visitorId;
+      // 2. Fingerprint - Wait until library is ready
+      if (typeof FingerprintJS !== 'undefined') {
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        fingerprintId = result.visitorId;
+        console.log("Fingerprint Captured:", fingerprintId);
+      } else {
+        console.error("FingerprintJS library not loaded yet");
+      }
     } catch (e) {
       console.error("Security data fetch failed", e);
     }
+    
+    // Yahan key ka naam 'fingerprint' hai, isliye backend mein sec.fingerprint likhna
     return {
       ip: ip,
-      fingerprint: fingerprintId,
+      fingerprint: fingerprintId, 
       userAgent: navigator.userAgent,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       resolution: window.screen.width + "x" + window.screen.height
