@@ -187,35 +187,34 @@ async function getSecurityData() {
   let ip = "Unknown";
   let fingerprintId = "Unknown";
 
+  // 1. IP Fetch (Timeout ke saath taaki ruke nahi)
   try {
-    // 1. IP Fetch
-    const res = await fetch('https://api.ipify.org?format=json');
-    const data = await res.json().catch(() => ({ip: "Unknown"}));
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 2000); // 2 sec timeout
+    const res = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
+    const data = await res.json();
     ip = data.ip;
+    clearTimeout(id);
+  } catch (e) { ip = "IP_TIMEOUT"; }
 
-    // 2. FingerprintJS (v3) logic jo sys-info.js ke andar hai
+  // 2. Fingerprint Logic (Safe approach)
+  try {
     if (typeof FingerprintJS !== 'undefined') {
-      // Library ko initialize karo
       const fp = await FingerprintJS.load();
-      // Result nikaalo
       const result = await fp.get();
-      // visitorId hi hamara unique fingerprint hai
       fingerprintId = result.visitorId;
     } else {
-      // Agar script load nahi hui toh error message
-      fingerprintId = "FILE_NOT_LOADED";
+      fingerprintId = "LIB_NOT_FOUND";
     }
-
   } catch (e) { 
-    console.error("Security fetch error:", e); 
-    fingerprintId = "EXECUTION_ERROR";
+    console.error("FP Error:", e);
+    fingerprintId = "FP_EXECUTION_ERROR"; 
   }
   
   return {
     ip: ip,
-    fingerprint: fingerprintId, // Backend isi 'fingerprint' key ko dhund raha hai
+    fingerprint: fingerprintId,
     userAgent: navigator.userAgent,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     resolution: window.screen.width + "x" + window.screen.height
   };
 }
