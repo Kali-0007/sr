@@ -184,31 +184,35 @@
     // login.html ke andar is hisse ko badlo
 async function getSecurityData() {
   let ip = "Unknown";
-  let sig = "Unknown";
+  let fingerprintId = "Unknown";
 
   try {
-    // 1. IP Fetch (Hamesha ki tarah)
+    // 1. IP Fetch
     const res = await fetch('https://api.ipify.org?format=json');
     const data = await res.json().catch(() => ({ip: "Unknown"}));
     ip = data.ip;
 
-    // 2. Nayi JS file se signature uthao
-    // Agar sys-info.js load ho chuki hai toh ye chalega
-    if (typeof getDeviceSignature === "function") {
-      sig = await getDeviceSignature();
+    // 2. FingerprintJS (v3) logic jo sys-info.js ke andar hai
+    if (typeof FingerprintJS !== 'undefined') {
+      // Library ko initialize karo
+      const fp = await FingerprintJS.load();
+      // Result nikaalo
+      const result = await fp.get();
+      // visitorId hi hamara unique fingerprint hai
+      fingerprintId = result.visitorId;
     } else {
-      // Backup agar file load na ho payi ho
-      sig = "OFFLINE-" + Math.random().toString(36).substring(2, 10);
+      // Agar script load nahi hui toh error message
+      fingerprintId = "FILE_NOT_LOADED";
     }
 
   } catch (e) { 
     console.error("Security fetch error:", e); 
-    sig = "ERR-" + Math.random().toString(36).substring(2, 10);
+    fingerprintId = "EXECUTION_ERROR";
   }
   
   return {
     ip: ip,
-    fingerprint: sig, // Backend ko 'sig' hi 'fingerprint' ban kar jayega
+    fingerprint: fingerprintId, // Backend isi 'fingerprint' key ko dhund raha hai
     userAgent: navigator.userAgent,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     resolution: window.screen.width + "x" + window.screen.height
@@ -297,9 +301,9 @@ async function getSecurityData() {
   }
 }
   </script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+ <script src="sys-info.js"></script>
 
-<script src="sys-info.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="../footer.js"></script>
 </body>
 </html>
