@@ -244,64 +244,52 @@ async function getSecurityData() {
   statusDiv.innerHTML = '<span style="color: var(--teal);">Verifying Partner Account...</span>';
   
   try {
-   const responsePayload = parseJwt(response.credential);
-    const security = await getSecurityData(); // Isme fingerprint aur IP hai
+    const responsePayload = parseJwt(response.credential);
+    const security = await getSecurityData(); // Fingerprint yahan generate hota hai
+
+    // --- DEBUGGING START ---
+    // Ye popup aapko batayega ki fingerprint mila ya nahi
+    alert("CHECKING DATA:\n\nIP: " + security.ip + "\nFingerprint: " + security.fingerprint);
+    
     console.log("FINAL DATA SENT TO GAS:", JSON.stringify({
       action: "google-login-partner",
       userData: responsePayload,
       sec: security
     }));
+    // --- DEBUGGING END ---
+
     const backendRes = await fetch(API_URL, {
       method: "POST",
-      // redirect: "follow" ko hata dena behtar hai kyunki ye mobile par kabhi kabhi fetch error deta hai
       body: JSON.stringify({
         action: "google-login-partner",
-        userData: { ...responsePayload, ...security }, // Pehle wala structure barkarar rakha
-        sec: security, // <--- YE SABSE ZAROORI HAI, isi se AB column bharega
-        securityData: JSON.stringify(security) // Aapke purane logic ke liye
+        userData: { ...responsePayload, ...security },
+        sec: security, 
+        securityData: JSON.stringify(security)
       })
     });
 
     const text = await backendRes.text();
     const res = JSON.parse(text);
 
- if (res.status === "success") {
-      // --- FIX STARTS HERE ---
-      // 1. Pehle decide karo ki ID kya hai (Backend se aayi hui ID ya email)
-      const idToSave = res.partnerId || (res.profile && res.profile.partnerId) || responsePayload.email;
-      
-      // 2. Browser ki memory (LocalStorage) mein saara data save karo
-      localStorage.setItem('partnerId', idToSave); 
+    if (res.status === "success") {
+      // Data save karne ka logic
+      localStorage.setItem('partnerId', res.partnerId || responsePayload.email); 
       localStorage.setItem('userToken', res.token);
       localStorage.setItem('userEmail', responsePayload.email);
-      localStorage.setItem('isPartner', 'true');
-
-      // Username handle karein
-      const displayName = res.name || res.username || (res.profile && res.profile.fullName) || "Partner";
-      localStorage.setItem('username', displayName);
-
-      // Referral code aur Photo save karein
-      localStorage.setItem('referralCode', res.referralCode || (res.profile && res.profile.referralCode) || '');
-      localStorage.setItem('userPhoto', res.photo || (res.profile && res.profile.photoLink) || '');
-
-      // Console mein verify karein
-      console.log("Partner ID Saved Successfully:", idToSave);
-      // --- FIX ENDS HERE ---
-
-      // 3. Success Message dikha kar Redirect karein
-      statusDiv.innerHTML = '<span style="color: #00ff9d;">Welcome Partner! Redirecting...</span>';
       
-      setTimeout(() => { 
-        window.location.href = "dashboard.html"; 
-      }, 1500);
+      statusDiv.innerHTML = '<span style="color: #00ff9d;">Success! Data Sent.</span>';
+      
+      // TESTING KE LIYE: Is niche wali line ko abhi comment rakha hai taaki page redirect na ho
+      // window.location.href = "dashboard.html"; 
+      
+      alert("Backend se response aa gaya hai! Dashboard redirect abhi roka gaya hai taaki aap console check kar sakein.");
 
     } else {
-      // Agar backend se error aaye
       statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
     }
   } catch (error) {
     console.error("Login Error:", error);
-    statusDiv.innerHTML = '<span style="color: #ff6b6b;">Connection error. Try again.</span>';
+    statusDiv.innerHTML = '<span style="color: #ff6b6b;">Connection error.</span>';
   }
 }
   </script>
