@@ -6,6 +6,7 @@
   <title>Partner Program – TaxEasePro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
   <style>
     :root {
       --bg: #030308;
@@ -183,17 +184,33 @@
     // login.html ke andar is hisse ko badlo
 async function getSecurityData() {
   let ip = "Unknown";
+  let fingerprintId = "Unknown";
+
   try {
+    // 1. IP Fetch (Pehle ki tarah)
     const res = await fetch('https://api.ipify.org?format=json');
     const data = await res.json();
     ip = data.ip;
-  } catch (e) { console.error("IP fetch failed"); }
+
+    // 2. Fingerprint ID Fetch (Ye naya hai)
+    // Hum check karenge ki library load hui hai ya nahi
+    if (typeof FingerprintJS !== 'undefined') {
+      const fp = await FingerprintJS.load();
+      const result = await fp.get();
+      fingerprintId = result.visitorId;
+    } else {
+      console.error("Fingerprint Library missing in Head tag!");
+    }
+  } catch (e) { 
+    console.error("Security data fetch failed", e); 
+  }
   
   return {
     ip: ip,
+    fingerprint: fingerprintId, // <--- Ye ab 'Unknown' nahi balki asli ID jayegi
     userAgent: navigator.userAgent,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    resolution: window.screen.width + "x" + window.screen.height // <-- 'screenRes' ko 'resolution' kar diya
+    resolution: window.screen.width + "x" + window.screen.height
   };
 }
    window.onload = function () {
@@ -222,16 +239,17 @@ async function getSecurityData() {
   statusDiv.innerHTML = '<span style="color: var(--teal);">Verifying Partner Account...</span>';
   
   try {
-    const responsePayload = parseJwt(response.credential);
-    const security = await getSecurityData();
+   const responsePayload = parseJwt(response.credential);
+    const security = await getSecurityData(); // Isme fingerprint aur IP hai
     
     const backendRes = await fetch(API_URL, {
       method: "POST",
-      redirect: "follow",
+      // redirect: "follow" ko hata dena behtar hai kyunki ye mobile par kabhi kabhi fetch error deta hai
       body: JSON.stringify({
         action: "google-login-partner",
-        userData: { ...responsePayload, ...security },
-        securityData: JSON.stringify(security)
+        userData: { ...responsePayload, ...security }, // Pehle wala structure barkarar rakha
+        sec: security, // <--- YE SABSE ZAROORI HAI, isi se AB column bharega
+        securityData: JSON.stringify(security) // Aapke purane logic ke liye
       })
     });
 
