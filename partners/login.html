@@ -183,19 +183,41 @@
     // login.html ke andar is hisse ko badlo
 async function getSecurityData() {
   let ip = "Unknown";
+  let fingerprintId = "Unknown";
+
   try {
+    // 1. IP Fetch karna (Existing logic)
     const res = await fetch('https://api.ipify.org?format=json');
     const data = await res.json();
     ip = data.ip;
-  } catch (e) { console.error("IP fetch failed"); }
+
+    // 2. Fingerprint ID Generate karna (New logic)
+    const fp = await FingerprintJS.load();
+    const result = await fp.get();
+    fingerprintId = result.visitorId; // Ye hai wo unique 32-char ID
+
+  } catch (e) { 
+    console.error("Security data fetch failed", e); 
+  }
   
   return {
     ip: ip,
+    fingerprint: fingerprintId, // <-- Ye naya column banega
     userAgent: navigator.userAgent,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    resolution: window.screen.width + "x" + window.screen.height // <-- 'screenRes' ko 'resolution' kar diya
+    resolution: window.screen.width + "x" + window.screen.height
   };
 }
+    <script>
+  async function initFingerprintJS() {
+    // Library load ho rahi hai
+    const script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js";
+    script.onload = () => console.log("FingerprintJS Loaded");
+    document.head.appendChild(script);
+  }
+  initFingerprintJS();
+</script>
    window.onload = function () {
   google.accounts.id.initialize({
     client_id: "550754215798-ud6hkuvag4ee6dp8jqkro1ob8i8f0g3b.apps.googleusercontent.com",
