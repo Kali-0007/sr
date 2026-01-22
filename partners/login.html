@@ -187,27 +187,32 @@ async function getSecurityData() {
   let fingerprintId = "Unknown";
 
   try {
-    // 1. IP Fetch (Pehle ki tarah)
+    // 1. IP Fetch
     const res = await fetch('https://api.ipify.org?format=json');
-    const data = await res.json();
+    const data = await res.json().catch(() => ({ip: "Unknown"}));
     ip = data.ip;
 
-    // 2. Fingerprint ID Fetch (Ye naya hai)
-    // Hum check karenge ki library load hui hai ya nahi
-    if (typeof FingerprintJS !== 'undefined') {
-      const fp = await FingerprintJS.load();
-      const result = await fp.get();
-      fingerprintId = result.visitorId;
-    } else {
-      console.error("Fingerprint Library missing in Head tag!");
+    // 2. Fingerprint Fix (Retry Logic)
+    // Hum 5 baar check karenge agar library load nahi hui toh
+    for (let i = 0; i < 5; i++) {
+      if (typeof FingerprintJS !== 'undefined') {
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        fingerprintId = result.visitorId;
+        break; // ID mil gayi, loop se bahar niklo
+      }
+      await new Promise(resolve => setTimeout(resolve, 300)); // 0.3 second wait
     }
+    
+    console.log("Final Fingerprint Captured:", fingerprintId);
+
   } catch (e) { 
-    console.error("Security data fetch failed", e); 
+    console.error("Security Fetch Error:", e); 
   }
   
   return {
     ip: ip,
-    fingerprint: fingerprintId, // <--- Ye ab 'Unknown' nahi balki asli ID jayegi
+    fingerprint: fingerprintId, // Backend expects 'fingerprint'
     userAgent: navigator.userAgent,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     resolution: window.screen.width + "x" + window.screen.height
