@@ -768,6 +768,26 @@ function logoutUser() {
         window.location.replace("login.html"); 
     }
 }
+        // Ye function har 1 minute mein check karega ki time khatam toh nahi hua
+function startAutoLogoutTimer() {
+    setInterval(function() {
+        const loginTime = localStorage.getItem('loginTime'); 
+        const thirtyMinutes = 30 * 60 * 1000; // 30 mins in milliseconds
+        const now = new Date().getTime();
+
+        if (loginTime && (now - loginTime > thirtyMinutes)) {
+            alert("Session Expired! Logging out...");
+            
+            // Aapka purana logout function call ho jayega
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.replace("login.html");
+        }
+    }, 60000); // Har 60 second mein check karega
+}
+
+// Dashboard load hote hi timer ko shuru kar do
+startAutoLogoutTimer();
 </script>
      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
