@@ -737,7 +737,10 @@ window.addEventListener('DOMContentLoaded', () => {
             avatarElement.innerText = initials.substring(0, 2);
         }
     }
-
+// --- 4. Partner ID Display ---
+    const pId = localStorage.getItem('partnerId'); 
+    const idDisplay = document.getElementById('display-partner-id');
+    if (idDisplay && pId) idDisplay.innerText = pId;
     // 4. Bars Animation
     const bars = document.querySelectorAll('.bar');
     setTimeout(() => {
