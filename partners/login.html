@@ -269,15 +269,16 @@ const backendRes = await fetch(API_URL, {
       localStorage.setItem('userEmail', responsePayload.email);
       localStorage.setItem('isPartner', 'true');
       
-      // Username aur Profile pic agar dashboard par dikhani hai
+      // --- YE NAYI LINE HAI ---
+      localStorage.setItem('loginTime', new Date().getTime()); 
+      // ------------------------
+
       localStorage.setItem('username', responsePayload.name || "Partner");
       localStorage.setItem('userPhoto', responsePayload.picture || "");
 
       statusDiv.innerHTML = '<span style="color: #00ff9d;">Login Successful! Redirecting...</span>';
       
-      // 2. Dashboard par bhej do (Ab ye line active hai)
-      window.location.href = "dashboard.html"; 
-
+      window.location.href = "dashboard.html";
     } else {
       statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
     }
