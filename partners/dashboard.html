@@ -306,17 +306,24 @@
             <div id="profileImageContainer">
                 <div class="avatar" id="headerAvatar">RK</div>
             </div>
-            <div id="session-timer-box" style="padding: 10px; color: #ffcc00; font-weight: bold;">
-  Session Expires In: <span id="timer-display">30:00</span>
+           <div style="display: flex; align-items: center; background: #1a1a1a; border: 1px solid #333; padding: 6px 12px; border-radius: 8px; font-family: sans-serif;">
+    
+    <div style="display: flex; flex-direction: column; padding-right: 12px; border-right: 1px solid #333;">
+        <span style="font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 0.5px;">Expires In</span>
+        <span id="timer-display" style="font-family: 'Monaco', monospace; font-size: 13px; color: #ffcc00;">30:00</span>
+    </div>
+
+    <div class="icon-btn" onclick="logoutUser()" title="Logout" 
+         style="margin-left: 12px; color: #ff4d4d; cursor: pointer; display: flex; align-items: center; transition: all 0.2s ease;"
+         onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
+        
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+    </div>
 </div>
-            <div class="icon-btn" onclick="logoutUser()" title="Logout" style="margin-left: 10px; color: var(--danger-red);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-            </div>
-        </div>
     </div> </header>
 
    <div class="alert-banner" id="payoutBanner">
