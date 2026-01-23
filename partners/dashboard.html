@@ -306,7 +306,9 @@
             <div id="profileImageContainer">
                 <div class="avatar" id="headerAvatar">RK</div>
             </div>
-            
+            <div id="session-timer-box" style="padding: 10px; color: #ffcc00; font-weight: bold;">
+  Session Expires In: <span id="timer-display">30:00</span>
+</div>
             <div class="icon-btn" onclick="logoutUser()" title="Logout" style="margin-left: 10px; color: var(--danger-red);">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -770,20 +772,46 @@ function logoutUser() {
 }
         // Ye function har 1 minute mein check karega ki time khatam toh nahi hua
 function startAutoLogoutTimer() {
-    setInterval(function() {
+    const timerDisplay = document.getElementById('timer-display');
+
+    // Har 1 second mein update karne ke liye interval
+    const countdownInterval = setInterval(function() {
         const loginTime = localStorage.getItem('loginTime'); 
-        const thirtyMinutes = 30 * 60 * 1000; // 30 mins in milliseconds
+        const thirtyMinutes = 30 * 60 * 1000; // 30 mins
         const now = new Date().getTime();
 
-        if (loginTime && (now - loginTime > thirtyMinutes)) {
+        if (!loginTime) return; // Agar loginTime nahi hai toh kuch mat karo
+
+        const timeElapsed = now - loginTime;
+        const timeLeft = thirtyMinutes - timeElapsed;
+
+        // 1. Agar time khatam ho gaya
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
             alert("Session Expired! Logging out...");
             
-            // Aapka purana logout function call ho jayega
             localStorage.clear();
             sessionStorage.clear();
             window.location.replace("login.html");
+            return;
         }
-    }, 60000); // Har 60 second mein check karega
+
+        // 2. Minutes aur Seconds calculate karo
+        const minutes = Math.floor(timeLeft / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        // 3. Screen par timer update karo (Format 00:00)
+        if (timerDisplay) {
+            timerDisplay.innerText = 
+                (minutes < 10 ? "0" : "") + minutes + ":" + 
+                (seconds < 10 ? "0" : "") + seconds;
+
+            // Warning: Agar 5 min se kam bache toh color red kar do
+            if (minutes < 5) {
+                timerDisplay.style.color = "#ff4d4d";
+            }
+        }
+    }, 1000); // 1000ms = 1 second
 }
 
 // Dashboard load hote hi timer ko shuru kar do
