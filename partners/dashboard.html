@@ -202,25 +202,21 @@
         .breakdown { margin-top: 20px; border-top: 1px solid var(--glass-border); padding-top: 15px; }
         .breakdown-item { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
 
-       /* Column 2: Table */
+      /* Column 2: Table - Isme bas height aur overflow-y joda hai */
+.table-wrapper { 
+    overflow-x: auto; 
+    overflow-y: auto;    /* Ye vertical scroll layega */
+    max-height: 400px;   /* Ye fix karega ki 8-9 rows ke baad hi scroll aaye */
+    margin-top: 15px; 
+}
 
-        .table-wrapper { overflow-x: auto; margin-top: 15px; }
-
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-
-        th { font-size: 12px; color: var(--text-gray); padding: 12px 8px; border-bottom: 1px solid var(--glass-border); }
-
-        td { font-size: 14px; padding: 16px 8px; border-bottom: 1px solid var(--glass-border); }
-
-        .status-badge {
-
-            padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;
-
-        }
-
-        .status-paid { background: rgba(0, 196, 180, 0.1); color: var(--primary-teal); }
-
-        .status-pending { background: rgba(212, 175, 55, 0.1); color: var(--secondary-gold); }
+/* Header ko fix rakhne ke liye taaki wo scroll ke saath upar na udd jaye */
+.table-wrapper thead th {
+    position: sticky;
+    top: 0;
+    background: #161616; /* Jo aapke card ka color hai wahi yahan rakhna */
+    z-index: 2;
+}
 
        /* --- Vertical Action Buttons (4-inch width) --- */
 .actions-stack {
