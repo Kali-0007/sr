@@ -247,16 +247,17 @@ async function getSecurityData() {
     const responsePayload = parseJwt(response.credential);
     const security = await getSecurityData(); 
 
-    // Ab humne alert aur debugging logs hata diye hain taaki flow fast ho
-    const backendRes = await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "google-login-partner",
-        userData: { ...responsePayload, ...security },
-        sec: security, 
-        securityData: JSON.stringify(security)
-      })
-    });
+    // --- Frontend update (handlePartnerLogin function ke andar) ---
+const backendRes = await fetch(API_URL, {
+  method: "POST",
+  body: JSON.stringify({
+    action: "google-login-partner",
+    userData: responsePayload, // Sirf Google ka data
+    sec: security,             // IP, UA, etc.
+    fp: security.fingerprint,  // <--- YE ALAG SE BHEJO
+    currentRes: security.resolution // <--- YE BHI ALAG SE BHEJO
+  })
+});
 
     const text = await backendRes.text();
     const res = JSON.parse(text);
