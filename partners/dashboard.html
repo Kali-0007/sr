@@ -288,12 +288,7 @@
 <header>
     <div class="container header-flex">
         <div class="logo">TaxEasePro</div>
-        
-     <div class="partner-code-pill" id="referralPill" style="display: none;">
-    <span>Your Referral Code:</span>
-    <span class="copy-trigger" onclick="copyCode()" id="partnerCodeDisplay">
-        </span>
-</div>
+     
 
         <div style="flex-grow: 1; text-align: center;">
     <span style="font-size: 14px; color: #888; text-transform: uppercase; letter-spacing: 1px;">Partner ID: </span>
@@ -328,8 +323,17 @@
     <a href="partner_profile.html" class="btn btn-sm btn-danger">Complete Profile Now</a>
 </div>
 
-    <main class="container" id="mainContent">
-        <section class="hero">
+   <main class="container" id="mainContent">
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <div class="partner-code-pill" id="referralPill" style="display: none; background: rgba(0, 196, 180, 0.1); border: 1px dashed var(--primary-teal); padding: 10px 24px; border-radius: 100px; font-size: 15px;">
+            <span style="color: var(--text-gray);">Your Referral Code:</span>
+            <span class="copy-trigger" onclick="copyCode()" id="partnerCodeDisplay" style="margin-left: 10px; font-size: 18px; letter-spacing: 1px;">
+                </span>
+            <span style="font-size: 10px; margin-left: 8px; color: var(--primary-teal); border: 1px solid var(--primary-teal); padding: 2px 6px; border-radius: 4px;">CLICK TO COPY</span>
+        </div>
+    </div>
+
+    <section class="hero">
             <div class="greeting" style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 30px;">
     
     <div style="flex: 1;">
