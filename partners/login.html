@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
  <script src="sys-info.js"></script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     :root {
       --bg: #030308;
@@ -86,6 +85,17 @@
     .highlight-gold { color: var(--gold); font-weight: 700; }
     .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 80px; }
     .highlight-pill { border: 1px solid rgba(0, 196, 180, 0.3); padding: 20px; text-align: center; font-weight: 600; font-size: 0.9rem; color: var(--teal); }
+  /* Error message ko sundar dikhane ke liye */
+.error-alert {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 107, 107, 0.2);
+    margin-top: 15px;
+    line-height: 1.4;
+    display: block;
+}
   </style>
 </head>
 <body>
@@ -280,7 +290,10 @@ const backendRes = await fetch(API_URL, {
       
       window.location.href = "dashboard.html";
     } else {
-      statusDiv.innerHTML = `<span style="color: #ff6b6b;">${res.message}</span>`;
+      statusDiv.innerHTML = `<div class="error-alert">
+                                <strong>Access Denied</strong><br>
+                                ${res.message}
+                             </div>`;
     }
   } catch (error) {
     console.error("Login Error:", error);
