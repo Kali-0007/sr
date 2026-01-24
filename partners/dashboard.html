@@ -465,10 +465,31 @@
 <div class="glass-card" style="grid-column: 1 / -1; display: grid; grid-template-columns: 320px 1fr; gap: 30px; align-items: start; background: linear-gradient(135deg, rgba(0, 196, 180, 0.05) 0%, rgba(15, 15, 26, 0) 100%);">
     
     <div class="actions-stack" style="margin-top: 0;">
-        <button class="btn btn-teal action-btn" onclick="copyCode()">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-            Copy Referral Code
-        </button>
+       <button class="btn btn-teal action-btn" onclick="copyCode()" style="position: relative;">
+    <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;">
+        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+    </svg>
+    Copy Referral Code
+
+    <span id="tooltip" style="
+        visibility: hidden; 
+        background-color: #333; 
+        color: #fff; 
+        text-align: center; 
+        border-radius: 4px; 
+        padding: 5px 10px; 
+        position: absolute; 
+        z-index: 10; 
+        bottom: 125%; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        opacity: 0; 
+        transition: opacity 0.3s; 
+        font-size: 12px; 
+        white-space: nowrap;">
+        Copied! ✅
+    </span>
+</button>
         
         <a href="javascript:void(0)" onclick="shareOnWhatsApp()" id="whatsappShareBtn" class="btn btn-outline action-btn" style="border-color: #25D366; color: #25D366; text-decoration: none;">
             <svg fill="currentColor" viewBox="0 0 24 24" style="width:18px; height:18px; margin-right:8px;"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771z"/></svg>
