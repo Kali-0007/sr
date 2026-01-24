@@ -452,9 +452,9 @@
         </table>
     </div> 
     <div style="text-align: center; margin-top: 25px; margin-bottom: 10px;">
-        <button class="btn btn-outline" style="padding: 10px 30px; min-width: 200px;">
-            View All Referrals
-        </button>
+       <button id="viewAllBtn" class="btn btn-outline" onclick="toggleReferrals()" style="padding: 10px 30px; min-width: 200px;">
+    View All Referrals
+</button>
     </div>
 </div> 
 
@@ -651,18 +651,19 @@
 
         if (data.status === "success") {
             // --- 1. TABLE DATA POPULATE KARO ---
-        // --- 1. TABLE DATA POPULATE KARO ---
+        // --- TABLE DATA POPULATE KARO ---
 if (data.referrals && data.referrals.length > 0 && tableBody) {
-    tableBody.innerHTML = ''; // Loading message hataya
-
-    // NAYI LINE: Total Referrals wale card ko update karo
+    tableBody.innerHTML = ''; 
     document.getElementById('totalReferrals').innerText = data.referrals.length;
 
-    data.referrals.forEach(ref => {
+    data.referrals.forEach((ref, index) => {
         const statusClass = ref.status.toLowerCase() === 'paid' ? 'status-paid' : 'status-pending';
         
+        // LOGIC: Agar index 5 se bada hai, toh row ko hide kar do
+        const rowStyle = index >= 6 ? 'style="display: none;" class="extra-row"' : '';
+        
         tableBody.innerHTML += `
-            <tr>
+            <tr ${rowStyle}>
                 <td>${ref.clientId}</td>
                 <td>${ref.displayDate}</td>
                 <td>₹${ref.gross}</td>
@@ -859,6 +860,35 @@ startAutoLogoutTimer();
       }
     }, 3000);
   });
+</script>
+    <script>
+    function toggleReferrals() {
+        // Saari extra rows ko pakdo
+        const extraRows = document.querySelectorAll('.extra-row');
+        const btn = document.getElementById('viewAllBtn'); // Make sure button ki ID yahi ho
+        
+        if (extraRows.length === 0) return; // Agar extra data hai hi nahi toh ruk jao
+
+        // Check karo ki pehli extra row chhupi hui hai ya nahi
+        const isHidden = extraRows[0].style.display === 'none';
+
+        if (isHidden) {
+            // Rows dikhao
+            extraRows.forEach(row => {
+                row.style.display = 'table-row';
+            });
+            btn.innerHTML = 'Show Less ↑';
+        } else {
+            // Rows chhupao
+            extraRows.forEach(row => {
+                row.style.display = 'none';
+            });
+            btn.innerHTML = 'View All Referrals ↓';
+            
+            // Wapas table ke top par le jao taaki user lost na ho
+            document.querySelector('.table-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
 </script>
 </body>
 </html>
