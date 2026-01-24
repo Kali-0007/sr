@@ -562,16 +562,17 @@
     </main>
 
     <script>
-   function copyCode() {
-    // 1. LocalStorage se asli Referral Code uthao (Column I wala)
-    const codeToCopy = localStorage.getItem('referralCode');
-    
-    // Agar code nahi mila toh alert dikhao (Safety check)
-    if (!codeToCopy) {
-        alert("Referral code not found. Please re-login.");
-        return;
-    }
+  function copyCode() {
+    // LocalStorage chhodo, seedha screen par jo likha hai wo uthao
+    const code = document.getElementById('partnerCodeDisplay').innerText;
 
+    if (code && code.trim() !== "") {
+        navigator.clipboard.writeText(code);
+        alert("Referral Code Copied: " + code);
+    } else {
+        alert("Please wait, loading code...");
+    }
+}
     // 2. Clipboard mein copy karne ka process
     navigator.clipboard.writeText(codeToCopy).then(() => {
         // 3. Tooltip (Jo "Copied!" likha aata hai) usey active karo
