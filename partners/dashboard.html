@@ -562,35 +562,37 @@
     </main>
 
     <script>
-  function copyCode() {
-    // LocalStorage chhodo, seedha screen par jo likha hai wo uthao
-    const code = document.getElementById('partnerCodeDisplay').innerText;
+ function copyCode() {
+    const codeElement = document.getElementById('partnerCodeDisplay');
+    if (!codeElement) return;
 
-    if (code && code.trim() !== "") {
-        navigator.clipboard.writeText(code);
-        alert("Referral Code Copied: " + code);
+    // 1. Sirf asli code uthao, "Copied!" text ko nikaal do
+    let cleanCode = codeElement.innerText.replace('Copied!', '').trim();
+
+    if (cleanCode && cleanCode !== "") {
+        // 2. Clipboard mein sirf saaf code daalo
+        navigator.clipboard.writeText(cleanCode).then(() => {
+            
+            // 3. Tooltip dikhao (taki user ko pata chale copy ho gaya)
+            const tooltip = document.getElementById('tooltip');
+            if (tooltip) {
+                tooltip.style.visibility = 'visible';
+                tooltip.style.opacity = '1';
+                
+                setTimeout(() => {
+                    tooltip.style.visibility = 'hidden';
+                    tooltip.style.opacity = '0';
+                }, 2000);
+            } else {
+                // Agar tooltip nahi hai toh simple alert
+                alert("Code Copied: " + cleanCode);
+            }
+        }).catch(err => {
+            console.error('Copy fail:', err);
+        });
     } else {
         alert("Please wait, loading code...");
     }
-    // 2. Clipboard mein copy karne ka process
-    navigator.clipboard.writeText(codeToCopy).then(() => {
-        // 3. Tooltip (Jo "Copied!" likha aata hai) usey active karo
-        const tooltip = document.getElementById('tooltip');
-        if (tooltip) {
-            tooltip.style.visibility = 'visible';
-            tooltip.style.opacity = '1';
-            
-            // 2 second baad tooltip ko wapas chhupa do
-            setTimeout(() => {
-                tooltip.style.visibility = 'hidden';
-                tooltip.style.opacity = '0';
-            }, 2000);
-        }
-    }).catch(err => {
-        // Agar browser copy allow na kare
-        console.error('Copy fail ho gaya:', err);
-        alert("Failed to copy code: " + codeToCopy);
-    });
 }
 
         function shareOnWhatsApp() {
