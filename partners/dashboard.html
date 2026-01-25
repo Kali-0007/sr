@@ -836,19 +836,25 @@ window.addEventListener('DOMContentLoaded', () => {
     if (nameElement) nameElement.innerText = savedName;
 
     // 3. Photo Update
-    if (avatarElement) {
-        if (userPhoto && userPhoto !== "" && userPhoto !== "null") {
-            if(avatarElement.tagName === 'IMG') {
-                avatarElement.src = userPhoto;
-            } else {
-                avatarElement.innerHTML = `<img src="${userPhoto}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-                avatarElement.style.background = "transparent";
-            }
-        } else {
-            const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
-            avatarElement.innerText = initials.substring(0, 2);
-        }
+   // --- Is wale hisse ko thoda update karke dekho ---
+if (avatarElement) {
+    // String "null" ya "undefined" ko bhi handle karein
+    const isValidPhoto = userPhoto && 
+                         userPhoto !== "" && 
+                         userPhoto !== "null" && 
+                         userPhoto !== "undefined";
+
+    if (isValidPhoto) {
+        // Photo hai toh wahi logic
+        avatarElement.innerHTML = `<img src="${userPhoto}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;">`;
+        avatarElement.style.background = "transparent";
+    } else {
+        // Photo nahi hai toh Initials
+        const initials = savedName.split(' ').map(n => n[0]).join('').toUpperCase();
+        avatarElement.innerText = initials.substring(0, 2) || "P";
+        avatarElement.style.background = "var(--secondary-gold)"; // Taki initials chamkein
     }
+}
 // --- 4. Partner ID Display ---
     const pId = localStorage.getItem('partnerId'); 
     const idDisplay = document.getElementById('display-partner-id');
