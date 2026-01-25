@@ -253,12 +253,12 @@ async function attachSubmit() {
             } else { 
                 alert("Error: " + result.message); 
             }
+        }
         finally { 
             btn.innerText = originalText; 
             btn.disabled = false; 
         }
     };
-}
 }
 // 4. HELPER FUNCTIONS
 function previewImage(input) {
