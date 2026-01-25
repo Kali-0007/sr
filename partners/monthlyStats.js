@@ -68,18 +68,24 @@ function updateMonthlyDisplay(referralList) {
 
     // UI Rendering
     if (monthlyGross > 0) {
-        display.innerHTML = `
-            <div style="font-size: 0.8rem; opacity: 0.8; color: #fff;">Gross: ₹${monthlyGross.toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
-            <div style="font-size: 0.8rem; color: #ff6b6b; margin: 4px 0;">TDS (5%): -₹${tds.toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
-            <div style="font-size: 1.6rem; font-weight: 700; color: #2ecc71;">
-                ₹${net.toLocaleString('en-IN', {minimumFractionDigits: 2})}
-            </div>
-            <div style="font-size: 0.7rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;">Net Payable</div>
-        `;
-    } else {
-        display.innerHTML = `
-            <div style="font-size: 1.6rem; font-weight: 700; color: #aaa; margin-top: 10px;">₹0.00</div>
-            <div style="font-size: 0.7rem; opacity: 0.6;">No earnings this month</div>
-        `;
-    }
+    display.innerHTML = `
+        <div style="font-size: 0.8rem; color: var(--calc-gross);">
+            Gross: ₹${monthlyGross.toLocaleString('en-IN', {minimumFractionDigits: 2})}
+        </div>
+        <div style="font-size: 0.8rem; color: var(--calc-tds); margin: 4px 0;">
+            TDS (5%): -₹${tds.toLocaleString('en-IN', {minimumFractionDigits: 2})}
+        </div>
+        <div style="font-size: 1.6rem; font-weight: 700; color: var(--calc-net);">
+            ₹${net.toLocaleString('en-IN', {minimumFractionDigits: 2})}
+        </div>
+        <div style="font-size: 0.7rem; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px;">
+            Net Payable
+        </div>
+    `;
+} else {
+    display.innerHTML = `
+        <div style="font-size: 1.6rem; font-weight: 700; color: var(--text-gray); margin-top: 10px;">₹0.00</div>
+        <div style="font-size: 0.7rem; color: var(--text-gray);">No earnings this month</div>
+    `;
+}
 }
