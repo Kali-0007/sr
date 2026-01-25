@@ -88,7 +88,7 @@ function drawIncomeChart(labels, values) {
     if (incomeChartInstance) incomeChartInstance.destroy();
 
     const textColor = getStyleColor('--text-gray');
-    const gridColor = getStyleColor('--glass-border');
+    const gridColor = getStyleColor('--glass-border') || 'rgba(0,0,0,0.1)';
     const bgColor = getStyleColor('--bg-deep');
 
     incomeChartInstance = new Chart(ctx, {
@@ -131,7 +131,7 @@ function drawReferralChart(labels, values) {
     if (referralChartInstance) referralChartInstance.destroy();
 
     const textColor = getStyleColor('--text-gray');
-    const gridColor = getStyleColor('--glass-border');
+   const gridColor = getStyleColor('--glass-border') || 'rgba(0,0,0,0.1)';
     const barColor = getStyleColor('--earnings-color');
 
     referralChartInstance = new Chart(ctx, {
