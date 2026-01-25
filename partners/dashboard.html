@@ -745,7 +745,23 @@
         const tableBody = document.getElementById('referralTableBody'); 
 
         if (data.status === "success") {
-            // --- 1. TABLE DATA POPULATE KARO ---
+           const localPhoto = localStorage.getItem('userPhoto');
+    const avatarElement = document.getElementById('headerAvatar');
+
+    if (avatarElement) {
+        // Agar local storage mein photo hai toh wahi dikhao, warna jo API se aayi hai wo
+        const finalPhoto = (localPhoto && localPhoto !== "null") ? localPhoto : data.profile.photoURL;
+
+        if (finalPhoto && finalPhoto !== "null" && finalPhoto !== "") {
+            avatarElement.innerHTML = `<img src="${finalPhoto}?t=${new Date().getTime()}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            avatarElement.style.background = "transparent";
+        } else {
+            // Agar kahin photo nahi hai toh initials dikhao
+            const nameForInit = data.profile.fullName || localStorage.getItem('username') || "P";
+            avatarElement.innerText = nameForInit.charAt(0).toUpperCase();
+            avatarElement.style.background = "var(--secondary-gold)";
+        }
+    }
         // --- TABLE DATA POPULATE KARO ---
 if (data.referrals && data.referrals.length > 0 && tableBody) {
     tableBody.innerHTML = ''; 
