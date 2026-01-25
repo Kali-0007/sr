@@ -45,6 +45,14 @@
     --calc-tds: #d32f2f;      /* Deep Red */
     --calc-net: #1b5e20;      /* Deep Green */
 }
+        .theme-heading {
+    color: var(--secondary-gold); /* Default Night Mode color */
+    transition: color 0.3s ease;
+}
+
+[data-theme="light"] .theme-heading {
+    color: #4B0082 !important; /* Day Mode mein Dark Violet */
+}
         * {
             margin: 0;
             padding: 0;
