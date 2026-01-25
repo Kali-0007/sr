@@ -779,15 +779,7 @@ if (data.status === "success") {
    // --- 4. ANALYTICS & GRAPH CONNECT ---
 // toggleTheme function ke bilkul niche ye wala part check karo:
 
-if (typeof renderLiveAnalytics === "function") {
-    // Agar 'referrals' variable global hai toh theek hai, 
-    // warna check karein ki data kahan store ho raha hai.
-    try {
-        renderLiveAnalytics(referrals); 
-    } catch (e) {
-        console.warn("Graphs refresh nahi ho paye kyunki data available nahi tha.");
-    }
-}
+
            
             // --- 2. STATUS CHECK (ACTIVE/APPROVED) ---
             const status = (data.profile.profileStatus || "").toUpperCase().trim();
