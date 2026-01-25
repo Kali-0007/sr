@@ -2,7 +2,9 @@
  * analytics.js - Complete Professional Dashboard Analytics
  * Handles: 3 Stats (Success, Avg, Total) + 2 Graphs (Income, Referral)
  */
-
+const getStyleColor = (variable) => {
+    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+};
 // Global instances taaki graphs refresh hote waqt purana data clean ho jaye
 let incomeChartInstance = null;
 let referralChartInstance = null;
@@ -105,6 +107,23 @@ function drawIncomeChart(labels, values) {
 
     if (incomeChartInstance) incomeChartInstance.destroy();
 
+    // Theme variables nikalne ke liye helper function
+const getThemeColor = (variable) => {
+    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+};
+
+function drawIncomeChart(labels, values) {
+    const canvas = document.getElementById('incomeChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    if (incomeChartInstance) incomeChartInstance.destroy();
+
+    // Theme ke hisaab se dynamic colors
+    const textColor = getThemeColor('--text-gray');
+    const gridColor = getThemeColor('--glass-border');
+    const bgColor = getThemeColor('--bg-deep');
+
     incomeChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -119,7 +138,7 @@ function drawIncomeChart(labels, values) {
                 fill: true,
                 pointRadius: 5,
                 pointBackgroundColor: '#00c4b4',
-                pointBorderColor: '#fff',
+                pointBorderColor: bgColor, // Point border background ke saath match karegi
                 pointBorderWidth: 2
             }]
         },
@@ -128,8 +147,15 @@ function drawIncomeChart(labels, values) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
-                x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+                y: { 
+                    beginAtZero: true, 
+                    grid: { color: gridColor }, 
+                    ticks: { color: textColor, font: { size: 10 } } 
+                },
+                x: { 
+                    grid: { display: false }, 
+                    ticks: { color: textColor, font: { size: 10 } } 
+                }
             }
         }
     });
@@ -145,6 +171,11 @@ function drawReferralChart(labels, values) {
 
     if (referralChartInstance) referralChartInstance.destroy();
 
+    const textColor = getThemeColor('--text-gray');
+    const gridColor = getThemeColor('--glass-border');
+    // Bar ka color humne CSS variable --earnings-color se link kar diya hai
+    const barColor = getThemeColor('--earnings-color');
+
     referralChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -152,7 +183,7 @@ function drawReferralChart(labels, values) {
             datasets: [{
                 label: 'New Leads',
                 data: values,
-                backgroundColor: '#d4af37',
+                backgroundColor: barColor, 
                 borderRadius: 4,
                 barPercentage: 0.5,
                 maxBarThickness: 35
@@ -163,8 +194,15 @@ function drawReferralChart(labels, values) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 }, stepSize: 1 } },
-                x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+                y: { 
+                    beginAtZero: true, 
+                    grid: { color: gridColor }, 
+                    ticks: { color: textColor, font: { size: 10 }, stepSize: 1 } 
+                },
+                x: { 
+                    grid: { display: false }, 
+                    ticks: { color: textColor, font: { size: 10 } } 
+                }
             }
         }
     });
