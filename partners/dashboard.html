@@ -9,25 +9,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-       :root {
+     :root {
     --bg-deep: #0f0f1a;
     --primary-teal: #00c4b4;
     --secondary-gold: #d4af37;
     --danger-red: #ff4d4d;
-    --text-main: #ffffff;    /* Iska naam badla hai --text-white se */
+    --text-main: #ffffff;    
     --text-gray: #a0a0b8;
     --glass-bg: rgba(255, 255, 255, 0.06);
     --glass-border: rgba(255, 255, 255, 0.1);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Lifetime Earnings ke liye Variable (Night Mode) */
+    --earnings-color: #d4af37; 
 }
 
 /* Day Theme ke liye extra colors */
 [data-theme="light"] {
     --bg-deep: #f2f4f7;
-    --text-main: #1a1a2e;    /* Day mode mein text dark rahega */
+    --text-main: #1a1a2e;    
     --text-gray: #555c66;
     --glass-bg: #ffffff;
     --glass-border: rgba(0, 0, 0, 0.08);
+
+    /* Lifetime Earnings ke liye Variable (Day Mode - Dark Blue) */
+    --earnings-color: #1a1a2e; 
 }
 
         * {
@@ -187,9 +193,15 @@
         .main-earnings { margin-bottom: 40px; }
         .lifetime-label { font-size: 14px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; }
         .lifetime-amount { 
-            font-size: 56px; font-weight: 800; color: var(--secondary-gold); 
-            line-height: 1.1; margin: 5px 0 25px 0;
-        }
+    font-size: 56px; 
+    font-weight: 800; 
+    /* var(--secondary-gold) ko hata kar ye daalo */
+    color: var(--earnings-color); 
+    line-height: 1.1; 
+    margin: 5px 0 25px 0;
+    /* transition zaroori hai taki color smoothly badle */
+    transition: color 0.3s ease; 
+}
 
         .stats-grid {
             display: grid;
