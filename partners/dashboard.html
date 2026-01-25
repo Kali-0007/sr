@@ -179,12 +179,19 @@
             border-radius: 50%; border: 2px solid var(--bg-deep);
         }
         .avatar {
-            width: 36px; height: 36px;
-            background: var(--secondary-gold);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; color: #000;
-        }
+    width: 44px;             /* 36px se bada kiya */
+    height: 44px;            /* 36px se bada kiya */
+    background: var(--secondary-gold);
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-weight: 700; 
+    font-size: 15px;         /* Text ko bhi thoda bada kiya */
+    color: #000;
+    flex-shrink: 0;          /* Taki pic dabbe nahi */
+    border: 2px solid rgba(255, 255, 255, 0.1); /* Halka border premium look ke liye */
+}
 
         /* 2. Banner */
         .alert-banner {
