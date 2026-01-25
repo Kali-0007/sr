@@ -744,22 +744,34 @@
         const codeDisplay = document.getElementById('partnerCodeDisplay');
         const tableBody = document.getElementById('referralTableBody'); 
 
-        if (data.status === "success") {
-           const localPhoto = localStorage.getItem('userPhoto');
+       if (data.status === "success") {
+    // 1. Sabse pehle local photo uthao (Jo aapne dashboard mein upload ki hai)
+    const localPhoto = localStorage.getItem('userPhoto');
     const avatarElement = document.getElementById('headerAvatar');
+    const savedName = localStorage.getItem('username') || data.profile.fullName || "Partner";
 
     if (avatarElement) {
-        // Agar local storage mein photo hai toh wahi dikhao, warna jo API se aayi hai wo
-        const finalPhoto = (localPhoto && localPhoto !== "null") ? localPhoto : data.profile.photoURL;
+        // Validation check: Kya local storage mein sach mein nayi image hai?
+        const hasLocal = localPhoto && localPhoto !== "" && localPhoto !== "null" && localPhoto !== "undefined";
+        
+        // Priority: Local Upload > Backend/Google Photo
+        const finalPhoto = hasLocal ? localPhoto : data.profile.photoURL;
 
         if (finalPhoto && finalPhoto !== "null" && finalPhoto !== "") {
-            avatarElement.innerHTML = `<img src="${finalPhoto}?t=${new Date().getTime()}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            // Cache Buster (?t=...) add kiya hai taaki browser purani photo na dikhaye
+            const cleanUrl = finalPhoto.includes('?') ? `${finalPhoto}&t=${new Date().getTime()}` : `${finalPhoto}?t=${new Date().getTime()}`;
+            
+            // Layout fix: 'display: block' aur 'flex-shrink' taaki logout button na hile
+            avatarElement.innerHTML = `<img src="${cleanUrl}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; flex-shrink: 0;">`;
             avatarElement.style.background = "transparent";
+            avatarElement.style.display = "flex"; // Box ko center rakhne ke liye
         } else {
-            // Agar kahin photo nahi hai toh initials dikhao
-            const nameForInit = data.profile.fullName || localStorage.getItem('username') || "P";
-            avatarElement.innerText = nameForInit.charAt(0).toUpperCase();
+            // Agar kahin koi photo nahi hai toh initials dikhao
+            avatarElement.innerText = savedName.charAt(0).toUpperCase();
             avatarElement.style.background = "var(--secondary-gold)";
+            avatarElement.style.color = "#000";
+            avatarElement.style.fontSize = "18px";
+            avatarElement.style.fontWeight = "bold";
         }
     }
         // --- TABLE DATA POPULATE KARO ---
