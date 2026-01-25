@@ -1000,9 +1000,9 @@ startAutoLogoutTimer();
     }
 
     // --- GRAPHS UPDATE KARNE KE LIYE ---
-    // Taaki toggle karte hi Chart ke color badal jayein
-    if (typeof loadAnalyticsData === 'function') {
-        loadAnalyticsData();
+    if (typeof renderLiveAnalytics === 'function') {
+        // 'referrals' variable pass karna zaroori hai taaki graph ko data mil sake
+        renderLiveAnalytics(referrals);
     }
 }
 
