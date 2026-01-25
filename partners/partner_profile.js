@@ -259,7 +259,7 @@ async function attachSubmit() {
         }
     };
 }
-
+}
 // 4. HELPER FUNCTIONS
 function previewImage(input) {
     if (input.files && input.files[0]) {
