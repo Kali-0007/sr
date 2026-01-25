@@ -240,15 +240,19 @@ async function attachSubmit() {
             const result = await res.json();
             
             if(result.status === "success") {
+                // --- YE 3 LINES MAINE ADD KAR DI HAIN ---
+                if (result.photoLink) { 
+                    localStorage.setItem('userPhoto', result.photoLink); 
+                }
+                localStorage.setItem('username', document.getElementById('upd-name').value);
+                // ----------------------------------------
+
                 alert("Profile Updated Successfully!");
                 isEditMode = false;
                 showProfile(); 
             } else { 
                 alert("Error: " + result.message); 
             }
-        } catch (e) { 
-            alert("Network Error: " + e.message); 
-        } 
         finally { 
             btn.innerText = originalText; 
             btn.disabled = false; 
