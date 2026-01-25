@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-     :root {
+    :root {
     --bg-deep: #0f0f1a;
     --primary-teal: #00c4b4;
     --secondary-gold: #d4af37;
@@ -20,8 +20,13 @@
     --glass-border: rgba(255, 255, 255, 0.1);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* Lifetime Earnings ke liye Variable (Night Mode) */
+    /* Lifetime Earnings (Night) */
     --earnings-color: #d4af37; 
+
+    /* JS Calculation Colors (Night) */
+    --calc-gross: #ffffff;
+    --calc-tds: #ff6b6b;
+    --calc-net: #2ecc71;
 }
 
 /* Day Theme ke liye extra colors */
@@ -32,10 +37,14 @@
     --glass-bg: #ffffff;
     --glass-border: rgba(0, 0, 0, 0.08);
 
-    /* Lifetime Earnings ke liye Variable (Day Mode - Dark Blue) */
+    /* Lifetime Earnings (Day) */
     --earnings-color: #1a1a2e; 
-}
 
+    /* JS Calculation Colors (Day) */
+    --calc-gross: #1a1a2e;    /* Dark Blue */
+    --calc-tds: #d32f2f;      /* Deep Red */
+    --calc-net: #1b5e20;      /* Deep Green */
+}
         * {
             margin: 0;
             padding: 0;
