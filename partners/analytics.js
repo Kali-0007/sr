@@ -114,8 +114,14 @@ function drawIncomeChart(labels, values) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-              y: { grid: { color: document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : gridColor, lineWidth: 1 }, ticks: { color: textColor, font: { size: 10 } } },
-x: { grid: { display: false }, ticks: { color: textColor, font: { size: 10 } } }
+             y: { 
+    grid: { color: document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : gridColor, lineWidth: 1 }, 
+    ticks: { color: document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : textColor, font: { size: 10, weight: '600' } } 
+},
+x: { 
+    grid: { display: false }, 
+    ticks: { color: document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : textColor, font: { size: 10, weight: '600' } } 
+}
             }
         }
     });
@@ -152,8 +158,15 @@ function drawReferralChart(labels, values) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-              y: { beginAtZero: true, grid: { color: document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : gridColor, lineWidth: 1 }, ticks: { color: textColor, font: { size: 10 }, stepSize: 1 } },
-x: { grid: { display: false }, ticks: { color: textColor, font: { size: 10 } } }
+              y: { 
+    beginAtZero: true, 
+    grid: { color: document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : gridColor, lineWidth: 1 }, 
+    ticks: { color: document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : textColor, font: { size: 10, weight: '600' }, stepSize: 1 } 
+},
+x: { 
+    grid: { display: false }, 
+    ticks: { color: document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : textColor, font: { size: 10, weight: '600' } } 
+}
             }
         }
     });
