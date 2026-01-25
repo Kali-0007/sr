@@ -1,16 +1,18 @@
 /**
  * analytics.js - Complete Professional Dashboard Analytics
- * Handles: 3 Stats (Success, Avg, Total) + 2 Graphs (Income, Referral)
  */
+
+// 1. Helper Function to get CSS Variables
 const getStyleColor = (variable) => {
-    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim() || '#888';
 };
-// Global instances taaki graphs refresh hote waqt purana data clean ho jaye
+
+// Global instances
 let incomeChartInstance = null;
 let referralChartInstance = null;
 
 /**
- * MAIN ENTRY POINT: Call this when data arrives from backend
+ * MAIN ENTRY POINT
  */
 function renderLiveAnalytics(referralList) {
     if (!referralList || referralList.length === 0) {
@@ -18,20 +20,14 @@ function renderLiveAnalytics(referralList) {
         resetAnalyticsUI();
         return;
     }
-
-    // 1. Update 3 Stats: Conversion, Avg Earning, Total Orders
     updateStatTiles(referralList);
-
-    // 2. Process Data for Dual Graphs
     const graphData = processDualGraphData(referralList);
-
-    // 3. Draw both Charts
     drawIncomeChart(graphData.labels, graphData.incomeValues);
     drawReferralChart(graphData.labels, graphData.referralCounts);
 }
 
 /**
- * LOGIC: Stats Calculation (3 Metrics)
+ * STATS CALCULATION
  */
 function updateStatTiles(list) {
     let totalOrders = list.length;
@@ -43,16 +39,13 @@ function updateStatTiles(list) {
         if (status === 'completed' || status === 'paid') {
             completedOrders++;
             const gross = parseFloat(order.gross || 0);
-            // Calculation: Gross - 5% TDS
-            const net = gross * 0.95;
-            totalNetEarnings += net;
+            totalNetEarnings += (gross * 0.95);
         }
     });
 
     const conversionRate = totalOrders > 0 ? ((completedOrders / totalOrders) * 100).toFixed(1) : "0";
     const avgEarning = completedOrders > 0 ? (totalNetEarnings / completedOrders).toFixed(0) : "0";
 
-    // UI Updates (Make sure these IDs exist in your HTML)
     const elConv = document.getElementById('analytics-conversion');
     const elOrder = document.getElementById('analytics-orders');
     const elAvg = document.getElementById('analytics-avg');
@@ -63,33 +56,21 @@ function updateStatTiles(list) {
 }
 
 /**
- * LOGIC: Monthly Data Aggregation
+ * DATA PROCESSING
  */
 function processDualGraphData(list) {
     const monthlyMap = {};
-
     list.forEach(order => {
         const d = new Date(order.date);
         const monthLabel = d.toLocaleString('default', { month: 'short', year: 'numeric' });
-        
-        if (!monthlyMap[monthLabel]) {
-            monthlyMap[monthLabel] = { income: 0, count: 0 };
-        }
-
-        // Referral Rate: Count every referral
+        if (!monthlyMap[monthLabel]) monthlyMap[monthLabel] = { income: 0, count: 0 };
         monthlyMap[monthLabel].count += 1;
-
-        // Income Rate: Only successful earnings
         const status = (order.status || "").toLowerCase();
         if (status === 'completed' || status === 'paid') {
-            const gross = parseFloat(order.gross || 0);
-            monthlyMap[monthLabel].income += (gross * 0.95);
+            monthlyMap[monthLabel].income += (parseFloat(order.gross || 0) * 0.95);
         }
     });
-
-    // Sort labels chronologically if needed
     const sortedLabels = Object.keys(monthlyMap);
-
     return {
         labels: sortedLabels,
         incomeValues: sortedLabels.map(l => monthlyMap[l].income),
@@ -98,31 +79,17 @@ function processDualGraphData(list) {
 }
 
 /**
- * GRAPH 1: Income Trend (Line Chart)
+ * GRAPH 1: Income Trend
  */
 function drawIncomeChart(labels, values) {
     const canvas = document.getElementById('incomeChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-
     if (incomeChartInstance) incomeChartInstance.destroy();
 
-    // Theme variables nikalne ke liye helper function
-const getThemeColor = (variable) => {
-    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
-};
-
-function drawIncomeChart(labels, values) {
-    const canvas = document.getElementById('incomeChart');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    if (incomeChartInstance) incomeChartInstance.destroy();
-
-    // Theme ke hisaab se dynamic colors
-    const textColor = getThemeColor('--text-gray');
-    const gridColor = getThemeColor('--glass-border');
-    const bgColor = getThemeColor('--bg-deep');
+    const textColor = getStyleColor('--text-gray');
+    const gridColor = getStyleColor('--glass-border');
+    const bgColor = getStyleColor('--bg-deep');
 
     incomeChartInstance = new Chart(ctx, {
         type: 'line',
@@ -138,7 +105,7 @@ function drawIncomeChart(labels, values) {
                 fill: true,
                 pointRadius: 5,
                 pointBackgroundColor: '#00c4b4',
-                pointBorderColor: bgColor, // Point border background ke saath match karegi
+                pointBorderColor: bgColor,
                 pointBorderWidth: 2
             }]
         },
@@ -147,34 +114,25 @@ function drawIncomeChart(labels, values) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                y: { 
-                    beginAtZero: true, 
-                    grid: { color: gridColor }, 
-                    ticks: { color: textColor, font: { size: 10 } } 
-                },
-                x: { 
-                    grid: { display: false }, 
-                    ticks: { color: textColor, font: { size: 10 } } 
-                }
+                y: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 10 } } },
+                x: { grid: { display: false }, ticks: { color: textColor, font: { size: 10 } } }
             }
         }
     });
 }
 
 /**
- * GRAPH 2: Referral Growth (Bar Chart)
+ * GRAPH 2: Referral Growth
  */
 function drawReferralChart(labels, values) {
     const canvas = document.getElementById('referralChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-
     if (referralChartInstance) referralChartInstance.destroy();
 
-    const textColor = getThemeColor('--text-gray');
-    const gridColor = getThemeColor('--glass-border');
-    // Bar ka color humne CSS variable --earnings-color se link kar diya hai
-    const barColor = getThemeColor('--earnings-color');
+    const textColor = getStyleColor('--text-gray');
+    const gridColor = getStyleColor('--glass-border');
+    const barColor = getStyleColor('--earnings-color');
 
     referralChartInstance = new Chart(ctx, {
         type: 'bar',
@@ -183,7 +141,7 @@ function drawReferralChart(labels, values) {
             datasets: [{
                 label: 'New Leads',
                 data: values,
-                backgroundColor: barColor, 
+                backgroundColor: barColor,
                 borderRadius: 4,
                 barPercentage: 0.5,
                 maxBarThickness: 35
@@ -194,22 +152,15 @@ function drawReferralChart(labels, values) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                y: { 
-                    beginAtZero: true, 
-                    grid: { color: gridColor }, 
-                    ticks: { color: textColor, font: { size: 10 }, stepSize: 1 } 
-                },
-                x: { 
-                    grid: { display: false }, 
-                    ticks: { color: textColor, font: { size: 10 } } 
-                }
+                y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, font: { size: 10 }, stepSize: 1 } },
+                x: { grid: { display: false }, ticks: { color: textColor, font: { size: 10 } } }
             }
         }
     });
 }
 
 /**
- * RESET UI: If no data
+ * RESET UI
  */
 function resetAnalyticsUI() {
     ['analytics-conversion', 'analytics-orders', 'analytics-avg'].forEach(id => {
