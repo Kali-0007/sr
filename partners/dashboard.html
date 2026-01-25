@@ -777,9 +777,10 @@ if (data.status === "success") {
     }
 
    // --- 4. ANALYTICS & GRAPH CONNECT ---
-// toggleTheme function ke bilkul niche ye wala part check karo:
-
-
+if (typeof renderLiveAnalytics === "function") {
+    renderLiveAnalytics(referrals);
+}
+}
            
             // --- 2. STATUS CHECK (ACTIVE/APPROVED) ---
             const status = (data.profile.profileStatus || "").toUpperCase().trim();
@@ -831,7 +832,6 @@ window.addEventListener('DOMContentLoaded', () => {
             avatarElement.innerText = initials.substring(0, 2);
         }
     }
-}   
 // --- 4. Partner ID Display ---
     const pId = localStorage.getItem('partnerId'); 
     const idDisplay = document.getElementById('display-partner-id');
