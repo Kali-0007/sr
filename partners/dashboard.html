@@ -114,7 +114,7 @@
     background: #0f0f1a !important; 
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    padding: 12px 0;
+    padding: 0; /* Padding 0 karo kyunki height fix hai */
 }
 
 .header-flex {
@@ -122,29 +122,28 @@
     justify-content: space-between;
     align-items: center;
     color: #ffffff !important;
-    height: 60px; /* Header ki height fix kar di */
-    padding: 5px 20px;
+    height: 70px; /* Thodi height badhayi taki stack na ho */
+    padding: 0 20px;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    height: 50px; /* Logo container ki height fix */
+    height: 100%; /* Parent ki full height lega */
     font-size: 22px;
     font-weight: 800;
-    /* Gradient sirf text ke liye */
     background: linear-gradient(90deg, #00c4b4, #d4af37) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
+    flex-shrink: 0; /* Logo ko dabne nahi dega */
 }
 
 .header-logo {
-    height: 45px; /* Logo image ki height fix */
+    height: 50px; /* Logo full height ke kareeb */
     width: auto;
-    margin-right: 10px;
+    margin-right: 12px;
     object-fit: contain;
-    /* Image ko gradient se bachane ke liye */
-    -webkit-text-fill-color: initial !important;
+    -webkit-text-fill-color: initial !important; /* Image visible rakhega */
 }
         .partner-code-pill {
             background: var(--glass-bg);
