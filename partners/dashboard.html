@@ -122,28 +122,29 @@
     justify-content: space-between;
     align-items: center;
     color: #ffffff !important;
-    height: 60px; /* Header ki ek fix height deni zaroori hai full height logo ke liye */
+    height: 60px; /* Header ki height fix kar di */
+    padding: 5px 20px;
 }
 
-/* Logo div ko flex banaya taaki image aur text side-by-side rahein */
 .logo {
     display: flex;
     align-items: center;
-    height: 100%; 
+    height: 50px; /* Logo container ki height fix */
     font-size: 22px;
     font-weight: 800;
+    /* Gradient sirf text ke liye */
     background: linear-gradient(90deg, #00c4b4, #d4af37) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
 }
 
-/* Nayi class jo humne img tag ko di thi */
 .header-logo {
-    height: 100%; /* Header ki full height lega */
-    width: auto;  /* Proportion sahi rakhega */
-    margin-right: 10px; /* Text se thodi doori */
-    object-fit: contain; /* Logo ko katne se bachayega */
-    -webkit-text-fill-color: initial; /* Gradient text ka asar image par na pade */
+    height: 45px; /* Logo image ki height fix */
+    width: auto;
+    margin-right: 10px;
+    object-fit: contain;
+    /* Image ko gradient se bachane ke liye */
+    -webkit-text-fill-color: initial !important;
 }
         .partner-code-pill {
             background: var(--glass-bg);
