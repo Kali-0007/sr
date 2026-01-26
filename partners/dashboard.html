@@ -122,21 +122,28 @@
     justify-content: space-between;
     align-items: center;
     color: #ffffff !important;
+    height: 60px; /* Header ki ek fix height deni zaroori hai full height logo ke liye */
 }
 
-.header-flex .logo, 
-.header-flex .icon-btn, 
-.header-flex #display-partner-id {
-    color: #ffffff !important;
-}
-
+/* Logo div ko flex banaya taaki image aur text side-by-side rahein */
 .logo {
+    display: flex;
+    align-items: center;
+    height: 100%; 
     font-size: 22px;
     font-weight: 800;
-    /* Yahan maine variables ki jagah seedha colors daal diye hain taki logo na bigde */
     background: linear-gradient(90deg, #00c4b4, #d4af37) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
+}
+
+/* Nayi class jo humne img tag ko di thi */
+.header-logo {
+    height: 100%; /* Header ki full height lega */
+    width: auto;  /* Proportion sahi rakhega */
+    margin-right: 10px; /* Text se thodi doori */
+    object-fit: contain; /* Logo ko katne se bachayega */
+    -webkit-text-fill-color: initial; /* Gradient text ka asar image par na pade */
 }
         .partner-code-pill {
             background: var(--glass-bg);
@@ -346,8 +353,10 @@
 </head>
 <body>
 <header>
-    <div class="container header-flex">
-        <div class="logo">TaxEasePro</div>
+   <div class="logo">
+    <img src="../logo.png" alt="Logo" class="header-logo">
+    TaxEasePro
+</div>
      
 
         <div style="flex-grow: 1; text-align: center;">
