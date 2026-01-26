@@ -178,7 +178,13 @@
         }
         .tooltip.show { opacity: 1; bottom: -25px; }
 
-        .header-right { display: flex; align-items: center; gap: 20px; }
+       .header-right { 
+    display: flex; 
+    align-items: center; 
+    gap: 20px; 
+    height: 100%;
+    flex-shrink: 0;
+}
         .icon-btn { color: var(--text-white); font-size: 20px; cursor: pointer; position: relative; }
         .notif-dot {
             position: absolute; top: 0; right: 0;
