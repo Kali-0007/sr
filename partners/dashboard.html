@@ -114,7 +114,7 @@
     background: #0f0f1a !important; 
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    padding: 0; /* Padding 0 karo kyunki height fix hai */
+    padding: 12px 0;
 }
 
 .header-flex {
@@ -122,28 +122,21 @@
     justify-content: space-between;
     align-items: center;
     color: #ffffff !important;
-    height: 70px; /* Thodi height badhayi taki stack na ho */
-    padding: 0 20px;
+}
+
+.header-flex .logo, 
+.header-flex .icon-btn, 
+.header-flex #display-partner-id {
+    color: #ffffff !important;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    height: 100%; /* Parent ki full height lega */
     font-size: 22px;
     font-weight: 800;
+    /* Yahan maine variables ki jagah seedha colors daal diye hain taki logo na bigde */
     background: linear-gradient(90deg, #00c4b4, #d4af37) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-    flex-shrink: 0; /* Logo ko dabne nahi dega */
-}
-
-.header-logo {
-    height: 50px; /* Logo full height ke kareeb */
-    width: auto;
-    margin-right: 12px;
-    object-fit: contain;
-    -webkit-text-fill-color: initial !important; /* Image visible rakhega */
 }
         .partner-code-pill {
             background: var(--glass-bg);
@@ -178,13 +171,7 @@
         }
         .tooltip.show { opacity: 1; bottom: -25px; }
 
-       .header-right { 
-    display: flex; 
-    align-items: center; 
-    gap: 20px; 
-    height: 100%;
-    flex-shrink: 0;
-}
+        .header-right { display: flex; align-items: center; gap: 20px; }
         .icon-btn { color: var(--text-white); font-size: 20px; cursor: pointer; position: relative; }
         .notif-dot {
             position: absolute; top: 0; right: 0;
