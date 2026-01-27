@@ -25,7 +25,41 @@
                 </div>
             </div>
 
-            <div id="billingForm">
+           <div class="row g-3">
+    <div class="col-md-6">
+        <div class="p-3 border rounded bg-light">
+            <h6 class="border-bottom pb-2">Invoice Details</h6>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label small">Invoice No.</label>
+                    <input type="text" id="invNo" class="form-control" placeholder="TXP-001">
+                </div>
+                <div class="col-6">
+                    <label class="form-label small">Invoice Date</label>
+                    <input type="date" id="invDate" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="p-3 border rounded bg-light">
+            <h6 class="border-bottom pb-2">Customer Details</h6>
+            <div class="mb-2">
+                <input type="text" id="custName" class="form-control form-control-sm mb-2" placeholder="Customer Name">
+                <input type="text" id="custGstin" class="form-control form-control-sm mb-2" placeholder="Customer GSTIN (Optional)">
+                <select id="pos" class="form-select form-select-sm">
+                    <option value="">Select Place of Supply (State)</option>
+                    <option value="09-Uttar Pradesh">09-Uttar Pradesh</option>
+                    <option value="07-Delhi">07-Delhi</option>
+                    <option value="27-Maharashtra">27-Maharashtra</option>
+                    </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="itemTableSection" class="mt-4"></div>
                 <p class="text-muted text-center">Yahan humara billing form aayega...</p>
             </div>
         </div>
