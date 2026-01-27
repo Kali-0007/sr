@@ -46,6 +46,7 @@ function calculateTotal() {
     document.getElementById('subTotal').innerText = subTotal.toFixed(2);
     document.getElementById('totalGst').innerText = totalGst.toFixed(2);
     document.getElementById('grandTotal').innerText = (subTotal + totalGst).toFixed(2);
+    getTaxSplit();
 }
 // Function to determine Tax Split (CGST/SGST or IGST)
 function getTaxSplit() {
