@@ -25,23 +25,24 @@
             overflow: hidden;
         }
 
-        /* Seamless Background Mesh */
+        /* Premium Seamless Mesh Background */
         .mesh-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             background: 
-                radial-gradient(circle at 10% 20%, rgba(0, 97, 255, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(96, 239, 255, 0.1) 0%, transparent 40%);
+                radial-gradient(circle at 15% 25%, rgba(0, 97, 255, 0.08) 0%, transparent 35%),
+                radial-gradient(circle at 85% 75%, rgba(96, 239, 255, 0.12) 0%, transparent 35%),
+                #ffffff;
         }
 
         .main-wrapper {
-            width: 90%;
-            max-width: 1200px;
+            width: 95%;
+            max-width: 1100px;
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
+            grid-template-columns: 1.1fr 0.9fr;
             align-items: center;
-            gap: 50px;
+            gap: 60px;
         }
 
         /* Hero Graphic Section */
@@ -53,11 +54,11 @@
         }
 
         .brand-logo {
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 800;
             color: #1e293b;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1.5px;
         }
 
         .brand-logo span {
@@ -65,55 +66,47 @@
         }
 
         .tagline {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: #64748b;
-            max-width: 450px;
-            margin-bottom: 2rem;
+            max-width: 480px;
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
         }
 
-        /* Lottie Container */
+        /* Lottie Animation Container */
         #lottie-container {
             width: 100%;
-            max-width: 500px;
-            filter: drop-shadow(0 20px 50px rgba(0,97,255,0.15));
+            max-width: 450px;
+            /* Soft glow around the graphic */
+            filter: drop-shadow(0 30px 60px rgba(0,97,255,0.12));
+            min-height: 350px;
         }
 
-        /* Login Card - Ultra Clean */
+        /* Professional Login Card */
         .login-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 32px;
-            padding: 50px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 40px;
+            padding: 50px 40px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.06);
+            text-align: center;
         }
 
-        .login-card:hover {
-            transform: translateY(-5px);
+        .login-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
         }
 
-        .btn-google {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
-            width: 100%;
-        }
-
-        .btn-google:hover {
-            background: #f1f5f9;
-            border-color: #cbd5e1;
+        .mt-border {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #f1f5f9;
         }
 
         @media (max-width: 991px) {
-            .main-wrapper { grid-template-columns: 1fr; text-align: center; }
+            .main-wrapper { grid-template-columns: 1fr; }
             .hero-section { display: none; }
             .login-card { max-width: 450px; margin: auto; }
         }
@@ -126,26 +119,37 @@
     <div class="main-wrapper">
         <div class="hero-section">
             <h1 class="brand-logo">TaxEase<span>.Pro</span></h1>
-            <p class="tagline">The most powerful and elegant GST solution for growing businesses in India.</p>
+            <p class="tagline">The most powerful and elegant GST solution for modern enterprises in India.</p>
             
             <div id="lottie-container"></div>
         </div>
 
         <div class="login-card">
-            <h2 class="fw-bold mb-3" style="color: #1e293b;">Login</h2>
-            <p class="text-muted mb-5">Join 10,000+ businesses managing taxes effortlessly.</p>
+            <h2>Welcome Back</h2>
+            <p class="text-muted mb-5">Sign in to manage your business compliance</p>
 
-            <div id="g_id_onload"
-                data-client_id="YOUR_GOOGLE_CLIENT_ID"
-                data-callback="onSignIn">
+            <div class="d-flex justify-content-center">
+                <div id="g_id_onload"
+                    data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                    data-callback="onSignIn"
+                    data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin" 
+                    data-type="standard" 
+                    data-size="large" 
+                    data-theme="filled_blue" 
+                    data-shape="pill" 
+                    data-text="continue_with"
+                    data-width="320">
+                </div>
             </div>
-            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-shape="pill" data-width="350"></div>
 
-            <div class="mt-5 pt-4 border-top">
-                <small class="text-muted d-block mb-2">Authorized Financial Partner</small>
-                <div class="d-flex gap-3 justify-content-center opacity-50">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/ISO_9001_Logo.svg" height="30">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Gst-logo.png" height="30">
+            <div class="mt-border">
+                <small class="text-muted d-block mb-3 fw-semibold text-uppercase" style="letter-spacing: 1px; font-size: 0.7rem;">Certified Business Partner</small>
+                <div class="d-flex gap-4 justify-content-center align-items-center opacity-75">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Gst-logo.png" height="35" alt="GST">
+                    <div style="width: 1px; height: 25px; background: #cbd5e1;"></div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/ISO_9001_Logo.svg" height="35" alt="ISO">
                 </div>
             </div>
         </div>
@@ -155,20 +159,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
     
     <script>
-        // Loading a Premium 3D Finance Animation
-        // Is baar pure 'Corporate Finance' animation load hogi
-var animation = lottie.loadAnimation({
-    container: document.getElementById('lottie-container'),
-    // Ye link specifically Financial Growth aur Analytics ke liye hai
-    path: 'https://assets3.lottiefiles.com/packages/lf20_ghp9v68u.json', 
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-});
+        // High-End Financial/Data Animation
+        var animation = lottie.loadAnimation({
+            container: document.getElementById('lottie-container'),
+            // Specifically selected for Professional Financial Context
+            path: 'https://lottie.host/8067b56a-12a8-4447-975a-500e57608d4a/X8Yk9uU5t3.json', 
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+        });
+
+        // Error handling for animation
+        animation.addEventListener('DOMLoaded', function() {
+            console.log("Animation Loaded Successfully");
+        });
 
         function onSignIn(response) {
-            console.log("Logged in!");
+            // Success Logic
+            const user = parseJwt(response.credential);
+            localStorage.setItem('userEmail', user.email);
             window.location.href = "dashboard.html";
+        }
+
+        function parseJwt (token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(window.atob(base64));
         }
     </script>
 </body>
