@@ -156,13 +156,15 @@
     
     <script>
         // Loading a Premium 3D Finance Animation
-        var animation = lottie.loadAnimation({
-            container: document.getElementById('lottie-container'),
-            path: 'https://assets9.lottiefiles.com/packages/lf20_6wutsrox.json', // Premium 3D Isometric Finance Animation
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-        });
+        // Is baar pure 'Corporate Finance' animation load hogi
+var animation = lottie.loadAnimation({
+    container: document.getElementById('lottie-container'),
+    // Ye link specifically Financial Growth aur Analytics ke liye hai
+    path: 'https://assets3.lottiefiles.com/packages/lf20_ghp9v68u.json', 
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+});
 
         function onSignIn(response) {
             console.log("Logged in!");
