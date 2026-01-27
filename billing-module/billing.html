@@ -59,7 +59,54 @@
     </div>
 </div>
 
-<div id="itemTableSection" class="mt-4"></div>
+<div class="table-responsive mt-4">
+    <table class="table table-bordered" id="billingTable">
+        <thead class="table-primary">
+            <tr>
+                <th style="width: 30%;">Item Description</th>
+                <th style="width: 15%;">HSN/SAC</th>
+                <th style="width: 10%;">Qty</th>
+                <th style="width: 15%;">Unit Price</th>
+                <th style="width: 15%;">GST %</th>
+                <th style="width: 15%;">Total</th>
+            </tr>
+        </thead>
+        <tbody id="itemRows">
+            <tr>
+                <td><input type="text" class="form-control form-control-sm" placeholder="Item Name"></td>
+                <td><input type="text" class="form-control form-control-sm" placeholder="Code"></td>
+                <td><input type="number" class="form-control form-control-sm" value="1"></td>
+                <td><input type="number" class="form-control form-control-sm" placeholder="0.00"></td>
+                <td>
+                    <select class="form-select form-select-sm">
+                        <option value="0">0%</option>
+                        <option value="5">5%</option>
+                        <option value="12">12%</option>
+                        <option value="18" selected>18%</option>
+                        <option value="28">28%</option>
+                    </select>
+                </td>
+                <td><input type="text" class="form-control form-control-sm" readonly value="0.00"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="d-flex justify-content-between">
+    <button class="btn btn-sm btn-outline-success" onclick="addRow()">+ Add Item</button>
+    <div class="text-end">
+        <p class="mb-1"><strong>Sub-Total:</strong> ₹ <span id="subTotal">0.00</span></p>
+        <p class="mb-1"><strong>Total GST:</strong> ₹ <span id="totalGst">0.00</span></p>
+        <h5 class="text-primary"><strong>Grand Total:</strong> ₹ <span id="grandTotal">0.00</span></h5>
+    </div>
+</div>
+
+<hr>
+
+<div class="text-center mt-4">
+    <button class="btn btn-primary btn-lg px-5" onclick="saveBill()">Save Bill to Cloud</button>
+    <button class="btn btn-secondary btn-lg px-5" onclick="printBill()">Download PDF</button>
+</div>
                 <p class="text-muted text-center">Yahan humara billing form aayega...</p>
             </div>
         </div>
