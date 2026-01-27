@@ -3,188 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | TaxEase Pro</title>
+    <title>Premium Login | TaxEase Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-color: #0061ff;
-            --secondary-color: #60efff;
-            --text-dark: #1e293b;
+            --bg-color: #f8fafc;
+            --primary: #0061ff;
+            --accent: #60efff;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            /* Seamless Mesh Gradient Background */
-            background: radial-gradient(at 0% 0%, rgba(96, 239, 255, 0.15) 0, transparent 50%),
-                        radial-gradient(at 100% 100%, rgba(0, 97, 255, 0.1) 0, transparent 50%),
-                        #ffffff;
+            background: var(--bg-color);
             height: 100vh;
+            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
-        /* Premium Floating Graphics (Left Side) */
-        .hero-graphic-element {
-            position: absolute;
+        /* Seamless Background Mesh */
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            filter: blur(80px);
-            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 97, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(96, 239, 255, 0.1) 0%, transparent 40%);
         }
-        .blob-1 { width: 400px; height: 400px; background: var(--secondary-color); top: -100px; left: -100px; opacity: 0.4; }
-        .blob-2 { width: 500px; height: 500px; background: var(--primary-color); bottom: -150px; right: -100px; opacity: 0.2; }
 
-        .login-container {
-            width: 100%;
-            max-width: 1100px;
-            display: flex;
+        .main-wrapper {
+            width: 90%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
             align-items: center;
-            padding: 20px;
+            gap: 50px;
         }
 
-        /* Branding Section */
-        .brand-section {
-            flex: 1;
-            padding: 40px;
-            display: none; /* Mobile par chhup jayega */
+        /* Hero Graphic Section */
+        .hero-section {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        @media (min-width: 992px) { .brand-section { display: block; } }
 
         .brand-logo {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 800;
-            background: linear-gradient(to right, var(--primary-color), #003d99);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
         }
 
-        .brand-tagline {
+        .brand-logo span {
+            color: var(--primary);
+        }
+
+        .tagline {
             font-size: 1.2rem;
-            color: var(--text-dark);
-            opacity: 0.8;
-            line-height: 1.6;
+            color: #64748b;
+            max-width: 450px;
+            margin-bottom: 2rem;
         }
 
-        /* Login Card (Glassmorphism) */
+        /* Lottie Container */
+        #lottie-container {
+            width: 100%;
+            max-width: 500px;
+            filter: drop-shadow(0 20px 50px rgba(0,97,255,0.15));
+        }
+
+        /* Login Card - Ultra Clean */
         .login-card {
-            flex: 0 0 400px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
         }
 
-        .google-btn-wrapper {
-            margin-top: 30px;
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-google {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
             display: flex;
+            align-items: center;
             justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+            width: 100%;
         }
 
-        /* Floating elements for visual blend */
-        .floating-icon {
-            position: absolute;
-            animation: float 6s ease-in-out infinite;
-            opacity: 0.6;
+        .btn-google:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
         }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+
+        @media (max-width: 991px) {
+            .main-wrapper { grid-template-columns: 1fr; text-align: center; }
+            .hero-section { display: none; }
+            .login-card { max-width: 450px; margin: auto; }
         }
     </style>
 </head>
 <body>
 
-    <div class="hero-graphic-element blob-1"></div>
-    <div class="hero-graphic-element blob-2"></div>
+    <div class="mesh-bg"></div>
 
-    <svg class="floating-icon" style="top:20%; left:15%; width:50px" viewBox="0 0 24 24" fill="none" stroke="#0061ff" stroke-width="1.5"><path d="M12 2v20M2 12h20" /></svg>
-    <svg class="floating-icon" style="bottom:25%; left:40%; width:80px; animation-delay: 1s;" viewBox="0 0 24 24" fill="none" stroke="#60efff" stroke-width="1.5"><circle cx="12" cy="12" r="10" /></svg>
-
-    <div class="login-container">
-        <div class="brand-section">
-            <h1 class="brand-logo">TaxEase Pro</h1>
-            <p class="brand-tagline">
-                India's most seamless GST billing experience.<br>
-                Built for modern enterprises, simplified for you.
-            </p>
-            <svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="50" y="50" width="300" height="200" rx="20" fill="url(#paint0_linear)" fill-opacity="0.1"/>
-                <path d="M100 150L150 100L200 180L250 130L300 200" stroke="#0061ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <defs>
-                    <linearGradient id="paint0_linear" x1="50" y1="50" x2="350" y2="250" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#0061ff"/><stop offset="1" stop-color="#60efff"/>
-                    </linearGradient>
-                </defs>
-            </svg>
+    <div class="main-wrapper">
+        <div class="hero-section">
+            <h1 class="brand-logo">TaxEase<span>.Pro</span></h1>
+            <p class="tagline">The most powerful and elegant GST solution for growing businesses in India.</p>
+            
+            <div id="lottie-container"></div>
         </div>
 
         <div class="login-card">
-            <h3 class="fw-bold mb-2">Welcome Back</h3>
-            <p class="text-muted small">Please sign in to access your dashboard</p>
-            
-            <div class="google-btn-wrapper">
-                <div id="g_id_onload"
-                    data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com"
-                    data-context="signin"
-                    data-ux_mode="popup"
-                    data-callback="onSignIn"
-                    data-auto_prompt="false">
-                </div>
+            <h2 class="fw-bold mb-3" style="color: #1e293b;">Login</h2>
+            <p class="text-muted mb-5">Join 10,000+ businesses managing taxes effortlessly.</p>
 
-                <div class="g_id_signin"
-                    data-type="standard"
-                    data-shape="rectangular"
-                    data-theme="outline"
-                    data-text="signin_with"
-                    data-size="large"
-                    data-logo_alignment="left">
-                </div>
+            <div id="g_id_onload"
+                data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                data-callback="onSignIn">
             </div>
+            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-shape="pill" data-width="350"></div>
 
-            <div class="mt-4 pt-3 border-top">
-                <p class="text-muted" style="font-size: 0.8rem;">
-                    Securely managed by TaxEase Cloud Infrastructure
-                </p>
+            <div class="mt-5 pt-4 border-top">
+                <small class="text-muted d-block mb-2">Authorized Financial Partner</small>
+                <div class="d-flex gap-3 justify-content-center opacity-50">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/ISO_9001_Logo.svg" height="30">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Gst-logo.png" height="30">
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
     
     <script>
+        // Loading a Premium 3D Finance Animation
+        var animation = lottie.loadAnimation({
+            container: document.getElementById('lottie-container'),
+            path: 'https://assets9.lottiefiles.com/packages/lf20_6wutsrox.json', // Premium 3D Isometric Finance Animation
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+        });
+
         function onSignIn(response) {
-            // Decode the ID Token to get user details
-            const responsePayload = decodeJwtResponse(response.credential);
-
-            console.log("ID: " + responsePayload.sub);
-            console.log('Full Name: ' + responsePayload.name);
-            console.log('Email: ' + responsePayload.email);
-
-            // Storing user data in localStorage for the dashboard
-            localStorage.setItem('user_name', responsePayload.name);
-            localStorage.setItem('user_email', responsePayload.email);
-            localStorage.setItem('user_pic', responsePayload.picture);
-
-            // Redirecting to Dashboard
+            console.log("Logged in!");
             window.location.href = "dashboard.html";
-        }
-
-        function decodeJwtResponse(token) {
-            let base64Url = token.split('.')[1];
-            let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
         }
     </script>
 </body>
