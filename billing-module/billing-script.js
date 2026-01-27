@@ -47,3 +47,26 @@ function calculateTotal() {
     document.getElementById('totalGst').innerText = totalGst.toFixed(2);
     document.getElementById('grandTotal').innerText = (subTotal + totalGst).toFixed(2);
 }
+// Function to determine Tax Split (CGST/SGST or IGST)
+function getTaxSplit() {
+    const userState = "09-Uttar Pradesh"; // Ye hum baad mein profile se uthayenge
+    const pos = document.getElementById('pos').value;
+    const totalGst = parseFloat(document.getElementById('totalGst').innerText);
+
+    let splitDetails = "";
+
+    if (pos === "") {
+        splitDetails = "Please select Place of Supply";
+    } else if (pos === userState) {
+        // Same State: Split into CGST & SGST
+        const cgst = totalGst / 2;
+        const sgst = totalGst / 2;
+        splitDetails = `CGST: ₹${cgst.toFixed(2)} | SGST: ₹${sgst.toFixed(2)}`;
+    } else {
+        // Different State: Full IGST
+        splitDetails = `IGST: ₹${totalGst.toFixed(2)}`;
+    }
+
+    // Isko display karne ke liye hum HTML mein ek chota div aur add karenge
+    document.getElementById('taxBreakup').innerText = splitDetails;
+}
