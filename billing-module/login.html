@@ -25,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* Premium Seamless Mesh Background */
         .mesh-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -45,14 +44,6 @@
             gap: 60px;
         }
 
-        /* Hero Graphic Section */
-        .hero-section {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
         .brand-logo {
             font-size: 3.2rem;
             font-weight: 800;
@@ -61,54 +52,40 @@
             letter-spacing: -1.5px;
         }
 
-        .brand-logo span {
-            color: var(--primary);
-        }
+        .brand-logo span { color: var(--primary); }
 
         .tagline {
             font-size: 1.25rem;
             color: #64748b;
             max-width: 480px;
             margin-bottom: 2.5rem;
-            line-height: 1.5;
         }
 
-        /* Lottie Animation Container */
-        #lottie-container {
+        /* Pure CSS/SVG Graphic Style */
+        .svg-graphic-container {
             width: 100%;
-            max-width: 450px;
-            /* Soft glow around the graphic */
-            filter: drop-shadow(0 30px 60px rgba(0,97,255,0.12));
-            min-height: 350px;
+            max-width: 500px;
+            animation: float 6s ease-in-out infinite;
         }
 
-        /* Professional Login Card */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
         .login-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid white;
             border-radius: 40px;
             padding: 50px 40px;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.06);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.05);
             text-align: center;
-        }
-
-        .login-card h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .mt-border {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #f1f5f9;
         }
 
         @media (max-width: 991px) {
             .main-wrapper { grid-template-columns: 1fr; }
             .hero-section { display: none; }
-            .login-card { max-width: 450px; margin: auto; }
         }
     </style>
 </head>
@@ -119,72 +96,56 @@
     <div class="main-wrapper">
         <div class="hero-section">
             <h1 class="brand-logo">TaxEase<span>.Pro</span></h1>
-            <p class="tagline">The most powerful and elegant GST solution for modern enterprises in India.</p>
+            <p class="tagline">India's most elegant GST & Billing solution for modern businesses.</p>
             
-            <div id="lottie-container"></div>
+            <div class="svg-graphic-container">
+                <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="250" cy="200" r="150" fill="url(#paint0_linear)" fill-opacity="0.1"/>
+                    
+                    <rect x="120" y="80" width="200" height="240" rx="20" fill="white" stroke="#E2E8F0" stroke-width="2"/>
+                    <rect x="150" y="120" width="140" height="12" rx="6" fill="#F1F5F9"/>
+                    <rect x="150" y="150" width="100" height="12" rx="6" fill="#F1F5F9"/>
+                    
+                    <rect x="260" y="180" width="180" height="140" rx="24" fill="white" shadow="0 10 20 rgba(0,0,0,0.1)" stroke="#E2E8F0" stroke-width="2"/>
+                    <path d="M290 280L330 240L370 260L410 210" stroke="#0061ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="410" cy="210" r="6" fill="#0061ff"/>
+
+                    <path d="M250 40C250 40 300 60 300 100C300 150 250 180 250 180C250 180 200 150 200 100C200 60 250 40 250 40Z" fill="#60efff" fill-opacity="0.8"/>
+                    <path d="M240 110L248 118L262 104" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="100" y1="50" x2="400" y2="350" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#0061ff"/><stop offset="1" stop-color="#60efff"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
         </div>
 
         <div class="login-card">
-            <h2>Welcome Back</h2>
-            <p class="text-muted mb-5">Sign in to manage your business compliance</p>
+            <h2 class="fw-bold mb-3">Welcome Back</h2>
+            <p class="text-muted mb-5">Sign in to your professional dashboard</p>
 
             <div class="d-flex justify-content-center">
                 <div id="g_id_onload"
                     data-client_id="YOUR_GOOGLE_CLIENT_ID"
-                    data-callback="onSignIn"
-                    data-auto_prompt="false">
+                    data-callback="onSignIn">
                 </div>
-                <div class="g_id_signin" 
-                    data-type="standard" 
-                    data-size="large" 
-                    data-theme="filled_blue" 
-                    data-shape="pill" 
-                    data-text="continue_with"
-                    data-width="320">
-                </div>
+                <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue" data-width="320"></div>
             </div>
 
-            <div class="mt-border">
-                <small class="text-muted d-block mb-3 fw-semibold text-uppercase" style="letter-spacing: 1px; font-size: 0.7rem;">Certified Business Partner</small>
-                <div class="d-flex gap-4 justify-content-center align-items-center opacity-75">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Gst-logo.png" height="35" alt="GST">
-                    <div style="width: 1px; height: 25px; background: #cbd5e1;"></div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/ISO_9001_Logo.svg" height="35" alt="ISO">
-                </div>
+            <div class="mt-5 pt-4 border-top opacity-50 d-flex justify-content-center gap-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Gst-logo.png" height="30">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/ISO_9001_Logo.svg" height="30">
             </div>
         </div>
     </div>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
-    
     <script>
-        // High-End Financial/Data Animation
-        var animation = lottie.loadAnimation({
-            container: document.getElementById('lottie-container'),
-            // Specifically selected for Professional Financial Context
-            path: 'https://lottie.host/8067b56a-12a8-4447-975a-500e57608d4a/X8Yk9uU5t3.json', 
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-        });
-
-        // Error handling for animation
-        animation.addEventListener('DOMLoaded', function() {
-            console.log("Animation Loaded Successfully");
-        });
-
         function onSignIn(response) {
-            // Success Logic
-            const user = parseJwt(response.credential);
-            localStorage.setItem('userEmail', user.email);
+            console.log("Logged In");
             window.location.href = "dashboard.html";
-        }
-
-        function parseJwt (token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            return JSON.parse(window.atob(base64));
         }
     </script>
 </body>
