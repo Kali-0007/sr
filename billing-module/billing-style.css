@@ -1,0 +1,63 @@
+/* Custom Styles for TaxEasePro Billing */
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.billing-card {
+    border: none;
+    border-top: 6px solid #0d6efd;
+    border-radius: 12px;
+}
+
+/* Table Styling */
+.table thead {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.table-bordered border-primary {
+    border-color: #dee2e6 !important;
+}
+
+input.form-control, select.form-select {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+input.form-control:focus, select.form-select:focus {
+    box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+    border-color: #0d6efd;
+}
+
+/* Totals Section */
+#subTotal, #totalGst, #grandTotal {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.text-primary {
+    color: #0d6efd !important;
+}
+
+/* Button Hover Effects */
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#taxBreakup {
+    background: #e9ecef;
+    padding: 8px;
+    border-radius: 5px;
+    display: inline-block;
+}
