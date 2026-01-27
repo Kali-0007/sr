@@ -3,165 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | TaxEase Pro</title>
+    <title>TaxEase Pro | Enterprise Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #0061ff;
-            --surface: #ffffff;
-            --text-main: #0f172a;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        body {
+        body, html {
+            margin: 0; padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #ffffff;
-            margin: 0;
+            background: #020617; /* Dark Slate - Very Premium */
+            color: white;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            overflow: hidden;
         }
 
-        /* The "Seamless" Mesh Background - No Split Lines */
-        .mesh-bg {
+        /* Moving Mesh Gradient */
+        .canvas-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             background: 
-                radial-gradient(circle at 0% 0%, rgba(0, 97, 255, 0.07) 0%, transparent 40%),
-                radial-gradient(circle at 100% 100%, rgba(96, 239, 255, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(248, 250, 252, 1) 0%, rgba(241, 245, 249, 1) 100%);
+                radial-gradient(circle at 20% 30%, rgba(0, 97, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(96, 239, 255, 0.1) 0%, transparent 50%);
         }
 
-        .container-custom {
+        /* Abstract Floating Elements */
+        .floating-shape {
+            position: absolute;
+            z-index: 0;
+            filter: blur(40px);
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
+        }
+        .shape-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: 10%; opacity: 0.2; }
+        .shape-2 { width: 400px; height: 400px; background: #60efff; bottom: 10%; right: 10%; opacity: 0.1; }
+
+        @keyframes move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 50px); }
+        }
+
+        /* The Centered Glass Card */
+        .auth-container {
+            z-index: 10;
             width: 100%;
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: 1fr 450px;
-            align-items: center;
-            padding: 2rem;
+            max-width: 480px;
+            padding: 20px;
         }
 
-        /* Hero Content */
-        .hero-content {
-            padding-right: 4rem;
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .brand-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: rgba(0, 97, 255, 0.1);
-            color: var(--primary);
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .display-text {
-            font-size: 4rem;
+        .brand-name {
+            font-size: 2.5rem;
             font-weight: 800;
-            color: var(--text-main);
-            line-height: 1.1;
-            letter-spacing: -2px;
-            margin-bottom: 1.5rem;
-        }
-
-        .display-text span {
-            background: linear-gradient(90deg, #0061ff, #60efff);
+            letter-spacing: -1.5px;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #fff, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Professional 3D Floating Graphic (Seamless Blend) */
-        .graphic-wrapper {
-            position: relative;
-            margin-top: 2rem;
+        .tagline {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 40px;
         }
 
-        .main-3d-img {
-            width: 80%;
-            filter: drop-shadow(0 50px 80px rgba(0, 97, 255, 0.15));
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
-        }
-
-        /* Glassmorphism Login Card */
-        .login-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 32px;
-            padding: 3rem;
-            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.08);
-        }
-
-        .google-login-btn {
-            border: 1px solid #e2e8f0;
-            background: white;
-            padding: 12px;
-            border-radius: 14px;
-            width: 100%;
-            font-weight: 600;
-            transition: all 0.3s;
+        /* Premium Button Styling */
+        .google-btn-container {
+            margin-bottom: 30px;
             display: flex;
+            justify-content: center;
+        }
+
+        .trust-badges {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0.4;
+            filter: grayscale(1) invert(1);
+        }
+
+        /* Interactive Element: Floating 3D Icon */
+        .main-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), #60efff);
+            border-radius: 24px;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-        }
-
-        .google-login-btn:hover {
-            background: #f8fafc;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        @media (max-width: 992px) {
-            .container-custom { grid-template-columns: 1fr; text-align: center; }
-            .hero-content { display: none; }
+            box-shadow: 0 20px 40px rgba(0, 97, 255, 0.3);
+            transform: rotate(-10deg);
         }
     </style>
 </head>
 <body>
 
-    <div class="mesh-bg"></div>
+    <div class="canvas-bg"></div>
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
 
-    <div class="container-custom">
-        <div class="hero-content">
-            <span class="brand-badge">Next-Gen GST Solution</span>
-            <h1 class="display-text">Smart Billing for <span>Modern Business.</span></h1>
-            <p class="text-muted fs-5 mb-5">Join thousands of Indian enterprises managing taxes with zero effort.</p>
+    <div class="auth-container">
+        <div class="glass-card">
+            <div class="main-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
             
-            <div class="graphic-wrapper">
-                <img src="https://cdni.iconscout.com/illustration/premium/thumb/financial-analysis-illustration-download-in-svg-png-gif-file-formats--growth-chart-business-report-pack-illustrations-5384639.png" class="main-3d-img" alt="TaxEase Pro 3D">
-            </div>
-        </div>
+            <h1 class="brand-name">TaxEase Pro</h1>
+            <p class="tagline">Enterprise-grade GST compliance.</p>
 
-        <div class="login-card">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold">TaxEase Pro</h2>
-                <p class="text-muted">Sign in to your account</p>
-            </div>
-
-            <div id="g_id_onload"
-                data-client_id="YOUR_GOOGLE_CLIENT_ID"
-                data-callback="handleCredentialResponse">
-            </div>
-            <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-size="large" data-width="100%"></div>
-
-            <div class="mt-5 pt-4 border-top text-center">
-                <p class="small text-muted mb-4">Trusted by Industry Leaders</p>
-                <div class="d-flex justify-content-center gap-4 grayscale opacity-50">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Gst-logo.png" height="30">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/ISO_9001_Logo.svg" height="30">
+            <div class="google-btn-container">
+                <div id="g_id_onload"
+                    data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                    data-callback="handleCredentialResponse"
+                    data-auto_prompt="false">
                 </div>
+                <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue" data-size="large" data-logo_alignment="left" data-width="320"></div>
+            </div>
+
+            <p style="font-size: 0.8rem; color: #475569;">By continuing, you agree to our Terms of Service.</p>
+
+            <div class="trust-badges">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Gst-logo.png" height="25">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/ISO_9001_Logo.svg" height="25">
             </div>
         </div>
     </div>
@@ -169,7 +153,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         function handleCredentialResponse(response) {
-            console.log("Success! Redirecting...");
+            console.log("Encoded JWT ID token: " + response.credential);
             window.location.href = "dashboard.html";
         }
     </script>
