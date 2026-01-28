@@ -41,32 +41,48 @@ function handleDocTypeChange() {
     calculateTotal();
 }
 
-// 3. GSTIN VERIFICATION ENGINE
 function verifyGSTIN() {
     const gstin = document.getElementById('custGstin').value.toUpperCase().trim();
     const statusDiv = document.getElementById('gstinStatus');
     
     if (!gstin) return;
 
+    // 1. Agar Party History (Local Storage) mein data mil gaya
     if (partyHistory[gstin]) {
-        // Auto-fill from History
-        document.getElementById('custName').value = partyHistory[gstin].name;
-        document.getElementById('pos').value = partyHistory[gstin].pos;
-        if(document.getElementById('custAddr')) {
-            document.getElementById('custAddr').value = partyHistory[gstin].address || "";
-        }
+        const party = partyHistory[gstin];
+        
+        // Basic Info fill karo
+        document.getElementById('custName').value = party.name || "";
+        document.getElementById('pos').value = party.pos || "";
+        
+        // Multi-field Address auto-fill karo
+        document.getElementById('addr_building').value = party.addr_building || "";
+        document.getElementById('addr_street').value = party.addr_street || "";
+        document.getElementById('addr_city').value = party.addr_city || "";
+        document.getElementById('addr_pincode').value = party.addr_pincode || "";
+        
         statusDiv.innerHTML = "<span class='text-success fw-bold'>● Verified (Saved Party)</span>";
-    } else if (gstin.length === 15) {
-        // New GSTIN Format Check
+    } 
+    // 2. Agar naya GSTIN hai (15 digit ka)
+    else if (gstin.length === 15) {
+        // GSTIN ke pehle 2 digits State Code hote hain, use POS mein auto-select karo
         const stateCode = gstin.substring(0, 2);
-        document.getElementById('pos').value = stateCode; // Auto-suggest POS
-        statusDiv.innerHTML = "<span class='text-warning fw-bold'>● New GSTIN (Will save on 'Save')</span>";
-    } else {
+        const posDropdown = document.getElementById('pos');
+        
+        if (posDropdown.querySelector(`option[value="${stateCode}"]`)) {
+            posDropdown.value = stateCode;
+        }
+        
+        statusDiv.innerHTML = "<span class='text-warning fw-bold'>● New GSTIN (Auto-suggested POS)</span>";
+    } 
+    // 3. Agar format galat hai
+    else {
         statusDiv.innerHTML = "<span class='text-danger fw-bold'>● Invalid GSTIN Format</span>";
     }
+    
+    // Tax calculate karo kyunki POS change hua ho sakta hai
     calculateTotal();
 }
-
 // 4. ROW MANAGEMENT (DYNAMIC)
 function addRow() {
     const table = document.getElementById('itemRows');
@@ -234,19 +250,35 @@ function generate3Copies() {
     }, 750);
 }
 
-// 7. UTILS: SAVE & WORD CONVERSION
 function saveBill() {
     const gstin = document.getElementById('custGstin').value.toUpperCase().trim();
     const name = document.getElementById('custName').value.trim();
-    const addr = document.getElementById('custAddr').value.trim();
     const pos = document.getElementById('pos').value;
 
+    // Nayi Multi-field Address values uthao
+    const addr_bldg = document.getElementById('addr_building').value.trim();
+    const addr_str = document.getElementById('addr_street').value.trim();
+    const addr_cty = document.getElementById('addr_city').value.trim();
+    const addr_pin = document.getElementById('addr_pincode').value.trim();
+
+    // Validation: GSTIN aur Name toh mandatory hain hi
     if (gstin.length === 15 && name) {
-        partyHistory[gstin] = { name: name, pos: pos, address: addr };
+        // Object mein naya structure save karo
+        partyHistory[gstin] = { 
+            name: name, 
+            pos: pos, 
+            addr_building: addr_bldg,
+            addr_street: addr_str,
+            addr_city: addr_cty,
+            addr_pincode: addr_pin
+        };
+
+        // Local Storage mein update karo
         localStorage.setItem('partyHistory', JSON.stringify(partyHistory));
-        alert("Success: Invoice data saved to local history!");
+        
+        alert("Success: Party '" + name + "' saved with full address details!");
     } else {
-        alert("Error: Please provide valid GSTIN and Party Name.");
+        alert("Error: Please provide at least a valid 15-digit GSTIN and Party Name.");
     }
 }
 
