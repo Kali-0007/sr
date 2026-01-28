@@ -3,180 +3,493 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | TaxEase Pro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Login | TaxEasePro - GST Billing Software</title>
+    <meta name="description" content="Secure login for TaxEasePro. India's #1 GST Billing & Invoicing Solution.">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <style>
         :root {
+            /* Palette */
             --primary: #0061ff;
-            --dark: #0f172a;
+            --primary-dark: #004ecc;
+            --accent: #60efff;
+            --bg-light: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --shadow-soft: 0 20px 40px -10px rgba(0, 97, 255, 0.15);
+            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            
+            /* Animation */
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #ffffff;
-            height: 100vh;
+            background-color: var(--bg-light);
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* High-End Mesh Background */
-        .mesh {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+        /* Ambient Background Mesh */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(100px);
             z-index: -1;
-            background: 
-                radial-gradient(at 0% 0%, rgba(0, 97, 255, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(96, 239, 255, 0.1) 0px, transparent 50%);
+            opacity: 0.4;
+            animation: pulse 10s infinite alternate;
+        }
+        
+        body::before {
+            background: radial-gradient(circle, var(--accent), transparent 70%);
+            top: -20%;
+            left: -10%;
         }
 
-        .main-grid {
+        body::after {
+            background: radial-gradient(circle, var(--primary), transparent 70%);
+            bottom: -20%;
+            right: -10%;
+        }
+
+        /* Main Grid Container */
+        .container {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
             width: 100%;
-            max-width: 1300px;
-            height: 80vh;
-            padding: 20px;
+            max-width: 1400px;
+            height: 100vh;
+            padding: 2rem;
+            gap: 2rem;
         }
 
-        /* Professional 3D Branding Side */
-        .branding-side {
-            padding: 60px;
+        /* --- Left Side: Hero --- */
+        .hero-section {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding: 4rem;
             position: relative;
         }
 
-        .logo-text {
-            font-size: 3.5rem;
+        .brand-logo {
+            font-size: 2.5rem;
             font-weight: 800;
-            color: var(--dark);
-            letter-spacing: -2px;
-            margin-bottom: 10px;
+            color: var(--text-main);
+            letter-spacing: -1.5px;
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .logo-text span { color: var(--primary); }
+        .brand-logo span {
+            color: var(--primary);
+        }
 
         .tagline {
-            font-size: 1.4rem;
-            color: #64748b;
-            max-width: 450px;
-            margin-bottom: 40px;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            max-width: 600px;
         }
 
-        /* Abstract Premium Graphics */
-        .visual-stack {
+        .sub-text {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        /* Animation Wrapper */
+        .animation-container {
             position: relative;
-            height: 300px;
+            width: 100%;
+            max-width: 550px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Glass Cards (Premium Visuals) */
-        .glass-stat {
+        /* Floating Glass Stats */
+        .float-card {
             position: absolute;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 1);
-            padding: 25px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 12px 20px;
+            border-radius: 16px;
+            border: 1px solid white;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            z-index: 2;
             animation: float 6s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        .float-card i {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-style: normal;
         }
 
-        /* Login Card */
-        .login-side {
+        .card-1 { 
+            top: 20%; 
+            left: -10px; 
+            animation-delay: 0s; 
+        }
+        .card-1 i { background: #10b981; } /* Green for Compliance */
+
+        .card-2 { 
+            bottom: 25%; 
+            right: 10px; 
+            animation-delay: 2s; 
+        }
+        .card-2 i { background: var(--primary); } /* Blue for Growth */
+
+        .card-3 { 
+            top: 10%; 
+            right: 40px; 
+            animation-delay: 1s; 
+            background: rgba(255,255,255,0.6);
+            scale: 0.9;
+        }
+        .card-3 i { background: #f59e0b; } /* Orange for Warning/Alert */
+
+        /* --- Right Side: Login --- */
+        .login-section {
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .login-card {
-            background: #ffffff;
-            padding: 50px;
-            border-radius: 40px;
             width: 100%;
-            max-width: 450px;
-            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.08);
+            max-width: 480px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 3.5rem 2.5rem;
+            box-shadow: var(--shadow-card);
             text-align: center;
-            border: 1px solid #f1f5f9;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
 
-        .btn-google-custom {
-            margin-top: 40px;
+        .login-card:hover {
+            box-shadow: 0 30px 60px -15px rgba(0, 97, 255, 0.2);
+        }
+
+        /* Decorative shine on card */
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .login-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .login-header p {
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Google Button Area */
+        .auth-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin: 1.5rem 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #cbd5e1;
+        }
+        .divider span { margin: 0 10px; }
+
+        /* Trust Badges */
+        .trust-badges {
+            margin-top: 3rem;
             display: flex;
             justify-content: center;
+            gap: 20px;
+            opacity: 0.6;
+            filter: grayscale(100%);
+            transition: opacity 0.3s;
+        }
+        .trust-badges:hover { opacity: 1; filter: grayscale(0%); }
+        
+        .badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            gap: 5px;
+        }
+        .badge svg { width: 24px; height: 24px; fill: currentColor; }
+
+        /* Alert Box */
+        .alert-box {
+            display: none;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fee2e2;
+            color: #b91c1c;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            animation: shake 0.5s ease-in-out;
         }
 
-        @media (max-width: 991px) {
-            .main-grid { grid-template-columns: 1fr; }
-            .branding-side { display: none; }
+        /* Keyframes */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(1.1); opacity: 0.6; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+                height: auto;
+                padding: 1rem;
+            }
+            .hero-section {
+                padding: 2rem 1rem;
+                align-items: center;
+                text-align: center;
+            }
+            .animation-container {
+                display: none; /* Hide complex animation on tablet/mobile */
+            }
+            .tagline { font-size: 1.8rem; }
+            .sub-text { margin-bottom: 1rem; }
+            body::before, body::after { width: 400px; height: 400px; }
+        }
+
+        /* Specific override for Google Button width */
+        #g_id_onload { width: 100%; }
+        .g_id_signin { width: 100%; display: flex; justify-content: center; }
     </style>
 </head>
 <body>
 
-    <div class="mesh"></div>
-
-    <div class="main-grid">
-        <div class="branding-side">
-            <h1 class="logo-text">TaxEase<span>Pro</span></h1>
-            <p class="tagline">The most trusted GST engine for modern Indian businesses.</p>
+    <div class="container">
+        <div class="hero-section">
+            <div class="brand-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="24" height="24" rx="6" fill="#0061ff"/>
+                    <path d="M7 12H17M7 8H17M7 16H13" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+                TaxEase<span>Pro</span>
+            </div>
             
-            <div class="visual-stack">
-                <div class="glass-stat" style="top: 0; left: 0; width: 300px;">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <div style="width: 40px; height: 40px; background: #dbeafe; border-radius: 10px;"></div>
-                        <div style="flex: 1;"><div style="height: 10px; width: 80%; background: #e2e8f0; border-radius: 5px;"></div></div>
-                    </div>
-                    <div style="margin-top: 20px; font-weight: 800; font-size: 1.5rem; color: var(--primary);">₹ 45,290.00</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;">GST Collected this month</div>
+            <h1 class="tagline">Simplifying GST Compliance for Modern India.</h1>
+            <p class="sub-text">Generate professional invoices, file returns automatically, and manage inventory with India's most trusted AI-powered tax engine.</p>
+
+            <div class="animation-container">
+                <div class="float-card card-1">
+                    <i>✓</i> 100% GST Compliant
+                </div>
+                <div class="float-card card-2">
+                    <i>₹</i> Sales +24% YoY
+                </div>
+                <div class="float-card card-3">
+                    <i>★</i> Top Rated
                 </div>
 
-                <div class="glass-stat" style="top: 100px; left: 180px; width: 250px; background: var(--primary); color: white; animation-delay: 2s;">
-                    <div style="font-size: 0.8rem; opacity: 0.8;">Compliance Score</div>
-                    <div style="font-size: 1.8rem; font-weight: 800;">99.8%</div>
-                </div>
+                <lottie-player 
+                    src="https://lottie.host/8b965873-196d-4780-82df-77053535232d/6j2277d079.json" 
+                    background="transparent" 
+                    speed="1" 
+                    style="width: 100%; height: 100%;" 
+                    loop 
+                    autoplay>
+                </lottie-player>
             </div>
         </div>
 
-        <div class="login-side">
+        <div class="login-section">
             <div class="login-card">
-                <h2 class="fw-bold">Login</h2>
-                <p class="text-muted">Secure access to your enterprise portal</p>
-
-                <div class="btn-google-custom">
-                    <div id="g_id_onload"
-                        data-client_id="YOUR_GOOGLE_CLIENT_ID"
-                        data-callback="onSignIn">
-                    </div>
-                    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue" data-size="large" data-width="350"></div>
+                <div class="login-header">
+                    <h2>Welcome Back</h2>
+                    <p>Securely access your billing dashboard</p>
                 </div>
 
-                <div class="mt-5 pt-4 border-top">
-                    <div class="d-flex justify-content-center gap-4 grayscale opacity-50">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Gst-logo.png" height="30">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/ISO_9001_Logo.svg" height="30">
+                <div class="auth-wrapper">
+                    <div id="g_id_onload"
+                        data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
+                        data-context="signin"
+                        data-ux_mode="popup"
+                        data-callback="handleCredentialResponse"
+                        data-auto_prompt="false">
+                    </div>
+
+                    <div class="g_id_signin"
+                        data-type="standard"
+                        data-shape="pill"
+                        data-theme="filled_blue"
+                        data-text="signin_with"
+                        data-size="large"
+                        data-logo_alignment="left"
+                        data-width="320">
+                    </div>
+
+                    <div id="error-msg" class="alert-box"></div>
+                </div>
+
+                <div class="trust-badges">
+                    <div class="badge">
+                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                        <span>ISO 27001</span>
+                    </div>
+                    <div class="badge">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        <span>SSL Secure</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        function onSignIn(response) {
-            console.log("Logged in!");
-            window.location.href = "dashboard.html";
+        /**
+         * Google Login Callback
+         * Handles the response from Google Identity Services
+         */
+        function handleCredentialResponse(response) {
+            try {
+                // 1. Decode the JWT (JSON Web Token)
+                // Note: In production, verify the token on your backend server!
+                const responsePayload = decodeJwtResponse(response.credential);
+
+                console.log("ID: " + responsePayload.sub);
+                console.log('Full Name: ' + responsePayload.name);
+                console.log('Given Name: ' + responsePayload.given_name);
+                console.log('Family Name: ' + responsePayload.family_name);
+                console.log("Image URL: " + responsePayload.picture);
+                console.log("Email: " + responsePayload.email);
+
+                // 2. Simulate Login Logic
+                localStorage.setItem('taxEaseUser', JSON.stringify({
+                    email: responsePayload.email,
+                    name: responsePayload.name,
+                    avatar: responsePayload.picture
+                }));
+
+                // 3. UI Feedback
+                const btn = document.querySelector('.g_id_signin');
+                btn.style.opacity = '0.5';
+                btn.style.pointerEvents = 'none';
+                
+                // 4. Redirect (Simulated)
+                // window.location.href = "dashboard.html";
+                alert(`Welcome back, ${responsePayload.given_name}! Redirecting to Dashboard...`);
+
+            } catch (error) {
+                console.error("Login Error:", error);
+                showError("Authentication failed. Please try again.");
+            }
         }
+
+        /**
+         * Helper: Decode JWT to get user info (Frontend only)
+         */
+        function decodeJwtResponse(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        }
+
+        /**
+         * Helper: Show error message
+         */
+        function showError(msg) {
+            const el = document.getElementById('error-msg');
+            el.innerText = msg;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 4000);
+        }
+        
+        // Developer Note:
+        // If the Google button doesn't appear, it's likely because the 'client_id' 
+        // in the HTML above is invalid or the origin (localhost/file) isn't authorized 
+        // in the Google Cloud Console. 
+        console.log("TaxEasePro Login Loaded. Awaiting Google GSI interaction.");
     </script>
 </body>
 </html>
