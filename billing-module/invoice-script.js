@@ -1,51 +1,12 @@
-// GST Standard Settings
-const myStateCode = "09"; // UP
-const uomList = ["BAG-BAGS", "BOX-BOX", "BTL-BOTTLES", "KGS-KILOGRAMS", "MTR-METERS", "NOS-NUMBERS", "PCS-PIECES", "SET-SETS"];
+// 1. Configuration & Data
+const myStateCode = "09"; 
+const uomList = ["NOS-NUMBERS", "KGS-KILOGRAMS", "PCS-PIECES", "MTR-METERS", "BOX-BOX", "SET-SETS"];
 
-// Local Storage for Party History
 let partyHistory = JSON.parse(localStorage.getItem('partyHistory')) || {
     "09AAACR1234A1Z5": { name: "Ramesh Trading Co.", pos: "09", address: "123, Civil Lines, Kanpur" }
 };
 
-// 1. UI Logic: Handle Document Type Change
-function updateDocLabels() {
-    const type = document.getElementById('docType').value;
-    const refSection = document.getElementById('refSection'); // Ensure this ID exists in HTML
-    const isNote = type.includes("Note");
-    
-    // Toggle reference section for Credit/Debit notes
-    if(refSection) refSection.classList.toggle('d-none', !isNote);
-    
-    // Hide tax columns if Bill of Supply
-    const isExempt = (type === "Bill of Supply");
-    document.querySelectorAll('.tax-col, .tax-head').forEach(el => {
-        el.style.display = isExempt ? 'none' : '';
-    });
-    
-    calculateTotal();
-}
-
-// 2. GSTIN Verification & Auto-fill
-function verifyGSTIN() {
-    const gstin = document.getElementById('custGstin').value.toUpperCase();
-    const statusDiv = document.getElementById('gstinStatus');
-    
-    if (partyHistory[gstin]) {
-        document.getElementById('custName').value = partyHistory[gstin].name;
-        document.getElementById('pos').value = partyHistory[gstin].pos;
-        if(document.getElementById('custAddr')) {
-            document.getElementById('custAddr').value = partyHistory[gstin].address || "";
-        }
-        statusDiv.innerHTML = "<span class='text-success'>● Verified from History</span>";
-        calculateTotal();
-    } else if (gstin.length === 15) {
-        statusDiv.innerHTML = "<span class='text-warning'>● New GSTIN (Will save on 'Save')</span>";
-    } else {
-        statusDiv.innerHTML = "<span class='text-danger'>● Invalid GSTIN</span>";
-    }
-}
-
-// 3. Dynamic Row Management
+// 2. Add Row Function (Includes Units)
 function addRow() {
     const table = document.getElementById('itemRows');
     const id = Date.now();
@@ -53,8 +14,8 @@ function addRow() {
     
     const newRow = `
         <tr id="row_${id}">
-            <td>${table.rows.length + 1}</td>
-            <td><input type="text" class="form-control form-control-sm" placeholder="Item Description"></td>
+            <td class="row-index">${table.rows.length + 1}</td>
+            <td><input type="text" class="form-control form-control-sm" placeholder="Item Name"></td>
             <td><input type="text" class="form-control form-control-sm" placeholder="HSN"></td>
             <td><input type="number" class="form-control form-control-sm qty" value="1" oninput="calculateTotal()"></td>
             <td><select class="form-select form-select-sm">${unitOptions}</select></td>
@@ -65,9 +26,10 @@ function addRow() {
                 </select>
             </td>
             <td><input type="text" class="form-control form-control-sm rowTotal" readonly value="0.00"></td>
-            <td><button class="btn btn-sm text-danger no-print" onclick="removeRow('${id}')">×</button></td>
+            <td class="no-print"><button class="btn btn-sm text-danger" onclick="removeRow('${id}')">×</button></td>
         </tr>`;
     table.insertAdjacentHTML('beforeend', newRow);
+    updateDocLabels();
 }
 
 function removeRow(id) {
@@ -75,72 +37,106 @@ function removeRow(id) {
     calculateTotal();
 }
 
-// 4. Core Calculation Engine
-function calculateTotal() {
-    let subTotal = 0;
-    let totalGst = 0;
-    const docType = document.getElementById('docType').value;
-    const rows = document.querySelectorAll('#itemRows tr');
+// 3. UI Sync (Doc Type & GSTIN)
+function updateDocLabels() {
+    const type = document.getElementById('docType').value;
+    const isExempt = (type === "Bill of Supply");
+    document.querySelectorAll('.tax-col, .tax-head').forEach(el => el.style.display = isExempt ? 'none' : '');
+    calculateTotal();
+}
 
-    rows.forEach(row => {
+function verifyGSTIN() {
+    const gstin = document.getElementById('custGstin').value.toUpperCase();
+    if (partyHistory[gstin]) {
+        document.getElementById('custName').value = partyHistory[gstin].name;
+        document.getElementById('pos').value = partyHistory[gstin].pos;
+        if(document.getElementById('custAddr')) document.getElementById('custAddr').value = partyHistory[gstin].address;
+        calculateTotal();
+    }
+}
+
+// 4. Calculation Engine & Amount in Words
+function calculateTotal() {
+    let subTotal = 0, totalGst = 0;
+    const isExempt = document.getElementById('docType').value === "Bill of Supply";
+
+    document.querySelectorAll('#itemRows tr').forEach(row => {
         const qty = parseFloat(row.querySelector('.qty').value) || 0;
         const price = parseFloat(row.querySelector('.price').value) || 0;
-        const gstRate = (docType === "Bill of Supply") ? 0 : parseFloat(row.querySelector('.gstRate').value) || 0;
+        const gstRate = isExempt ? 0 : parseFloat(row.querySelector('.gstRate').value) || 0;
 
-        const taxableValue = qty * price;
-        const gstAmount = (taxableValue * gstRate) / 100;
+        const taxable = qty * price;
+        const gst = (taxable * gstRate) / 100;
         
-        row.querySelector('.rowTotal').value = (taxableValue + gstAmount).toFixed(2);
-        subTotal += taxableValue;
-        totalGst += gstAmount;
+        row.querySelector('.rowTotal').value = (taxable + gst).toFixed(2);
+        subTotal += taxable;
+        totalGst += gst;
     });
 
     document.getElementById('subTotal').innerText = subTotal.toFixed(2);
-    document.getElementById('grandTotal').innerText = (subTotal + totalGst).toFixed(2);
+    const grandTotal = subTotal + totalGst;
+    document.getElementById('grandTotal').innerText = grandTotal.toFixed(2);
     
-    updateTaxBreakup(totalGst);
-}
-
-// 5. Intelligent Tax Splitting (Based on GST Rate selected)
-function updateTaxBreakup(totalGst) {
-    const customerState = document.getElementById('pos').value;
-    const taxDetails = document.getElementById('taxDetails');
-    
-    if (!customerState) {
-        taxDetails.innerHTML = "<small class='text-danger'>Select State for Tax Breakup</small>";
-        return;
-    }
-
-    if (customerState === myStateCode) {
-        const halfGst = (totalGst / 2).toFixed(2);
-        taxDetails.innerHTML = `
-            <div class="d-flex justify-content-between small"><span>CGST:</span> <span>${halfGst}</span></div>
-            <div class="d-flex justify-content-between small"><span>SGST:</span> <span>${halfGst}</span></div>`;
+    // Tax Breakup
+    const pos = document.getElementById('pos').value;
+    const taxDiv = document.getElementById('taxDetails');
+    if (pos === myStateCode) {
+        taxDiv.innerHTML = `<div class="d-flex justify-content-between"><span>CGST:</span><span>${(totalGst/2).toFixed(2)}</span></div>
+                            <div class="d-flex justify-content-between"><span>SGST:</span><span>${(totalGst/2).toFixed(2)}</span></div>`;
     } else {
-        taxDetails.innerHTML = `
-            <div class="d-flex justify-content-between small"><span>IGST:</span> <span>${totalGst.toFixed(2)}</span></div>`;
+        taxDiv.innerHTML = `<div class="d-flex justify-content-between"><span>IGST:</span><span>${totalGst.toFixed(2)}</span></div>`;
     }
+    
+    document.getElementById('amountInWords').innerText = "Rupees " + grandTotal.toLocaleString('en-IN') + " Only";
 }
 
-// 6. Save Logic
+// 5. THE 3-COPY PRINT LOGIC (MAGIC)
+function generate3Copies() {
+    const originalContent = document.body.innerHTML;
+    const printArea = document.querySelector('.billing-card').cloneNode(true);
+    
+    // Sabhi inputs ki values ko text mein convert karo taaki print mein dikhe
+    printArea.querySelectorAll('input, select, textarea').forEach(el => {
+        const val = el.value;
+        const span = document.createElement('span');
+        span.innerText = val;
+        el.parentNode.replaceChild(span, el);
+    });
+
+    const copies = ["Original for Recipient", "Duplicate for Transporter", "Triplicate for Supplier"];
+    let finalHtml = "";
+
+    copies.forEach((title, index) => {
+        let copyNode = printArea.cloneNode(true);
+        let label = `<div class="print-label" style="display:block; text-align:right; font-weight:bold; border:1px solid #000; padding:5px; margin-bottom:10px;">${title}</div>`;
+        let pageBreak = index > 0 ? 'style="page-break-before:always; margin-top:50px;"' : '';
+        finalHtml += `<div ${pageBreak}>${label}${copyNode.innerHTML}</div>`;
+    });
+
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`<html><head><title>Print Invoice</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="invoice-style.css">
+        <style>.no-print { display:none !important; } .print-label { display:block !important; }</style>
+        </head><body><div class="container">${finalHtml}</div></body></html>`);
+    
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+    }, 500);
+}
+
 function saveBill() {
     const gstin = document.getElementById('custGstin').value.toUpperCase();
-    const name = document.getElementById('custName').value;
-    const addr = document.getElementById('custAddr').value;
-    const pos = document.getElementById('pos').value;
-
-    if (gstin.length === 15 && name) {
-        partyHistory[gstin] = { name: name, pos: pos, address: addr };
+    if (gstin.length === 15) {
+        partyHistory[gstin] = { 
+            name: document.getElementById('custName').value, 
+            pos: document.getElementById('pos').value,
+            address: document.getElementById('custAddr').value 
+        };
         localStorage.setItem('partyHistory', JSON.stringify(partyHistory));
-        alert("Invoice Data & Party Details Saved!");
-    } else {
-        alert("Please fill GSTIN and Party Name!");
+        alert("Invoice Saved!");
     }
-}
-
-// PDF Generation Mockup
-function printBill() {
-    window.print();
 }
 
 window.onload = addRow;
