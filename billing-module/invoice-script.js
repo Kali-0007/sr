@@ -186,7 +186,7 @@ function generate3Copies() {
     ];
 
     // Data Extraction
-    const invNo = document.querySelector('input[placeholder="INV/2023/001"]')?.value || "---";
+   const invNo = document.getElementById('invNo')?.value || "---";
     const invDate = document.getElementById('invDate')?.value || "---";
     const gstin = document.getElementById('custGstin').value;
     const name = document.getElementById('custName').value;
