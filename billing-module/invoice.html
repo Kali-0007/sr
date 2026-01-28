@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxEasePro | Premium GST Billing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="billing-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
+        .billing-card { border: none; border-radius: 15px; overflow: hidden; }
+        .card-header { background: linear-gradient(45deg, #0d6efd, #0048b3); color: white; border: none; }
+        .section-title { font-size: 0.85rem; font-weight: 700; color: #495057; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #dee2e6; margin-bottom: 15px; padding-bottom: 5px; }
+        .form-control:focus { box-shadow: none; border-color: #0d6efd; }
+        .table-primary { --bs-table-bg: #0d6efd; --bs-table-color: #ffffff; }
+        .total-box { background: #e9ecef; border-radius: 8px; padding: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container my-5">
+    <div class="card shadow-lg billing-card">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Smart Invoice Generator</h4>
+            <div class="d-flex align-items-center">
+                <label class="me-2 small">Doc Type:</label>
+                <select id="docType" class="form-select form-select-sm" style="width: auto;" onchange="updateDocLabels()">
+                    <option value="Tax Invoice">Tax Invoice</option>
+                    <option value="Bill of Supply">Bill of Supply</option>
+                    <option value="Credit Note">Credit Note</option>
+                    <option value="Delivery Challan">Delivery Challan</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <h6 class="section-title">Seller Details (Me)</h6>
+                    <div id="firmDetails">
+                        <strong class="text-primary">Your Firm Name</strong><br>
+                        <small class="text-muted">GSTIN: 09XXXXX0000X1Z5</small><br>
+                        <small class="text-muted">Address: Kanpur, Uttar Pradesh</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="section-title">Invoice Info</h6>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="small">Inv No.</label>
+                            <input type="text" id="invNo" class="form-control form-control-sm" value="INV-2024-001">
+                        </div>
+                        <div class="col-6">
+                            <label class="small">Date</label>
+                            <input type="date" id="invDate" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="section-title">Transport Details</h6>
+                    <input type="text" id="vehicleNo" class="form-control form-control-sm mb-1" placeholder="Vehicle Number">
+                    <input type="text" id="ewayBill" class="form-control form-control-sm" placeholder="E-Way Bill No.">
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="p-3 border rounded bg-light shadow-sm">
+                        <h6 class="section-title">Bill To (Customer)</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" id="custGstin" class="form-control" placeholder="Enter GSTIN">
+                                    <button class="btn btn-primary" type="button" onclick="verifyGSTIN()">Verify</button>
+                                </div>
+                                <div id="gstinStatus" style="font-size: 0.7rem;" class="mt-1"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" id="custName" class="form-control form-control-sm" placeholder="Party Name (Auto-fills)">
+                            </div>
+                            <div class="col-md-4">
+                                <select id="pos" class="form-select form-select-sm" onchange="calculateTotal()">
+                                    <option value="">Place of Supply (State)</option>
+                                    <option value="09">09-Uttar Pradesh</option>
+                                    <option value="07">07-Delhi</option>
+                                    <option value="27">27-Maharashtra</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover border" id="billingTable">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>#</th>
+                            <th style="width: 35%;">Item Description</th>
+                            <th>HSN</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>GST%</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemRows">
+                        </tbody>
+                </table>
+            </div>
+            <button class="btn btn-sm btn-outline-primary mb-4" onclick="addRow()">+ Add New Row</button>
+
+            <div class="row mt-4">
+                <div class="col-md-7">
+                    <h6 class="section-title">Bank Details & Terms</h6>
+                    <div class="p-3 border rounded small bg-light">
+                        <strong>Bank:</strong> HDFC Bank | <strong>A/c:</strong> 50100XXXXX1234<br>
+                        <strong>IFSC:</strong> HDFC0000XXX | <strong>Branch:</strong> Civil Lines<br>
+                        <hr>
+                        <p class="mb-0 text-muted">Terms: Goods once sold cannot be returned. Subject to Kanpur Jurisdiction.</p>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="total-box shadow-sm">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Taxable Value:</span>
+                            <span id="subTotal">0.00</span>
+                        </div>
+                        <div id="taxDetails">
+                            </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="text-primary font-weight-bold">Grand Total:</h5>
+                            <h5 class="text-primary font-weight-bold">₹ <span id="grandTotal">0.00</span></h5>
+                        </div>
+                        <div id="amountInWords" class="small text-muted fst-italic mt-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5 no-print">
+                <button class="btn btn-success btn-lg px-5 shadow" onclick="saveBill()">Save & Upload</button>
+                <button class="btn btn-dark btn-lg px-5 shadow" onclick="printBill()">Download 3-Copy PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="invoice.js"></script>
+</body>
+</html>
