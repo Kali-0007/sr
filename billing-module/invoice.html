@@ -83,35 +83,89 @@
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="p-3 border rounded bg-light shadow-sm">
-                        <h6 class="section-title">Bill To (Customer Details)</h6>
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <div class="input-group input-group-sm">
-                                    <input type="text" id="custGstin" class="form-control" placeholder="GSTIN" onblur="verifyGSTIN()">
-                                    <button class="btn btn-primary" type="button" onclick="verifyGSTIN()">Find</button>
-                                </div>
-                                <div id="gstinStatus" style="font-size: 0.7rem;" class="mt-1"></div>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" id="custName" class="form-control form-control-sm" placeholder="Party Name">
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" id="custAddr" class="form-control form-control-sm" placeholder="Complete Address">
-                            </div>
-                            <div class="col-md-2">
-                                <select id="pos" class="form-select form-select-sm" onchange="calculateTotal()">
-                                    <option value="">Place of Supply</option>
-                                    <option value="09">09-UP</option>
-                                    <option value="07">07-Delhi</option>
-                                    <option value="27">27-MH</option>
-                                </select>
-                            </div>
+    <div class="col-md-12">
+        <div class="p-3 border rounded bg-light shadow-sm">
+            <h6 class="section-title">Bill To (Customer Details)</h6>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="small fw-bold">GSTIN</label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="custGstin" class="form-control" placeholder="09XXXXX0000X1Z5" onblur="verifyGSTIN()">
+                        <button class="btn btn-primary" type="button" onclick="verifyGSTIN()">Find</button>
+                    </div>
+                    <div id="gstinStatus" style="font-size: 0.7rem;" class="mt-1"></div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="small fw-bold">Party Name</label>
+                    <input type="text" id="custName" class="form-control form-control-sm" placeholder="Business Name">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="small fw-bold">Address Details</label>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="text" id="addr_building" class="form-control form-control-sm" placeholder="Bldg/Plot No.">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" id="addr_street" class="form-control form-control-sm" placeholder="Street/Area">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" id="addr_city" class="form-control form-control-sm" placeholder="City/District">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" id="addr_pincode" class="form-control form-control-sm" placeholder="Pincode (6-digit)">
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-4 mt-2">
+                    <label class="small fw-bold">Place of Supply (POS)</label>
+                    <select id="pos" class="form-select form-select-sm" onchange="calculateTotal()">
+                        <option value="">-- Select State/UT --</option>
+                        <option value="01">01-Jammu & Kashmir</option>
+                        <option value="02">02-Himachal Pradesh</option>
+                        <option value="03">03-Punjab</option>
+                        <option value="04">04-Chandigarh</option>
+                        <option value="05">05-Uttarakhand</option>
+                        <option value="06">06-Haryana</option>
+                        <option value="07">07-Delhi</option>
+                        <option value="08">08-Rajasthan</option>
+                        <option value="09">09-Uttar Pradesh</option>
+                        <option value="10">10-Bihar</option>
+                        <option value="11">11-Sikkim</option>
+                        <option value="12">12-Arunachal Pradesh</option>
+                        <option value="13">13-Nagaland</option>
+                        <option value="14">14-Manipur</option>
+                        <option value="15">15-Mizoram</option>
+                        <option value="16">16-Tripura</option>
+                        <option value="17">17-Meghalaya</option>
+                        <option value="18">18-Assam</option>
+                        <option value="19">19-West Bengal</option>
+                        <option value="20">20-Jharkhand</option>
+                        <option value="21">21-Odisha</option>
+                        <option value="22">22-Chhattisgarh</option>
+                        <option value="23">23-Madhya Pradesh</option>
+                        <option value="24">24-Gujarat</option>
+                        <option value="26">26-Dadra & Nagar Haveli</option>
+                        <option value="27">27-Maharashtra</option>
+                        <option value="29">29-Karnataka</option>
+                        <option value="30">30-Goa</option>
+                        <option value="31">31-Lakshadweep</option>
+                        <option value="32">32-Kerala</option>
+                        <option value="33">33-Tamil Nadu</option>
+                        <option value="34">34-Puducherry</option>
+                        <option value="35">35-Andaman & Nicobar</option>
+                        <option value="36">36-Telangana</option>
+                        <option value="37">37-Andhra Pradesh</option>
+                        <option value="38">38-Ladakh</option>
+                        <option value="97">97-Other Territory</option>
+                    </select>
+                </div>
             </div>
+        </div>
+    </div>
+</div>
 
             <div class="table-responsive">
                 <table class="table table-hover border" id="billingTable">
