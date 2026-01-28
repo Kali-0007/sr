@@ -1,0 +1,114 @@
+/* Premium Styles for TaxEasePro Billing */
+
+:root {
+    --primary-blue: #0d6efd;
+    --dark-blue: #0048b3;
+    --light-bg: #f8f9fa;
+    --success-green: #198754;
+}
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: #333;
+}
+
+/* Card & Container Enhancement */
+.billing-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Section Title Style */
+.section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Input Fields - Premium Look */
+input.form-control, select.form-select {
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+}
+
+input.form-control:focus, select.form-select:focus {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    border-color: var(--primary-blue);
+    background-color: #fff;
+}
+
+/* Table Design */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    background: var(--primary-blue);
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.02);
+}
+
+/* Totals Box */
+.total-box {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-left: 5px solid var(--primary-blue);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+#grandTotal {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    font-weight: 800;
+}
+
+/* GSTIN Status Badges */
+.status-verified { color: var(--success-green); font-weight: 600; }
+.status-error { color: #dc3545; font-weight: 600; }
+
+/* Printing Logic - Very Important */
+@media print {
+    .no-print, .btn, .addRowBtn, .navbar, .fab {
+        display: none !important;
+    }
+    body {
+        background-color: #fff;
+        padding: 0;
+    }
+    .billing-card {
+        box-shadow: none !important;
+        margin: 0 !important;
+        border: none !important;
+    }
+    .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+}
+
+/* Responsive utility */
+.mt-custom { margin-top: 2rem; }
