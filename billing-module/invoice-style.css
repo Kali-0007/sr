@@ -59,15 +59,11 @@ input.form-control:focus, select.form-select:focus {
 }
 
 .table thead {
-    background: var(--primary-blue);
-    color: white;
+    background: var(--primary-blue) !important;
+    color: white !important;
     text-transform: uppercase;
     font-size: 0.8rem;
     letter-spacing: 0.5px;
-}
-
-.table-hover tbody tr:hover {
-    background-color: rgba(13, 110, 253, 0.02);
 }
 
 /* Totals Box */
@@ -85,30 +81,53 @@ input.form-control:focus, select.form-select:focus {
     font-weight: 800;
 }
 
-/* GSTIN Status Badges */
-.status-verified { color: var(--success-green); font-weight: 600; }
-.status-error { color: #dc3545; font-weight: 600; }
+/* Print Specific Utility - 3 Copy Support */
+.print-label {
+    display: none; /* Screen par nahi dikhega */
+    text-align: right;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #333;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+}
 
-/* Printing Logic - Very Important */
+/* Printing Logic */
 @media print {
-    .no-print, .btn, .addRowBtn, .navbar, .fab {
+    .no-print, .btn, .addRowBtn, .navbar, .fab, button {
         display: none !important;
     }
+    
     body {
-        background-color: #fff;
-        padding: 0;
+        background-color: #fff !important;
+        padding: 0 !important;
     }
+
     .billing-card {
         box-shadow: none !important;
         margin: 0 !important;
         border: none !important;
     }
+
     .container {
         max-width: 100% !important;
         width: 100% !important;
         margin: 0 !important;
     }
-}
 
-/* Responsive utility */
-.mt-custom { margin-top: 2rem; }
+    .print-label {
+        display: block !important; /* Print ke time copy name dikhega */
+    }
+
+    .page-break {
+        page-break-before: always; /* Har copy naye page par jayegi */
+    }
+
+    input, select, textarea {
+        border: none !important;
+        padding: 0 !important;
+        background: transparent !important;
+        appearance: none !important;
+    }
+}
