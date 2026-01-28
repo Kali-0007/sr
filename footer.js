@@ -230,7 +230,7 @@ document.write(`
       <a href="/sr/privacy-policy.html">Privacy Policy</a>
       <a href="/sr/terms-of-service.html">Terms of Service</a>
       <a href="/sr/refund-policy.html">Refund Policy</a>
-      <a href="/sr/billing-module/login.html">Billing</a>
+      <a href="/sr/billing-module/dashboard.html">Billing</a>
     </div>
     <div class="footer-col">
       <h4>Get in Touch</h4>
