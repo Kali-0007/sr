@@ -3,281 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | TaxEasePro - Premium GST Billing</title>
+    <title>TaxEasePro | Premium GST Dashboard</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* --- 1. VARIABLES & RESET --- */
         :root {
-            /* Palette */
             --primary: #0061ff;
-            --primary-dark: #004ecc;
-            --primary-light: #e6f0ff;
+            --primary-dark: #0050d1;
             --accent: #60efff;
-            --bg-body: #f8fafc;
+            --bg: #f8fafc;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --border-light: rgba(226, 232, 240, 0.8);
+            --border: #e2e8f0;
             
-            /* Glassmorphism */
             --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-blur: blur(20px);
-            --shadow-card: 0 10px 30px -5px rgba(0, 97, 255, 0.05);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+            --shadow: 0 10px 30px -5px rgba(0, 97, 255, 0.08);
             --shadow-hover: 0 20px 40px -5px rgba(0, 97, 255, 0.12);
+            
+            --sidebar-width: 280px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            outline: none;
         }
 
         body {
-            background-color: var(--bg-body);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
             color: var(--text-main);
-            /* Subtle mesh gradient background */
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(96, 239, 255, 0.1) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(0, 97, 255, 0.05) 0px, transparent 50%);
-            background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- Sidebar --- */
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
+        ul { list-style: none; }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Utility Classes */
+        .text-primary { color: var(--primary); }
+        .text-success { color: var(--success); }
+        .text-danger { color: var(--danger); }
+        .text-warning { color: var(--warning); }
+        .fw-bold { font-weight: 700; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+
+        /* --- 2. SIDEBAR --- */
         .sidebar {
-            width: 260px;
-            height: 100vh;
             position: fixed;
-            left: 0;
             top: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: var(--glass-blur);
-            border-right: 1px solid var(--border-light);
-            z-index: 100;
-            padding: 2rem 1.5rem;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: var(--glass-border);
+            z-index: 50;
             display: flex;
             flex-direction: column;
+            padding: 1.5rem 0;
         }
 
-        .logo {
+        .logo-area {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .logo-text {
             font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
             letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: var(--text-main);
         }
 
-        .logo span { color: var(--primary); }
-        .logo-tag {
-            font-size: 0.7rem;
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 2px 6px;
+        .tagline {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 2px;
+            display: inline-block;
+            background: rgba(0, 97, 255, 0.05);
+            padding: 2px 8px;
             border-radius: 4px;
-            font-weight: 700;
-            text-transform: uppercase;
         }
 
         .nav-links {
-            margin-top: 3rem;
-            list-style: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.25rem;
         }
 
-        .nav-item a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 500;
-            padding: 12px 16px;
-            border-radius: 12px;
+        .nav-item {
             display: flex;
             align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.925rem;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
             gap: 12px;
-            transition: all 0.3s ease;
         }
 
-        .nav-item a svg { width: 20px; height: 20px; stroke-width: 2; }
-
-        .nav-item a:hover, .nav-item a.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 8px 20px -6px rgba(0, 97, 255, 0.4);
+        .nav-item:hover {
+            background: rgba(0, 97, 255, 0.04);
+            color: var(--primary);
+            transform: translateX(4px);
         }
 
-        /* --- Main Content --- */
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(0, 97, 255, 0.1), transparent);
+            color: var(--primary);
+            font-weight: 600;
+            border-left: 3px solid var(--primary);
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2px;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin: 1.5rem 0 0.5rem 1rem;
+            opacity: 0.7;
+        }
+
+        .sub-nav-item {
+            padding: 0.5rem 1rem 0.5rem 2.8rem; /* Indented */
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: block;
+            border-radius: 6px;
+        }
+        
+        .sub-nav-item:hover {
+            color: var(--text-main);
+            background: rgba(0,0,0,0.02);
+        }
+
+        .sidebar-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .logout-link:hover { color: var(--danger); text-decoration: underline; }
+
+        /* --- 3. MAIN CONTENT --- */
         .main-content {
-            margin-left: 260px;
-            flex: 1;
-            padding: 0;
-            width: calc(100% - 260px);
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            position: relative;
         }
 
-        /* --- Top Header --- */
+        /* Top Header */
         .top-header {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border-light);
+            z-index: 40;
+            background: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 90;
+            border-bottom: 1px solid rgba(255,255,255,0.5);
         }
 
-        .period-select select {
-            padding: 10px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--border-light);
-            background: white;
-            color: var(--text-main);
-            font-weight: 600;
+        .period-selector select {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-family: inherit;
             font-size: 0.9rem;
+            color: var(--text-main);
             cursor: pointer;
-            outline: none;
-            transition: border-color 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            font-weight: 500;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+            color: var(--text-muted);
         }
         
-        .period-select select:hover { border-color: var(--primary); }
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 0.75rem;
         }
 
-        .icon-btn {
-            background: white;
-            border: 1px solid var(--border-light);
-            width: 40px; height: 40px;
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            color: var(--text-muted);
-            transition: all 0.2s;
-            position: relative;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0, 97, 255, 0.2);
         }
-        
-        .icon-btn:hover { color: var(--primary); border-color: var(--primary); background: var(--primary-light); }
-        .badge-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 1px solid white; }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-        
-        .avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
-        .user-text { display: flex; flex-direction: column; }
-        .user-name { font-size: 0.9rem; font-weight: 700; }
-        .user-role { font-size: 0.75rem; color: var(--text-muted); }
+        .user-info h4 { font-size: 0.9rem; font-weight: 600; }
+        .user-info span { font-size: 0.75rem; color: var(--text-muted); display: block; }
 
-        /* --- Dashboard Grid --- */
-        .dashboard-container {
+        /* Dashboard Body */
+        .dashboard-body {
             padding: 2rem;
             max-width: 1600px;
             margin: 0 auto;
         }
 
-        /* Glass Card Utility */
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
         .glass-card {
             background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: var(--shadow-card);
+            border: var(--glass-border);
+            border-radius: 16px;
             padding: 1.5rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--shadow);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
-        
+
         .glass-card:hover {
-            transform: translateY(-2px);
+            transform: scale(1.01);
             box-shadow: var(--shadow-hover);
         }
 
-        /* KPI Section */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
+        .kpi-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.5rem; }
+        .kpi-value { font-size: 1.5rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+        .kpi-trend { font-size: 0.75rem; font-weight: 600; margin-left: 8px; padding: 2px 6px; border-radius: 4px; vertical-align: middle; }
+        .trend-up { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .trend-down { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
 
-        .kpi-card h3 { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .kpi-value { font-size: 1.75rem; font-weight: 800; color: var(--text-main); display: flex; align-items: baseline; gap: 4px; }
-        .kpi-sub { font-size: 0.8rem; margin-top: 6px; font-weight: 500; }
-        .text-success { color: var(--success); }
-        .text-danger { color: var(--danger); }
-        .text-warning { color: var(--warning); }
-        
-        /* Top border accents for KPIs */
-        .kpi-card.sales { border-top: 4px solid var(--primary); }
-        .kpi-card.purchase { border-top: 4px solid #8b5cf6; }
-        .kpi-card.payable { border-top: 4px solid var(--warning); }
-        .kpi-card.dues { border-top: 4px solid var(--danger); }
-
-        /* Quick Actions */
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .action-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-            border-left: 4px solid transparent;
-        }
-        
-        .action-card:hover { border-left-color: var(--primary); background: white; }
-
-        .action-icon {
-            width: 50px; height: 50px;
-            background: var(--primary-light);
-            color: var(--primary);
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .action-info h4 { font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
-        .action-info p { font-size: 0.8rem; color: var(--text-muted); }
-
-        .btn-create-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 97, 255, 0.3);
-        }
-        .btn-create-primary .action-icon { background: rgba(255,255,255,0.2); color: white; }
-        .btn-create-primary:hover { transform: scale(1.02); }
-
-        /* GST Summaries */
-        .gst-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Split screen for reports */
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
+        /* Main Sections */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -287,402 +305,559 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .section-title { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        .badge { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
-        .badge-blue { background: var(--primary-light); color: var(--primary); }
+        .section-title { font-size: 1.1rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .section-title svg { color: var(--primary); }
 
-        .report-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border-light); font-size: 0.9rem; }
-        .stat-label { color: var(--text-muted); }
-        .stat-val { font-weight: 600; }
-
-        .export-group { display: flex; gap: 10px; }
-        .btn-export {
-            border: none;
-            background: white;
-            border: 1px solid var(--border-light);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 50px;
+        .btn-group { display: flex; gap: 0.5rem; }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            display: flex; align-items: center; gap: 6px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 97, 255, 0.02);
+        }
+
+        .btn-primary-soft {
+            background: rgba(0, 97, 255, 0.1);
+            color: var(--primary);
+            border: none;
+        }
+
+        .btn-primary-soft:hover {
+            background: rgba(0, 97, 255, 0.15);
+        }
+
+        /* GSTR Summary Grids */
+        .gstr-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-box {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
         }
         
-        .btn-export:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .stat-title { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .stat-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 4px; }
+        .stat-val { font-weight: 600; }
 
         /* Tables */
         .table-container {
             width: 100%;
             overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border-light);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            white-space: nowrap;
+            font-size: 0.9rem;
         }
 
         th {
-            background: #f1f5f9;
             text-align: left;
-            padding: 14px 16px;
-            font-size: 0.8rem;
-            font-weight: 700;
+            padding: 1rem;
             color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.75rem;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
         }
 
         td {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border-light);
-            font-size: 0.9rem;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
             color: var(--text-main);
+            font-weight: 500;
         }
 
         tr:last-child td { border-bottom: none; }
-        .text-right { text-align: right; }
-        tfoot td { background: #f8fafc; font-weight: 800; color: var(--primary); }
+        tr:hover td { background: rgba(248, 250, 252, 0.5); }
 
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .gst-grid { grid-template-columns: 1fr; }
+        .grand-total { background: rgba(0, 97, 255, 0.03); font-weight: 700; }
+
+        /* Spacers */
+        .spacer { height: 2rem; }
+
+        /* --- 4. FAB (Floating Action Button) --- */
+        .fab {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 64px;
+            height: 64px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0, 97, 255, 0.4);
+            z-index: 100;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
 
-        @media (max-width: 992px) {
-            .sidebar { display: none; } /* Hide sidebar on mobile for demo or make toggle */
-            .main-content { margin-left: 0; width: 100%; }
-            
-            /* Mobile Nav Placeholder */
-            .mobile-nav {
-                display: flex;
-                overflow-x: auto;
-                background: white;
-                padding: 10px;
-                gap: 10px;
-                border-bottom: 1px solid var(--border-light);
-            }
-            .mobile-nav a { padding: 8px 16px; white-space: nowrap; border-radius: 20px; background: #f1f5f9; color: var(--text-main); text-decoration: none; font-size: 0.9rem; font-weight: 600; }
-            .mobile-nav a.active { background: var(--primary); color: white; }
+        .fab:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        .fab svg { width: 32px; height: 32px; stroke-width: 2.5px; }
+
+        /* Tooltip */
+        .fab::after {
+            content: attr(aria-label);
+            position: absolute;
+            right: 80px;
+            background: var(--text-main);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(10px);
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+
+        .fab:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        /* --- 5. RESPONSIVE DESIGN --- */
+        
+        /* Mobile Nav (Hidden on desktop) */
+        .mobile-nav {
+            display: none;
+            background: #fff;
+            padding: 1rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 1px solid var(--border);
+            gap: 1rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mobile-nav-item {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .mobile-nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .gstr-stats-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            .top-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-            .period-select { width: 100%; }
-            .period-select select { width: 100%; }
-            .user-profile { width: 100%; justify-content: space-between; }
+            .sidebar { display: none; } /* Hidden Sidebar */
+            
+            .main-content { margin-left: 0; }
+            
+            .mobile-nav { display: flex; }
+            
+            .dashboard-body { padding: 1rem; }
+            
+            .top-header { padding: 1rem; }
+            
+            .user-info span { display: none; }
+            
+            .kpi-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+            
+            .fab { width: 56px; height: 56px; bottom: 24px; right: 24px; }
+            
+            .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
         }
+
+        @media (max-width: 480px) {
+            .kpi-grid { grid-template-columns: 1fr; }
+            .user-actions { gap: 0.75rem; }
+            .period-selector select { max-width: 140px; }
+        }
+
     </style>
 </head>
 <body>
 
     <nav class="sidebar">
-        <div class="logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="24" height="24" rx="6" fill="#0061ff"/>
-                <path d="M7 12H17M7 8H17M7 16H13" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-            TaxEase<span>Pro</span> <span class="logo-tag">GST</span>
+        <div class="logo-area">
+            <div class="logo-text">TaxEase<span style="color:var(--primary)">Pro</span></div>
+            <div class="tagline">Premium GST Billing</div>
         </div>
 
         <ul class="nav-links">
-            <li class="nav-item">
-                <a href="#" class="active">
+            <li>
+                <a href="#" class="nav-item active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     Dashboard
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#">
+            <li>
+                <a href="#" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    Invoices & Bills
+                    Invoices
                 </a>
+                <a href="#" class="sub-nav-item">Create New</a>
+                <a href="#" class="sub-nav-item">All Invoices</a>
+                <a href="#" class="sub-nav-item">Pending</a>
             </li>
-            <li class="nav-item">
-                <a href="#">
+            <li>
+                <a href="#" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     Parties
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#">
+            <li>
+                <a href="#" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                    Items
+                    Products / Items
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-                    Reports
+            
+            <li class="nav-section-title">GST Reports & Summaries</li>
+            
+            <li><a href="#" class="sub-nav-item">GSTR-1 Summary</a></li>
+            <li><a href="#" class="sub-nav-item">GSTR-3B Summary</a></li>
+            <li><a href="#" class="sub-nav-item">HSN/SAC Summary</a></li>
+            <li><a href="#" class="sub-nav-item">Party-wise Sales</a></li>
+            <li><a href="#" class="sub-nav-item">Credit/Debit Notes</a></li>
+            <li><a href="#" class="sub-nav-item">Annual Return (GSTR-9)</a></li>
+
+            <li style="margin-top: 1rem;">
+                <a href="#" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Exports
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#">
+            <li>
+                <a href="#" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     Settings
                 </a>
             </li>
         </ul>
+
+        <div class="sidebar-footer">
+            <a href="#" class="logout-link">Logout</a>
+            <span>v1.0</span>
+        </div>
+    </nav>
+
+    <nav class="mobile-nav">
+        <a href="#" class="mobile-nav-item active">Dashboard</a>
+        <a href="#" class="mobile-nav-item">Invoices</a>
+        <a href="#" class="mobile-nav-item">Parties</a>
+        <a href="#" class="mobile-nav-item">Reports</a>
+        <a href="#" class="mobile-nav-item">Settings</a>
     </nav>
 
     <main class="main-content">
         
-        <div class="mobile-nav" style="display: none;">
-            <a href="#" class="active">Dashboard</a>
-            <a href="#">Invoices</a>
-            <a href="#">Parties</a>
-            <a href="#">Reports</a>
-        </div>
-
         <header class="top-header">
-            <div class="logo" style="display:none; font-size:1.2rem;">TaxEase<span>Pro</span></div>
-
-            <div class="period-select">
+            <div class="period-selector">
                 <select>
-                    <option>This Month (Jan 2026)</option>
-                    <option>Last Month (Dec 2025)</option>
-                    <option>This Quarter (Q4)</option>
-                    <option>Financial Year 25-26</option>
+                    <option>This Month (Oct)</option>
+                    <option>Last Month (Sep)</option>
+                    <option>This Quarter (Q3)</option>
+                    <option>FY 2025-26</option>
+                    <option>Custom Range</option>
                 </select>
             </div>
 
-            <div class="user-profile">
-                <div class="icon-btn">
-                    <span class="badge-dot"></span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <div class="user-actions">
+                <div class="notification-icon">
+                    <div class="notification-dot"></div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                 </div>
-                <div class="user-info">
+                
+                <div class="user-profile">
                     <div class="avatar">RS</div>
-                    <div class="user-text">
-                        <span class="user-name">Ravindra Singh</span>
-                        <span class="user-role">Business Owner</span>
+                    <div class="user-info">
+                        <h4>Rahul Sharma</h4>
+                        <span>Admin</span>
                     </div>
                 </div>
+                
+                <a href="#" class="logout-icon" style="color:var(--text-muted)">
+                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </a>
             </div>
         </header>
 
-        <div class="dashboard-container">
+        <div class="dashboard-body">
             
             <div class="kpi-grid">
-                <div class="glass-card kpi-card sales">
-                    <h3>Total Sales</h3>
-                    <div class="kpi-value">
-                        <span style="font-size:1rem;color:var(--text-muted)">₹</span> 4,85,720
-                    </div>
-                    <div class="kpi-sub text-success">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                        +12.5% vs last month
-                    </div>
+                <div class="glass-card">
+                    <div class="kpi-label">Total Sales</div>
+                    <div class="kpi-value">₹8,45,230</div>
+                    <div style="margin-top:5px"><span class="kpi-trend trend-up">+12.5%</span> <span style="font-size:0.75rem; color:var(--text-muted)">vs last month</span></div>
                 </div>
-
-                <div class="glass-card kpi-card purchase">
-                    <h3>Total Purchases</h3>
-                    <div class="kpi-value">
-                        <span style="font-size:1rem;color:var(--text-muted)">₹</span> 2,12,450
-                    </div>
-                    <div class="kpi-sub" style="color:#64748b">
-                        18 Invoices recorded
-                    </div>
-                </div>
-
-                <div class="glass-card kpi-card payable">
-                    <h3>Net GST Payable</h3>
-                    <div class="kpi-value text-warning">
-                        <span style="font-size:1rem;">₹</span> 38,450
-                    </div>
-                    <div class="kpi-sub">Due by 20th Jan</div>
-                </div>
-
-                <div class="glass-card kpi-card dues">
-                    <h3>Pending Dues</h3>
-                    <div class="kpi-value">
-                        <span style="font-size:1rem;color:var(--text-muted)">₹</span> 1,45,300
-                    </div>
-                    <div class="kpi-sub text-danger">From 8 Parties</div>
-                </div>
-            </div>
-
-            <div class="actions-grid">
-                <div class="glass-card action-card btn-create-primary">
-                    <div class="action-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    </div>
-                    <div class="action-info">
-                        <h4>Create Invoice</h4>
-                        <p style="color:rgba(255,255,255,0.8)">Generate GST Bill</p>
-                    </div>
-                </div>
-
-                <div class="glass-card action-card">
-                    <div class="action-icon" style="background:#fff7ed; color:#ea580c">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-                    </div>
-                    <div class="action-info">
-                        <h4>Pending Payments</h4>
-                        <p>Send Reminders</p>
-                    </div>
-                </div>
-
-                <div class="glass-card action-card">
-                    <div class="action-icon" style="background:#ecfccb; color:#65a30d">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                    </div>
-                    <div class="action-info">
-                        <h4>Return Summary</h4>
-                        <p>GSTR-1 & 3B</p>
-                    </div>
-                </div>
-
-                <div class="glass-card action-card">
-                    <div class="action-icon" style="background:#f1f5f9; color:#475569">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    </div>
-                    <div class="action-info">
-                        <h4>Export Data</h4>
-                        <p>Tally / Excel</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gst-grid">
                 
                 <div class="glass-card">
-                    <div class="section-header">
-                        <div class="section-title">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                            GSTR-1 Summary 
-                            <span class="badge badge-blue">Sales</span>
-                        </div>
-                        <span style="font-size:0.8rem; color:var(--text-muted)">Dec 2025</span>
-                    </div>
+                    <div class="kpi-label">Total Purchases</div>
+                    <div class="kpi-value">₹5,12,040</div>
+                </div>
 
-                    <div class="report-stats">
-                        <div>
-                            <div class="stat-row"><span class="stat-label">B2B Invoices</span> <span class="stat-val">45</span></div>
-                            <div class="stat-row"><span class="stat-label">B2C Large</span> <span class="stat-val">12</span></div>
-                            <div class="stat-row"><span class="stat-label">B2C Small</span> <span class="stat-val">71</span></div>
-                        </div>
-                        <div>
-                            <div class="stat-row"><span class="stat-label">Taxable Val</span> <span class="stat-val">₹ 4,85,720</span></div>
-                            <div class="stat-row"><span class="stat-label">IGST</span> <span class="stat-val">₹ 24,500</span></div>
-                            <div class="stat-row"><span class="stat-label">CGST/SGST</span> <span class="stat-val">₹ 23,500</span></div>
-                        </div>
-                    </div>
+                <div class="glass-card" style="border-left: 4px solid var(--warning);">
+                    <div class="kpi-label">Net GST Payable</div>
+                    <div class="kpi-value text-warning">₹42,150</div>
+                </div>
 
-                    <div class="export-group">
-                        <button class="btn-export">JSON</button>
-                        <button class="btn-export">Excel</button>
-                        <button class="btn-export">View HSN</button>
-                    </div>
+                <div class="glass-card" style="border-left: 4px solid var(--danger);">
+                    <div class="kpi-label">Pending Dues</div>
+                    <div class="kpi-value text-danger">₹1,15,000</div>
+                    <div style="margin-top:5px; font-size:0.75rem; color:var(--text-muted)">From 3 Parties</div>
+                </div>
+
+                <div class="glass-card" style="border-left: 4px solid var(--success);">
+                    <div class="kpi-label">ITC Available</div>
+                    <div class="kpi-value text-success">₹28,400</div>
                 </div>
 
                 <div class="glass-card">
-                    <div class="section-header">
-                        <div class="section-title">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                            GSTR-3B Overview
-                            <span class="badge badge-blue">Monthly</span>
-                        </div>
-                        <span class="badge" style="background:#dcfce7; color:#166534">Filed</span>
-                    </div>
-
-                    <div class="report-stats">
-                        <div class="stat-row" style="grid-column: span 2;">
-                            <span class="stat-label">Total Outward Taxable Supplies</span> 
-                            <span class="stat-val">₹ 4,85,720</span>
-                        </div>
-                        <div class="stat-row" style="grid-column: span 2;">
-                            <span class="stat-label">Eligible ITC (Input Tax Credit)</span> 
-                            <span class="stat-val" style="color:var(--success)">- ₹ 22,800</span>
-                        </div>
-                        <div class="stat-row" style="grid-column: span 2; border-bottom:none; margin-top:10px;">
-                            <span class="stat-label" style="font-weight:700; color:var(--text-main)">Net Tax Payable in Cash</span> 
-                            <span class="stat-val" style="font-size:1.1rem; color:var(--primary)">₹ 38,450</span>
-                        </div>
-                    </div>
-
-                    <div class="export-group">
-                        <button class="btn-export">Generate Challan</button>
-                        <button class="btn-export">Download PDF</button>
-                    </div>
+                    <div class="kpi-label">Invoices Issued</div>
+                    <div class="kpi-value">128</div>
                 </div>
             </div>
 
-            <div class="glass-card">
-                <div class="section-header" style="border-bottom:none; padding-bottom:0.5rem">
-                    <div class="section-title">Top Parties (Sales)</div>
-                    <a href="#" style="font-size:0.85rem; color:var(--primary); text-decoration:none; font-weight:600">View All &rarr;</a>
+            <section class="glass-card" style="margin-bottom: 2rem;">
+                <div class="section-header">
+                    <div class="section-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        GSTR-1 Summary (Outward Supplies)
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-outline">JSON</button>
+                        <button class="btn btn-primary-soft">Download Excel</button>
+                    </div>
+                </div>
+
+                <div class="gstr-stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-title">B2B Invoices (4A, 4B, 4C, 6B, 6C)</div>
+                        <div class="stat-row"><span>Count:</span> <span class="stat-val">45</span></div>
+                        <div class="stat-row"><span>Taxable:</span> <span class="stat-val">₹6,50,000</span></div>
+                        <div class="stat-row"><span>Tax:</span> <span class="stat-val text-primary">₹1,17,000</span></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-title">B2C Small (7)</div>
+                        <div class="stat-row"><span>Count:</span> <span class="stat-val">82</span></div>
+                        <div class="stat-row"><span>Taxable:</span> <span class="stat-val">₹1,85,000</span></div>
+                        <div class="stat-row"><span>Tax:</span> <span class="stat-val text-primary">₹33,300</span></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-title">Credit/Debit Notes (9B)</div>
+                        <div class="stat-row"><span>Count:</span> <span class="stat-val">2</span></div>
+                        <div class="stat-row"><span>Value:</span> <span class="stat-val text-danger">-₹10,230</span></div>
+                        <div class="stat-row"><span>Tax Adj:</span> <span class="stat-val text-danger">-₹1,841</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-card" style="margin-bottom: 2rem;">
+                <div class="section-header">
+                    <div class="section-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                        GSTR-3B Overview
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-outline">PDF Preview</button>
+                    </div>
                 </div>
                 
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Party Name</th>
-                                <th>GSTIN</th>
-                                <th>Inv. Count</th>
-                                <th class="text-right">Total Value</th>
-                                <th class="text-right">Total Tax</th>
+                                <th>Description</th>
+                                <th>Taxable Value</th>
+                                <th>IGST</th>
+                                <th>CGST</th>
+                                <th>SGST</th>
+                                <th>Total Tax</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><span style="font-weight:600">Alpha Tech Solutions</span></td>
-                                <td>09AAACA1234A1Z5</td>
-                                <td>12</td>
-                                <td class="text-right">₹ 1,20,500</td>
-                                <td class="text-right">₹ 21,690</td>
+                                <td>Outward Supplies (Sales)</td>
+                                <td>₹8,45,230</td>
+                                <td>₹52,000</td>
+                                <td>₹49,115</td>
+                                <td>₹49,115</td>
+                                <td class="text-primary fw-bold">₹1,50,230</td>
                             </tr>
                             <tr>
-                                <td><span style="font-weight:600">Sharma Enterprises</span></td>
-                                <td>07AABCS5678B1Z2</td>
-                                <td>8</td>
-                                <td class="text-right">₹ 85,200</td>
-                                <td class="text-right">₹ 15,336</td>
+                                <td>Eligible ITC (Purchases)</td>
+                                <td>₹5,12,040</td>
+                                <td>₹12,400</td>
+                                <td>₹8,000</td>
+                                <td>₹8,000</td>
+                                <td class="text-success fw-bold">₹28,400</td>
                             </tr>
-                            <tr>
-                                <td><span style="font-weight:600">Global Exports Pvt Ltd</span></td>
-                                <td>27AACCG9999C1Z9</td>
-                                <td>5</td>
-                                <td class="text-right">₹ 64,000</td>
-                                <td class="text-right">₹ 11,520</td>
-                            </tr>
-                            <tr>
-                                <td><span style="font-weight:600">Ramesh Trading Co.</span></td>
-                                <td>Unregistered</td>
-                                <td>15</td>
-                                <td class="text-right">₹ 42,150</td>
-                                <td class="text-right">₹ 2,100</td>
+                            <tr style="background: rgba(245, 158, 11, 0.05); border-top: 1px solid var(--warning);">
+                                <td class="fw-bold">Net Payable Cash</td>
+                                <td>-</td>
+                                <td class="fw-bold">₹39,600</td>
+                                <td class="fw-bold">₹41,115</td>
+                                <td class="fw-bold">₹41,115</td>
+                                <td class="text-danger fw-bold">₹1,21,830</td>
                             </tr>
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3">Grand Total (Dec)</td>
-                                <td class="text-right">₹ 3,11,850</td>
-                                <td class="text-right">₹ 50,646</td>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
-            </div>
+            </section>
 
-        </div>
-    </main>
+            <section class="glass-card" style="margin-bottom: 2rem;">
+                <div class="section-header">
+                    <div class="section-title">HSN/SAC Wise Summary</div>
+                    <button class="btn btn-outline">Export JSON</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>HSN</th>
+                                <th>Description</th>
+                                <th>UQC</th>
+                                <th>Taxable Value</th>
+                                <th>IGST</th>
+                                <th>CGST/SGST</th>
+                                <th>Total Amt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>8544</td>
+                                <td>Insulated Wire</td>
+                                <td>MTR</td>
+                                <td>₹1,20,000</td>
+                                <td>₹21,600</td>
+                                <td>₹0</td>
+                                <td>₹1,41,600</td>
+                            </tr>
+                            <tr>
+                                <td>9403</td>
+                                <td>Office Furniture</td>
+                                <td>NOS</td>
+                                <td>₹45,000</td>
+                                <td>₹0</td>
+                                <td>₹8,100</td>
+                                <td>₹53,100</td>
+                            </tr>
+                            <tr>
+                                <td>8471</td>
+                                <td>Computers</td>
+                                <td>NOS</td>
+                                <td>₹2,10,000</td>
+                                <td>₹18,000</td>
+                                <td>₹19,800</td>
+                                <td>₹2,47,800</td>
+                            </tr>
+                            <tr class="grand-total">
+                                <td colspan="3">Grand Total</td>
+                                <td>₹3,75,000</td>
+                                <td>₹39,600</td>
+                                <td>₹27,900</td>
+                                <td>₹4,42,500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-    <style>
-        @media (max-width: 992px) {
-            .mobile-nav { display: flex !important; }
-        }
-    </style>
+            <section class="glass-card">
+                <div class="section-header">
+                    <div class="section-title">Top Party-wise Sales</div>
+                    <a href="#" class="btn btn-primary-soft">View All</a>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Party Name</th>
+                                <th>GSTIN</th>
+                                <th>Inv Count</th>
+                                <th>Total Value</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ramesh Trading Co.</td>
+                                <td>09AAACR1234A1Z5</td>
+                                <td>12</td>
+                                <td>₹2,50,000</td>
+                                <td><span class="text-success">Paid</span></td>
+                            </tr>
+                            <tr>
+                                <td>Global Tech Sol.</td>
+                                <td>27ABCDE1234F1Z9</td>
+                                <td>5</td>
+                                <td>₹1,80,000</td>
+                                <td><span class="text-warning">Partial</span></td>
+                            </tr>
+                            <tr>
+                                <td>Apex Buildware</td>
+                                <td>09ZZZZZ9999Z1Z1</td>
+                                <td>8</td>
+                                <td>₹95,000</td>
+                                <td><span class="text-danger">Overdue</span></td>
+                            </tr>
+                            <tr>
+                                <td>Cash Sales</td>
+                                <td>Unregistered</td>
+                                <td>45</td>
+                                <td>₹42,000</td>
+                                <td><span class="text-success">Paid</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div class="spacer"></div>
+
+        </div> </main>
+
+    <a href="#" class="fab" aria-label="Create New Invoice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    </a>
+
 </body>
 </html>
