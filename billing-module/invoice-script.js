@@ -180,74 +180,164 @@ function calculateTotal() {
 // 6. 3-COPY PDF GENERATION (The "Magic" Function)
 function generate3Copies() {
     const copies = [
-        { title: "ORIGINAL FOR RECIPIENT", color: "#0d6efd" },
-        { title: "DUPLICATE FOR TRANSPORTER", color: "#6c757d" },
-        { title: "TRIPLICATE FOR SUPPLIER", color: "#198754" }
+        { title: "ORIGINAL FOR RECIPIENT", color: "#000" },
+        { title: "DUPLICATE FOR TRANSPORTER", color: "#444" },
+        { title: "TRIPLICATE FOR SUPPLIER", color: "#666" }
     ];
 
-    // Clone the main billing card
-    const originalCard = document.querySelector('.billing-card').cloneNode(true);
+    // Data Extraction
+    const invNo = document.querySelector('input[placeholder="INV/2023/001"]')?.value || "---";
+    const invDate = document.getElementById('invDate')?.value || "---";
+    const gstin = document.getElementById('custGstin').value;
+    const name = document.getElementById('custName').value;
+    const pos = document.getElementById('pos').options[document.getElementById('pos').selectedIndex]?.text || "---";
     
-    // Fix Input Values for Print (Inputs don't clone their values to HTML)
-    const inputs = document.querySelector('.billing-card').querySelectorAll('input, select, textarea');
-    const clonedInputs = originalCard.querySelectorAll('input, select, textarea');
-    
-    inputs.forEach((input, index) => {
-        const val = input.value;
-        const target = clonedInputs[index];
-        const span = document.createElement('span');
-        span.className = "print-value fw-bold";
-        
-        // Handle select display (show text, not value code)
-        if(target.tagName === "SELECT") {
-            span.innerText = target.options[target.selectedIndex].text;
-        } else {
-            span.innerText = val || "---";
-        }
-        target.parentNode.replaceChild(span, target);
+    // Full Address Formatting
+    const fullAddr = `${document.getElementById('addr_building').value}, ${document.getElementById('addr_street').value}, ${document.getElementById('addr_city').value} - ${document.getElementById('addr_pincode').value}`;
+
+    // Item Rows Extraction
+    let itemRowsHtml = "";
+    document.querySelectorAll('#itemRows tr').forEach((row, index) => {
+        const desc = row.querySelector('input[placeholder="Item Description"]')?.value || "---";
+        const hsn = row.querySelector('input[placeholder="HSN/SAC"]')?.value || "---";
+        const qty = row.querySelector('.qty')?.value || "0";
+        const unit = row.querySelector('.unit')?.value || "";
+        const price = row.querySelector('.price')?.value || "0.00";
+        const gst = row.querySelector('.gstRate')?.value || "0";
+        const total = row.querySelector('.rowTotal')?.value || "0.00";
+
+        itemRowsHtml += `
+            <tr>
+                <td style="text-align:center">${index + 1}</td>
+                <td style="font-weight:bold">${desc}</td>
+                <td style="text-align:center">${hsn}</td>
+                <td style="text-align:center">${qty} ${unit}</td>
+                <td style="text-align:right">${price}</td>
+                <td style="text-align:center">${gst}%</td>
+                <td style="text-align:right; font-weight:bold">${total}</td>
+            </tr>`;
     });
+
+    const subTotal = document.getElementById('subTotal').innerText;
+    const taxDetails = document.getElementById('taxDetails').innerHTML;
+    const grandTotal = document.getElementById('grandTotal').innerText;
+    const amtWords = document.getElementById('amountInWords').innerText;
 
     let finalHtml = "";
     copies.forEach((copy, index) => {
-        const pageBreak = index > 0 ? 'style="page-break-before: always; padding-top: 30px;"' : '';
+        const pageBreak = index > 0 ? 'style="page-break-before: always;"' : '';
         finalHtml += `
-            <div class="invoice-page" ${pageBreak}>
-                <div style="display: flex; justify-content: space-between; align-items: center; border: 2px solid #000; padding: 10px; margin-bottom: 20px;">
-                    <h5 style="margin:0; color:${copy.color}">${copy.title}</h5>
-                    <span style="font-size: 12px;">Generated via TaxEasePro</span>
+        <div class="invoice-container" ${pageBreak}>
+            <div class="header">
+                <div class="company-info">
+                    <h2 style="margin:0; color:#0d6efd;">YOUR FIRM NAME</h2>
+                    <p style="margin:2px 0;">123, Business Park, Industrial Area, Kanpur, UP</p>
+                    <p style="margin:2px 0;">GSTIN: 09ABCDE1234F1Z5 | Mobile: +91 9876543210</p>
                 </div>
-                ${originalCard.innerHTML}
-                <div style="margin-top: 30px; text-align: center; font-size: 10px; color: #888;">
-                    This is a computer-generated document. No signature required.
+                <div class="invoice-label">
+                    <div class="copy-title">${copy.title}</div>
+                    <h3 style="margin:5px 0;">TAX INVOICE</h3>
                 </div>
-            </div>`;
+            </div>
+
+            <hr style="border:1px solid #eee; margin:15px 0;">
+
+            <table class="details-table">
+                <tr>
+                    <td width="50%">
+                        <div class="section-label">BILL TO</div>
+                        <div class="party-name">${name}</div>
+                        <div class="party-addr">${fullAddr}</div>
+                        <div class="party-gst">GSTIN: <b>${gstin}</b></div>
+                        <div class="party-gst">POS: <b>${pos}</b></div>
+                    </td>
+                    <td width="50%" style="vertical-align:top; text-align:right;">
+                        <p>Invoice No: <b>${invNo}</b></p>
+                        <p>Date: <b>${invDate}</b></p>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th width="5%">#</th>
+                        <th width="45%">Description of Goods</th>
+                        <th width="10%">HSN</th>
+                        <th width="10%">Qty</th>
+                        <th width="10%">Rate</th>
+                        <th width="5%">GST</th>
+                        <th width="15%">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemRowsHtml}
+                </tbody>
+            </table>
+
+            <div style="display:flex; justify-content:space-between; margin-top:10px;">
+                <div style="width:60%">
+                    <p style="font-size:11px; margin-bottom:5px;"><b>Amount in Words:</b><br>${amtWords}</p>
+                    <div style="border:1px solid #eee; padding:8px; font-size:10px; border-radius:5px;">
+                        <b>Terms & Conditions:</b><br>
+                        1. Goods once sold will not be taken back.<br>
+                        2. Subject to Kanpur Jurisdiction.
+                    </div>
+                </div>
+                <div style="width:35%">
+                    <table class="summary-table">
+                        <tr><td>Taxable Value:</td><td style="text-align:right">₹ ${subTotal}</td></tr>
+                        <tr><td colspan="2" style="padding:0">${taxDetails}</td></tr>
+                        <tr class="grand-total"><td>Grand Total:</td><td style="text-align:right">₹ ${grandTotal}</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div style="text-align:left">
+                    <br><br>
+                    <p>Customer Signature</p>
+                </div>
+                <div style="text-align:right">
+                    <p>For <b>YOUR FIRM NAME</b></p>
+                    <br><br>
+                    <p>Authorised Signatory</p>
+                </div>
+            </div>
+        </div>`;
     });
 
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
         <html>
         <head>
-            <title>Download_Invoice_${Date.now()}</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <title>Invoice_${invNo}</title>
             <style>
-                body { padding: 40px; background: white !important; font-size: 12px; }
-                .no-print, button, .addRowBtn, .input-group-text, .btn { display:none !important; }
-                .section-title { color: #000 !important; border-bottom: 1px solid #000 !important; }
-                .table-primary { background-color: #f2f2f2 !important; color: #000 !important; }
-                .billing-card { box-shadow: none !important; border: none !important; }
-                .total-box { border: 1px solid #000 !important; background: #fafafa !important; }
-                .print-value { display: inline-block; min-width: 10px; }
-                @page { size: A4; margin: 0; }
+                body { font-family: 'Segoe UI', Arial, sans-serif; background:#f0f0f0; margin:0; padding:0; }
+                .invoice-container { background:#fff; width:210mm; min-height:297mm; margin:10px auto; padding:15mm; box-sizing:border-box; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+                .header { display:flex; justify-content:space-between; align-items:flex-start; }
+                .copy-title { border:1px solid #000; padding:3px 8px; font-size:10px; font-weight:bold; display:inline-block; }
+                .section-label { font-size:10px; color:#666; font-weight:bold; margin-bottom:5px; }
+                .party-name { font-size:16px; font-weight:bold; margin-bottom:2px; }
+                .party-addr, .party-gst { font-size:12px; color:#333; }
+                .details-table { width:100%; border-collapse:collapse; margin:10px 0; }
+                .items-table { width:100%; border-collapse:collapse; margin:20px 0; }
+                .items-table th { background:#f8f9fa; border:1px solid #dee2e6; padding:8px; font-size:12px; text-transform:uppercase; }
+                .items-table td { border:1px solid #dee2e6; padding:8px; font-size:12px; }
+                .summary-table { width:100%; font-size:12px; }
+                .summary-table td { padding:5px 0; }
+                .grand-total { font-size:16px; font-weight:bold; border-top:2px solid #000; color:#0d6efd; }
+                .footer { display:flex; justify-content:space-between; margin-top:50px; font-size:12px; }
+                @media print {
+                    body { background:none; }
+                    .invoice-container { margin:0; box-shadow:none; width:100%; }
+                }
             </style>
         </head>
         <body>${finalHtml}</body>
         </html>`);
     
     printWindow.document.close();
-    setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-    }, 750);
 }
 
 function saveBill() {
