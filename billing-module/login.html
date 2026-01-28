@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | TaxEasePro - GST Billing Software</title>
-    <meta name="description" content="Secure login for TaxEasePro. India's #1 GST Billing & Invoicing Solution.">
+    <title>Login | TaxEasePro - GST Billing Solution</title>
+    <meta name="description" content="Secure login for TaxEasePro. India's #1 GST Billing & Compliance Software for Modern Businesses.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <style>
@@ -20,27 +18,30 @@
             --primary: #0061ff;
             --primary-dark: #004ecc;
             --accent: #60efff;
-            --bg-light: #f8fafc;
+            --bg-body: #f8fafc;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --shadow-soft: 0 20px 40px -10px rgba(0, 97, 255, 0.15);
-            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            --success: #10b981;
             
-            /* Animation */
-            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+            /* Glassmorphism Variables */
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-blur: blur(24px);
+            
+            /* Shadows & Depth */
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 97, 255, 0.15);
+            --shadow-glow: 0 0 20px rgba(96, 239, 255, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background-color: var(--bg-light);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -49,345 +50,430 @@
             position: relative;
         }
 
-        /* Ambient Background Mesh */
-        body::before, body::after {
-            content: '';
+        /* Static Background Gradients (No Animation) */
+        .bg-mesh-1 {
             position: absolute;
             width: 800px;
             height: 800px;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            opacity: 0.4;
-            animation: pulse 10s infinite alternate;
-        }
-        
-        body::before {
-            background: radial-gradient(circle, var(--accent), transparent 70%);
             top: -20%;
             left: -10%;
+            background: radial-gradient(circle, rgba(96, 239, 255, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
         }
-
-        body::after {
-            background: radial-gradient(circle, var(--primary), transparent 70%);
+        
+        .bg-mesh-2 {
+            position: absolute;
+            width: 800px;
+            height: 800px;
             bottom: -20%;
             right: -10%;
+            background: radial-gradient(circle, rgba(0, 97, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* Main Grid Container */
-        .container {
+        /* Main Layout */
+        .page-wrapper {
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
+            grid-template-columns: 1.2fr 0.8fr;
             width: 100%;
-            max-width: 1400px;
-            height: 100vh;
+            max-width: 1350px;
+            height: 100vh; /* Full viewport height */
             padding: 2rem;
-            gap: 2rem;
+            gap: 4rem;
         }
 
-        /* --- Left Side: Hero --- */
-        .hero-section {
+        /* --- Left Side: Branding & Mockup --- */
+        .hero-side {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 4rem;
+            padding: 2rem;
             position: relative;
         }
 
         .brand-logo {
-            font-size: 2.5rem;
+            font-size: 2.25rem;
             font-weight: 800;
-            color: var(--text-main);
             letter-spacing: -1.5px;
             margin-bottom: 1.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .brand-logo span {
-            color: var(--primary);
-        }
-
-        .tagline {
-            font-size: 2.5rem;
-            line-height: 1.2;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--text-main) 0%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            max-width: 600px;
-        }
-
-        .sub-text {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 500px;
-            line-height: 1.6;
-            margin-bottom: 3rem;
-        }
-
-        /* Animation Wrapper */
-        .animation-container {
-            position: relative;
-            width: 100%;
-            max-width: 550px;
-            height: 400px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
         }
 
-        /* Floating Glass Stats */
-        .float-card {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 12px 20px;
-            border-radius: 16px;
-            border: 1px solid white;
-            box-shadow: var(--shadow-soft);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            z-index: 2;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .float-card i {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+        .brand-logo span { color: var(--primary); }
+        
+        /* Simple Logo Icon SVG */
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-style: normal;
         }
 
-        .card-1 { 
-            top: 20%; 
-            left: -10px; 
-            animation-delay: 0s; 
+        .hero-title {
+            font-size: 3rem;
+            line-height: 1.1;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
         }
-        .card-1 i { background: #10b981; } /* Green for Compliance */
 
-        .card-2 { 
-            bottom: 25%; 
-            right: 10px; 
-            animation-delay: 2s; 
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 90%;
+            margin-bottom: 3rem;
         }
-        .card-2 i { background: var(--primary); } /* Blue for Growth */
 
-        .card-3 { 
-            top: 10%; 
-            right: 40px; 
-            animation-delay: 1s; 
-            background: rgba(255,255,255,0.6);
-            scale: 0.9;
+        /* Static CSS Dashboard Mockup */
+        .mockup-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 380px;
+            margin-top: 1rem;
         }
-        .card-3 i { background: #f59e0b; } /* Orange for Warning/Alert */
+
+        .dashboard-glass {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Mockup Header */
+        .mock-header {
+            height: 60px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            justify-content: space-between;
+        }
+        .mock-nav { display: flex; gap: 12px; }
+        .mock-dot { width: 12px; height: 12px; border-radius: 50%; background: #e2e8f0; }
+        .mock-user { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; color: var(--text-main); }
+        .mock-avatar { width: 28px; height: 28px; background: var(--primary); border-radius: 50%; }
+
+        /* Mockup Content */
+        .mock-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mock-stat-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .mock-stat-box {
+            flex: 1;
+            background: rgba(255,255,255,0.7);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        .mock-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; display: block;}
+        .mock-val { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+        .mock-val.blue { color: var(--primary); }
+        
+        /* Mock Invoice Table */
+        .mock-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+        .mock-table th { text-align: left; font-size: 0.75rem; color: var(--text-muted); padding-bottom: 12px; font-weight: 600; }
+        .mock-table td { padding: 12px 0; border-top: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; font-weight: 500; }
+        .mock-badge { 
+            background: #dcfce7; color: #15803d; 
+            padding: 4px 8px; border-radius: 100px; 
+            font-size: 0.7rem; font-weight: 700;
+        }
+
+        /* Static Floating Elements */
+        .float-stat {
+            position: absolute;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.8);
+            z-index: 2;
+        }
+        
+        .fs-icon {
+            width: 32px; height: 32px;
+            background: #e0f2fe; color: var(--primary);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .fs-1 { top: 40px; right: -20px; }
+        .fs-2 { bottom: 60px; left: -30px; }
 
         /* --- Right Side: Login --- */
-        .login-section {
+        .login-side {
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .login-card {
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border);
             border-radius: 32px;
             padding: 3.5rem 2.5rem;
-            box-shadow: var(--shadow-card);
+            box-shadow: var(--shadow-xl);
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+        /* Hover effect (Subtle) */
         .login-card:hover {
-            box-shadow: 0 30px 60px -15px rgba(0, 97, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 30px 60px -10px rgba(0, 97, 255, 0.2);
         }
 
-        /* Decorative shine on card */
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 6px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-
-        .login-header h2 {
+        .card-header h2 {
             font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--text-main);
-            letter-spacing: -0.5px;
         }
-
-        .login-header p {
+        
+        .card-header p {
             color: var(--text-muted);
             margin-bottom: 2.5rem;
+            font-size: 1rem;
         }
 
-        /* Google Button Area */
-        .auth-wrapper {
+        /* Google Button Container */
+        .auth-container {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            align-items: center;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
             width: 100%;
-            color: #94a3b8;
-            font-size: 0.85rem;
-            margin: 1.5rem 0;
         }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #cbd5e1;
-        }
-        .divider span { margin: 0 10px; }
 
         /* Trust Badges */
-        .trust-badges {
+        .trust-row {
             margin-top: 3rem;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            opacity: 0.6;
-            filter: grayscale(100%);
-            transition: opacity 0.3s;
+            align-items: center;
+            gap: 24px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding-top: 1.5rem;
         }
-        .trust-badges:hover { opacity: 1; filter: grayscale(0%); }
-        
-        .badge {
+
+        .trust-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            gap: 5px;
+            gap: 6px;
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+            cursor: default;
         }
-        .badge svg { width: 24px; height: 24px; fill: currentColor; }
+        
+        .trust-item:hover { opacity: 1; }
 
-        /* Alert Box */
-        .alert-box {
+        .trust-item svg { width: 22px; height: 22px; fill: var(--text-main); }
+        .trust-item span { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Error Message */
+        .error-toast {
             display: none;
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
             padding: 12px;
             border-radius: 8px;
-            background: #fee2e2;
-            color: #b91c1c;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             margin-top: 1rem;
-            animation: shake 0.5s ease-in-out;
+            text-align: center;
         }
 
-        /* Keyframes */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .page-wrapper {
+                max-width: 100%;
+                gap: 2rem;
+            }
+            .hero-title { font-size: 2.5rem; }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.4; }
-            100% { transform: scale(1.1); opacity: 0.6; }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        /* Responsive Design */
         @media (max-width: 992px) {
-            .container {
+            .page-wrapper {
                 grid-template-columns: 1fr;
                 height: auto;
-                padding: 1rem;
+                padding: 1.5rem;
+                gap: 3rem;
             }
-            .hero-section {
-                padding: 2rem 1rem;
+
+            .hero-side {
+                padding: 0;
                 align-items: center;
                 text-align: center;
             }
-            .animation-container {
-                display: none; /* Hide complex animation on tablet/mobile */
-            }
-            .tagline { font-size: 1.8rem; }
-            .sub-text { margin-bottom: 1rem; }
-            body::before, body::after { width: 400px; height: 400px; }
-        }
 
-        /* Specific override for Google Button width */
+            .hero-title { font-size: 2.25rem; margin-top: 1rem; }
+            .hero-subtitle { margin-bottom: 2rem; }
+            
+            /* Simplify Mockup on Mobile */
+            .mockup-container {
+                display: none; /* Hide detailed mockup on smaller screens for cleaner UI */
+            }
+            .bg-mesh-1, .bg-mesh-2 { opacity: 0.5; }
+        }
+        
+        /* GSI Button Width Override */
         #g_id_onload { width: 100%; }
         .g_id_signin { width: 100%; display: flex; justify-content: center; }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="hero-section">
+    <div class="bg-mesh-1"></div>
+    <div class="bg-mesh-2"></div>
+
+    <div class="page-wrapper">
+        
+        <div class="hero-side">
             <div class="brand-logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="24" height="24" rx="6" fill="#0061ff"/>
-                    <path d="M7 12H17M7 8H17M7 16H13" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-                </svg>
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
                 TaxEase<span>Pro</span>
             </div>
-            
-            <h1 class="tagline">Simplifying GST Compliance for Modern India.</h1>
-            <p class="sub-text">Generate professional invoices, file returns automatically, and manage inventory with India's most trusted AI-powered tax engine.</p>
 
-            <div class="animation-container">
-                <div class="float-card card-1">
-                    <i>✓</i> 100% GST Compliant
-                </div>
-                <div class="float-card card-2">
-                    <i>₹</i> Sales +24% YoY
-                </div>
-                <div class="float-card card-3">
-                    <i>★</i> Top Rated
+            <h1 class="hero-title">India's Most Elegant GST Billing & Compliance Solution</h1>
+            <p class="hero-subtitle">Generate compliant invoices, file returns instantly, and maximize your Input Tax Credit — all in one secure, beautiful dashboard.</p>
+
+            <div class="mockup-container">
+                <div class="float-stat fs-1">
+                    <div class="fs-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.7rem; color: #64748b; font-weight:500;">Status</div>
+                        100% Compliant
+                    </div>
                 </div>
 
-                <lottie-player 
-    src="https://assets.lottiefiles.com/packages/lf20_example_invoice.json"  <!-- Replace with tested URL -->
-    background="transparent" 
-    speed="0.9" 
-    style="width: 100%; height: 100%;" 
-    loop 
-    autoplay
-    mode="normal">
-</lottie-player>
+                <div class="float-stat fs-2">
+                    <div class="fs-icon" style="background: #fef3c7; color: #d97706;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.7rem; color: #64748b; font-weight:500;">Security</div>
+                        AES-256 Encrypted
+                    </div>
+                </div>
+
+                <div class="dashboard-glass">
+                    <div class="mock-header">
+                        <div class="mock-user">Dashboard Overview</div>
+                        <div class="mock-nav">
+                            <div class="mock-dot" style="background:#ef4444"></div>
+                            <div class="mock-dot" style="background:#eab308"></div>
+                            <div class="mock-dot" style="background:#22c55e"></div>
+                        </div>
+                    </div>
+                    <div class="mock-body">
+                        <div class="mock-stat-row">
+                            <div class="mock-stat-box">
+                                <span class="mock-label">Total Sales (Jan)</span>
+                                <div class="mock-val blue">₹ 2,45,000</div>
+                            </div>
+                            <div class="mock-stat-box">
+                                <span class="mock-label">Input Tax Credit</span>
+                                <div class="mock-val">₹ 18,450</div>
+                            </div>
+                        </div>
+
+                        <table class="mock-table">
+                            <thead>
+                                <tr>
+                                    <th>INVOICE NO</th>
+                                    <th>CLIENT</th>
+                                    <th>AMOUNT</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>INV-2026-001</td>
+                                    <td>Alpha Tech Pvt</td>
+                                    <td>₹ 45,000</td>
+                                    <td><span class="mock-badge">PAID</span></td>
+                                </tr>
+                                <tr>
+                                    <td>INV-2026-002</td>
+                                    <td>Sharma Trading</td>
+                                    <td>₹ 12,300</td>
+                                    <td><span class="mock-badge" style="background:#fef3c7; color:#b45309">PENDING</span></td>
+                                </tr>
+                                <tr>
+                                    <td>INV-2026-003</td>
+                                    <td>Global Exports</td>
+                                    <td>₹ 88,500</td>
+                                    <td><span class="mock-badge">PAID</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="login-section">
+        <div class="login-side">
             <div class="login-card">
-                <div class="login-header">
+                <div class="card-header">
                     <h2>Welcome Back</h2>
-                    <p>Securely access your billing dashboard</p>
+                    <p>Sign in securely to manage your business</p>
                 </div>
 
-                <div class="auth-wrapper">
+                <div class="auth-container">
                     <div id="g_id_onload"
                         data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
                         data-context="signin"
@@ -403,20 +489,23 @@
                         data-text="signin_with"
                         data-size="large"
                         data-logo_alignment="left"
-                        data-width="320">
-                    </div>
+                        data-width="400"> </div>
 
-                    <div id="error-msg" class="alert-box"></div>
+                    <div id="error-display" class="error-toast"></div>
                 </div>
 
-                <div class="trust-badges">
-                    <div class="badge">
+                <div class="trust-row">
+                    <div class="trust-item" title="GST Compliant">
                         <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-                        <span>ISO 27001</span>
+                        <span>GST Ready</span>
                     </div>
-                    <div class="badge">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                        <span>SSL Secure</span>
+                    <div class="trust-item" title="ISO 27001 Certified">
+                        <svg viewBox="0 0 24 24"><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
+                        <span>ISO Secure</span>
+                    </div>
+                    <div class="trust-item" title="Make In India">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <span>Made in India</span>
                     </div>
                 </div>
             </div>
@@ -425,46 +514,43 @@
 
     <script>
         /**
-         * Google Login Callback
-         * Handles the response from Google Identity Services
+         * Handle Google Login Response
+         * Decodes the JWT token to get user info.
          */
         function handleCredentialResponse(response) {
             try {
-                // 1. Decode the JWT (JSON Web Token)
-                // Note: In production, verify the token on your backend server!
+                // Decode the JWT (Standard implementation for frontend demo)
                 const responsePayload = decodeJwtResponse(response.credential);
 
-                console.log("ID: " + responsePayload.sub);
-                console.log('Full Name: ' + responsePayload.name);
-                console.log('Given Name: ' + responsePayload.given_name);
-                console.log('Family Name: ' + responsePayload.family_name);
-                console.log("Image URL: " + responsePayload.picture);
-                console.log("Email: " + responsePayload.email);
+                console.log("Logged in user: " + responsePayload.email);
 
-                // 2. Simulate Login Logic
-                localStorage.setItem('taxEaseUser', JSON.stringify({
-                    email: responsePayload.email,
+                // Store in LocalStorage (Simulate session)
+                localStorage.setItem('taxease_user', JSON.stringify({
                     name: responsePayload.name,
-                    avatar: responsePayload.picture
+                    email: responsePayload.email,
+                    picture: responsePayload.picture
                 }));
 
-                // 3. UI Feedback
+                // Visual Feedback
                 const btn = document.querySelector('.g_id_signin');
-                btn.style.opacity = '0.5';
-                btn.style.pointerEvents = 'none';
-                
-                // 4. Redirect (Simulated)
-                // window.location.href = "dashboard.html";
+                if(btn) btn.style.opacity = '0.5';
+
+                // Success Message
                 alert(`Welcome back, ${responsePayload.given_name}! Redirecting to Dashboard...`);
+                
+                // Redirect (Simulated)
+                // window.location.href = "dashboard.html";
 
             } catch (error) {
-                console.error("Login Error:", error);
-                showError("Authentication failed. Please try again.");
+                console.error("Authentication Error", error);
+                const errorDiv = document.getElementById('error-display');
+                errorDiv.innerText = "Login failed. Please check your connection.";
+                errorDiv.style.display = 'block';
             }
         }
 
         /**
-         * Helper: Decode JWT to get user info (Frontend only)
+         * Helper to decode JWT token
          */
         function decodeJwtResponse(token) {
             var base64Url = token.split('.')[1];
@@ -476,21 +562,10 @@
             return JSON.parse(jsonPayload);
         }
 
-        /**
-         * Helper: Show error message
-         */
-        function showError(msg) {
-            const el = document.getElementById('error-msg');
-            el.innerText = msg;
-            el.style.display = 'block';
-            setTimeout(() => { el.style.display = 'none'; }, 4000);
+        // Check for localhost issues
+        if (window.location.protocol === 'file:') {
+            console.warn("Google Sign-In may not work on 'file://' protocol. Please use a local server (http://localhost).");
         }
-        
-        // Developer Note:
-        // If the Google button doesn't appear, it's likely because the 'client_id' 
-        // in the HTML above is invalid or the origin (localhost/file) isn't authorized 
-        // in the Google Cloud Console. 
-        console.log("TaxEasePro Login Loaded. Awaiting Google GSI interaction.");
     </script>
 </body>
 </html>
